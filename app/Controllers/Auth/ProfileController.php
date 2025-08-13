@@ -50,8 +50,11 @@ class ProfileController extends \App\Controllers\BaseController
 				$users = auth()->getProvider();
 				$data['user'] = $users->findById((int) $id);
 
-        if (!$this->userData->logged_in || !$data['user'])
-				                  return redirect()->to('user/login')->with('error', lang('Login.errorViewProfile'));
+        if (!$this->userData->logged_in)
+				                  return redirect()->to('user/login')->with('error', lang('Login.needLogin'));
+
+        if (!$data['user'])
+				                  return redirect()->back()->with('error', lang('Login.errorViewProfile'));
 
     		$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();//getTorrentCountUser((int) $data['user']->id);
         $data['commcount'] = $this->CommentModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
