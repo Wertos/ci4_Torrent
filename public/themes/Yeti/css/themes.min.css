@@ -1,0 +1,126 @@
+body {
+    font-family: "Segoe UI Regular", "Segoe UI", "Segoe WP", "Helvetica Neue", sans-serif;
+    line-height: 1.428571429;
+    color: #3E606F;
+    background-color: #fff;
+		background: url("../img/body_noise.png") repeat scroll 0 0 rgba(0, 0, 0, 0)
+}
+#footer {
+    margin: 5em 0;
+}
+a {
+		color: #2a6496;
+		text-decoration: none !important;
+}
+td a:hover, td a:active, td a:focus {
+    color: #dd6900 !important;
+    text-decoration: underline !important;
+}
+td a:link, td a:visited {
+    color: #006699;
+}
+
+.avatar {
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.user_menu_icon {
+    margin-right: 10px;
+    font-size: 15px;
+}
+.small {font-size:12px;color: #3E606F;}
+table .small {font-size:13px;}
+.btn-toolbar {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+.editor-buttons {
+    margin-bottom: 10px;
+}
+.clickable {
+		cursor: pointer !important;
+}
+.clickable:hover {
+		text-decoration: underline !important;
+}
+ul.home_metadata {
+    margin-top: 7px;
+    margin-bottom: 0px;
+}
+ul.home_metadata li {
+    color: #888;
+    font-size: 11px;
+}
+.list-group-item-heading {
+    color: #333;
+}
+#tor-fl-wrap {
+	margin: 12px auto 0; width: 95%;
+}
+#fl-tbl-wrap { margin: 2px 14px 16px 14px; }
+#tor-filelist {
+	margin: 0 2px; padding: 8px 6px;
+	max-height: 284px; overflow: auto;
+}
+.tor-filelist-fullsize { max-height: unset !important; }
+#tor-filelist i { color: #7A7A7A; padding-left: 4px; }
+#tor-filelist s { color: #0000FF; text-decoration: none; }
+#tor-filelist .b > s { color: #800000; }
+#tor-filelist .b { font-weight: bold; padding-left: 20px; background: transparent url('../img/folder.gif') no-repeat 3px 50%;}
+#tor-filelist ul li { list-style: none; }
+#tor-filelist ul li span { padding-left: 20px; background: transparent url('../img/page.gif') no-repeat 3px 50%;}
+#tor-filelist .tor-root-dir { font-size: 13px; font-weight: bold; line-height: 12px; padding-left: 4px; }
+#tor-fl-treecontrol { padding: 2px 0 4px; }
+#tor-fl-treecontrol a { padding: 0 8px; font-size: 11px; text-decoration: none; }
+#tor-fl-bgn { width: 200px; height: 300px; margin-right: 6px; border: 1px solid #B5BEC4;}
+#loading {
+  width: 180px; border: 1px solid #2a6496; padding: 10px; background: url("../img/loading.png") repeat; color: #FFF;
+  font-family: 'Roboto Condensed', sans-serif; -webkit-box-shadow: 0px 0px 21px 0px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 21px 0px rgba(0,0,0,0.75); box-shadow: 0px 0px 21px 0px rgba(0,0,0,0.75);
+  position: fixed; top: 50%; left: 50%; margin-top: -90px; margin-left: -100px; display: none; z-index: 10;
+}
+.page-link { border-radius: 0px !important; }
+th.bg-secondary { background-color: #55678d42 !important; }
+.breadcrumb { font-size: 14px; text-transform: unset; }
+
+.btn-xs {
+    --bs-btn-padding-y: 0.05rem;
+    --bs-btn-padding-x: 0.2rem;
+    --bs-btn-font-size: 0.7rem;
+    --bs-btn-border-radius: var(--bs-border-radius-sm);
+}
+
+div.blockquote {
+    background: none repeat scroll 0 0 #f8f9fa;
+    padding: 5px;
+    border-left: 4px solid #5b748d;
+    border-radius: 4px 4px 4px 4px;
+    font-size: 13px;
+		border-top: 1px solid #e2e3e4;
+    border-right: 1px solid #e2e3e4;
+    border-bottom: 1px solid #e2e3e4;
+}
+p.quote_author { font-weight: bold; }
+
+button.disabled, .btn[disabled] {
+    cursor: not-allowed;
+    pointer-events: all !important;
+    opacity: .65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.cat_load {
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-image:url(../img/loading_icon.gif);
+}
+#torrstatus {line-height: 35px; width: 38px; height: 38px; text-align: center; align-items: center; vertical-align: middle;}
+#status {top: -20px; right: -20px;}
+/*.commentText > .card, .commentText > .card-body {display: unset;}*/
+.commentText img {max-width: 200px;}
+b, strong {font-weight: bold;}
+.postLink img{margin: 4px;}
