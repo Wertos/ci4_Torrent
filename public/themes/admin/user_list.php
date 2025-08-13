@@ -21,16 +21,17 @@
       <th scope="col"><?= lang('Profile.birthdate'); ?></th>
       <th scope="col"><?= lang('Admin.created_at'); ?></th>
       <th scope="col"><?= lang('Admin.updated'); ?></th>
+      <th scope="col"><?= lang('Admin.deleted'); ?></th>
       <th scope="col"><?= lang('Admin.usercontrol'); ?></th>
     </tr>
   </thead>
   <tbody>
     <?php //var_dump($usersList); die();?>
     <?php foreach ($usersList as $user) : ?>
-    <tr id="rowid-<?= $user['id']; ?>">
-      <th id="userid-<?= $user['id']; ?>"><?= $user['id']; ?></th>
+    <tr id="rowid-<?= $user['id']; ?>" class="<?= ($user['deleted'] != null) ? 'table-warning' : ''; ?>">
+      <td id="userid-<?= $user['id']; ?>"><?= $user['id']; ?></td>
       <td id="username-<?= $user['id']; ?>">
-      	<?= $user['name']; ?>&nbsp;
+      	<span class="me-1 <?= ($user['deleted'] != null) ? 'text-decoration-line-through' : ''; ?>"><?= $user['name']; ?></span>
       	<?= ($user['active'] === false) ? '<i id="act_icon_'.$user['id'].'" data-bs-toggle="tooltip" data-bs-title="' . lang('Admin.UserAct.notactivated') .'" class="fa-solid fa-triangle-exclamation me-2 text-danger"></i>' : '';  ?>
       	<?= ($user['banned'] === true) ? '<i id="ban_icon_'.$user['id'].'" data-bs-toggle="tooltip" data-bs-title="' . lang('Admin.Ban.banned') .'" class="fa-solid fa-ban me-2 text-danger"></i>' : '';  ?>
       </td>
@@ -40,10 +41,23 @@
       <td id="bdate-<?= $user['id']; ?>"><?= $user['birthdate']; ?></td>
       <td id="created-<?= $user['id']; ?>"><?= $user['created']; ?></td>
       <td><?= $user['updated']?></td>
+      <td><?= $user['deleted']?></td>
       <td>
+      <?php if($user['deleted'] != null) : ?>
+      	<div id="harddelete-<?= $user['id']; ?>" class="d-inline">
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UserDelete.harddelete'); ?>" onclick="if (confirmation()) { CI4_Admin.UserHardDelete(<?= $user['id']; ?>); } return false;">
+      			<i class="fa-solid fa-trash-xmark cursor-pointer text-danger"></i>
+      		</a>
+      	</div>
+      	<div id="restore-<?= $user['id']; ?>" class="d-inline">
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.userrestore'); ?>" onclick="CI4_Admin.UserRestore(<?= $user['id']; ?>); return false;">
+      			<i class="fa-solid fa-trash-can-slash cursor-pointer text-success"></i>
+      		</a>
+      	</div>
+      <?php else : ?>
       	<div id="userdelete-<?= $user['id']; ?>" class="d-inline">
-      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UserDelete.delete'); ?>" onclick="CI4_Admin.UserDelete(<?= $user['id']; ?>); return false;">
-      			<i class="fa-solid fa-trash-xmark text-danger cursor-pointer"></i>
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UserDelete.delete'); ?>" onclick="if (confirmation()) { CI4_Admin.UserDelete(<?= $user['id']; ?>); } return false;">
+      			<i class="fa-regular fa-trash cursor-pointer text-danger"></i>
       		</a>
       	</div>
 				<div id="useredit-<?= $user['id']; ?>" class="d-inline">
@@ -61,6 +75,7 @@
 						<i class="fa-solid <?= ($user['banned'] === false) ? 'fa-ban text-danger ' : 'fa-ban text-success'; ?> cursor-pointer"></i>
 					</a>
 				</div>
+				<?php endif; ?>
       </td>
     </tr>
     <?php endforeach; ?>

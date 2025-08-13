@@ -22,6 +22,34 @@ CI4_Admin.UserDelete = function(id) {
     	alert(JSON.stringify(response));
 		});
 }
+CI4_Admin.UserHardDelete = function(id) {
+	url = '/admin/users/harddelete/'+id;
+	$.post( url, { id : id, action: "UserHardDelete" })
+  	.done(function( data ) {
+  		if(data.error) {
+  				alert(data.error);
+  				return false;
+  		}
+  		location.reload();
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+		});
+}
+CI4_Admin.UserRestore = function(id) {
+	url = '/admin/users/restore/'+id;
+	$.post( url, { id : id, action: "UserRestore" })
+  	.done(function( data ) {
+  		if(data.error) {
+  				alert(data.error);
+  				return false;
+  		}
+  		location.reload();
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+		});
+}
 
 CI4_Admin.UserAct = function(id) {
 	url = '/admin/users/act/'+id;

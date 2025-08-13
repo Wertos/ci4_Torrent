@@ -78,3 +78,11 @@ childItems.each(function() {
   }
 });
 
+function confirmation() {
+		const message = prompt('Вы подтверждаете удаление ? Если да введите в поле YES');
+		if (message == 'YES') {
+				return true;
+		} else {
+				return false;
+		}
+}

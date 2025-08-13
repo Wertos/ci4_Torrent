@@ -16,7 +16,7 @@
 				</select>
 				<span onclick="CI4.TorrMove(<?= $details->id; ?>); return false;" class="clickable" title="<?= lang('Torrent.moveTorrent'); ?>" id="catmove"><i class="bi bi-box-arrow-right text-primary ms-1 fs-6"></i></span>
 		<span class="p-1 ms-2 me-2 text-dark fw-bold">|</span>
-		<a class="me-1 text-danger" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash fs-6"></i></a>
+		<a class="me-1 text-danger" onclick="return confirmation();" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash fs-6"></i></a>
 	</div>
 </div>
 <?php endif; ?>            
@@ -37,7 +37,7 @@
 										<?php endif; ?>
             <?php endif; ?>            
             <?php if ($can_delete): ?>
-                    <a class="me-1 text-danger" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash"></i></a>
+                    <a class="me-1 text-danger" onclick="return confirmation();" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash"></i></a>
             <?php endif; ?>            
         </h5>
         <h6 class="card-title mb-3 d-inline">

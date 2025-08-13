@@ -35,7 +35,9 @@ class AjaxController extends \App\Controllers\AdminController
       
     	switch ($this->ajax->action) {
 				case 'UserDelete':
-      					
+				case 'UserHardDelete':
+				case 'UserRestore':
+      				$this->db = \Config\Database::connect();	
       			break;
 				case 'UserAct':
       					
@@ -102,6 +104,88 @@ class AjaxController extends \App\Controllers\AdminController
 			
 			return $this->_AjaxSend($this->data);
   }
+
+  public function UserHardDelete($id)
+  {
+      $users = auth()->getProvider();
+      $this->deletedUser = $users->findById(intval($id));
+      $this->data = [];
+
+      if(! $this->deletedUser ) {
+					
+					$this->data = [
+									'error' => lang('Admin.UserDelete.notfound'),
+									'id'	=> $id,
+							 ];
+					
+					return $this->_AjaxSend($this->data); die ();
+      }
+      
+      if( $this->deletedUser->inGroup('superadmin') === true ) {
+					
+					$this->data = [
+									'error' => lang('Admin.UserDelete.usersuperadmin'),
+									'id'	=> $id,
+							 ];
+					
+					$this->eventData = [
+										'user'	=> 100,
+					];
+					$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
+					
+					return $this->_AjaxSend($this->data); die ();
+      }
+      
+      $users->delete(intval($id), true);
+
+			$this->eventData = [
+								'user'	=> 1,
+			];
+      $this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);    // delete user
+			
+			$this->data = [
+							'error' => '',
+							'id'	=> $id,
+					];
+			
+			return $this->_AjaxSend($this->data);
+  }
+
+  public function UserRestore($id)
+  {
+      $users = auth()->getProvider();
+      $this->restoredUser = $users->withDeleted(true)->findById(intval($id));
+      $this->data = [];
+
+      if(! $this->restoredUser ) {
+					
+					$this->data = [
+									'error' => lang('Admin.UserDelete.notfound'),
+									'id'	=> $id,
+							 ];
+					
+					return $this->_AjaxSend($this->data); die ();
+      }
+      
+      //$users->delete(intval($id));
+      $this->db->table('users')->set('deleted_at', null)->where('id', $id)->update();
+			$this->eventData = [
+								'user'	=> 1,
+			];
+      $this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);    // delete user
+			
+			$this->data = [
+							'error' => '',
+							'id'	=> $id,
+					];
+			
+			return $this->_AjaxSend($this->data);
+  }
+
+
+
+
+
 
 
   public function UserAct($id)

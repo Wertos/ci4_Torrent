@@ -45,7 +45,7 @@ class UserController extends \App\Controllers\AdminController
 				    $where = ['active' => 0];
 		 		}
 
-				$countUsers = $this->userModel->where($where)->CountAllResults();
+				$countUsers = $this->userModel->where($where)->withDeleted(true)->CountAllResults();
 
         $page = (int) ($this->request->getGet('page') ?? 1);
         
@@ -62,6 +62,7 @@ class UserController extends \App\Controllers\AdminController
     					->withIdentities()
 					    ->withGroups()
 						  ->withPermissions()
+						  ->withDeleted(true)
 						  ->orderBy('created_at', 'DESC')
 					    ->findAll($limit, $offset);
 
@@ -80,6 +81,7 @@ class UserController extends \App\Controllers\AdminController
   			      				'banned' => $u->isBanned(),
   			      				'created' => $u->created_at,
   			      				'updated' => $u->updated_at,
+  			      				'deleted' => $u->deleted_at,
   			      				'id' => $u->id,
   			      	];
  			
@@ -106,6 +108,7 @@ class UserController extends \App\Controllers\AdminController
     								->withIdentities()
 					    			->withGroups()
 						  			->withPermissions()
+					    			->withDeleted(true)
 					    			->findById($id);
 
   			$this->groupConfig = config('AuthGroups');
@@ -139,7 +142,7 @@ class UserController extends \App\Controllers\AdminController
 
 				// Get the User Provider (UserModel by default)
 				$users = auth()->getProvider();
-				$user = $users->findById((int) $id);
+				$user = $users->withDeleted(true)->findById((int) $id);
 
 		  	if ( $user->inGroup('superadmin') ) {
 		  		return redirect()->back()->withInput()->with('errors', lang('Admin.UserAct.usersuperadmin'));

@@ -197,3 +197,12 @@ $('#viewpass').click(function(){
 		}
 		
 });
+
+function confirmation() {
+		const message = prompt('Вы подтверждаете удаление ? Если да введите в поле YES');
+		if (message == 'YES') {
+				return;
+		} else {
+				return false;
+		}
+}
