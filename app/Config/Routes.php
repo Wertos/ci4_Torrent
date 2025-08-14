@@ -50,6 +50,7 @@ $routes->post('ajax/posterupload',					'AjaxController::PosterUpload');
 $routes->post('ajax/usertorrents',					'AjaxController::getUserTorrents');
 $routes->post('ajax/usercomments',					'AjaxController::getUserComments');
 $routes->post('ajax/userbookmarks',					'AjaxController::getUserBookMarks');
+$routes->post('/ajax/updatecaptcha',				'AjaxController::updateCaptcha');
 
 $routes->get('torrent/add',            			'TorrentController::TorrentAddShow');
 $routes->post('torrent/add',           			'TorrentController::TorrentAddAction');

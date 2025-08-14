@@ -26,7 +26,7 @@
   	  </div>
   	  <!-- captcha -->
      	<div class="clearfix text-center mb-1">
-    		<img src="<?= $captcha; ?>" class="border border-primary border-2" />
+    		<img title="<?= lang('Profile.captchatitle'); ?>" id="captcha" src="<?= $captcha; ?>" class="border border-primary border-2 clickable" />
     	</div>
 	    <div class="form-floating mb-5 text-center">
 				<input type="text" class="form-control" id="floatingCaptchaInput" name="captcha" inputmode="text" placeholder="<?= lang('Profile.captcha') ?>" required>

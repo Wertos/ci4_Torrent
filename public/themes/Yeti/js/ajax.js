@@ -304,6 +304,22 @@ $('#uploadposter').click(function(e) {
 		return false;
 });
 
+$('#captcha').click(function() {
+	url = '/ajax/updatecaptcha';
+	$.post( url, { action: "updatecaptcha" })
+  	.done(function( data ) {
+  		if(data.error) {
+  			alert(data.error);
+  			return false;		
+  		}
+    	$('#captcha').attr('src', data.captcha);
+    	return false;
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+		});
+});
+
 // implement JSON.stringify serialization
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

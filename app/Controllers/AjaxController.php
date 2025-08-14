@@ -19,6 +19,7 @@ use CodeIgniter\I18n\Time;
 use Arifrh\Themes\Themes;
 use Scrapeer\Scraper;
 use App\Libraries\BBCode\BBCodeParser;
+use \App\Libraries\Captcha\Image;
 
 class AjaxController extends \App\Controllers\BaseController
 {
@@ -80,6 +81,12 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->CommentModel = model(CommentModel::class);
       				$this->BookmarkModel = model(BookmarkModel::class);
       				$this->GlobalModel = model(GlobalModel::class);
+      			break;
+      	case 'updatecaptcha':
+			        $this->captcha = new Image();
+							$this->captcha->imageWidth = 250;
+							$this->captcha->imageHeight = 100;
+							$this->session = service('session', config('Session'));
       			break;
       		default: 
       			throw PageNotFoundException::forPageNotFound();
@@ -535,5 +542,10 @@ class AjaxController extends \App\Controllers\BaseController
 	
 	}
 
-
+	function updateCaptcha()
+	{
+	    $this->session->set('captcha', $this->captcha->getCode()); 
+      $data['captcha'] = $this->captcha->getImage();
+			return $this->_AjaxSend($data); die();	
+	}
 }
