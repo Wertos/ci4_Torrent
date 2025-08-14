@@ -108,7 +108,7 @@ class TorrentController extends BaseController
 		      'can_delete' => ($can_moderate || $can_edit),
 					'can_edit' => $can_edit,
 					'moderate' => $can_moderate,
-					'download' => (setting('Torrent.allowUploadTorrent') === true) && ($torrentData->modded === "1" || $torrentData->modded === "0"),
+					'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')),
 					'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
 					'allowreport' => (setting('Torrent.allowreport') === true),
 					'allowFileList' => (setting('Torrent.allowFileList') === true),
@@ -123,13 +123,13 @@ class TorrentController extends BaseController
 					'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
 			];
 
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;
+			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;
 
-      $this->breadcrumb->append('Все раздачи', 'browse');
+      $this->breadcrumb->append(lang('Browse.allview'), 'browse');
       $this->breadcrumb->append($torrentData->catname, $torrentData->caturl);
       $this->breadcrumb->append($torrentData->name);      
       $data['breadcrumb'] = $this->breadcrumb->output();
-			$data['page_title'] = $this->siteTitle;
+			$data['page_title'] = $siteTitle;
 
 			$this->themes::render('torrent_view', $data);
     }
@@ -152,7 +152,7 @@ class TorrentController extends BaseController
     	
 			$this->catList = $this->GlobalModel->getCatHome();
 
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Torrent.addTorrent');
+			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Torrent.addTorrent');
 			$this->breadcrumb->append(lang('Torrent.addTorrent'));
 
 	   	$table = new \CodeIgniter\View\Table();
@@ -161,7 +161,7 @@ class TorrentController extends BaseController
 
       $data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $this->siteTitle,
+					'page_title' => $siteTitle,
 					'catList' => $this->catList,
 					'posterRequired' => setting('Torrent.posterRequired') ? ' required ' : '',
 					'smilies' => $table->generate($col_array),
@@ -209,7 +209,7 @@ class TorrentController extends BaseController
 			if( $torrentData === null )
 								return redirect()->back()->with('error', lang('Torrent.notfound'));
 
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Torrent.editTorrent');
+			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Torrent.editTorrent');
 			$this->breadcrumb->append(lang('Torrent.editTorrent'));
 
 	   	$table = new \CodeIgniter\View\Table();
@@ -220,7 +220,7 @@ class TorrentController extends BaseController
       		'catlist' => $catList,
       		'details' => $torrentData,
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $this->siteTitle,
+					'page_title' => $siteTitle,
 					'posterRequired' => setting('Torrent.posterRequired') ? ' required ' : '',
 					'smilies' => $table->generate($col_array),
 			];			

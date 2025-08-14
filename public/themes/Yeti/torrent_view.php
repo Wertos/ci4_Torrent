@@ -2,12 +2,12 @@
 <div class="alert alert-danger" style="padding: 5px !important;">
 	<b class="fw-bold ps-1">Панель модерирования</b>
 	<div id="modpanel" class="m-1 p1">
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="approved" class="<?= $details->modded == 1 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-success" title="<?= lang('Torrent.status_name.approved'); ?>" href="javascript:void(0);"><i class="bi bi-check2-all fs-6"></i></a>
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="not_approved" class="<?= $details->modded == 0 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-warning" title="<?= lang('Torrent.status_name.not_approved'); ?>" href="javascript:void(0);"><i class="bi bi-exclamation-circle fs-6"></i></a>
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="closed" class="<?= $details->modded == 2 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-danger" title="<?= lang('Torrent.status_name.closed'); ?>" href="javascript:void(0);"><i class="bi bi-door-closed fs-6"></i></a>
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="consumed" class="<?= $details->modded == 3 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-primary" title="<?= lang('Torrent.status_name.consumed'); ?>" href="javascript:void(0);"><i class="bi bi-copy fs-6"></i></a>
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="dup" class="<?= $details->modded == 4 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-secondary" title="<?= lang('Torrent.status_name.dup'); ?>" href="javascript:void(0);"><i class="bi bi-lock fs-6"></i></a>
-		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="need_edit" class="<?= $details->modded == 5 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-info" title="<?= lang('Torrent.status_name.need_edit'); ?>" href="javascript:void(0);"><i class="bi bi-pencil fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="0" class="<?= $details->modded == 0 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-warning" title="<?= lang('Torrent.status_name.not_approved'); ?>" href="javascript:void(0);"><i class="bi bi-exclamation-circle fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="1" class="<?= $details->modded == 1 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-success" title="<?= lang('Torrent.status_name.approved'); ?>" href="javascript:void(0);"><i class="bi bi-check2-all fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="2" class="<?= $details->modded == 2 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-danger" title="<?= lang('Torrent.status_name.closed'); ?>" href="javascript:void(0);"><i class="bi bi-door-closed fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="3" class="<?= $details->modded == 3 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-primary" title="<?= lang('Torrent.status_name.consumed'); ?>" href="javascript:void(0);"><i class="bi bi-copy fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="4" class="<?= $details->modded == 4 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-secondary" title="<?= lang('Torrent.status_name.dup'); ?>" href="javascript:void(0);"><i class="bi bi-lock fs-6"></i></a>
+		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="5" class="<?= $details->modded == 5 ? 'border-bottom border-3 border-dark' : '' ?> status p-1 text-info" title="<?= lang('Torrent.status_name.need_edit'); ?>" href="javascript:void(0);"><i class="bi bi-pencil fs-6"></i></a>
 		<span class="p-1 ms-2 me-2 text-dark fw-bold">|</span>
 				<select id="category" class="w-25" aria-label="<?= lang('Torrent.category'); ?>" />
 				<?php foreach ($cats as $cat) :?>
@@ -44,7 +44,7 @@
             <?= $details->name ?>
         </h6>
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">
-        	<div <?= $title; ?> id="torrstatus">
+        	<div title="<?= $title; ?>" id="torrstatus">
         		<?= $icon; ?>
         	</div>
         </div>

@@ -93,58 +93,27 @@ class AjaxController extends \App\Controllers\BaseController
   
   public function TorrentStatus(int $id)
   {
+      helper('torrent');
 
 	  	if (! auth()->user()->inGroup('superadmin', 'admin', 'moderator')) {
 	  		throw PageNotFoundException::forPageNotFound();
 	  	}	
 
-	  	$status = (string) $this->request->getPost('status');
+ 			$data['modded'] = '';
+			$data['icon'] = '';
+			$data['class'] = '';
+			$data['status_text'] = '';
+
+	  	$status = (int) $this->request->getPost('status');
 	  	$id = (int) $this->request->getPost('id');
 	  	$action = (string) $this->request->getPost('action');
  	    if (! $id) return;
-	  	switch ($status) {
-	  			case 'not_approved':
-      				$data['modded'] = 0;
-      				$data['icon'] = '<i class="text-warning bi bi-exclamation-circle fs-2"></i>';
-      				$data['class'] = 'border-warning';
-      				$data['status_text'] = lang('Torrent.status_name.not_approved');
-      			break;
-	  			case 'approved':
-      				$data['modded'] = 1;
-      				$data['icon'] = '<i class="text-success bi bi-check2-all fs-2"></i>';
-      				$data['class'] = 'border-success';
-      				$data['status_text'] = lang('Torrent.status_name.approved');
-      			break;
-	  			case 'closed':
-      				$data['modded'] = 2;
-      				$data['icon'] = '<i class="text-danger bi bi-door-closed fs-2"></i>';
-      				$data['class'] = 'border-danger';
-      				$data['status_text'] = lang('Torrent.status_name.closed');
-      			break;
-	  			case 'consumed':
-    	  			$data['modded'] = 3;
-      				$data['icon'] = '<i class="text-primary bi bi-copy fs-2"></i>';
-      				$data['class'] = 'border-primary';
-      				$data['status_text'] = lang('Torrent.status_name.consumed');
-      			break;
-	  			case 'dup':
-  	    			$data['modded'] = 4;
-      				$data['icon'] = '<i class="text-secondary bi bi-lock fs-2"></i>';
-      				$data['class'] = 'border-dark';
-      				$data['status_text'] = lang('Torrent.status_name.dup');
-      			break;
-	  			case 'need_edit':
-	      			$data['modded'] = 5;
-      				$data['icon'] = '<i class="text-info bi bi-pencil fs-2"></i>';
-      				$data['class'] = 'border-info';
-      				$data['status_text'] = lang('Torrent.status_name.need_edit');
-      			break;
-      		default: 
-	      			$data['modded'] = '';
-      				$data['icon'] = '';
-      				$data['class'] = '';
-      				$data['status_text'] = '';
-	  	}
+ 	    $stdata = getDataTorrStatus($status, 'fs-2');
+
+ 			$data['modded'] = $status;
+			$data['icon'] = $stdata['icon'];
+			$data['class'] = $stdata['class'];
+			$data['status_text'] = $stdata['title'];
 
 	  	$st = $this->TorrentModel->update($id, ['modded' => $data['modded']]);
 
@@ -506,7 +475,9 @@ class AjaxController extends \App\Controllers\BaseController
 
 			$data['comCount'] = $this->CommentModel->where('user_id', $userId)->where('deleted_at', null)->countAllResults();
 
-			$data['comList'] = $this->CommentModel->asObject()->where('user_id', $userId)->orderBy('created_at', 'desc')->findAll($perPage, $offset);
+			$data['comList'] = $this->CommentModel->asObject()->where('comments.user_id', $userId)
+															->withTorrents()->orderBy('comments.created_at', 'desc')
+															->findAll($perPage, $offset);
 			
 			$data['bbcode'] = new BBCodeParser();
 

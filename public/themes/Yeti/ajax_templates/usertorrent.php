@@ -19,7 +19,7 @@
       	<a class="d-block clearfix fw-bold" href="<?= base_url('torrent/' . $tor->id . '-' . $tor->url); ?>" /><?= $tor->name; ?></a>
       		<hr class="p-0 m-1">
       		<div style="font-size: 12px; min-width: 250px;" class="p-1 ps-3 mt-1 badge rounded-pill bg-light border <?= $status['class']; ?> text-start">
-      			<?= $status['icon']; ?>
+      			<span title="<?= $status['title']; ?>"><?= $status['icon']; ?></span>
       			<span class="ms-1 me-1">|</span>
       			<?= getStrTorrVersion($tor->version); ?>
       			<span class="ms-1 me-1">|</span>

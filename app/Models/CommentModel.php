@@ -59,6 +59,17 @@ class CommentModel extends Model {
         $this->db = \Config\Database::connect();
     }
     
+		public function withTorrents()
+		{
+//    		$this->builder()
+        		$this
+        		->select('torrents.url, comments.*')
+        		->join('torrents', 'torrents.id = comments.fid', 'left');
+//    		    ->where('id', $user_id)
+//		        ->first();
+		    return $this;
+		} 
+    
     public function getPagination(?int $perPage = null): array
     {
         $this->builder()
@@ -70,31 +81,4 @@ class CommentModel extends Model {
             'pager' => $this->pager,
         ];
     }
-/*
-		public function insert($row = null, bool $returnID = true): int
-    {
-        $query = $this->db->table($this->table);
-        $result = $query->insert($row, $returnID);
-				
-				$this->db->table('torrents')->set('comments + 1')->where('id', $row['id'])->update();
-        
-        if ( $returnID == true ) 
-        {
-        	return $this->db->insertID();
-        }
-        else
-        {
-          return $result;
-        }
-    }
-
-		public function delete($id = null, bool $purge = false)
-    {
-				$this->db->table('torrents')->set('comments - 1')->where('id', $row['id'])->update();
-
-        $query = $this->db->table($this->table);
-        $query->where('id', $id);
-        return $query->delete();
-    }
-*/
 }

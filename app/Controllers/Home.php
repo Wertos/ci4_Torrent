@@ -36,13 +36,13 @@ class Home extends BaseController
 							$no_torrents = false;
 					}
 			}
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Site.SiteHome');
+			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Site.SiteHome');
 			
 			$this->breadcrumb->append($this->TorrConfig->siteName . ' - ' . $this->TorrConfig->siteDescr);
 
       $data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $this->siteTitle,
+					'page_title' => $siteTitle,
 //					'catList'	=> $this->catHome,
 					'torList' => $torList,
 					'cats' => $no_cats,

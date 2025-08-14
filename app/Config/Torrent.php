@@ -26,6 +26,7 @@ class Torrent extends BaseConfig
 		public bool $allowMagnet = true;
 		public bool $allowreport = true;
 		public int  $archiveId	= 0;
+		public array $statusAllowDownload = [0,1];
 
 		public bool $allowFileList = true;
 		public bool $replaceAnnounce = false;

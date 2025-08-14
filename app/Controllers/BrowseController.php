@@ -89,7 +89,7 @@ class BrowseController extends BaseController
 		    	$no_torrents = true;
 		    }
 				
-				$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . $catName;
+				$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $catName;
 
 			  $this->breadcrumb->append(lang('Browse.allview'), 'browse');
 				
@@ -97,7 +97,7 @@ class BrowseController extends BaseController
 
       	$data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $this->siteTitle,
+					'page_title' => $siteTitle,
 					'torList' => $torrents,
 					'no_torrents' => $no_torrents,
 					'pager_links' => $pager_links,
@@ -147,7 +147,7 @@ class BrowseController extends BaseController
 			if ($torrents)
 					$no_torrents = false;
 
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Browse.search');
+			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Browse.search');
 		  $this->breadcrumb->append(lang('Browse.searchwhen') . ' "' . $str . '"');
 
 		  foreach ($torrents as $arrkey => $value) {
@@ -165,7 +165,7 @@ class BrowseController extends BaseController
 
      	$data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $this->siteTitle,
+					'page_title' => $siteTitle,
 					'torList' => $torr,
 					'no_torrents' => $no_torrents,
 					'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
