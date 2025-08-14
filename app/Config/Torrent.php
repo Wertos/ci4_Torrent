@@ -7,6 +7,7 @@ use CodeIgniter\Config\BaseConfig;
 class Torrent extends BaseConfig
 {
 // Site seo config
+    public string $appname = 'Codeigniter 4 torrent-tracker';
 		public string $siteTitle = 'Site Title';
 		public string $siteName = 'Site Name';
 		public string $siteDescr = 'Site Descr';

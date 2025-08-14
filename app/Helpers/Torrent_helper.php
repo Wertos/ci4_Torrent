@@ -51,17 +51,17 @@ use CodeIgniter\CodeIgniter;
 				return $time->toDateString();
     }
 
-    function getStrTorrVersion (?int $version = null): string
+    function getStrTorrVersion (?int $version = null, ?string $class = null): string
     {
 		   	switch ($version) {
  					case 1:
-			   		  $ver = 'v<b class="text-primary">1</b>';
+			   		  $ver = '<span style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-primary">1</b></span>';
 		   			break;
  					case 2:
-			   		  $ver = 'v<b class="text-success">2</b>';
+			   		  $ver = '<span style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-success">2</b></span>';
 		   			break;
  					case 3:
-			   		  $ver = 'v<b class="text-danger">G</b>';
+			   		  $ver = '<span style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-danger">G</b></span>';
 		   			break;
       		default: 
 							$ver = '';

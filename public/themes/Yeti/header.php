@@ -3,9 +3,25 @@
 <?= doctype('html5') ?>
 <html lang="ru">
   <head>
-    <meta charset="utf-8">
-    <title><?= $page_title ?></title>
+		<meta charset="<?= setting('App.charset'); ?>">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="generator" content="<?= setting('Torrent.appname');?>">
+		<?php if (setting('Torrent.siteDescr')) :?>
+		<meta name="description" content="<?= setting('Torrent.siteDescr'); ?>"/>
+		<meta property="og:description" content="<?= setting('Torrent.siteDescr'); ?>">
+		<meta property="twitter:description" content="<?= setting('Torrent.siteDescr'); ?>">
+		<?php endif; ?>
+    <title><?= $page_title ?></title>
+		<meta name="apple-mobile-web-app-title" content="<?= setting('Torrent.siteName'); ?>">
+		<meta name="application-name" content="<?= setting('Torrent.siteName'); ?>"/>
+		<meta property="og:site_name" content="<?= setting('Torrent.siteName'); ?>">
+		<meta property="og:image" content="<?= base_url('themes/' . setting('Torrent.theme') . '/img/logo.png'); ?>" />
+		<meta property="og:type" content="website">
+		<meta property="twitter:image" content="<?= base_url('themes/' . setting('Torrent.theme') . '/img/logo.png'); ?>">
+		<meta property="og:title" content="<?= $page_title ?>">
+		<meta property="twitter:title" content="<?= $page_title ?>">
+		<meta property="twitter:card" content="summary">
     <?php Arifrh\Themes\Themes::renderCSS(); ?>
   	<script type="text/javascript">
   		window.CI4 = {};

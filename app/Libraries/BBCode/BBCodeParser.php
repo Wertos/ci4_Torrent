@@ -64,22 +64,22 @@ class BBCodeParser {
 
         'spoiler' => array(
             'pattern' => '/\[spoiler\](.*?)\[\/spoiler\]/si', 
-            'replace' => '<div class="w-100 clearfix"></div><div class="w-100 clearfix spoiler mt-3 mb-3 clickable text-primary"><i class="bi bi-plus-square pe-2"></i>Скрытый текст\картинка</div><div class="d-none mt-1 border border-dark card-body">$1</div>',
+            'replace' => '<div class="w-100 clearfix"></div><div class="w-100 clearfix spoiler mt-3 mb-3 clickable text-primary"><i class="bi bi-plus-square pe-2"></i>Скрытый текст\картинка</div><div class="spoiler-body d-none mt-1 border border-dark card-body">$1</div>',
             'iterate' => 3,
         ),
         'spoilerTitle' => array(
             'pattern' => '/\[spoiler\=\"(.*?)\"\](.*?)\[\/spoiler\]/si', 
-            'replace' => '<div class="w-100 clearfix"></div><div class="w-100 clearfix spoiler mt-3 mb-3 clickable text-primary"><i class="bi bi-plus-square pe-2"></i>$1</div><div class="d-none mt-1 border border-dark card-body">$2</div>',
+            'replace' => '<div class="w-100 clearfix"></div><div class="w-100 clearfix spoiler mt-3 mb-3 clickable text-primary"><i class="bi bi-plus-square pe-2"></i>$1</div><div class="spoiler-body d-none mt-1 border border-dark card-body">$2</div>',
             'iterate' => 3,
         ),
 
         'link' => array(
             'pattern' => '/\[url\](.*?)\[\/url\]/si', 
-            'replace' => '<a href="$1" class="postLink">$1</a>',
+            'replace' => '<a target="_blank" href="$1" class="postLink">$1</a>',
         ),
         'namedLink' => array(
             'pattern' => '/\[url\=(.*?)\](.*?)\[\/url\]/si', 
-            'replace' => '<a href="$1" class="postLink">$2</a>',
+            'replace' => '<a target="_blank" href="$1" class="postLink">$2</a>',
         ),
         'image' => array(
             'pattern' => '/\[img\](.*?)\[\/img\]/si', 
