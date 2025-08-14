@@ -59,6 +59,7 @@ abstract class BaseController extends Controller
     public $adminlink;
 		public $themes;
 		public $catHome;
+		public string $ogimage;
 
     private function initUser()
     {
@@ -150,12 +151,14 @@ abstract class BaseController extends Controller
 
 				$this->adminlink = ($this->userData->is_superadmin || $this->userData->is_admin) ? true : false;
 
+				$this->ogimage = base_url('themes/' . setting('Torrent.theme') . '/img/logo.png');
+
 				$this->themes = Themes::init($this->TorrConfig)
 								->addCSS(['bootstrap.min.css', 'themes.min.css', 'bootstrap-icons.min.css'])
 								->addJS(['jquery-3.7.1.min.js', 'jquery.treeview.js', 'bootstrap.bundle.min.js', 'main.js', 'ajax.js'])
 								->setVar(['userdata' => $this->userData])->setVar(['adminlink' => $this->adminlink])
 								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])
-								->setVar(['stats' => $this->StatsModel->displayStats()]);
+								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage]);
 
         // E.g.: $this->session = service('session');
 

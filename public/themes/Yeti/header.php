@@ -12,16 +12,16 @@
 		<meta property="og:description" content="<?= setting('Torrent.siteDescr'); ?>">
 		<meta property="twitter:description" content="<?= setting('Torrent.siteDescr'); ?>">
 		<?php endif; ?>
+		<?php if (setting('Torrent.siteKeyword')) :?>
+		<meta name="keywords" content="<?= setting('Torrent.siteKeyword'); ?>" />
+		<?php endif; ?>
     <title><?= $page_title ?></title>
 		<meta name="apple-mobile-web-app-title" content="<?= setting('Torrent.siteName'); ?>">
 		<meta name="application-name" content="<?= setting('Torrent.siteName'); ?>"/>
 		<meta property="og:site_name" content="<?= setting('Torrent.siteName'); ?>">
-		<meta property="og:image" content="<?= base_url('themes/' . setting('Torrent.theme') . '/img/logo.png'); ?>" />
+		<meta property="og:image" content="<?= $ogimage ?>" />
 		<meta property="og:type" content="website">
-		<meta property="twitter:image" content="<?= base_url('themes/' . setting('Torrent.theme') . '/img/logo.png'); ?>">
 		<meta property="og:title" content="<?= $page_title ?>">
-		<meta property="twitter:title" content="<?= $page_title ?>">
-		<meta property="twitter:card" content="summary">
     <?php Arifrh\Themes\Themes::renderCSS(); ?>
   	<script type="text/javascript">
   		window.CI4 = {};

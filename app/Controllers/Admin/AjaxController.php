@@ -62,7 +62,7 @@ class AjaxController extends \App\Controllers\AdminController
   public function UserDelete($id)
   {
       $users = auth()->getProvider();
-      $this->deletedUser = $users->findById(intval($id));
+      $this->deletedUser = $users->withDeleted(true)->findById(intval($id));
       $this->data = [];
 
       if(! $this->deletedUser ) {
@@ -108,7 +108,7 @@ class AjaxController extends \App\Controllers\AdminController
   public function UserHardDelete($id)
   {
       $users = auth()->getProvider();
-      $this->deletedUser = $users->findById(intval($id));
+      $this->deletedUser = $users->withDeleted(true)->findById(intval($id));
       $this->data = [];
 
       if(! $this->deletedUser ) {

@@ -99,6 +99,7 @@ class TorrentController extends BaseController
 	   	$annList[] = $this->TorrentModel->getAnnounce();
 
 	   	$data = [
+	   			'ogimage' => $torrentData->poster,
 	   			'bbcode' => new BBCodeParser(),
       		'icon' => $status['icon'],
       		'title' => $status['title'],

@@ -13,7 +13,7 @@
       <div class="form-floating mb-3">
 	      <input type="password" class="form-control" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required>
   	    <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
-  	    <div id="viewpass" style="top:50%; left:95%;" class="clickable position-absolute translate-middle rounded">
+  	    <div data-pass="viewpass" style="top:50%; left:95%;" class="clickable position-absolute translate-middle rounded">
   	    	<i class="bi bi-unlock"></i>
   	    </div>
       </div>
