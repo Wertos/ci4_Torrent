@@ -153,7 +153,8 @@ class BrowseController extends BaseController
 		  foreach ($torrents as $arrkey => $value) {
 				foreach ($torrents[$arrkey] as $key => $val) {
 		  		if ($key == 'name') {
-		  				$obj->name = $this->highlight_keywords($str, $val);
+//		  				$obj->name = $this->highlight_keywords($str, $val);
+              $obj->name = $this->highlightKeywords($val, $str);
 		  				continue;
 		  		}
 				  $obj->{$key} = $val;
@@ -179,4 +180,16 @@ class BrowseController extends BaseController
 		private function highlight_keywords($keyword, $string) {
     	return preg_replace("/\p{L}*?".preg_quote($keyword)."\p{L}*/ui", "<b class='text-danger'>$0</b>", $string);
 		}
+
+		private function highlightKeywords($text, $keyword) {
+			$wordsAry = explode(" ", $keyword);
+			$wordsCount = count($wordsAry);
+		
+			for($i=0;$i<$wordsCount;$i++) {
+				$highlighted_text = "<i class='text-danger'>$wordsAry[$i]</i>";
+				$text = str_ireplace($wordsAry[$i], $highlighted_text, $text);
+			}
+			return $text;
+		}
+
 }

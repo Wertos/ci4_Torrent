@@ -294,7 +294,7 @@ class TorrentController extends BaseController
     public function TorrentAddAction()
     {
 
-    	helper('debug');
+//    	helper('debug');
     	if(!$this->userData->can_upload)	{
     			return redirect()->to('/')->with('error', lang('Torrent.uploadforbidden'));
     	}

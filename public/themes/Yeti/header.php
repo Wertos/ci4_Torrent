@@ -28,7 +28,7 @@
   		CI4.urihash = window.location.hash;
   	</script>
   </head>
-	<body>
+  <body>
 			<div class="ms-1 page-header bg-primary text-center" id="banner">
 				<div class="logo pt-4 pb-3">
 					<a href="<?= base_url('/'); ?>"><img src="<?= base_url('themes/Yeti/img/logo.png'); ?>"></a>
@@ -39,7 +39,7 @@
 				<?php
 					foreach ($news as $item) :
 				?>
-						<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="font-size: 13px; border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
+						<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
 						  <span class="badge bg-secondary"><i class="bi bi-newspaper me-1"></i><?= toDate($item->created_at); ?></span>
 						  <a title="<?= $item->title; ?>" class="text-white me-1 small" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
 								<?= $item->title; ?>
