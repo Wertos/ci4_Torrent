@@ -73,30 +73,23 @@ $routes->get('torrent/delete/(:num)',  			'TorrentController::TorrentDelete/$1')
 
 $routes->get('browse',			              	'BrowseController::BrowseView');
 $routes->get('browse/search/',			        'BrowseController::SearchView/');
-
 $routes->get('([a-z0-9-]+)/page/(:num)',  	'BrowseController::BrowseView/$1');
 $routes->get('([a-z0-9-]+)',              	'BrowseController::BrowseView/$1');
 
 $routes->post('comment/add/(:num)',  				'CommentController::CommentAddAction/$1');
-
 $routes->get('bookmark/(:num)',  				  	'BookmarkController::Bookmark/$1');
 
+$routes->get('news/(:num)-(:any)',  		  	'NewsController::NewsView/$1');
+
 $routes->get('user/profile', 								'Auth\ProfileController::ProfileView');
-/*
-$routes->get('user/bookmarks', 'Auth\ProfileController::ProfileView');
-$routes->get('user/comments', 'Auth\ProfileController::ProfileView');
-$routes->get('user/torrents', 'Auth\ProfileController::ProfileView');
-*/
 $routes->get('user/profile/(:num)', 				'Auth\ProfileController::ProfileView/$1');
 $routes->get('user/edit', 									'Auth\ProfileController::ProfileEditView');
 $routes->post('user/update', 								'Auth\ProfileController::ProfileEditAction');
 
 //service('auth')->routes($routes);
 service('auth')->routes($routes, ['except' => ['login', 'register', 'magic-link', 'logout', 'auth-actions']]);
-
 $routes->get('user/register', 							'Auth\RegisterController::RegisterView', ['as' => 'register']);
 $routes->post('user/register', 							'Auth\RegisterController::registerAction');
-
 $routes->get('user/login', 									'Auth\LoginController::loginView', ['as' => 'login']);
 $routes->post('user/login', 								'\CodeIgniter\Shield\Controllers\LoginController::loginAction');
 /*

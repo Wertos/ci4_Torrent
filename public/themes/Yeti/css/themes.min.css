@@ -154,3 +154,4 @@ b, strong {font-weight: bold;}
     background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
 }
 
+.news img { max-width:350px; margin: 5px;}

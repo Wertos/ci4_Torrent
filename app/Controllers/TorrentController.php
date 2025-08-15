@@ -294,6 +294,7 @@ class TorrentController extends BaseController
     public function TorrentAddAction()
     {
 
+    	helper('debug');
     	if(!$this->userData->can_upload)	{
     			return redirect()->to('/')->with('error', lang('Torrent.uploadforbidden'));
     	}
@@ -327,9 +328,11 @@ class TorrentController extends BaseController
 	   	$torrFile = $this->request->getFile('torrentfile');
 			$torrName = $torrFile->getRandomName();
 			$torrPath = $torrFile->store(setting('Torrent.TorrentUploadPath'), $torrName);
+			//varDebug($torrFile->store(setting('Torrent.TorrentUploadPath'), $torrName));
 
+//exit();
     	$this->torrent = $this->TorrentModel->torrLoad(setting('Torrent.TorrentFilesPath'), $torrName);
-    	
+
     	$torrHashes = $this->torrent->getInfoHashes();
 			$torrVersion = $this->torrent->getVersion();
 
