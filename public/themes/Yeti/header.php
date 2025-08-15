@@ -33,15 +33,16 @@
 				<div class="logo pt-4 pb-3">
 					<a href="<?= base_url('/'); ?>"><img src="<?= base_url('themes/Yeti/img/logo.png'); ?>"></a>
 				</div>
-				<div id="news" class="position-absolute w-25 top-0 end-0">
-				<ul class="p-1">
-				<li class="text-truncate z-3 col-2 w-100 text-start text-white border-bottom border-start border-1">&nbsp;<?= lang('News.news'); ?></li>
+				<div id="news" class="position-absolute top-0 end-0" style="width:35%;">
+				<ul class="p-1 me-4">
+				<li class="ms-1 text-truncate w-100 text-start text-white">&nbsp;<?= lang('News.news'); ?></li>
 				<?php
 					foreach ($news as $item) :
 				?>
-						<li class="ms-2 z-3 col-2 text-truncate w-100 text-start text-white">
+						<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="font-size: 13px; border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
+						  <span class="badge bg-secondary"><i class="bi bi-newspaper me-1"></i><?= toDate($item->created_at); ?></span>
 						  <a title="<?= $item->title; ?>" class="text-white me-1 small" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
-								<i class="bi bi-newspaper me-1"></i><?= $item->title; ?>
+								<?= $item->title; ?>
 							</a>
 						</li>
 				<?php
