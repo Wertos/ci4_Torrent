@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Авг 13 2025 г., 17:37
+-- Время создания: Авг 15 2025 г., 10:00
 -- Версия сервера: 9.1.0
 -- Версия PHP: 8.4.0
 
@@ -212,6 +212,24 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `news`
+--
+
+CREATE TABLE `news` (
+  `id` int UNSIGNED NOT NULL,
+  `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
+  `can_comment` tinyint(1) NOT NULL DEFAULT '1',
+  `user_id` int NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `reports`
 --
 
@@ -401,6 +419,14 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `news` ADD FULLTEXT KEY `title` (`title`);
+ALTER TABLE `news` ADD FULLTEXT KEY `text` (`text`);
+
+--
 -- Индексы таблицы `reports`
 --
 ALTER TABLE `reports`
@@ -506,6 +532,12 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `migrations`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `reports`
