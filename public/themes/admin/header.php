@@ -94,6 +94,38 @@
           </div>
           <!-- dropdown menu end -->
 
+
+          <!-- drodown menu start -->
+          <li class="nav-item position-relative" href="#news" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="news">
+            <a class="nav-link" href="#news">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.news'); ?>">
+                <i class="fa-solid fa-newspaper"></i>
+              </span>
+              <span class="menu"><?= lang('News.news'); ?></span>
+            </a>
+          </li>
+          <div class="collapse" id="news">
+            <li class="nav-item <?= activate_menu('NewsController', 'NewsList'); ?>">
+              <a class="nav-link" href="<?= base_url('admin/news/list'); ?>">
+                <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.listnews'); ?>">
+                  <i class="fa-solid fa-list"></i>
+                </span>
+                <span class="menu"><?= lang('News.listnews'); ?></span>
+              </a>
+            </li>
+
+            <li class="nav-item <?= activate_menu('NewsController', 'NewsAddView'); ?>">
+              <a class="nav-link" href="<?= base_url('admin/news/add'); ?>">
+                <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.addnews'); ?>">
+                  <i class="fa-solid fa-plus"></i>
+                </span>
+                <span class="menu"><?= lang('News.addnews'); ?></span>
+              </a>
+            </li>
+          </div>
+          <!-- dropdown menu end -->
+          
+          
           <li class="nav-item <?= activate_menu('UserController', 'UserList'); ?>">
             <a class="nav-link" href="<?= base_url('admin/users'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UsersTitle'); ?>"><i class="fas fa-users"></i></span>

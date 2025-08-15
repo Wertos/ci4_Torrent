@@ -54,9 +54,7 @@ $( "#modpanel a.status" ).on( "click", function() {
   				return false;
   		}
   		$('#modpanel a[data-status="'+data.status+'"]').addClass('border-bottom border-3 border-dark');
-  		$('#status #torrstatus')
-  				.html(data.icon)
-  				.attr('title', data.status_text);
+  		$('#status #torrstatus').html(data.icon);
   		var parent = $('#torrstatus').parent('div');
   		parent.attr('class',
   				parent.attr('class').replace(/border\-.+?\b/, data.class)

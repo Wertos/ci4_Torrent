@@ -28,7 +28,7 @@
   <tbody>
     <?php //var_dump($usersList); die();?>
     <?php foreach ($usersList as $user) : ?>
-    <tr id="rowid-<?= $user['id']; ?>" class="<?= ($user['deleted'] != null) ? 'table-warning' : ''; ?>">
+    <tr id="rowid-<?= $user['id']; ?>" class="<?= ($user['deleted'] != null) ? ' bg-danger-subtle ' : ''; ?>">
       <td id="userid-<?= $user['id']; ?>"><?= $user['id']; ?></td>
       <td id="username-<?= $user['id']; ?>">
       	<span class="me-1 <?= ($user['deleted'] != null) ? 'text-decoration-line-through' : ''; ?>"><?= $user['name']; ?></span>
@@ -51,7 +51,7 @@
       	</div>
       	<div id="restore-<?= $user['id']; ?>" class="d-inline">
       		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.userrestore'); ?>" onclick="CI4_Admin.UserRestore(<?= $user['id']; ?>); return false;">
-      			<i class="fa-solid fa-trash-can-slash cursor-pointer text-success"></i>
+      			<i class="fa-solid fa-trash-can-arrow-up cursor-pointer text-success"></i>
       		</a>
       	</div>
       <?php else : ?>

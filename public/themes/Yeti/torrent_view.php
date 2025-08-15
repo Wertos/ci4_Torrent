@@ -44,7 +44,7 @@
             <?= $details->name ?>
         </h6>
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">
-        	<div title="<?= $title; ?>" id="torrstatus">
+        	<div id="torrstatus">
         		<?= $icon; ?>
         	</div>
         </div>

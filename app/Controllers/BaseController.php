@@ -11,6 +11,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Libraries\Breadcrumb\BreadcrumbClass;
 use App\Models\GlobalModel;
 use App\Models\StatsModel;
+use App\Models\NewsModel;
 use Psr\Log\LoggerInterface;
 use Arifrh\Themes\Themes;
 //use Westsworld\TimeAgo;
@@ -42,7 +43,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = ['avatar','html','uri'];
+    protected $helpers = ['avatar','html','uri', 'menu'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -134,7 +135,16 @@ abstract class BaseController extends Controller
 
 				$this->GlobalModel = model(GlobalModel::class);
 				$this->StatsModel = model(StatsModel::class);
-				
+
+				// Cache data news on index page
+				if (! $this->news = cache('news')) {
+				    $this->NewsModel = model(NewsModel::class);
+						
+						$this->news = $this->NewsModel->asObject()->orderBy('created_at', 'desc')->findAll(setting('Torrent.newsPerIndex'));
+						
+						cache()->save('news', $this->news);
+				}
+
 				// Cache data category on index page
 				if (! $this->catHome = cache('CatHome')) {
 
@@ -158,7 +168,8 @@ abstract class BaseController extends Controller
 								->addJS(['jquery-3.7.1.min.js', 'jquery.treeview.js', 'bootstrap.bundle.min.js', 'main.js', 'ajax.js'])
 								->setVar(['userdata' => $this->userData])->setVar(['adminlink' => $this->adminlink])
 								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])
-								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage]);
+								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage])
+								->setVar(['news' => $this->news]);
 
         // E.g.: $this->session = service('session');
 

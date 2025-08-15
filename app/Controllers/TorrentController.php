@@ -263,24 +263,24 @@ class TorrentController extends BaseController
 			
 			unset($rules['torrentfile']);
 
-			$this->postData = $this->request->getPost();
+			$postData = $this->request->getPost();
 			
-			$this->postData['can_comment'] = ($this->postData['can_comment'] == "on") ? 1 : 0;
+			$postData['can_comment'] = ($postData['can_comment'] == "on") ? 1 : 0;
 
-			if (isset($this->postData['csrf_test_name']))
-						unset($this->postData['csrf_test_name']);
+			if (isset($postData['csrf_test_name']))
+						unset($postData['csrf_test_name']);
 			
 			if(! setting('Torrent.posterRequired')) {
 					unset($rules['poster']);
 			}
 			
-			if (! $this->validateData($this->postData, $rules)) {
+			if (! $this->validateData($postData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
       }
 
- 			$this->postData['url'] = url_title($this->translit->transliterate($this->postData['name']), '-', true);
+ 			$postData['url'] = url_title($this->translit->transliterate($postData['name']), '-', true);
 
- 			$this->TorrentModel->update($tId, $this->postData, true);
+ 			$this->TorrentModel->update($tId, $postData, true);
 			return redirect()->to('torrent/'.$tId)->with('message', lang('Torrent.editsuccess'));
 
 	}
@@ -309,18 +309,18 @@ class TorrentController extends BaseController
 
 			$rules = $this->TorrentModel->validationRules;
 
-			$this->postData = $this->request->getPost();
+			$postData = $this->request->getPost();
 			
-			$this->postData['can_comment'] = ($this->postData['can_comment'] == "on") ? 1 : 0;
+			$postData['can_comment'] = ($postData['can_comment'] == "on") ? 1 : 0;
 
-			if (isset($this->postData['csrf_test_name']))
-						unset($this->postData['csrf_test_name']);
+			if (isset($postData['csrf_test_name']))
+						unset($postData['csrf_test_name']);
 
 			if(! setting('Torrent.posterRequired')) {
 					unset($rules['poster']);
 			}
 			
-			if (! $this->validateData($this->postData, $rules)) {
+			if (! $this->validateData($postData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
       }
 			
@@ -339,14 +339,14 @@ class TorrentController extends BaseController
       		'numfiles'	=>	$this->torrent->getFilesCount(),
       		'size'	=>	$this->torrent->getSize(),
       		'type'	=>	$this->torrent->isPrivate() ? 1 : 0,
-      		'name'	=>	$this->postData['name'],
-      		'descr'	=>	$this->postData['descr'],
-      		'category'	=>	(int) $this->postData['category'],
-      		'poster'	=>	$this->postData['poster'],
+      		'name'	=>	$postData['name'],
+      		'descr'	=>	$postData['descr'],
+      		'category'	=>	(int) $postData['category'],
+      		'poster'	=>	$postData['poster'],
       		'magnet'	=>	$this->torrent->getMagnet(),
-      		'url'	=>	url_title($this->translit->transliterate($this->postData['name']), '-', true),
+      		'url'	=>	url_title($this->translit->transliterate($postData['name']), '-', true),
       		'file'	=> ((setting('Torrent.allowUploadTorrent') === true) && $torrPath) ? 1 : 0,
-      		'can_comment'	=>	($this->postData['can_comment']) ? 1 : 0,
+      		'can_comment'	=>	($postData['can_comment']) ? 1 : 0,
       		'modded'	=>	($can_moderate) ? 1 : 0,
       		'file_name'	=>	$torrName,
       		'version'	=>	$torrVersion,

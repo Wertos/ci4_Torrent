@@ -71,6 +71,10 @@ class Torrent extends BaseConfig
 		public int $profileBookmarksPerPage = 20;
 		public int $profileTorrentsPerPage = 20;
 		public int $profileCommentsPerPage = 20;
+// News settin
+		public bool $newsEnable = true;
+		public int $newsPerIndex = 3;
+		public int $newsPerAdminList = 10;
 
 // Theme setting
 		public $theme = 'Yeti';

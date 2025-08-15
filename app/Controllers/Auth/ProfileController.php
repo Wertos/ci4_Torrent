@@ -56,7 +56,7 @@ class ProfileController extends \App\Controllers\BaseController
         if (!$data['user'])
 				                  return redirect()->back()->with('error', lang('Login.errorViewProfile'));
 
-    		$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();//getTorrentCountUser((int) $data['user']->id);
+    		$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['commcount'] = $this->CommentModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['bookcount'] = $this->BookmarkModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
 
@@ -165,9 +165,6 @@ class ProfileController extends \App\Controllers\BaseController
         if($newUserData)
         {
         		
-        		//		var_dump($newUserData);
-        		//		var_dump($rules); 
-        		//		die();
      				if (! $this->validateData($newUserData, $rules, [], config('Auth')->DBGroup)) {
          				return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
      				}	

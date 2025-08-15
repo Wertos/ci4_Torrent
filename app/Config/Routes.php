@@ -32,6 +32,16 @@ $routes->get('admin/reports',                   'Admin\ReportController::ReportL
 $routes->get('admin/reports/del/(:num)',        'Admin\ReportController::ReportDelete/$1');
 $routes->get('admin/reports/reaction/(:num)',   'Admin\ReportController::ReportReaction/$1');
 
+$routes->get('admin/news/list',                 'Admin\NewsController::NewsList');
+$routes->get('admin/news/add',                  'Admin\NewsController::NewsAddView');
+$routes->post('admin/news/add',                 'Admin\NewsController::NewsAddAction');
+$routes->get('admin/news/edit/(:num)',          'Admin\NewsController::NewsEditView/$1');
+$routes->post('admin/news/edit/(:num)',         'Admin\NewsController::NewsEditAction/$1');
+$routes->get('admin/news/del/(:num)',           'Admin\NewsController::NewsDelete/$1');
+$routes->get('admin/news/harddel/(:num)',       'Admin\NewsController::NewsHardDelete/$1');
+$routes->get('admin/news/restore/(:num)',       'Admin\NewsController::NewsRestore/$1');
+
+
 
 $routes->get('/', 													'Home::index');
 $routes->get('rules',            						'PageController::rules');

@@ -33,6 +33,22 @@
 				<div class="logo pt-4 pb-3">
 					<a href="<?= base_url('/'); ?>"><img src="<?= base_url('themes/Yeti/img/logo.png'); ?>"></a>
 				</div>
+				<div id="news" class="position-absolute w-25 top-0 end-0">
+				<ul class="p-1">
+				<li class="text-truncate z-3 col-2 w-100 text-start text-white border-bottom border-start border-1">&nbsp;<?= lang('News.news'); ?></li>
+				<?php
+					foreach ($news as $item) :
+				?>
+						<li class="ms-2 z-3 col-2 text-truncate w-100 text-start text-white">
+						  <a title="<?= $item->title; ?>" class="text-white me-1 small" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
+								<i class="bi bi-newspaper me-1"></i><?= $item->title; ?>
+							</a>
+						</li>
+				<?php
+					endforeach;
+				?>
+				</ul>
+				</div>
 			</div>
 			<hr class="ms-1 mt-0 mb-0 p-0">
 			<div class="ms-1 bs-docs-section clearfix">
@@ -41,16 +57,16 @@
 						<div class="collapse navbar-collapse" id="navbarColor01">
 							<ul class="navbar-nav w-50">
 								<li class="nav-item">
-									<a class="nav-link" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
+									<a class="nav-link <?= activate_menu('Home', 'index'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
+									<a class="nav-link <?= activate_menu('PageController', 'rules'); ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
+									<a class="nav-link <?= activate_menu('PageController', 'secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
+									<a class="nav-link <?= activate_menu('PageController', 'about'); ?>" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
 								</li>
 							</ul>
 							<div class="w-100">

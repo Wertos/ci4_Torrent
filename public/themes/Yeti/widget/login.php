@@ -5,7 +5,7 @@
 			<h6 class="my-0"><i class="bi bi-person"></i> <?= lang('Login.hiuser'); ?><span class="fw-normal">&nbsp;<?= $userdata->username; ?></span></h6>
 		</div>
 		<div class="card-body">
-			<div class="" align="center" style="margin-bottom: 7px;">
+			<div class="" align="center">
 				<?= avatar($userdata->avatar, 200); ?>
 			</div>
 			<hr />
@@ -16,17 +16,6 @@
 					</a>
 					<a class="clickable float-end badge bg-success user_menu_icon p-1" title="<?= lang('Profile.editprofile'); ?>" href="<?= base_url('user/edit'); ?>"><i class="bi bi-pen"></i></a>
 				</div>
-<!--
-				<div class="list-group-item list-group-item-action">
-					<a href="<?= base_url('user/torrents#torrents'); ?>"><i class="bi bi-cloud-arrow-up user_menu_icon"></i><?= lang('Profile.mytorrents'); ?></a>
-				</div>
-				<div class="list-group-item list-group-item-action">
-					<a href="<?= base_url('user/bookmarks#bookmarks'); ?>"><i class="bi bi-bookmark user_menu_icon"></i><?= lang('Profile.mybookmarks'); ?></a>
-				</div>
-				<div class="list-group-item list-group-item-action">
-					<a href="<?= base_url('user/comments#comments'); ?>"><i class="bi bi-chat-dots user_menu_icon"></i><?= lang('Profile.mycomments'); ?></a>
-				</div>
--->
 				<?php if($userdata->can_upload) : ?>
 					<div class="list-group-item list-group-item-action">
 						<a href="<?= base_url('torrent/add'); ?>"><i class="bi bi-cloud-plus user_menu_icon"></i><?= lang('Torrent.addTorrent'); ?></a>

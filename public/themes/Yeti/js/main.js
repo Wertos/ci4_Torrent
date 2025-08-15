@@ -12,20 +12,6 @@ $(document).ready(function() {
     initializeTooltips();
 });
 
-$('form#editProfile')
-  	  .each(function(){
-    	    $(this).data('serialized', $(this).serialize())
-    	})
-    	.on('change input', function(){
-      	  $(this)             
-        	    .find('button#submitProfile')
-          	      .prop('disabled', $(this).serialize() == $(this).data('serialized'))
-        	;
-     	})
-    	.find('button#submitProfile')
-    			.prop('disabled', true)
-;
-
 ///spoiler
 $('.spoiler').click(function() {
      const icon = $(this).children('i');
