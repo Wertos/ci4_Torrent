@@ -35,8 +35,8 @@
     <div class="card-footer text-muted">
 			<div class="btn-toolbar float-end">
 			  <div class="btn-group me-2" id="ajaxpag-<?= $cat->id; ?>" data-type="ajaxpag" data-offset="0">
-		    	<button onclick="CI4.AjaxPag(<?= $cat->id; ?>, 'backward'); return false;" id="backward-<?= $cat->id; ?>" type="button" class="btn-outline-primary btn btn-secondary btn-sm" disabled><i class="bi bi-chevron-double-left"></i></button>
-    			<button onclick="CI4.AjaxPag(<?= $cat->id; ?>, 'forward'); return false;" id="forward-<?= $cat->id; ?>" type="button" class="btn-outline-primary btn btn-secondary btn-sm" <?= ($cat->count > setting('Torrent.torrentsPerCatOnIndex')) ? '' : 'disabled'; ?>><i class="bi bi-chevron-double-right"></i></button>
+		    	<button onclick="CI4.AjaxPag(<?= $cat->id; ?>, 'backward'); return false;" id="backward-<?= $cat->id; ?>" type="button" class="btn-primary btn btn-sm" disabled><i class="bi bi-chevron-double-left"></i></button>
+    			<button onclick="CI4.AjaxPag(<?= $cat->id; ?>, 'forward'); return false;" id="forward-<?= $cat->id; ?>" type="button" class="btn-primary btn btn-sm" <?= ($cat->count > setting('Torrent.torrentsPerCatOnIndex')) ? '' : 'disabled'; ?>><i class="bi bi-chevron-double-right"></i></button>
 		  	</div>
 			</div>    	
   	</div>

@@ -9,7 +9,7 @@
 		<?= form_open('admin/news/edit/' . $news->id, ['id' => 'formnews']); ?>
   	  <!-- news title -->
 			<div class="form-floating mb-2">
-				<input value="<?= $news->title; ?>" type="text" class="form-control" id="floatingTitleInput" name="title" inputmode="none" autocomplete="title" placeholder="<?= lang('News.title') ?>" required />
+				<input value="<?= $news->title; ?>" maxlength="499" type="text" class="form-control" id="floatingTitleInput" name="title" inputmode="none" autocomplete="title" placeholder="<?= lang('News.title') ?>" required />
    	  	<label for="floatingTitleInput"><i class="fa-solid fa-list me-2"></i><?= lang('News.title') ?></label>
     	</div>
   	  <!-- news text -->
@@ -18,7 +18,7 @@
     	  	<?= lang('News.text') ?>
     	  	<p class="small alert alert-danger fs-6 p-1 mb-2 fw-bold"><?= lang('News.textdesr'); ?></p>
     	  </label>
-    		<textarea name="text" class="form-control" id="floatingTextInput" rows="3" style="width: 100%; height: 300px;" required /><?= $news->text; ?></textarea>
+    		<textarea name="text" maxlength="9999" class="form-control" id="floatingTextInput" rows="3" style="width: 100%; height: 300px;" required /><?= $news->text; ?></textarea>
   	  </div>
 			<div class="form-check form-switch">
 			  <input <?= ($news->can_comment) ? ' checked ' : ''; ?> name="can_comment" class="form-check-input" type="checkbox" id="flexSwitchCanComment"/>

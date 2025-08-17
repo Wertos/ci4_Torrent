@@ -27,8 +27,8 @@
       </div>
 			<div class="btn-toolbar float-end">
 			  <div class="btn-group me-2" id="ajaxpag" data-type="ajaxpag" data-offset="0">
-		    	<button onclick="CI4.GetProfileData(<?= $com->user_id; ?>, 'comments', 'backward'); return false;" id="backward" type="button" class="btn-outline-primary btn btn-secondary btn-sm" disabled><i class="bi bi-chevron-double-left"></i></button>
-    			<button onclick="CI4.GetProfileData(<?= $com->user_id; ?>, 'comments', 'forward'); return false;" id="forward" type="button" class="btn-outline-primary btn btn-secondary btn-sm" <?= ($comCount > $perpage) ? '' : 'disabled'; ?>><i class="bi bi-chevron-double-right"></i></button>
+		    	<button onclick="CI4.GetProfileData(<?= $com->user_id; ?>, 'comments', 'backward'); return false;" id="backward" type="button" class="btn-primary btn btn-sm" disabled><i class="bi bi-chevron-double-left"></i></button>
+    			<button onclick="CI4.GetProfileData(<?= $com->user_id; ?>, 'comments', 'forward'); return false;" id="forward" type="button" class="btn-primary btn btn-sm" <?= ($comCount > $perpage) ? '' : 'disabled'; ?>><i class="bi bi-chevron-double-right"></i></button>
 		  	</div>
 			</div>    	
   	</div>

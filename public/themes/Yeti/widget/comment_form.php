@@ -13,7 +13,7 @@
   	  </div>
   </div>
   <div class="card-footer text-center">
-  	<button type="submit" id="commentSubmit" class="btn btn-primary btn-sm"><?= lang('Comment.send') ?></button>
+  	<button type="submit" id="commentSubmit" class="btn btn-primary btn-sm"><i class="bi bi-chat-dots me-1"></i><?= lang('Comment.send') ?></button>
   </div>
 <script>
 	CI4.smilies = `<?= $smilies; ?>`;

@@ -203,7 +203,7 @@ class TorrentController extends BaseController
     					|| $this->userData->is_superadmin;
 
 			if(! $can_edit)
-				    	return redirect()->to('/')->with('error', lang('Torrent.editforbidden'));
+				    	return redirect()->to('/')->with('error', lang('Torrent.notowner'));
 
 			$catList = $this->GlobalModel->getCatHome();
       

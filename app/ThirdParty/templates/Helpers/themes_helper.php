@@ -7,7 +7,7 @@ if (! function_exists('link_tag'))
 	// generate link css tags
 	function link_tag($css)
 	{
-		return '<link rel="stylesheet" href="' . $css . '" />' . PHP_EOL;
+		return "<link rel=\"stylesheet\" href=\"{$css}\" />\n" .  PHP_EOL;
 	}
 // @codeCoverageIgnoreStart
 }
