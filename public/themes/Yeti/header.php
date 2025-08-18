@@ -58,16 +58,16 @@
 						<div class="collapse navbar-collapse" id="navbarColor01">
 							<ul class="navbar-nav w-50">
 								<li class="nav-item">
-									<a class="nav-link <?= activate_menu('Home', 'index'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
+									<a class="nav-link <?= setActive('/'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= activate_menu('PageController', 'rules'); ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
+									<a class="nav-link <?= setActive('/rules');; ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= activate_menu('PageController', 'secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
+									<a class="nav-link <?= setActive('/secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= activate_menu('PageController', 'about'); ?>" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
+									<a class="nav-link <?= setActive('/about'); ?>" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
 								</li>
 							</ul>
 							<div class="w-100">

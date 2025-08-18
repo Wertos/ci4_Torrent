@@ -55,12 +55,12 @@ abstract class BaseController extends Controller
     public $translit;
     public $GlobalModel;
     public $StatsModel;
-		public $breadcrumb;
+    public $breadcrumb;
     public $userData;
     public $adminlink;
-		public $themes;
-		public $catHome;
-		public string $ogimage;
+    public $themes;
+    public $catHome;
+    public string $ogimage;
 
     private function initUser()
     {

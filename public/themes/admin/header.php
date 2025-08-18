@@ -74,7 +74,7 @@
             </a>
           </li>
           <div class="collapse" id="category">
-            <li class="nav-item <?= activate_menu('CategoryController', 'CatList'); ?>">
+            <li class="nav-item <?= setActive('/admin/categories'); ?>">
               <a class="nav-link" href="<?= base_url('admin/categories'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.List'); ?>">
                   <i class="fas fa-list-tree"></i>
@@ -83,7 +83,7 @@
               </a>
             </li>
 
-            <li class="nav-item <?= activate_menu('CategoryController', 'CatAddShow'); ?>">
+            <li class="nav-item <?= setActive('/admin/categories/add'); ?>">
               <a class="nav-link" href="<?= base_url('admin/categories/add'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Create'); ?>">
                   <i class="fas fa-plus"></i>
@@ -105,7 +105,7 @@
             </a>
           </li>
           <div class="collapse" id="news">
-            <li class="nav-item <?= activate_menu('NewsController', 'NewsList'); ?>">
+            <li class="nav-item <?= setActive('/admin/news/list'); ?>">
               <a class="nav-link" href="<?= base_url('admin/news/list'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.listnews'); ?>">
                   <i class="fa-solid fa-list"></i>
@@ -114,7 +114,7 @@
               </a>
             </li>
 
-            <li class="nav-item <?= activate_menu('NewsController', 'NewsAddView'); ?>">
+            <li class="nav-item <?= setActive('/admin/news/add'); ?>">
               <a class="nav-link" href="<?= base_url('admin/news/add'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.addnews'); ?>">
                   <i class="fa-solid fa-plus"></i>
@@ -126,14 +126,14 @@
           <!-- dropdown menu end -->
           
           
-          <li class="nav-item <?= activate_menu('UserController', 'UserList'); ?>">
+          <li class="nav-item <?= setActive('/admin/users'); ?>">
             <a class="nav-link" href="<?= base_url('admin/users'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UsersTitle'); ?>"><i class="fas fa-users"></i></span>
               <span class="menu"><?= lang('Admin.Users'); ?></span>
             </a>
           </li>
 
-          <li class="nav-item <?= activate_menu('ReportController', 'ReportList'); ?>">
+          <li class="nav-item <?= setActive('/admin/reports'); ?>">
             <a class="nav-link" href="<?= base_url('admin/reports'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.reports'); ?>"><i class="fas fa-share"></i></span>
               <span class="menu"><?= lang('Admin.report'); ?></span>
