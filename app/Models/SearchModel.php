@@ -15,7 +15,7 @@ class SearchModel extends Model {
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $protectFields    = true;
-    protected $allowedFields    = ['query'];
+    protected $allowedFields    = ['text'];
 
     // Validation
     protected $validationRules = [
@@ -24,7 +24,7 @@ class SearchModel extends Model {
                 'required',
                 'max_length[255]',
                 'min_length[3]',
-                'string',
+                'string|required',
             ],
         ],
     ];
@@ -72,11 +72,14 @@ class SearchModel extends Model {
 				'/ /'            =>   ' ', // nonbreaking space (equiv. to 0x160)
 			);
 			$text = preg_replace(array_keys($utf8), array_values($utf8), $text);
-			return preg_replace('/[^a-zA-Zа-яёА-ЯЁ0-9\s]/iu', '', $text);
+			$text = $this->db->escape($text);
+			$text = preg_replace('/[^a-zA-Zа-яёА-ЯЁ0-9\s]/iu', '', $text);
+			return $text;
 		}
 
 		public function StringToArray(string $text): array
 		{
+//		   var_dump($text);die();
 		   $text = mb_strtolower($text);
 		   return explode(' ', $text);
 		}
@@ -85,7 +88,8 @@ class SearchModel extends Model {
 		{
 		   $str = '';
 		   foreach ($arr as $word) {
-		   		$str .= '+'.$word.'*';	
+		   		if(mb_strlen($word) < 3) continue;
+		   		$str .= ' '.$word.'*';	
 		   }
 		   $sqlWhere = 'MATCH(' . implode(',', $fields) . ') AGAINST(\'' . $str . '\' IN BOOLEAN MODE)';
 		   return $sqlWhere;

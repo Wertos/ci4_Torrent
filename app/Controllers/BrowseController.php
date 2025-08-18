@@ -115,7 +115,7 @@ class BrowseController extends BaseController
 			$pager = service('pager');
 			$where = '';
 
-		  $str = (string) $this->request->getGet('text');
+		  $str = $this->request->getGet('text');
 		  $catId = (int) $this->request->getGet('cat');
 
 		  if ($catId)
@@ -140,6 +140,7 @@ class BrowseController extends BaseController
 			$torr = [];
 			$obj = new \StdClass;
 
+//			var_dump($sql); die();
 			$torrents = $this->SearchModel->asObject()
 								->where(new RawSql($sql))
 								->orderBy('created_at', 'DESC')->paginate(setting('Torrent.torrentsPerPage'));
@@ -153,7 +154,6 @@ class BrowseController extends BaseController
 		  foreach ($torrents as $arrkey => $value) {
 				foreach ($torrents[$arrkey] as $key => $val) {
 		  		if ($key == 'name') {
-//		  				$obj->name = $this->highlight_keywords($str, $val);
               $obj->name = $this->highlightKeywords($val, $str);
 		  				continue;
 		  		}
@@ -177,18 +177,28 @@ class BrowseController extends BaseController
 			$this->themes::render('search_view', $data);
 		}
 
-		private function highlight_keywords($keyword, $string) {
-    	return preg_replace("/\p{L}*?".preg_quote($keyword)."\p{L}*/ui", "<b class='text-danger'>$0</b>", $string);
-		}
+//		private function highlight_keywords($keyword, $string) {
+//    	return preg_replace("/\p{L}*?".preg_quote($keyword)."\p{L}*/ui", "<b class='text-danger'>$0</b>", $string);
+//		}
 
-		private function highlightKeywords($text, $keyword) {
+		private function highlightKeywords($text, $keyword)
+		{
+			//$keyword = str_replace(['+','-'], '', $keyword);
+			$keyword = preg_replace('/[^a-zA-Zа-яёА-ЯЁ0-9\s]/iu', '', $keyword);
 			$wordsAry = explode(" ", $keyword);
-			$wordsCount = count($wordsAry);
-		
+
+			$filteredArray = array_filter($wordsAry, function($value) {
+    			return mb_strlen($value) >= 3;
+			});
+      $filteredArray = array_values($filteredArray);
+
+			$wordsCount = count($filteredArray);
+			
 			for($i=0;$i<$wordsCount;$i++) {
-				$highlighted_text = "<i class='text-danger'>$wordsAry[$i]</i>";
-				$text = str_ireplace($wordsAry[$i], $highlighted_text, $text);
+				$highlighted_text = "<i class='text-danger'>$filteredArray[$i]</i>";
+				$text = str_ireplace($filteredArray[$i], $highlighted_text, $text);
 			}
+
 			return $text;
 		}
 

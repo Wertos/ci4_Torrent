@@ -80,7 +80,7 @@
 												<li><a id="search-cat-<?= $cat->id; ?>" data-select="<?= ($cat->id == (isset($catId) ? $catId : 0)) ? 'true' : 'false'; ?>" data-id="<?= $cat->id; ?>" class="dropdown-item cat" href="javascript:void(0);"><?= $cat->name; ?></a></li>
 												<?php endforeach; ?>
 											</ul>
-								  		<input value="<?= isset($searchString) ? $searchString : null; ?>" class="w-50 form-control" type="search" id="search-cat-text" data-error="<?= lang('Category.sform-error'); ?>" placeholder="<?= lang('Category.search-plh'); ?>">
+								  	<input value="<?= isset($searchString) ? $searchString : null; ?>" class="w-50 form-control" type="search" id="search-cat-text" data-error="<?= lang('Category.sform-error'); ?>" placeholder="<?= lang('Category.search-plh'); ?>">
 								  	<button class="btn btn-secondary btn-sm" type="button" id="search-cat-submit"><i class="bi bi-search"></i> <?= lang('Category.search'); ?></button>
 									</div>
 								</div>

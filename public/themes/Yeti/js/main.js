@@ -142,9 +142,9 @@ $('#search-cat-submit').on('click', function() {
   		}, 500);
   		return false;
 		}
-		var searchLink = '/browse/search?cat='+catId+'&text='+searchText;
+		var searchLink = '/browse/search?cat='+catId+'&text='+encodeURIComponent(searchText);
 		if(catId == 0)
-					var searchLink = '/browse/search?text='+searchText;
+					var searchLink = '/browse/search?text='+encodeURIComponent(searchText);
 		window.location.href = searchLink;
 });
 // header search end
