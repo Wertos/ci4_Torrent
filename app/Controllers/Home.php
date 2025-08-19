@@ -7,18 +7,17 @@ use CodeIgniter\I18n\Time;
 class Home extends BaseController
 {
 
-		public $siteTitle;    
+	public $siteTitle;    
 
     function __construct()
     {
 
-		}
+	}
 
     public function index()
     {
 			helper('number');
 			helper('torrent');
-
 			$no_torrents = true;
 			$no_cats = ($this->catHome) ? true : false;
 			$torList = [];

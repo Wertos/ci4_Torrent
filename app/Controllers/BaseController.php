@@ -61,6 +61,8 @@ abstract class BaseController extends Controller
     public $themes;
     public $catHome;
     public string $ogimage;
+    public $NewsModel;
+    public $news;
 
     private function initUser()
     {

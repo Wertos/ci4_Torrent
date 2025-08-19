@@ -33,7 +33,7 @@
 				<h5 class="d-inline ms-4 float-end me-5"><?= $user->last_name; ?></h5>
 				<hr class="d-block crearfix">
  				<h6 class="d-inline"><?= lang('Profile.birthdate'); ?></h6>
-				<h5 class="d-inline ms-4 float-end me-5"><?= $user->birthdate; ?> (<?= $age; ?>)</h5>
+				<h5 class="d-inline ms-4 float-end me-5"><?= $user->birthdate; ?><?php if ($user->birthdate) : ?> (<?= $age; ?>) <?php endif; ?></h5>
 				<hr class="d-block crearfix">
  				<h6 class="d-inline"><?= lang('Profile.created'); ?></h6>
 				<h5 class="d-inline ms-4 float-end me-5"><?= toDate($user->created_at); ?></h5>
