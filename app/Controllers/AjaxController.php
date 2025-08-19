@@ -124,11 +124,6 @@ class AjaxController extends \App\Controllers\BaseController
 
 	  	$st = $this->TorrentModel->update($id, ['modded' => $data['modded']]);
 
-			$this->eventData = [
-								'torrent'	=> 1,
-			];
-			$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
-
 			$data['action']	=	$action;
 			$data['id']	=	$id;
 			$data['error'] = ($st == true) ? '' : 'error';
@@ -149,11 +144,6 @@ class AjaxController extends \App\Controllers\BaseController
 	  	$newId = (int) $this->request->getPost('newid');
 		  
 	  	$st = $this->TorrentModel->update($id, ['category' => $newId]);
-
-			$this->eventData = [
-								'torrent'	=> 2,
-			];
-			$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
 
 			$data['action']	=	$action;
 			$data['id']	=	$id;
