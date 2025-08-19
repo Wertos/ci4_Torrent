@@ -112,27 +112,4 @@ class AdminModel extends GlobalAdminModel
 				
 				return $count;
 		}                                
-		
-		public function saveEvent( int $userId, array $eventData, ?int $eventUserId = null)
-		{
-
-				$db = \Config\Database::connect();
-
-				$data = [
-						'user_id' => (int) $userId,
-						'event_data' => (string) json_encode($eventData),
-						'event_userid' => (int) $eventUserId,
-				];
-				
-				$db->table('admin_log')->insert($data);
-
-		}
-
-		public function getEvent( ?int $userId = null, ?int $eventId = null, int $limit = 50, ?int $start = null)
-		{
-
-				return 1;
-
-		}
-
 }                                                                                                                          

@@ -195,12 +195,6 @@ class UserController extends \App\Controllers\AdminController
         				$user->syncGroups(...$groupPostData);
         		}
 		
-		 				$this->eventData = [
-									'user'	=> 6,
-						];
-				
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
-
 						return redirect()->to('admin/user/edit/'.$user->id)->with('message', lang('Admin.UserEdit.usereditsuccess', [$user->username]));
 
 				}

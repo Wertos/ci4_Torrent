@@ -82,11 +82,6 @@ class AjaxController extends \App\Controllers\AdminController
 									'id'	=> $id,
 							 ];
 					
-					$this->eventData = [
-										'user'	=> 100,
-					];
-					$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
-					
 					return $this->_AjaxSend($this->data); die ();
       }
       
@@ -95,13 +90,7 @@ class AjaxController extends \App\Controllers\AdminController
 			$this->eventData = [
 								'user'	=> 1,
 			];
-      $this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);    // delete user
-			
-			$this->data = [
-							'error' => '',
-							'id'	=> $id,
-					];
-			
+
 			return $this->_AjaxSend($this->data);
   }
 
@@ -128,21 +117,11 @@ class AjaxController extends \App\Controllers\AdminController
 									'id'	=> $id,
 							 ];
 					
-					$this->eventData = [
-										'user'	=> 100,
-					];
-					$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);
-					
 					return $this->_AjaxSend($this->data); die ();
       }
       
       $users->delete(intval($id), true);
 
-			$this->eventData = [
-								'user'	=> 1,
-			];
-      $this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);    // delete user
-			
 			$this->data = [
 							'error' => '',
 							'id'	=> $id,
@@ -169,10 +148,6 @@ class AjaxController extends \App\Controllers\AdminController
       
       //$users->delete(intval($id));
       $this->db->table('users')->set('deleted_at', null)->where('id', $id)->update();
-			$this->eventData = [
-								'user'	=> 1,
-			];
-      $this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);    // delete user
 			
 			$this->data = [
 							'error' => '',
@@ -208,11 +183,6 @@ class AjaxController extends \App\Controllers\AdminController
 									'id' => $id,
 								];	
 						
-  				  $this->eventData = [
-										'user'	=> 101,
-					  ];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id); // act/deact superadmin
-
 						return $this->_AjaxSend($this->data); die ();
       }
 
@@ -220,11 +190,6 @@ class AjaxController extends \App\Controllers\AdminController
 			{
 						$this->actUser->deactivate();
 			
-						$this->eventData = [
-											'user'	=> 2,
-						];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);   // deactivate user
-
 						$this->data = [
 									'error' => '',
 									'id' => $id,
@@ -241,11 +206,6 @@ class AjaxController extends \App\Controllers\AdminController
 			{
 						$this->actUser->activate();
 
-						$this->eventData = [
-											'user'	=> 3,
-						];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);   // activate user
-						
 						$this->data = [
 									'error' => '',
 									'id' => $id,
@@ -282,22 +242,12 @@ class AjaxController extends \App\Controllers\AdminController
 									'id' => $id,
 								];	
 
-						$this->eventData = [
-											'user'	=> 102,
-						];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id); // act/deact superadmin
-
 						return $this->_AjaxSend($this->data); die ();
       }
 
 			if ($this->banUser->isBanned())
 			{
 						$this->banUser->unBan();
-
-						$this->eventData = [
-											'user'	=> 4,
-						];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);   // deactivate user
 
 						$this->data = [
 									'error' => '',
@@ -316,11 +266,6 @@ class AjaxController extends \App\Controllers\AdminController
 			{
 						$this->banUser->ban($this->reason);
 			
-						$this->eventData = [
-											'user'	=> 5,
-						];
-						$this->adminModel->saveEvent(auth()->user()->id, $this->eventData, $id);   // activate user
-						
 						$this->data = [
 									'error' => '',
 									'id' => $id,
