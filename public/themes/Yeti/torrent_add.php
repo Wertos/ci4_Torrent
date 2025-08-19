@@ -56,7 +56,7 @@
 	    <div class="mb-4">
 				<select name="category" class="form-select" aria-label="<?= lang('Torrent.category'); ?>" required />
 				  <option selected disabled><?= lang('Torrent.category'); ?></option>
-				<?php foreach ($catList as $cat) :?>
+				<?php foreach ($cats as $cat) :?>
 					<option value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
 				<?php endforeach; ?>
 				</select>

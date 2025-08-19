@@ -338,7 +338,7 @@ ALTER SEQUENCE public.bookmarks_id_seq OWNED BY public.bookmarks.id;
 CREATE TABLE public.categories (
     id integer NOT NULL,
     sort integer DEFAULT 0 NOT NULL,
-    name character varying(30) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
     "desc" character varying(255) NOT NULL,
     parent integer DEFAULT 0 NOT NULL,
     url character varying(70) NOT NULL,
@@ -610,7 +610,6 @@ CREATE TABLE public.torrents (
     poster character varying(255),
     magnet text,
     url character varying(250),
-    file boolean NOT NULL,
     comments integer DEFAULT 0 NOT NULL,
     can_comment smallint DEFAULT 1 NOT NULL,
     modded smallint DEFAULT 0 NOT NULL,
@@ -618,10 +617,11 @@ CREATE TABLE public.torrents (
     downloaded integer DEFAULT 0,
     file_name character varying(255) NOT NULL,
     version smallint NOT NULL,
-    seed integer NOT NULL,
-    leech integer NOT NULL,
-    completed integer NOT NULL,
-    updated_peer timestamp without time zone
+    seed integer,
+    leech integer,
+    completed integer,
+    updated_peer timestamp without time zone,
+    file smallint
 );
 
 
@@ -804,220 +804,6 @@ ALTER TABLE ONLY public.torrents ALTER COLUMN id SET DEFAULT nextval('public.tor
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
-
-
---
--- Data for Name: admin_log; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_groups_users; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_identities; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_logins; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_permissions_users; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_remember_tokens; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: auth_token_logins; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: bookmarks; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: reports; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: settings; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: torrents; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: torrent
---
-
-
-
---
--- Name: admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.admin_log_id_seq', 1, false);
-
-
---
--- Name: auth_groups_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_groups_users_id_seq', 1, false);
-
-
---
--- Name: auth_identities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_identities_id_seq', 1, false);
-
-
---
--- Name: auth_logins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_logins_id_seq', 1, false);
-
-
---
--- Name: auth_permissions_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_permissions_users_id_seq', 1, false);
-
-
---
--- Name: auth_remember_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_remember_tokens_id_seq', 1, false);
-
-
---
--- Name: auth_token_logins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.auth_token_logins_id_seq', 1, false);
-
-
---
--- Name: bookmarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.bookmarks_id_seq', 1, false);
-
-
---
--- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
-
-
---
--- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
-
-
---
--- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.migrations_id_seq', 1, false);
-
-
---
--- Name: news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.news_id_seq', 1, false);
-
-
---
--- Name: reports_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.reports_id_seq', 1, false);
-
-
---
--- Name: settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.settings_id_seq', 1, false);
-
-
---
--- Name: torrents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.torrents_id_seq', 1, false);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --

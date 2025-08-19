@@ -151,7 +151,7 @@ class TorrentController extends BaseController
     	if(!$this->userData->can_upload)
     						return redirect()->to('/')->with('error', lang('Torrent.uploadforbidden'));
     	
-			$this->catList = $this->GlobalModel->getCatHome();
+			$this->catList = $this->GlobalModel->getCats();
 
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Torrent.addTorrent');
 			$this->breadcrumb->append(lang('Torrent.addTorrent'));
@@ -163,7 +163,7 @@ class TorrentController extends BaseController
       $data = [
       		'breadcrumb' => $this->breadcrumb->output(),
 					'page_title' => $siteTitle,
-					'catList' => $this->catList,
+					'cats' => $this->catList,
 					'posterRequired' => setting('Torrent.posterRequired') ? ' required ' : '',
 					'smilies' => $table->generate($col_array),
 			];			

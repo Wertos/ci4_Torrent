@@ -2,8 +2,10 @@ body {
 /*    font-family: "Segoe UI Regular", "Segoe UI", "Segoe WP", "Helvetica Neue", sans-serif;*/
 	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", Sans-Serif, Georgia, Courier, "Times New Roman", Serif;
 	font-size: 13px;
-/*    line-height: 135%;*/
     line-height: 1.428571429;
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     color: #3E606F;
     background-color: #fff;
 	background: url("../img/body_noise.png") repeat scroll 0 0 rgba(0, 0, 0, 0)
