@@ -60,7 +60,7 @@ class ProfileController extends \App\Controllers\BaseController
         $data['commcount'] = $this->CommentModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['bookcount'] = $this->BookmarkModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
 
-        $data['age'] = Time::parse($data['user']->birthdate)->getAge();
+        $data['age'] = ($data['user']->birthdate) ? Time::parse($data['user']->birthdate)->getAge() : '';
         $data['page_title'] = $this->TorrConfig->siteTitle . ' | ' . lang('Profile.profile');
 				
 				$this->breadcrumb->append(lang('Profile.profile_view', [$data['user']->username]));

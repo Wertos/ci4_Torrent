@@ -32,7 +32,7 @@ class StatsModel extends Model {
             'torrents' => $stats->torrents,
             'seeders' => $stats->seeders,
             'leechers' => $stats->leechers,
-            'size' => number_to_size($stats->size)
+            'size' => number_to_size((int)$stats->size)
         ];
 
         return $data;

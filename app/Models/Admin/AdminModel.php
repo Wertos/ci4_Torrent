@@ -28,14 +28,21 @@ class AdminModel extends GlobalAdminModel
         $this->torrentModel = model(TorrentModel::class);
         $this->commentModel = model(CommentModel::class);
         $this->reportModel = model(ReportModel::class);
-    }
+    		//$this->db = \Config\Database;
+				if (setting('Database.default')['DBDriver'] == 'Postgre') 
+				{
+					$this->sDate = 'CURRENT_DATE';
+				} else {
+					$this->sDate = 'CURDATE()';
+				}
+		}
 
 		public function getCountUsersOnDay(): int
 		{
 				
 				$count = (int) $this->userModel
 //							    ->where('created_at >= CONVERT_TZ(CURDATE(), \'+00:00\', \''. date('P') .'\') - INTERVAL 1 DAY')
-							    ->where('created_at >= CURDATE()')
+							    ->where('created_at >= ' . $this->sDate)
 				    			->countAllResults();
 				
 				return $count;
@@ -54,7 +61,7 @@ class AdminModel extends GlobalAdminModel
 				
 				$count = (int) $this->commentModel
 //							    ->where('created_at >= CONVERT_TZ(CURDATE(), \'+00:00\', \''. date('P') .'\') - INTERVAL 1 DAY')
-							    ->where('created_at >= CURDATE()')
+							    ->where('created_at >= ' . $this->sDate)
 				    			->countAllResults();
 				
 				return $count;
@@ -73,7 +80,7 @@ class AdminModel extends GlobalAdminModel
 				
 				$count = (int) $this->torrentModel
 //							    ->where('created_at >= CONVERT_TZ(CURDATE(), \'+00:00\', \''. date('P') .'\') - INTERVAL 1 DAY')
-							    ->where('created_at >= CURDATE()')
+							    ->where('created_at >= ' . $this->sDate)
 				    			->countAllResults();
 				
 				return $count;
@@ -92,7 +99,7 @@ class AdminModel extends GlobalAdminModel
 				
 				$count = (int) $this->reportModel
 //							    ->where('created_at >= CONVERT_TZ(CURDATE(), \'+00:00\', \''. date('P') .'\') - INTERVAL 1 DAY')
-							    ->where('created_at >= CURDATE()')
+							    ->where('created_at >= ' . $this->sDate)
 				    			->countAllResults();
 				
 				return $count;

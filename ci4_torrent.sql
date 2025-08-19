@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Авг 15 2025 г., 10:00
--- Версия сервера: 9.1.0
--- Версия PHP: 8.4.0
+-- Время создания: Авг 18 2025 г., 17:36
+-- Версия сервера: 8.4.5-5
+-- Версия PHP: 8.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -200,15 +200,6 @@ CREATE TABLE `migrations` (
   `batch` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Дамп данных таблицы `migrations`
---
-
-INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(1, '2021-07-04-041948', 'CodeIgniter\\Settings\\Database\\Migrations\\CreateSettingsTable', 'default', 'CodeIgniter\\Settings', 1752128763, 1),
-(2, '2021-11-14-143905', 'CodeIgniter\\Settings\\Database\\Migrations\\AddContextColumn', 'default', 'CodeIgniter\\Settings', 1752128763, 1),
-(3, '2020-12-28-223112', 'CodeIgniter\\Shield\\Database\\Migrations\\CreateAuthTables', 'default', 'CodeIgniter\\Shield', 1752129238, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -219,7 +210,7 @@ CREATE TABLE `news` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `url` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `can_comment` tinyint(1) NOT NULL DEFAULT '1',
   `user_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL,
