@@ -20,7 +20,7 @@ class ReportController extends \App\Controllers\AdminController
     function __construct()
     {
         $this->reportModel = model(ReportModel::class);
-		}
+	}
 
 		public function ReportList(int $offset = 0)
 		{

@@ -51,7 +51,7 @@ abstract class AdminController extends Controller
     public $translit;
     public $GlobalModel;
     public $userData;
-		public $themes;
+	public $themes;
     
     private function initUser()
     {

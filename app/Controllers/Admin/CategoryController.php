@@ -21,7 +21,7 @@ class CategoryController extends \App\Controllers\AdminController
     function __construct()
     {
         $this->CatModel = model(CategoryModel::class);
-		}
+	}
 
     public function CatList()
     {

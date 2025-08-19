@@ -41,7 +41,7 @@
 				?>
 						<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
 						  <span class="badge bg-secondary"><i class="bi bi-newspaper me-1"></i><?= toDate($item->created_at); ?></span>
-						  <a title="<?= $item->title; ?>" class="text-white me-1 small" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
+						  <a title="<?= $item->title; ?>" class="text-white me-1" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
 								<?= $item->title; ?>
 							</a>
 						</li>
@@ -58,16 +58,16 @@
 						<div class="collapse navbar-collapse" id="navbarColor01">
 							<ul class="navbar-nav w-50">
 								<li class="nav-item">
-									<a class="nav-link <?= setActive('/'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
+									<a class="nav-link fs-7 <?= setActive('/'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= setActive('/rules');; ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
+									<a class="nav-link fs-7 <?= setActive('/rules');; ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= setActive('/secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
+									<a class="nav-link fs-7 <?= setActive('/secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link <?= setActive('/about'); ?>" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
+									<a class="nav-link fs-7 <?= setActive('/about'); ?>" href="<?= base_url('about')?>"><?= lang('Site.about'); ?></a>
 								</li>
 							</ul>
 							<div class="w-100">

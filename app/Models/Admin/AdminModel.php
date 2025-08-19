@@ -11,6 +11,7 @@ use \App\Models\UserModel;
 use \App\Models\TorrentModel;
 use \App\Models\CommentModel;
 use \App\Models\ReportModel;
+use \App\Models\NewsModel;
 use \CodeIgniter\I18n\Time;
 
 class AdminModel extends GlobalAdminModel
@@ -20,6 +21,7 @@ class AdminModel extends GlobalAdminModel
     public $torrentModel;
     public $commentModel;
     public $reportModel;
+    public $newsModel;
 
     protected function initialize(): void
     {
@@ -28,14 +30,18 @@ class AdminModel extends GlobalAdminModel
         $this->torrentModel = model(TorrentModel::class);
         $this->commentModel = model(CommentModel::class);
         $this->reportModel = model(ReportModel::class);
+        $this->newsModel = model(NewsModel::class);
+
     		//$this->db = \Config\Database;
-				if (setting('Database.default')['DBDriver'] == 'Postgre') 
-				{
-					$this->sDate = 'CURRENT_DATE';
-				} else {
-					$this->sDate = 'CURDATE()';
-				}
+		if (setting('Database.default')['DBDriver'] == 'Postgre') 
+		{
+			$this->sDate = 'CURRENT_DATE';
+		} 
+		else 
+		{
+			$this->sDate = 'CURDATE()';
 		}
+	}
 
 		public function getCountUsersOnDay(): int
 		{

@@ -110,8 +110,7 @@ CREATE TABLE public.auth_identities (
     force_reset boolean DEFAULT false NOT NULL,
     last_used_at timestamp without time zone,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    success integer
+    updated_at timestamp without time zone
 );
 
 
@@ -151,7 +150,7 @@ CREATE TABLE public.auth_logins (
     identifier character varying(255) NOT NULL,
     user_id integer,
     date timestamp without time zone NOT NULL,
-    success integer
+    success smallint
 );
 
 
@@ -266,7 +265,7 @@ CREATE TABLE public.auth_token_logins (
     identifier character varying(255) NOT NULL,
     user_id integer,
     date timestamp without time zone NOT NULL,
-    success boolean NOT NULL
+    success smallint NOT NULL
 );
 
 
@@ -462,11 +461,11 @@ CREATE TABLE public.news (
     title character varying(500) NOT NULL,
     text text NOT NULL,
     url character varying(500) NOT NULL,
+    can_comment smallint DEFAULT 1 NOT NULL,
     user_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    deleted_at timestamp without time zone,
-    can_comment integer DEFAULT 1
+    deleted_at timestamp without time zone
 );
 
 
@@ -508,7 +507,7 @@ CREATE TABLE public.reports (
     modded_by integer DEFAULT 0 NOT NULL,
     location character varying(10) NOT NULL,
     sender integer DEFAULT 0 NOT NULL,
-    ip character varying(15) NOT NULL
+    ip character varying(100) NOT NULL
 );
 
 
@@ -596,33 +595,33 @@ ALTER SEQUENCE public.settings_id_seq OWNED BY public.settings.id;
 
 CREATE TABLE public.torrents (
     id integer NOT NULL,
+    owner integer DEFAULT 0 NOT NULL,
     infohash_v1 bytea,
     infohash_v2 bytea,
-    owner integer DEFAULT 0 NOT NULL,
     numfiles integer DEFAULT 0 NOT NULL,
     size bigint DEFAULT 0 NOT NULL,
     type smallint NOT NULL,
-    name character varying(500) DEFAULT ''::character varying NOT NULL,
+    name character varying(500) NOT NULL,
     descr text NOT NULL,
     category integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
-    poster character varying(255) DEFAULT ''::character varying NOT NULL,
+    poster character varying(255),
     magnet text,
-    url character varying(250) DEFAULT ''::character varying NOT NULL,
+    url character varying(250),
+    file boolean NOT NULL,
     comments integer DEFAULT 0 NOT NULL,
+    can_comment smallint DEFAULT 1 NOT NULL,
+    modded smallint DEFAULT 0 NOT NULL,
     views integer DEFAULT 0 NOT NULL,
     downloaded integer DEFAULT 0,
-    file_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    file_name character varying(255) NOT NULL,
     version smallint NOT NULL,
-    seed integer,
-    leech integer,
-    completed integer,
-    updated_peer timestamp without time zone,
-    file integer,
-    can_comment integer,
-    modded integer
+    seed integer NOT NULL,
+    leech integer NOT NULL,
+    completed integer NOT NULL,
+    updated_peer timestamp without time zone
 );
 
 
@@ -659,7 +658,6 @@ CREATE TABLE public.users (
     username character varying(30),
     status character varying(255),
     status_message character varying(255),
-    active boolean DEFAULT false,
     last_active timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -667,7 +665,8 @@ CREATE TABLE public.users (
     avatar character varying(255) DEFAULT ''::character varying NOT NULL,
     first_name character varying(255) DEFAULT ''::character varying NOT NULL,
     last_name character varying(255) DEFAULT ''::character varying NOT NULL,
-    birthdate date
+    birthdate date,
+    active smallint DEFAULT 0 NOT NULL
 );
 
 
@@ -808,6 +807,220 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Data for Name: admin_log; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_groups_users; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_identities; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_logins; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_permissions_users; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_remember_tokens; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: auth_token_logins; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: bookmarks; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: reports; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: settings; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: torrents; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: torrent
+--
+
+
+
+--
+-- Name: admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.admin_log_id_seq', 1, false);
+
+
+--
+-- Name: auth_groups_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_groups_users_id_seq', 1, false);
+
+
+--
+-- Name: auth_identities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_identities_id_seq', 1, false);
+
+
+--
+-- Name: auth_logins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_logins_id_seq', 1, false);
+
+
+--
+-- Name: auth_permissions_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_permissions_users_id_seq', 1, false);
+
+
+--
+-- Name: auth_remember_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_remember_tokens_id_seq', 1, false);
+
+
+--
+-- Name: auth_token_logins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.auth_token_logins_id_seq', 1, false);
+
+
+--
+-- Name: bookmarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.bookmarks_id_seq', 1, false);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
+
+
+--
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 1, false);
+
+
+--
+-- Name: news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.news_id_seq', 1, false);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.reports_id_seq', 1, false);
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.settings_id_seq', 1, false);
+
+
+--
+-- Name: torrents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.torrents_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: torrent
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+
+
+--
 -- Name: admin_log admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: torrent
 --
 
@@ -829,6 +1042,14 @@ ALTER TABLE ONLY public.auth_groups_users
 
 ALTER TABLE ONLY public.auth_identities
     ADD CONSTRAINT auth_identities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_identities auth_identities_type_secret_key; Type: CONSTRAINT; Schema: public; Owner: torrent
+--
+
+ALTER TABLE ONLY public.auth_identities
+    ADD CONSTRAINT auth_identities_type_secret_key UNIQUE (type, secret);
 
 
 --
@@ -924,7 +1145,7 @@ ALTER TABLE ONLY public.reports
 --
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id, ip_address);
 
 
 --
@@ -960,24 +1181,10 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: auth_groups_users_user_id_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: auth_identities_user_id_key; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX auth_groups_users_user_id_idx ON public.auth_groups_users USING btree (user_id);
-
-
---
--- Name: auth_identities_type_secret_idx; Type: INDEX; Schema: public; Owner: torrent
---
-
-CREATE UNIQUE INDEX auth_identities_type_secret_idx ON public.auth_identities USING btree (type, secret);
-
-
---
--- Name: auth_identities_user_id_idx; Type: INDEX; Schema: public; Owner: torrent
---
-
-CREATE INDEX auth_identities_user_id_idx ON public.auth_identities USING btree (user_id);
+CREATE INDEX auth_identities_user_id_key ON public.auth_identities USING btree (user_id);
 
 
 --
@@ -995,10 +1202,10 @@ CREATE INDEX auth_logins_user_id_idx ON public.auth_logins USING btree (user_id)
 
 
 --
--- Name: auth_permissions_users_user_id_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: auth_remember_tokens_user_id_key; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX auth_permissions_users_user_id_idx ON public.auth_permissions_users USING btree (user_id);
+CREATE INDEX auth_remember_tokens_user_id_key ON public.auth_remember_tokens USING btree (user_id);
 
 
 --
@@ -1016,59 +1223,52 @@ CREATE INDEX auth_token_logins_user_id_idx ON public.auth_token_logins USING btr
 
 
 --
--- Name: bookmarks_id_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: fulltext_descr_idx; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE UNIQUE INDEX bookmarks_id_idx ON public.bookmarks USING btree (id);
-
-
---
--- Name: comments_fid_idx; Type: INDEX; Schema: public; Owner: torrent
---
-
-CREATE INDEX comments_fid_idx ON public.comments USING btree (fid);
+CREATE INDEX fulltext_descr_idx ON public.torrents USING gin (to_tsvector('simple'::regconfig, descr));
 
 
 --
--- Name: comments_user_id_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: fulltext_name_idx; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX comments_user_id_idx ON public.comments USING btree (user_id);
-
-
---
--- Name: descr_search_idx; Type: INDEX; Schema: public; Owner: torrent
---
-
-CREATE INDEX descr_search_idx ON public.torrents USING gin (to_tsvector('simple'::regconfig, descr));
+CREATE INDEX fulltext_name_idx ON public.torrents USING gin (to_tsvector('simple'::regconfig, (name)::text));
 
 
 --
--- Name: name_search_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: fulltext_text_idx; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX name_search_idx ON public.torrents USING gin (to_tsvector('simple'::regconfig, (name)::text));
-
-
---
--- Name: news_text_idx; Type: INDEX; Schema: public; Owner: torrent
---
-
-CREATE INDEX news_text_idx ON public.news USING btree (text);
+CREATE INDEX fulltext_text_idx ON public.news USING gin (to_tsvector('simple'::regconfig, text));
 
 
 --
--- Name: news_title_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: fulltext_title_idx; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX news_title_idx ON public.news USING btree (title);
+CREATE INDEX fulltext_title_idx ON public.news USING gin (to_tsvector('simple'::regconfig, (title)::text));
 
 
 --
--- Name: torrents_category_idx; Type: INDEX; Schema: public; Owner: torrent
+-- Name: timestamp; Type: INDEX; Schema: public; Owner: torrent
 --
 
-CREATE INDEX torrents_category_idx ON public.torrents USING btree (category);
+CREATE INDEX "timestamp" ON public.sessions USING btree ("timestamp");
+
+
+--
+-- Name: torrents_infohash_v1_key; Type: INDEX; Schema: public; Owner: torrent
+--
+
+CREATE UNIQUE INDEX torrents_infohash_v1_key ON public.torrents USING btree (infohash_v1);
+
+
+--
+-- Name: torrents_infohash_v2_key; Type: INDEX; Schema: public; Owner: torrent
+--
+
+CREATE UNIQUE INDEX torrents_infohash_v2_key ON public.torrents USING btree (infohash_v2);
 
 
 --
@@ -1080,11 +1280,11 @@ ALTER TABLE ONLY public.auth_groups_users
 
 
 --
--- Name: auth_identities auth_identities_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: torrent
+-- Name: auth_identities auth_identities_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: torrent
 --
 
 ALTER TABLE ONLY public.auth_identities
-    ADD CONSTRAINT auth_identities_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT auth_identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
