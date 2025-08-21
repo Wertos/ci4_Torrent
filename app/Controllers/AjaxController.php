@@ -178,8 +178,8 @@ class AjaxController extends \App\Controllers\BaseController
 			$maxTimeOnAnnouncer = setting('Torrent.maxTimeOnAnnouncer');
 			$useTorrentAnnouncer = setting('Torrent.useTorrentAnnouncer');
 			
-			$infoHash_V1 = isset($torrentData->infohash_v1) ? mb_strtoupper(bin2hex($torrentData->infohash_v1)) : null;
-			$infoHash_V2 = isset($torrentData->infohash_v2) ? mb_strtoupper(mb_substr(bin2hex($torrentData->infohash_v2), 0, 40)) : null;
+			$infoHash_V1 = isset($torrentData->infohash_v1) ? $this->TorrentModel->hashToString($torrentData->infohash_v1) : null;
+			$infoHash_V2 = isset($torrentData->infohash_v2) ? mb_substr($this->TorrentModel->hashToString($torrentData->infohash_v2), 0, 40) : null;
 
 			if($infoHash_V1 && !$infoHash_V2)
 			{

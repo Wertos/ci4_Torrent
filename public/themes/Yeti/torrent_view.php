@@ -115,13 +115,13 @@
             	<?php 
             	  switch ($details->version) {
             				case 1:
-            						 echo lang('Torrent.torrentversion', ['<b class="text-primary">1</b><br />']) . lang('Torrent.infohash_v1') . mb_strtoupper(bin2hex($details->infohash_v1));
+            						 echo lang('Torrent.torrentversion', ['<b class="text-primary">1</b><br />']) . lang('Torrent.infohash_v1') . $hash_v1;
             						 break;
             				case 2:		 
-            						 echo lang('Torrent.torrentversion', ['<b class="text-success">2</b><br />']) . lang('Torrent.infohash_v2') . mb_strtoupper(bin2hex($details->infohash_v2));
+            						 echo lang('Torrent.torrentversion', ['<b class="text-success">2</b><br />']) . lang('Torrent.infohash_v2') . $hash_v2;
             						 break;
             				case 3:
-            						 echo lang('Torrent.torrentversion', ['<b class="text-danger">Gibrid</b><br />']) . lang('Torrent.infohash_v2') . mb_strtoupper(bin2hex($details->infohash_v2)) . "<br />" . lang('Torrent.infohash_v1') . strtoupper(bin2hex($details->infohash_v1));
+            						 echo lang('Torrent.torrentversion', ['<b class="text-danger">Gibrid</b><br />']) . lang('Torrent.infohash_v2') . $hash_v2 . "<br />" . lang('Torrent.infohash_v1') . $hash_v1;
             						 break;
             		}
             	?>

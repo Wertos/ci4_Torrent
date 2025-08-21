@@ -42,21 +42,22 @@ class TorrentController extends BaseController
       helper('number');
       helper('form');
       helper('torrent');
-			helper('smiley');
+	  helper('smiley');
 
 			$torrentData = $this->TorrentModel->getDetail($tId);
-			if($torrentData->deleted_at != null)
-														return redirect()->back()->with('error', lang('Torrent.deleted'));
 
 			if(! $torrentData)
 								throw PageNotFoundException::forPageNotFound();
+
+			if($torrentData->deleted_at != null)
+								return redirect()->back()->with('error', lang('Torrent.deleted'));
 
 			$owner = ($this->userData->id == $torrentData->owner);
 
 	   	$can_edit = 
 		    			($owner && $this->userData->can('tor.ownededit'))
 		    			|| ($owner && $this->userData->is_uploader)
-						  || $this->userData->is_moderator
+	    				|| $this->userData->is_moderator
     					|| $this->userData->is_admin
     					|| $this->userData->is_superadmin;
     	
@@ -99,29 +100,31 @@ class TorrentController extends BaseController
 	   	$annList[] = $this->TorrentModel->getAnnounce();
 
 	   	$data = [
+	   			'hash_v1' => $this->TorrentModel->hashToString($torrentData->infohash_v1),
+	   			'hash_v2' => $this->TorrentModel->hashToString($torrentData->infohash_v2),
 	   			'ogimage' => $torrentData->poster,
 	   			'bbcode' => new BBCodeParser(),
-      		'icon' => $status['icon'],
-      		'title' => $status['title'],
-      		'class' => $status['class'],
-      		'details' => $torrentData,
-		      'poster' => img($torrentData->poster),
-		      'can_delete' => ($can_moderate || $can_edit),
-					'can_edit' => $can_edit,
-					'moderate' => $can_moderate,
-					'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')),
-					'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
-					'allowreport' => (setting('Torrent.allowreport') === true),
-					'allowFileList' => (setting('Torrent.allowFileList') === true),
-					'filestree' => (setting('Torrent.allowFileList') === true) ? $torrentFile->toTree() : null,
-					'cats' => ($can_moderate) ? $cats : null,
-					'comments' => $comments['comments'] ?? null,
-					'paginate' => $this->CommentModel->pager,
-					'canCommentEdit' => ($this->userData->logged_in && $this->userData->can('comment.ownededit')),
-					'canCommentDelete' => ($this->userData->logged_in && $this->userData->can('comment.owneddelete')),
-					'smilies' => $table->generate($col_array),
-					'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
-					'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
+      			'icon' => $status['icon'],
+      			'title' => $status['title'],
+      			'class' => $status['class'],
+      			'details' => $torrentData,
+		      	'poster' => img($torrentData->poster),
+		      	'can_delete' => ($can_moderate || $can_edit),
+				'can_edit' => $can_edit,
+				'moderate' => $can_moderate,
+				'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')),
+				'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
+				'allowreport' => (setting('Torrent.allowreport') === true),
+				'allowFileList' => (setting('Torrent.allowFileList') === true),
+				'filestree' => (setting('Torrent.allowFileList') === true) ? $torrentFile->toTree() : null,
+				'cats' => ($can_moderate) ? $cats : null,
+				'comments' => $comments['comments'] ?? null,
+				'paginate' => $this->CommentModel->pager,
+				'canCommentEdit' => ($this->userData->logged_in && $this->userData->can('comment.ownededit')),
+				'canCommentDelete' => ($this->userData->logged_in && $this->userData->can('comment.owneddelete')),
+				'smilies' => $table->generate($col_array),
+				'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
+				'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
 			];
 
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;
@@ -326,11 +329,9 @@ class TorrentController extends BaseController
       }
 			
 	   	$torrFile = $this->request->getFile('torrentfile');
-			$torrName = $torrFile->getRandomName();
-			$torrPath = $torrFile->store(setting('Torrent.TorrentUploadPath'), $torrName);
-			//varDebug($torrFile->store(setting('Torrent.TorrentUploadPath'), $torrName));
+		$torrName = $torrFile->getRandomName();
+		$torrPath = $torrFile->store(setting('Torrent.TorrentUploadPath'), $torrName);
 
-//exit();
     	$this->torrent = $this->TorrentModel->torrLoad(setting('Torrent.TorrentFilesPath'), $torrName);
 
     	$torrHashes = $this->torrent->getInfoHashes();
@@ -356,45 +357,44 @@ class TorrentController extends BaseController
       		'created_at' => Time::now(setting('App.appTimezone'))->toDateTimeString(),
       ];
 
+//      var_dump($this->TorrentModel->torrCheck($torrVersion, $torrHashes[1])); die();
       if($torrVersion == 1)
       {
-      		$data['infohash_v1'] = hex2bin($torrHashes[1]);
+      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[1]);      
+      		$data['infohash_v1'] = $arr['hash1'];
       		$data['infohash_v2'] = null;
-      		$tId = $this->TorrentModel->where('infohash_v1', $data['infohash_v1'])->first() ?? null;
-      		if(! isset($tId) )
+      		if(! isset($arr['tid']) )
       		{
       			$id = $this->TorrentModel->insert($data);
-						return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v1'));
-					}
+				return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v1'));
+			}
       }
       elseif($torrVersion == 2)
       {
-      		$data['infohash_v2'] = hex2bin($torrHashes[2]);
+      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[2]);
+      		$data['infohash_v2'] = $arr['hash2'];
       		$data['infohash_v1'] = null;
-      		$tId = $this->TorrentModel->where('infohash_v2', $data['infohash_v2'])->first() ?? null;
-      		if(! isset($tId) )
-					{
+      		if(! isset($arr['tid']) )
+			{
       			$id = $this->TorrentModel->insert($data, true);
-						return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v2'));
-					}
+				return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v2'));
+			}
 
       }
       elseif($torrVersion == 3)
       {
-      		$data['infohash_v2'] = hex2bin($torrHashes[2]);
-      		$data['infohash_v1'] = hex2bin($torrHashes[1]);
-      		$tId = $this->TorrentModel->where('infohash_v2', $data['infohash_v2'])->where('infohash_v1', $data['infohash_v1'])->first() ?? null;
-      		if(! isset($tId) )
-					{
+      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[1], $torrHashes[2]);      
+      		$data['infohash_v1'] = $arr['hash1'];
+      		$data['infohash_v2'] = $arr['hash2'];
+
+      		if(! isset($arr['tid']) )
+			{
       			$id = $this->TorrentModel->insert($data, true);
-						return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v3'));
-					}
+				return redirect()->to('torrent/'.$id)->with('message', lang('Torrent.uploadsuccess_v3'));
+			}
       }
-      //$torrent = new \App\Entities\Torrent();
-			//$torrent->fill($data);
-//			$infoHash = $data['infohash_v2'] ?? $data['infohash_v1'];
-			return redirect()->back()->with('error', lang('Torrent.uploaderror', ["id => {$tId['id']}"]));
-  		
+
+	  return redirect()->back()->with('error', lang('Torrent.uploaderror', ["id => {$arr['tid']['id']}"]));  		
     }
 
 /************************************************************/

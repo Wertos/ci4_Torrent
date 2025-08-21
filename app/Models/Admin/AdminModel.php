@@ -32,8 +32,9 @@ class AdminModel extends GlobalAdminModel
         $this->reportModel = model(ReportModel::class);
         $this->newsModel = model(NewsModel::class);
 
-    		//$this->db = \Config\Database;
-		if (setting('Database.default')['DBDriver'] == 'Postgre') 
+    	$this->db = \Config\Database::connect();
+
+		if ($this->db->DBDriver == 'Postgre') 
 		{
 			$this->sDate = 'CURRENT_DATE';
 		} 

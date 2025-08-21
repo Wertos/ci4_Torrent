@@ -102,6 +102,8 @@ class TorrentModel extends Model {
     {
         parent::initialize();
         $this->db = \Config\Database::connect();
+//		$this->DBDriver = setting('Database.default')['DBDriver'];
+//		var_dump($this->db->DBDriver); die();
     }
 
 		public function insert($row = null, bool $returnID = true): int
@@ -293,5 +295,69 @@ class TorrentModel extends Model {
         $query = $this->db->table($this->table)->set('downloaded', 'downloaded + 1', FALSE)->where('id', $id);
         return $query->update();
     }
+    
+    public function checkHash(?string $hash = null): bool
+    {
+    	if (! $hash) 
+    			return false;
+
+        $hashLength = mb_strlen($hash);
+        
+        if ($hashLength < 40 || $hashLength > 64)
+        		return false;
+
+        return true;
+    }
+
+	public function torrCheck(?int $ver = null, ?string $hash1 = null, ?string $hash2 = null)
+	{
+		if ($ver > 3 || $ver < 1)
+				return false;
+
+		if ($ver == 1 && $this->checkHash($hash1) === false)
+				return false;
+
+		if ($ver == 2 && $this->checkHash($hash2) === false)
+				return false;
+
+		if ($ver == 3 && ($this->checkHash($hash1) === false && $this->checkHash($hash2) === false))
+				return false;
+
+		$arry = [];
+	
+        switch ($ver) {
+			case 1:
+		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash1)) : hex2bin($hash1);
+				$arry['tid'] = $this->where('infohash_v1', $arry['hash1'])->first();
+				break;
+			case 2:
+		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash2)) : hex2bin($hash2);
+				$arry['tid'] = $this->where('infohash_v1', $arry['hash2'])->first();
+				break;
+			case 3:
+		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash1)) : hex2bin($hash1);
+		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash2)) : hex2bin($hash2);
+				$arry['tid'] = $this->where('infohash_v1', $arry['hash1'])->orWhere('infohash_v2', $arry['hash2'])->first();
+				break;
+		}
+
+		$arry['ver'] = $ver;
+		
+		return $arry;
+
+	}
+	
+	public function hashToString ($hash = null)
+	{
+		if(! $hash)
+			return null;
+
+		if ($this->db->DBDriver == 'Postgre')
+		{
+			return mb_strtoupper(str_replace('\x', '', $hash));
+		}
+		
+		return mb_strtoupper(bin2hex($hash));
+	}
 
 }
