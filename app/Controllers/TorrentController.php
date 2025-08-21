@@ -92,12 +92,12 @@ class TorrentController extends BaseController
 	   	$col_array = $table->makeColumns($smilies_array, 8);
 
 	   	$annList = [];
-	   	foreach ($this->TorrentModel->getAnnounceList()->toArray() as $announce)
-	   	{
-	   			if (! $announce[0]) continue; 	
-	   			$annList[] = $announce[0];
-	   	}
+		$ann = $this->TorrentModel->getAnnounceList()->toArray();
+		array_walk_recursive($ann, function ($item) use (&$annList) {
+		    $annList[] = $item;    
+		});
 	   	$annList[] = $this->TorrentModel->getAnnounce();
+		$annList = array_unique($annList);
 
 	   	$data = [
 	   			'hash_v1' => $this->TorrentModel->hashToString($torrentData->infohash_v1),
@@ -324,9 +324,11 @@ class TorrentController extends BaseController
 					unset($rules['poster']);
 			}
 			
+//			var_dump($_FILES);
+//			die();
 			if (! $this->validateData($postData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-      }
+			}
 			
 	   	$torrFile = $this->request->getFile('torrentfile');
 		$torrName = $torrFile->getRandomName();
@@ -335,11 +337,10 @@ class TorrentController extends BaseController
     	$this->torrent = $this->TorrentModel->torrLoad(setting('Torrent.TorrentFilesPath'), $torrName);
 
     	$torrHashes = $this->torrent->getInfoHashes();
-			$torrVersion = $this->torrent->getVersion();
+		$torrVersion = $this->torrent->getVersion();
 
-      $data = [
+      	$data = [
       		'owner'	=>	$this->userData->id,
-      		//'infohash'	=>	$this->torrent->getInfoHash(),
       		'numfiles'	=>	$this->torrent->getFilesCount(),
       		'size'	=>	$this->torrent->getSize(),
       		'type'	=>	$this->torrent->isPrivate() ? 1 : 0,
@@ -357,10 +358,10 @@ class TorrentController extends BaseController
       		'created_at' => Time::now(setting('App.appTimezone'))->toDateTimeString(),
       ];
 
-//      var_dump($this->TorrentModel->torrCheck($torrVersion, $torrHashes[1])); die();
+      $arr = $this->TorrentModel->torrCheck($torrVersion, isset($torrHashes[1]) ? $torrHashes[1] : null, isset($torrHashes[2]) ? $torrHashes[2] : null);
+
       if($torrVersion == 1)
       {
-      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[1]);      
       		$data['infohash_v1'] = $arr['hash1'];
       		$data['infohash_v2'] = null;
       		if(! isset($arr['tid']) )
@@ -371,7 +372,6 @@ class TorrentController extends BaseController
       }
       elseif($torrVersion == 2)
       {
-      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[2]);
       		$data['infohash_v2'] = $arr['hash2'];
       		$data['infohash_v1'] = null;
       		if(! isset($arr['tid']) )
@@ -383,7 +383,6 @@ class TorrentController extends BaseController
       }
       elseif($torrVersion == 3)
       {
-      		$arr = $this->TorrentModel->torrCheck($torrVersion, $torrHashes[1], $torrHashes[2]);      
       		$data['infohash_v1'] = $arr['hash1'];
       		$data['infohash_v2'] = $arr['hash2'];
 

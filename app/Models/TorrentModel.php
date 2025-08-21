@@ -59,9 +59,9 @@ class TorrentModel extends Model {
      	      'label' => 'Torrent.file',
           	'rules' => [
               	'uploaded[torrentfile]',
-                'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
+                 'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
                 'max_size[torrentfile,1024]',
-                'ext_in[torrentfile,torrent]',
+                  'ext_in[torrentfile,torrent]',
         		],
         ],
         'can_comment' => [
@@ -153,16 +153,14 @@ class TorrentModel extends Model {
 
 		public function getVersion(): int
 		{
-//				if( $this->torrent->v2() !== null ) return 2;
-//				if( $this->torrent->v1() !== null ) return 1;
-    	$infohash = $this->getInfoHashes();
-    	
-    	if( isset($infohash[1]) && ! isset($infohash[2]) ) 
-    													return 1;
-    	elseif( isset($infohash[2]) && ! isset($infohash[1]) )
-    													return 2;
+	    	$infohash = $this->getInfoHashes();
+    
+    		if( isset($infohash[1]) && ! isset($infohash[2]) ) 
+    			return 1;
+    		elseif( isset($infohash[2]) && ! isset($infohash[1]) )
+    			return 2;
 			elseif( isset($infohash[2]) && isset($infohash[1]) )
-															return 3;
+				return 3;
 			return 0;
 		}
 

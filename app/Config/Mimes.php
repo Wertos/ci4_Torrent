@@ -486,7 +486,7 @@ class Mimes
        			'application/x-bittorrent',
        			'application/force-download',
        			'application/torrent',
-       			'torrent'
+       			'torrent',
        	],
     ];
 
