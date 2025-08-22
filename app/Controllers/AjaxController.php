@@ -82,7 +82,7 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->BookmarkModel = model(BookmarkModel::class);
       				$this->GlobalModel = model(GlobalModel::class);
       			break;
-      	case 'updatecaptcha':
+		      	case 'updatecaptcha':
 			        $this->captcha = new Image();
 							$this->captcha->imageWidth = 250;
 							$this->captcha->imageHeight = 100;
@@ -238,9 +238,9 @@ class AjaxController extends \App\Controllers\BaseController
 
 			$data['id']	=	$id;
 			$data['error'] = '';//$errors;
-			$data['seeders'] = $seed;
-			$data['completed'] = $completed;
-			$data['leechers'] = $leech;
+			$data['seeders'] = number_format($seed);
+			$data['completed'] = number_format($completed);
+			$data['leechers'] = number_format($leech);
 			
 			return $this->_AjaxSend($data); die();
 	}

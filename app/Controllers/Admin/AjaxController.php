@@ -37,7 +37,7 @@ class AjaxController extends \App\Controllers\AdminController
 				case 'UserDelete':
 				case 'UserHardDelete':
 				case 'UserRestore':
-      				$this->db = \Config\Database::connect();	
+      				$this->db = \Config\Database::connect();
       			break;
 				case 'UserAct':
       					

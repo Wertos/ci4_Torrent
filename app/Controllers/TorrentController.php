@@ -19,7 +19,7 @@ class TorrentController extends BaseController
     public $CommentModel;
     public $BookmarkModel;
     public $ReportModel;
-		public $siteTitle;
+	public $siteTitle;
 
     function __construct()
     {

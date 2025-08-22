@@ -17,7 +17,7 @@ class NewsController extends BaseController
     function __construct()
     {
         $this->NewsModel = model(NewsModel::class);
-		}
+	}
 
     public function NewsView(?int $id = null)
     {

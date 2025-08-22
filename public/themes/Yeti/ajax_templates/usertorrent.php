@@ -28,11 +28,11 @@
       			<a href="<?= base_url($tor->caturl); ?>"><?= $tor->catname;?></a>
       		</div>
       </td>
-      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($tor->created_at); ?><br /><?= $tor->downloaded; ?><span class="ms-1 me-1">|</span><?= $tor->completed; ?></td>
+      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($tor->created_at); ?><br /><?= number_format($tor->downloaded); ?><span class="ms-1 me-1">|</span><?= number_format($tor->completed); ?></td>
       <td class="pt-2 pb-2 text-center align-middle small">
-      	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= $tor->seed; ?></span>
+      	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= number_format($tor->seed); ?></span>
       	<span class="ms-1 me-1">|</span>
-      	<span class="text-danger" title="<?= lang('Browse.leech'); ?>"><?= $tor->leech; ?></span><br />
+      	<span class="text-danger" title="<?= lang('Browse.leech'); ?>"><?= number_format($tor->leech); ?></span><br />
       	<nobr title="<?= lang('Browse.size'); ?>"><?= number_to_size($tor->size); ?></nobr>
       </td>
     </tr>

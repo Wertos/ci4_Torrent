@@ -63,16 +63,16 @@
             <li class="list-inline-item">
                 <ul class="list-inline" id="torrent_stats">
                     <span class="badge bg-secondary fs-6">
-                    <li title="<?= lang('Torrent.seeds'); ?>" class="list-inline-item"><i class="text-success bi bi-arrow-bar-up"></i> <span id="seed"><?= $details->seed; ?></span></li>
+                    <li title="<?= lang('Torrent.seeds'); ?>" class="list-inline-item"><i class="text-success bi bi-arrow-bar-up"></i> <span id="seed"><?= number_format($details->seed); ?></span></li>
                     <li class="list-inline-item">|</li>
-                    <li title="<?= lang('Torrent.leechers'); ?>" class="list-inline-item"><i class="text-danger bi bi-arrow-bar-down"></i> <span id="leech"><?= $details->leech; ?></span></li>
+                    <li title="<?= lang('Torrent.leechers'); ?>" class="list-inline-item"><i class="text-danger bi bi-arrow-bar-down"></i> <span id="leech"><?= number_format($details->leech); ?></span></li>
                     <li class="list-inline-item">|</li>
-                    <li title="<?= lang('Torrent.completed'); ?>" class="list-inline-item"><i class="text-primary bi bi-download"></i> <span id="completed"><?= $details->completed; ?></span></li>
+                    <li title="<?= lang('Torrent.completed'); ?>" class="list-inline-item"><i class="text-primary bi bi-download"></i> <span id="completed"><?= number_format($details->completed); ?></span></li>
                     </span>
                     <li class="list-inline-item">|</li>
-                    <li title="<?= lang('Torrent.views'); ?>" class="list-inline-item"><i class="bi bi-eye"></i> <?= $details->views; ?></li>
+                    <li title="<?= lang('Torrent.views'); ?>" class="list-inline-item"><i class="bi bi-eye"></i> <?= number_format($details->views); ?></li>
                     <li class="list-inline-item">|</li>
-                    <li title="<?= lang('Torrent.downloaded'); ?>" class="list-inline-item"><i class="bi bi-box-arrow-down"></i> <?= $details->downloaded; ?></li>
+                    <li title="<?= lang('Torrent.downloaded'); ?>" class="list-inline-item"><i class="bi bi-box-arrow-down"></i> <?= number_format($details->downloaded); ?></li>
                     <?php if ($moderate): ?>
                     <li class="list-inline-item">|</li>
 									  <li title="<?= lang('Torrent.updateStats'); ?>" class="list-inline-item"><a href="javascript:void(0)" class="text-danger clickable" onclick="CI4.updatePeers('<?= $details->id ?>')" id="updatestats"><i class="bi bi-arrow-clockwise"></i></a></li>

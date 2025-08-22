@@ -26,7 +26,8 @@ class BrowseController extends BaseController
         $this->GlobalModel = model(GlobalModel::class);
         $this->TorrentModel = model(TorrentModel::class);
         $this->SearchModel = model(SearchModel::class);
-		}
+        $this->DBDriver = $this->db = \Config\Database::connect()->DBDriver;
+	}
 
 /************************************************************/
 /*                                                          */
@@ -118,7 +119,7 @@ class BrowseController extends BaseController
 		  	$str = $this->request->getGet('text');
 		  	$catId = (int) $this->request->getGet('cat');
 
-		  if ($catId)
+		  	if ($catId)
 		  			$where = ' AND category = ' . $catId . ' ';
 
 			if ($str == '' || ! $str)
@@ -129,11 +130,11 @@ class BrowseController extends BaseController
 			$where1 = $this->SearchModel->ArrayToSql($arr, ['name']);
 			$where2 = $this->SearchModel->ArrayToSql($arr, ['descr']);
 
-		  if ($catId) {
-		  			$where = ' AND category = ' . $catId . ' ';
-						$sql = '(' . $where1 . $where . ')' . ' OR (' . $where2 . $where . ')';
+		  	if ($catId) {
+		  		$where = ' AND category = ' . $catId . ' ';
+				$sql = '(' . $where1 . $where . ')' . ' OR (' . $where2 . $where . ')';
 			} else {
-						$sql = $where1 . ' OR ' . $where2;
+				$sql = $where1 . ' OR ' . $where2;
 			}
 			
 			$no_torrents = true;
@@ -141,7 +142,19 @@ class BrowseController extends BaseController
 			$obj = new \StdClass;
 
 //			var_dump($sql); die();
+			if ($this->DBDriver == 'Postgre')
+			{
+			  	$sstr = str_replace(' ', '|', $sstr) . ":*";
+				$sstr = pg_escape_string($sstr);
+
+			  	if ($catId) {
+			  		$sql = "to_tsvector(name || descr) @@ to_tsquery('$sstr') AND category = $catId";
+				} else {
+					$sql = "to_tsvector(name || descr) @@ to_tsquery('$sstr')";
+				}
+			}
 			$torrents = $this->SearchModel->asObject()
+//								->select('*')
 								->where(new RawSql($sql))
 								->orderBy('created_at', 'DESC')->paginate(setting('Torrent.torrentsPerPage'));
 			
@@ -149,30 +162,32 @@ class BrowseController extends BaseController
 					$no_torrents = false;
 
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Browse.search');
-		  $this->breadcrumb->append(lang('Browse.searchwhen') . ' "' . $str . '"');
+			$this->breadcrumb->append(lang('Browse.searchwhen') . ' "' . $str . '"');
 
-		  foreach ($torrents as $arrkey => $value) {
-				foreach ($torrents[$arrkey] as $key => $val) {
-		  		if ($key == 'name') {
-              $obj->name = $this->highlightKeywords($val, $str);
+		  	foreach ($torrents as $arrkey => $value)
+		  	{
+				foreach ($torrents[$arrkey] as $key => $val)
+				{
+					if ($key == 'name') {
+						$obj->name = $this->highlightKeywords($val, $str);
 		  				continue;
-		  		}
-				  $obj->{$key} = $val;
+		  			}
+				  	$obj->{$key} = $val;
 				}
-	  		$torr[$arrkey] = $obj;
-	  		unset($obj);
-	  		$obj = new \StdClass;
-		  }
+	  			$torr[$arrkey] = $obj;
+	  			unset($obj);
+	  			$obj = new \StdClass;
+		  	}
 
-     	$data = [
-      		'breadcrumb' => $this->breadcrumb->output(),
-			'page_title' => $siteTitle,
-			'torList' => $torr,
-			'no_torrents' => $no_torrents,
-			'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
-			'catId'	=> $catId,
-			'searchString' => $str,
-		];			
+     		$data = [
+      			'breadcrumb' => $this->breadcrumb->output(),
+				'page_title' => $siteTitle,
+				'torList' => $torr,
+				'no_torrents' => $no_torrents,
+				'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
+				'catId'	=> $catId,
+				'searchString' => $str,
+			];			
 
 			$this->themes::render('search_view', $data);
 		}

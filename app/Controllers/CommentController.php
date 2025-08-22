@@ -17,8 +17,8 @@ class CommentController extends BaseController
 
     function __construct()
     {
-				$this->CommentModel = model(CommentModel::class);
-		}
+		$this->CommentModel = model(CommentModel::class);
+	}
 
     public function CommentAddAction(int $tId = null)
     {

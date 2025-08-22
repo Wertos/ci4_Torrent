@@ -24,7 +24,7 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-
+/*
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
@@ -51,8 +51,8 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
 	];
+*/
 
-/*
         public array $default = [
             'DSN'        => '',
             'hostname'   => 'localhost',
@@ -74,7 +74,7 @@ class Database extends Config
                 'time'     => 'H:i:s',
             ],
         ];
-*/
+
     //    /**
     //     * Sample database connection for SQLite3.
     //     *

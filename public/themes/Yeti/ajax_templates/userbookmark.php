@@ -30,11 +30,11 @@
       			<a href="<?= base_url($bookmark->caturl); ?>"><?= $bookmark->catname;?></a>
       		</div>
       </td>
-      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($bookmark->created_at); ?><br /><?= $bookmark->downloaded; ?><span class="ms-1 me-1">|</span><?= $bookmark->completed; ?></td>
+      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($bookmark->created_at); ?><br /><?= number_format($bookmark->downloaded); ?><span class="ms-1 me-1">|</span><?= number_format($bookmark->completed); ?></td>
       <td class="pt-2 pb-2 text-center align-middle small">
-      	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= $bookmark->seed; ?></span>
+      	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= number_format($bookmark->seed); ?></span>
       	<span class="ms-1 me-1">|</span>
-      	<span class="text-danger" title="<?= lang('Browse.leech'); ?>"><?= $bookmark->leech; ?></span><br />
+      	<span class="text-danger" title="<?= lang('Browse.leech'); ?>"><?= number_format($bookmark->leech); ?></span><br />
       	<nobr title="<?= lang('Browse.size'); ?>"><?= number_to_size($bookmark->size); ?></nobr>
       </td>
     </tr>
