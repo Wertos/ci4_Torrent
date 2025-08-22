@@ -140,6 +140,13 @@
             </a>
           </li>
 
+          <li class="nav-item <?= setActive('/admin/comments'); ?>">
+            <a class="nav-link" href="<?= base_url('admin/comments'); ?>">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.comments'); ?>"><i class="fa-solid fa-comment"></i></span>
+              <span class="menu"><?= lang('Comment.comments'); ?></span>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('user/logout'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Login.logout'); ?>"><i class="fas fa-sign-out"></i></span>

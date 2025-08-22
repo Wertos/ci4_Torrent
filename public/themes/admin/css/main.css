@@ -50,3 +50,14 @@ a:hover {text-decoration : underline;}
 }
 
 .news-text img { max-width:250px; margin: 5px;}
+div.blockquote {
+    background: none repeat scroll 0 0 #f8f9fa;
+    padding: 5px;
+    border-left: 4px solid #5b748d;
+    border-radius: 4px 4px 4px 4px;
+    font-size: 13px;
+	border-top: 1px solid #e2e3e4;
+    border-right: 1px solid #e2e3e4;
+    border-bottom: 1px solid #e2e3e4;
+}
+p.quote_author { font-weight: bold; }

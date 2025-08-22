@@ -91,7 +91,12 @@ class SearchModel extends Model {
 		   		if(mb_strlen($word) < 3) continue;
 		   		$str .= ' '.$word.'*';	
 		   }
+
 		   $sqlWhere = 'MATCH(' . implode(',', $fields) . ') AGAINST(\'' . $str . '\' IN BOOLEAN MODE)';
+
+		   if($this->db->DBDriver == 'Postgre') {
+			   $sqlWhere = 'MATCH(' . implode(',', $fields) . ') AGAINST(\'' . $str . '\' IN BOOLEAN MODE)';
+		   }
 		   return $sqlWhere;
 		}
 

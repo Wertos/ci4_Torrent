@@ -16,7 +16,7 @@
     <tr>
       <td class="pt-2 pb-2 small commentText"><?= $bbcode->parse(parse_smileys($com->text, '/uploads/smileys/')); ?></td>
       <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($com->created_at); ?></td>
-      <td class="pt-2 pb-2 text-center align-middle small"><a href="<?= base_url('torrent/' . $com->fid . '-' . $com->url . '#comment-' . $com->id); ?>" class="fw-bold fs-6"><i class="bi bi-box-arrow-up-right"></i></a></td>
+      <td class="pt-2 pb-2 text-center align-middle small"><a href="<?= base_url('torrent/' . $com->fid . '-' . $com->turl . '#comment-' . $com->id); ?>" class="fw-bold fs-6"><i class="bi bi-box-arrow-up-right"></i></a></td>
     </tr>
   <?php endforeach; ?>
   </tbody>

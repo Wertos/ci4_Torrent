@@ -22,8 +22,8 @@ $routes->post('admin/categories/edit/(:num)',   'Admin\CategoryController::CatEd
 $routes->post('admin/categories/delete/(:num)', 'Admin\AjaxController::CatDelete/$1');
                                                 
 $routes->post('/admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete/$1');
-$routes->post('/admin/users/harddelete/(:num)',     'Admin\AjaxController::UserHardDelete/$1');
-$routes->post('/admin/users/restore/(:num)',     'Admin\AjaxController::UserRestore/$1');
+$routes->post('/admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');
+$routes->post('/admin/users/restore/(:num)',    'Admin\AjaxController::UserRestore/$1');
 
 $routes->post('/admin/users/act/(:num)',        'Admin\AjaxController::UserAct/$1');
 $routes->post('/admin/users/ban/(:num)',        'Admin\AjaxController::UserBan/$1');
@@ -41,6 +41,11 @@ $routes->get('admin/news/del/(:num)',           'Admin\NewsController::NewsDelet
 $routes->get('admin/news/harddel/(:num)',       'Admin\NewsController::NewsHardDelete/$1');
 $routes->get('admin/news/restore/(:num)',       'Admin\NewsController::NewsRestore/$1');
 
+$routes->get('admin/comments',					'Admin\CommentController::CommentsList');
+$routes->get('admin/comments/torrent/(:num)',	'Admin\CommentController::CommentsList/torrent/$1');
+$routes->get('admin/comments/news/(:num)',		'Admin\CommentController::CommentsList/news/$1');
+$routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::CommentsList/user_id/$1');
+$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
 
 
 $routes->get('/', 													'Home::index');

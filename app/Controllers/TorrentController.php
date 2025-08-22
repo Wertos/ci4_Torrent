@@ -133,7 +133,7 @@ class TorrentController extends BaseController
       $this->breadcrumb->append($torrentData->catname, $torrentData->caturl);
       $this->breadcrumb->append($torrentData->name);      
       $data['breadcrumb'] = $this->breadcrumb->output();
-			$data['page_title'] = $siteTitle;
+	  $data['page_title'] = $siteTitle;
 
 			$this->themes::render('torrent_view', $data);
     }

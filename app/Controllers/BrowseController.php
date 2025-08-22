@@ -110,13 +110,13 @@ class BrowseController extends BaseController
 		public function SearchView (string $str)
 		{
 		  
-   	  helper('number');
-   	  helper('torrent');
+		   	helper('number');
+   	  		helper('torrent');
 			$pager = service('pager');
 			$where = '';
 
-		  $str = $this->request->getGet('text');
-		  $catId = (int) $this->request->getGet('cat');
+		  	$str = $this->request->getGet('text');
+		  	$catId = (int) $this->request->getGet('cat');
 
 		  if ($catId)
 		  			$where = ' AND category = ' . $catId . ' ';
@@ -166,13 +166,13 @@ class BrowseController extends BaseController
 
      	$data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $siteTitle,
-					'torList' => $torr,
-					'no_torrents' => $no_torrents,
-					'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
-					'catId'	=> $catId,
-					'searchString' => $str,
-				];			
+			'page_title' => $siteTitle,
+			'torList' => $torr,
+			'no_torrents' => $no_torrents,
+			'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
+			'catId'	=> $catId,
+			'searchString' => $str,
+		];			
 
 			$this->themes::render('search_view', $data);
 		}

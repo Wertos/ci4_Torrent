@@ -17,6 +17,18 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: location; Type: TYPE; Schema: public; Owner: torrent
+--
+
+CREATE TYPE public.location AS ENUM (
+    'torrent',
+    'news'
+);
+
+
+ALTER TYPE public.location OWNER TO torrent;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -385,8 +397,8 @@ CREATE TABLE public.comments (
     updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
     editedby integer DEFAULT 0 NOT NULL,
-    location character varying(10) DEFAULT 'torrents'::character varying,
-    text text NOT NULL
+    text text NOT NULL,
+    location public.location DEFAULT 'torrent'::public.location
 );
 
 

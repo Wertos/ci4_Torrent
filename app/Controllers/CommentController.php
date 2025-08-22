@@ -54,7 +54,7 @@ class CommentController extends BaseController
       		'updated_at' => null,
       		'user_id' => (int) $this->userData->id,
       		'fid' => (int) $this->postData['tid'],
-      		'location' => 'torrents',
+      		'location' => 'torrent',
       ];
 //      var_dump($data); die();
       $this->CommentModel->insert($data);

@@ -63,7 +63,7 @@ class CommentModel extends Model {
 		{
 //    		$this->builder()
         		$this
-        		->select('torrents.url, comments.*')
+        		->select('torrents.url as turl, torrents.name as tname, torrents.id as tid, comments.*')
         		->join('torrents', 'torrents.id = comments.fid', 'left');
 //    		    ->where('id', $user_id)
 //		        ->first();
