@@ -119,10 +119,10 @@ CREATE TABLE public.auth_identities (
     secret2 character varying(255),
     expires timestamp without time zone,
     extra text,
-    force_reset boolean DEFAULT false NOT NULL,
     last_used_at timestamp without time zone,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    force_reset smallint DEFAULT 0
 );
 
 
