@@ -29,9 +29,9 @@ class StatsModel extends Model {
         }
 //        print_r($stats); die();
         $data = [
-            'torrents' => $stats->torrents,
-            'seeders' => $stats->seeders,
-            'leechers' => $stats->leechers,
+            'torrents' => (int) $stats->torrents,
+            'seeders' => (int) $stats->seeders,
+            'leechers' => (int) $stats->leechers,
             'size' => number_to_size((int)$stats->size)
         ];
 

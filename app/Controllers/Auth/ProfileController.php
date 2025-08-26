@@ -23,7 +23,7 @@ class ProfileController extends \App\Controllers\BaseController
     public $TorrentModel;
     public $CommentModel;
     public $BookmarkModel;
-		public $siteTitle;
+	public $siteTitle;
 
     function __construct()
     {
@@ -31,7 +31,7 @@ class ProfileController extends \App\Controllers\BaseController
         $this->TorrentModel = model(TorrentModel::class);
         $this->CommentModel = model(CommentModel::class);
         $this->BookmarkModel = model(BookmarkModel::class);
-		}
+	}
 
     public function ProfileView(?int $id = null)
     {
@@ -93,18 +93,19 @@ class ProfileController extends \App\Controllers\BaseController
 
     public function ProfileEditAction()
     {
-    		helper('file');
+    	helper('file');
         
         $this->userModel = model(UserModel::class);
 
- 		  	$this->allowedFields = ['password', 'password_confirm', 'first_name', 'last_name', 'birthdate', 'avatar'];
+ 		$this->allowedFields = ['password', 'password_confirm', 'first_name', 'last_name', 'birthdate', 'avatar'];
         
-				// Get the User Provider (UserModel by default)
-				$users = auth()->getProvider();
-				$user = $users->findById((int) $this->userData->id);
+		// Get the User Provider (UserModel by default)
+		$users = auth()->getProvider();
+		$user = $users->findById((int) $this->userData->id);
+		
+		$newUserData = [];
         
         $rules = $this->getValidationRules();
-
         $postData = $this->request->getPost();
 
         $postData['first_name'] = $this->request->getPost('first_name') ?? $user->first_name;
@@ -114,39 +115,39 @@ class ProfileController extends \App\Controllers\BaseController
         if (!empty($_FILES['avatar']['name']))
         {
 	        
-	        $validationAvatarRule = setting('Auth.validationAvatarRule');
+	      $validationAvatarRule = setting('Auth.validationAvatarRule');
 
       	  if (!$this->validateData([], $validationAvatarRule)) {
         	    $error = $this->validator->getErrors();
-          	  $err = is_array($this->validator->getErrors()) ? 'errors' : 'error';
+          	  	$err = is_array($this->validator->getErrors()) ? 'errors' : 'error';
             	return redirect()->to('user/edit')->with($err, $error);
-	        }
+	      }
   	      else
-    	    {
-      			  $avatar = $this->request->getFile('avatar');
+    	  {
+      			$avatar = $this->request->getFile('avatar');
     	  	  	$fileExt = $avatar->guessExtension();
-	 			  	  $this->newUserData['avatar'] = $user->id . '.' . $avatar->guessExtension();
-		 		    	if (file_exists($this->TorrConfig->AvatarUploadPath . $this->newUserData['avatar']))
- 			    															 unlink($this->TorrConfig->AvatarUploadPath . $this->newUserData['avatar']);
-	      		  if (! $avatar->hasMoved()) {
-  	  	  	      $avatar->move($this->TorrConfig->AvatarUploadPath, $this->newUserData['avatar']);
-  		    		}
-	    	  }
-	    	}
-
-  			$newUserData = [];
+	 			$newUserData['avatar'] = $user->id . '.' . $avatar->guessExtension();
+		 		
+				if (file_exists($this->TorrConfig->AvatarUploadPath . $newUserData['avatar']))
+ 			    		 unlink($this->TorrConfig->AvatarUploadPath . $newUserData['avatar']);
+	      		
+	      		if (! $avatar->hasMoved()) {
+  	  	  	      		$avatar->move($this->TorrConfig->AvatarUploadPath, $newUserData['avatar']);
+    			}
+   	  		}
+	    }
 
         foreach ($postData as $key => $value)
         {
- 					if (!$value || !in_array($key, $this->allowedFields) || $value == $user->{$key})
- 					{
- 							if($key == 'password' || $key == 'password_confirm') continue;
- 							unset($rules[$key]);
- 							continue;
- 					}
- 					
- 					$newUserData[$key] = $value;
-	      }
+ 			if (!$value || !in_array($key, $this->allowedFields) || $value == $user->{$key})
+ 			{
+ 					if($key == 'password' || $key == 'password_confirm') continue;
+ 					unset($rules[$key]);
+ 					continue;
+ 			}
+ 			
+ 			$newUserData[$key] = $value;
+	     }
 
         if(! isset($newUserData['password']) && ! isset($newUserData['password_confirm']))
         {
@@ -157,21 +158,22 @@ class ProfileController extends \App\Controllers\BaseController
         {
           unset($rules['email'], $newUserData['email']);
         }
-        if(! isset($newUserData['username']))
+        
+		if(! isset($newUserData['username']))
         {
           unset($rules['username'], $newUserData['username']);
         }
         
         if($newUserData)
         {
-        		
-     				if (! $this->validateData($newUserData, $rules, [], config('Auth')->DBGroup)) {
-         				return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-     				}	
-
-     				$user->fill($newUserData);
-						$users->save($user);
-				}
+//        	var_dump($rules);die();
+     		if (! $this->validateData($newUserData, $rules)) {
+        		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+     		}	
+//            var_dump($newUserData);die();
+     		$user->fill($newUserData);
+			$users->save($user);
+		}
 
         return redirect()->to('user/profile')->with('message', lang('Profile.updatedsuccess'));
     }

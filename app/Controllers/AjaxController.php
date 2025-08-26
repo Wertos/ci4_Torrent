@@ -193,7 +193,7 @@ class AjaxController extends \App\Controllers\BaseController
 			{
 				$hash = [$infoHash_V1, $infoHash_V2];
 			}
-
+			
 			$info[$infoHash_V1]['seeders'] = 0;
 			$info[$infoHash_V2]['seeders'] = 0;
 			$info[$infoHash_V1]['leechers'] = 0;
@@ -203,7 +203,7 @@ class AjaxController extends \App\Controllers\BaseController
 
 			$iii = $this->scraper->scrape( $hash, $announcer, count($announcer), $maxTimeOnAnnouncer);
 
-			if($iii) $info = $iii;
+			if($iii) $info = array_replace_recursive($info, $iii);
 
 			if ( $this->scraper->has_errors() ) {
 				 $errors = $this->scraper->get_errors() ;
@@ -213,7 +213,7 @@ class AjaxController extends \App\Controllers\BaseController
 			{
 			
 			}
-
+//			var_dump($info); die();
 			if($infoHash_V1 && !$infoHash_V2)
 			{
 				$seed = $info[$infoHash_V1]['seeders'];

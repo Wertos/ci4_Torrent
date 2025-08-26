@@ -94,8 +94,8 @@
 				<?= $breadcrumb; ?> 
 			</nav>
 <!-- BreadCrumb section end -->
-		<div class="container">
-			<div class="row">
+		<div class="container-fluid px-5 mx-auto">
+			<div class="row mx-5">
 				<div class="col-9">
 <!-- Messages section start -->
 					<?php if (session('error') !== null) : ?>

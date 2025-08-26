@@ -76,6 +76,7 @@ class Validation extends BaseConfig
                 'valid_date',
             ],
         ],
+        'avatar' => [],
         'email' => [
             'label' => 'Auth.email',
             'rules' => [

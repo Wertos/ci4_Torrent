@@ -50,7 +50,7 @@ class TorrentModel extends Model {
             'label' => 'Torrent.description',
             'rules' => [
                 'required',
-                'max_length[10000]',
+                'max_length[20000]',
                 'min_length[3]',
                 'string',
             ],

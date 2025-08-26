@@ -52,7 +52,7 @@
         <hr />
         <div class="position-relative">
         <div style="top:17px; left:-20px;" class="position-absolute translate-middle">
-        	<a title="<?= lang('Torrent.owner') . '<br />' . $details->username; ?>" href="<?= base_url('user/profile/' . $details->owner); ?>"><?= avatar($details->avatar, 70); ?></a>
+        	<a style="min-wodth:70px;min-height:70px;" title="<?= lang('Torrent.owner') . '<br />' . $details->username; ?>" href="<?= base_url('user/profile/' . $details->owner); ?>"><?= avatar($details->avatar, 70); ?></a>
         </div>
         </div>
         <ul class="list-inline ms-4">

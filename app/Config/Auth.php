@@ -253,16 +253,16 @@ class Auth extends ShieldAuth
 
     public array $validationAvatarRule = [
    	   'avatar' => [
-     	      'label' => 'Profile.avatar',
+     	    'label' => 'Profile.avatar',
        	    'rules' => [
-          	      'uploaded[avatar]',
-             	    'is_image[avatar]',
-               	  'mime_in[avatar,image/jpg,image/jpeg,image/gif,image/png]',
-                 	'max_size[avatar,200]',
-                 	'max_dims[avatar,300,300]',
+          		'uploaded[avatar]',
+             	'is_image[avatar]',
+				'mime_in[avatar,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                'max_size[avatar,200]',
+                'max_dims[avatar,300,300]',
             ],
        ],
- 	  ];
+ 	];
 
     /**
      * --------------------------------------------------------------------
