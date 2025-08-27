@@ -20,13 +20,14 @@ class BrowseController extends BaseController
     public $TorrentModel;
     public $SearchModel;
     public $siteTitle;
+    private $DBDriver;
 
     function __construct()
     {
         $this->GlobalModel = model(GlobalModel::class);
         $this->TorrentModel = model(TorrentModel::class);
         $this->SearchModel = model(SearchModel::class);
-        $this->DBDriver = $this->db = \Config\Database::connect()->DBDriver;
+        $this->DBDriver = \Config\Database::connect()->DBDriver;
 	}
 
 /************************************************************/
@@ -123,7 +124,7 @@ class BrowseController extends BaseController
 		  			$where = ' AND category = ' . $catId . ' ';
 
 			if ($str == '' || ! $str)
-								return redirect()->back()->with('error', lang('Browse.nullstr'));
+					return redirect()->back()->with('error', lang('Browse.nullstr'));
 
 			$sstr = $this->SearchModel->cleanString($str);
 			$arr = $this->SearchModel->StringToArray($sstr);
@@ -192,26 +193,23 @@ class BrowseController extends BaseController
 			$this->themes::render('search_view', $data);
 		}
 
-//		private function highlight_keywords($keyword, $string) {
-//    	return preg_replace("/\p{L}*?".preg_quote($keyword)."\p{L}*/ui", "<b class='text-danger'>$0</b>", $string);
-//		}
-
 		private function highlightKeywords($text, $keyword)
 		{
-			//$keyword = str_replace(['+','-'], '', $keyword);
-			$keyword = preg_replace('/[^a-zA-Zа-яёА-ЯЁ0-9\s]/iu', '', $keyword);
+
+			$keyword = preg_replace('/^[a-zA-Z\p{Cyrillic}]+$/iu', '', $keyword);
+
 			$wordsAry = explode(" ", $keyword);
 
 			$filteredArray = array_filter($wordsAry, function($value) {
     			return mb_strlen($value) >= 3;
 			});
-      $filteredArray = array_values($filteredArray);
+			$filteredArray = array_values($filteredArray);
 
 			$wordsCount = count($filteredArray);
 			
-			for($i=0;$i<$wordsCount;$i++) {
-				$highlighted_text = "<i class='text-danger'>$filteredArray[$i]</i>";
-				$text = str_ireplace($filteredArray[$i], $highlighted_text, $text);
+			for($i=0; $i < $wordsCount; $i++)
+			{
+				$text = preg_replace("/(".preg_quote($filteredArray[$i]).")/iu", '<i class="text-danger">$1</i>', $text);
 			}
 
 			return $text;

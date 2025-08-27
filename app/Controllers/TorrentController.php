@@ -60,19 +60,14 @@ class TorrentController extends BaseController
 	    				|| $this->userData->is_moderator
     					|| $this->userData->is_admin
     					|| $this->userData->is_superadmin;
-    	
-    	$can_moderate = 
-						    $this->userData->is_moderator
-    						|| $this->userData->is_admin
-    						|| $this->userData->is_superadmin;
-      
+    
       $this->TorrentModel->updateViews($tId);
 
-			if ($can_moderate)
-							$cats = $this->GlobalModel->getCats();
+			if ($this->isMod)
+					$cats = $this->GlobalModel->getCats();
 
 			if( $torrentData === null )
-								return redirect()->back()->with('error', lang('Torrent.notfound'));
+					return redirect()->back()->with('error', lang('Torrent.notfound'));
 
 			$torrentFile = $this->TorrentModel->torrLoad(setting('Torrent.TorrentFilesPath'), $torrentData->file_name);
 			
@@ -109,15 +104,15 @@ class TorrentController extends BaseController
       			'class' => $status['class'],
       			'details' => $torrentData,
 		      	'poster' => img($torrentData->poster),
-		      	'can_delete' => ($can_moderate || $can_edit),
+		      	'can_delete' => ($this->isMod || $can_edit),
 				'can_edit' => $can_edit,
-				'moderate' => $can_moderate,
+				'moderate' => $this->isMod,
 				'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')),
 				'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
 				'allowreport' => (setting('Torrent.allowreport') === true),
 				'allowFileList' => (setting('Torrent.allowFileList') === true),
 				'filestree' => (setting('Torrent.allowFileList') === true) ? $torrentFile->toTree() : null,
-				'cats' => ($can_moderate) ? $cats : null,
+				'cats' => ($this->isMod) ? $cats : null,
 				'comments' => $comments['comments'] ?? null,
 				'paginate' => $this->CommentModel->pager,
 				'canCommentEdit' => ($this->userData->logged_in && $this->userData->can('comment.ownededit')),
@@ -302,11 +297,6 @@ class TorrentController extends BaseController
     			return redirect()->to('/')->with('error', lang('Torrent.uploadforbidden'));
     	}
 
-    	$can_moderate = 
-						    ($this->userData->is_moderator
-    						|| $this->userData->is_admin
-    						|| $this->userData->is_superadmin);
-
 			$tId = null;
 
 			$validation = service('validation');
@@ -352,7 +342,7 @@ class TorrentController extends BaseController
       		'url'	=>	url_title($this->translit->transliterate($postData['name']), '-', true),
       		'file'	=> ((setting('Torrent.allowUploadTorrent') === true) && $torrPath) ? 1 : 0,
       		'can_comment'	=>	($postData['can_comment']) ? 1 : 0,
-      		'modded'	=>	($can_moderate) ? 1 : 0,
+      		'modded'	=>	($this->isMod) ? 1 : 0,
       		'file_name'	=>	$torrName,
       		'version'	=>	$torrVersion,
       		'created_at' => Time::now(setting('App.appTimezone'))->toDateTimeString(),

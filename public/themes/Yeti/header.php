@@ -69,7 +69,7 @@
 								</li>
 							</ul>
 							<div class="w-100">
-								<div class="float-end w-50">  
+								<div class="float-end w-75">
 								  <div class="input-group" id="search-cat">
 								  	<a data-bs-trigger="hover" data-bs-toggle="dropdown" id="search-cat-btn" data-orig-text="<?= lang('Category.Category.name'); ?>" data-cat="0" class="btn btn-success dropdown-toggle" aria-expanded="false"><i class="bi bi-list" title="<?= lang('Browse.searchdesc'); ?>"></i> <span><?= lang('Category.Category.name'); ?></span></a>
 											<ul class="dropdown-menu bg-success" id="#navbarNavDarkDropdown">

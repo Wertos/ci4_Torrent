@@ -81,11 +81,11 @@ class BBCodeParser {
         ),
         'image' => array(
             "pattern" => "/\[img\](.*?)\[\/img\]/siu", 
-            "replace" => "<img src=\"$1\" alt=\"\" loading=\"lazy\" />",
+            "replace" => "<img style=\"max-width:960px;\" class=\"p-1\" src=\"$1\" alt=\"\" loading=\"lazy\" />",
         ),
         'imageAlign' => array(
             "pattern" => "/\[img=(left|right|center)\](.*?)\[\/img\]/siu", 
-            "replace" => "<div style=\"padding: 0px 0px 10px 10px; float:$1; clear:$1\"><img src=\"$2\" alt=\"\" loading=\"lazy\" /></div>",
+            "replace" => "<div style=\"padding: 0px 0px 10px 10px; float:$1; clear:$1\"><img style=\"max-width:960px;\" class=\"p-1\" src=\"$2\" alt=\"\" loading=\"lazy\" /></div>",
         ),
 
         'orderedListNumerical' => array(

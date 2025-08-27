@@ -63,6 +63,9 @@ abstract class BaseController extends Controller
     public string $ogimage;
     public $NewsModel;
     public $news;
+	public $isMod;
+	public $isAdmin;
+	public $isSuperAdmin;
 
     private function initUser()
     {
