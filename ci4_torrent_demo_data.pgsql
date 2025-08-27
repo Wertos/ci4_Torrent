@@ -27,7 +27,7 @@ SET row_security = off;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: torrent
 --
 
-INSERT INTO public.users VALUES (1, 'Wertos', NULL, NULL, NULL, '2025-08-26 14:26:07', '2025-08-26 16:35:24', NULL, '', '', '', '', 1);
+INSERT INTO public.users VALUES (1, 'Admin', NULL, NULL, NULL, '2025-08-26 14:26:07', '2025-08-26 16:35:24', NULL, '', '', '', '', 1);
 
 
 --
@@ -40,7 +40,7 @@ INSERT INTO public.auth_groups_users VALUES (1, 1, 'superadmin', '2025-08-26 14:
 -- Data for Name: auth_identities; Type: TABLE DATA; Schema: public; Owner: torrent
 --
 
-INSERT INTO public.auth_identities VALUES (1, 1, 'email_password', NULL, 'admin@admin.ru', '$2y$12$J8b6gb7V8ex1pWqIokSmdOgqV2v0f3zA1PPNI2IsSZFFxj.DicJay', NULL, NULL, '2025-08-26 22:58:19', '2025-08-26 14:26:08', '2025-08-26 22:58:19', 0);
+INSERT INTO public.auth_identities VALUES (1, 1, 'email_password', NULL, 'admin@admin.ru', '$2y$12$FcCBtqlGXrx1KlQv9Ihdbu0vKLzAd3hgNgJ8eQafKa4yQzdHtZz8u', NULL, NULL, '2025-08-26 22:58:19', '2025-08-26 14:26:08', '2025-08-26 22:58:19', 0);
 
 
 --
