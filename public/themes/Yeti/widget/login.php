@@ -24,10 +24,24 @@
 				<div class="list-group-item list-group-item-action">
 					<a href="<?= base_url('user/logout'); ?>"><i class="bi bi-door-open user_menu_icon"></i><?= lang('Profile.logout'); ?></a>
 				</div>
-				<?php if ( $adminlink ) : ?>
+				<?php if ( $isMod ) : ?>
+					<div class="list-group-item list-group-item-action">
+						<div class="dropdown">
+							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-shield-check user_menu_icon"></i><?= lang('Admin.modmenu'); ?>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<li><a class="dropdown-item" href="#"><?= lang('Admin.newtorrent'); ?></a></li>
+								<li><a class="dropdown-item" href="#"><?= lang('Admin.report'); ?></a></li>
+								<!--<li><a class="dropdown-item" href="#"><?= lang('Admin.comments'); ?></a></li>-->
+							</ul>
+						</div>					
+					</div>
+				<?php endif; ?>
+				<?php if ( $isAdmin ) : ?>
 					<div class="list-group-item list-group-item-action">
 						<a target="_blank" href="<?= base_url('admin'); ?>"><i class="bi bi-person-gear user_menu_icon"></i><?= lang('Admin.AdminHome'); ?></a>
-				  </div>
+					</div>
 				<?php endif; ?>
 			</div>
 		</div>

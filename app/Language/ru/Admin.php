@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 return [
     // Exceptions
-    		'FullScreen'=>	'Полный экран',
-				'DashBoard'	=>	'Панель инструментов',
-				'AdminHome'  => 'Админ панель',
+   		'FullScreen'=>	'Полный экран',
+		'DashBoard'	=>	'Панель инструментов',
+		'AdminHome'  => 'Админ панель',
         'UsersOnline'	=>	'Всего<br />зарегистрировано',
         'UsersOnDay'	=>	'Пользователей<br />за сегодня',
         'TorrentsAll'	=>	'Торрентов<br />всего',
@@ -80,6 +80,10 @@ return [
 	            		'ban'	=> 'Забанить',
 	            		'unban'	=> 'Разбанить',
 	      			],
+		'modmenu'	=>	'Меню модератора',
+		'newtorrent'=>	'Торренты на проверку',
+		'report'	=>	'Жалобы',
+//		'modmenu'	=>	'',
 
 	   ];
 ?>

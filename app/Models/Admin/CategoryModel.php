@@ -35,7 +35,7 @@ class CategoryModel extends GlobalAdminModel
                 'required',
                 'max_length[30]',
                 'min_length[3]',
-                'string',
+                'regex_match[/^[a-zA-Z\p{Cyrillic}]+$/u]',
                 'is_unique[categories.name]',
             ],
         ],
@@ -46,7 +46,7 @@ class CategoryModel extends GlobalAdminModel
                 'required',
                 'max_length[200]',
                 'min_length[3]',
-                'string',
+                'regex_match[/^[a-zA-Z\p{Cyrillic}]+$/u]',
             ],
         ],
 

@@ -71,21 +71,15 @@ abstract class BaseController extends Controller
 //			var_dump($this->userData); die();
 			if (auth()->loggedIn())
 			{
-					$this->userData->logged_in = true;
-					
-					$this->userData->is_superadmin = ($this->userData->inGroup('superadmin') && $this->userData->logged_in);
-
-					$this->userData->is_admin = ($this->userData->inGroup('admin') && $this->userData->logged_in);
-					
-					$this->userData->is_moderator = ($this->userData->inGroup('moderator') && $this->userData->logged_in);
-					
-					$this->userData->is_uploader = ($this->userData->inGroup('uploader') && $this->userData->logged_in);
-
-					$this->userData->is_user = ($this->userData->inGroup('user') && $this->userData->logged_in);
-			
-					$this->userData->is_banned = ($this->userData->isBanned() && $this->userData->logged_in);
-		
-		    	$this->userData->can_upload = 
+				$this->userData->logged_in = true;
+				$this->userData->is_superadmin = ($this->userData->inGroup('superadmin') && $this->userData->logged_in);
+				$this->userData->is_admin = ($this->userData->inGroup('admin') && $this->userData->logged_in);
+				$this->userData->is_moderator = ($this->userData->inGroup('moderator') && $this->userData->logged_in);
+				$this->userData->is_uploader = ($this->userData->inGroup('uploader') && $this->userData->logged_in);
+                $this->userData->is_user = ($this->userData->inGroup('user') && $this->userData->logged_in);
+			    $this->userData->is_banned = ($this->userData->isBanned() && $this->userData->logged_in);
+		        
+		        $this->userData->can_upload = 
 		    								($this->userData->is_uploader
 								    		|| $this->userData->is_moderator
     										|| $this->userData->is_admin
@@ -159,9 +153,11 @@ abstract class BaseController extends Controller
 				
 				$this->breadcrumb->prepend('<i class="bi bi-house m-1"></i>', '/');
     		
-    		$this->userData = $this->initUser();
+    			$this->userData = $this->initUser();
 
-				$this->adminlink = ($this->userData->is_superadmin || $this->userData->is_admin) ? true : false;
+				$this->isMod = ($this->userData->is_superadmin || $this->userData->is_admin || $this->userData->is_moderator) ? true : false;
+				$this->isAdmin = ($this->userData->is_superadmin || $this->userData->is_admin) ? true : false;
+				$this->isSuperAdmin = ($this->userData->is_superadmin) ? true : false;
 
 				$this->ogimage = base_url('themes/' . setting('Torrent.theme') . '/img/logo.png');
 
@@ -171,7 +167,8 @@ abstract class BaseController extends Controller
 								->setVar(['userdata' => $this->userData])->setVar(['adminlink' => $this->adminlink])
 								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])
 								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage])
-								->setVar(['news' => $this->news]);
+								->setVar(['news' => $this->news])->setVar(['isMod' => $this->isMod])->setVar(['isAdmin' => $this->isAdmin])
+								->setVar(['isSuperAdmin' => $this->isSuperAdmin]);
 
         // E.g.: $this->session = service('session');
 

@@ -75,7 +75,7 @@ class ProfileController extends \App\Controllers\BaseController
         helper('form');
         
         if (!$this->userData->logged_in)
-													return redirect()->to('user/login')->with('error', lang('login.errorEditProfile'));
+				return redirect()->to('user/login')->with('error', lang('login.errorEditProfile'));
 
         if ($this->request->isAJAX()) { }
 

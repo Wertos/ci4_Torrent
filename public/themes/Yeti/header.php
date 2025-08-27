@@ -33,23 +33,21 @@
 				<div class="logo pt-4 pb-3">
 					<a href="<?= base_url('/'); ?>"><img src="<?= base_url('themes/Yeti/img/logo.png'); ?>"></a>
 				</div>
+				<?php if ($news) : ?>
 				<div id="news" class="position-absolute top-0 end-0" style="width:35%;">
 				<ul class="p-1 me-4">
-				<li class="ms-1 text-truncate w-100 text-start text-white">&nbsp;<?= lang('News.news'); ?></li>
-				<?php
-					foreach ($news as $item) :
-				?>
-						<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
-						  <span class="badge bg-secondary"><i class="bi bi-newspaper me-1"></i><?= toDate($item->created_at); ?></span>
-						  <a title="<?= $item->title; ?>" class="text-white me-1" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
-								<?= $item->title; ?>
-							</a>
-						</li>
-				<?php
-					endforeach;
-				?>
+					<li class="ms-1 text-truncate w-100 text-start text-white">&nbsp;<?= lang('News.news'); ?></li>
+					<?php	foreach ($news as $item) : ?>
+					<li class="ms-2 text-truncate w-100 text-start text-white border-bottom" style="border-image: linear-gradient(to right, #eeeeee 0%, #008cba 100%) 1;">
+					  <span class="badge bg-secondary"><i class="bi bi-newspaper me-1"></i><?= toDate($item->created_at); ?></span>
+					  <a title="<?= $item->title; ?>" class="text-white me-1" href="<?= base_url('news/' . $item->id . '-' . $item->url); ?>">
+						<?= $item->title; ?>
+					  </a>
+					</li>
+					<?php	endforeach; ?>
 				</ul>
 				</div>
+				<?php endif; ?>
 			</div>
 			<hr class="ms-1 mt-0 mb-0 p-0">
 			<div class="ms-1 bs-docs-section clearfix">
