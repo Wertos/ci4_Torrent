@@ -22,13 +22,13 @@
     	<?= csrf_field() ?>
   	  <!-- Torrent File -->
 	    <div class="mb-4">
-	      <label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
-				<input type="file" class="form-control form-control-lg" id="floatingFileInput" name="torrentfile" required />
+	    	<label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
+			<input type="file" class="form-control form-control-lg" id="floatingFileInput" name="torrentfile" accept=".torrent" required />
 			</div>
 			<!-- torrent Name -->
-  	  <div class="form-floating mb-4">
-				<input type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />
-				<label for="floatingTitleInput"><?= lang('Torrent.title') ?></label>
+		<div class="form-floating mb-4">
+			<input type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />
+			<label for="floatingTitleInput"><?= lang('Torrent.title') ?></label>
     		<small class="small ms-1 d-block"><?= lang('Torrent.titledesc', ['255']); ?></small>
     		<small class="small ms-1 d-block"><?= lang('Torrent.titleexample'); ?></small>
     	</div>
