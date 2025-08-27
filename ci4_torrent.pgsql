@@ -674,7 +674,7 @@ CREATE TABLE public.users (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
-    avatar character varying(255) DEFAULT ''::character varying NOT NULL,
+    avatar character varying(255) DEFAULT ''::character varying,
     first_name character varying(255) DEFAULT ''::character varying NOT NULL,
     last_name character varying(255) DEFAULT ''::character varying NOT NULL,
     birthdate date,
@@ -952,6 +952,22 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.settings
     ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: torrents torrents_infohash_v1_key1; Type: CONSTRAINT; Schema: public; Owner: torrent
+--
+
+ALTER TABLE ONLY public.torrents
+    ADD CONSTRAINT torrents_infohash_v1_key1 UNIQUE (infohash_v1);
+
+
+--
+-- Name: torrents torrents_infohash_v2_key1; Type: CONSTRAINT; Schema: public; Owner: torrent
+--
+
+ALTER TABLE ONLY public.torrents
+    ADD CONSTRAINT torrents_infohash_v2_key1 UNIQUE (infohash_v2);
 
 
 --
