@@ -153,8 +153,8 @@ class BBCodeParser {
                 $source = preg_replace($parser['pattern'], $parser['replace'], $source);
             }
         }
-//        return $source;
-        return str_ireplace('\r\n', '<br>',  nl2br($source));
+        return $source;
+        //return str_ireplace('\r\n', '<br>',  nl2br($source));
         //return str_replace(['\r\n'], "<br />", $source);
         //return preg_replace('/(?:(?:\r\n|\r|\n){2}\s*)/siu', "<br>", $source);
     }
