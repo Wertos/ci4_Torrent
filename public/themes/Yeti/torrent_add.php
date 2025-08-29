@@ -50,8 +50,18 @@
   	  <!-- Torrent Description -->
 	    <div class="mb-4">
     	  <label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
-    		<textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /></textarea>
-  	  </div>
+ 		  <textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /></textarea>
+          <fieldset class="border rounded-3 mt-2">
+		  <legend class="float-none w-auto px-1 small ms-2"><?= lang('Torrent.templates'); ?></legend>
+       	  <div class="btn-group ms-2 mb-2">
+	       	  <button class="btn btn-primary btn-xs" onclick="insertTemplate('video', 'floatingDescInput'); return false;"><i class="bi bi-film me-1"></i><?= lang('Torrent.template.video'); ?></button>
+	       	  <button class="btn btn-primary btn-xs" onclick="insertTemplate('music', 'floatingDescInput'); return false;"><i class="bi bi-cassette me-1"></i><?= lang('Torrent.template.music'); ?></button>
+	       	  <button class="btn btn-primary btn-xs" onclick="insertTemplate('book', 'floatingDescInput'); return false;"><i class="bi bi-book me-1"></i><?= lang('Torrent.template.book'); ?></button>
+	       	  <button class="btn btn-primary btn-xs" onclick="insertTemplate('game', 'floatingDescInput'); return false;"><i class="bi bi-controller me-1"></i><?= lang('Torrent.template.game'); ?></button>
+	       	  <button class="btn btn-primary btn-xs" onclick="insertTemplate('soft', 'floatingDescInput'); return false;"><i class="bi bi-tux me-1"></i><?= lang('Torrent.template.soft'); ?></button>
+		  </div>
+          </fieldset>
+  	    </div>
   	  <!-- Torrent Category -->
 	    <div class="mb-4">
 				<select name="category" class="form-select" aria-label="<?= lang('Torrent.category'); ?>" required />
@@ -60,7 +70,7 @@
 					<option value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
 				<?php endforeach; ?>
 				</select>
-  	  </div>
+  	    </div>
 			<hr />
 			<div class="form-check form-switch">
 			  <input name="can_comment" class="form-check-input" type="checkbox" id="flexSwitchCanComment" checked />

@@ -72,10 +72,10 @@
 								<div class="float-end w-75">
 								  <div class="input-group" id="search-cat">
 								  	<a data-bs-trigger="hover" data-bs-toggle="dropdown" id="search-cat-btn" data-orig-text="<?= lang('Category.Category.name'); ?>" data-cat="0" class="btn btn-success dropdown-toggle" aria-expanded="false"><i class="bi bi-list" title="<?= lang('Browse.searchdesc'); ?>"></i> <span><?= lang('Category.Category.name'); ?></span></a>
-											<ul class="dropdown-menu bg-success" id="#navbarNavDarkDropdown">
-											  <li><a id="search-cat-reset" class="dropdown-item" href="javascript:void(0);"><i class="bi bi-x-lg"></i> <?= lang('Category.reset'); ?></a></li>
+											<ul class="dropdown-menu bg-success list-inline w-75 p-3" id="#navbarNavDarkDropdown">
+											  <li class="list-inline-item"><a id="search-cat-reset" class="dropdown-item" href="javascript:void(0);"><i class="bi bi-x-lg"></i> <?= lang('Category.reset'); ?></a></li>
 										  	<?php foreach ($catList as $cat): ?>
-												<li><a id="search-cat-<?= $cat->id; ?>" data-select="<?= ($cat->id == (isset($catId) ? $catId : 0)) ? 'true' : 'false'; ?>" data-id="<?= $cat->id; ?>" class="dropdown-item cat" href="javascript:void(0);"><?= $cat->name; ?></a></li>
+												<li class="list-inline-item"><a id="search-cat-<?= $cat->id; ?>" data-select="<?= ($cat->id == (isset($catId) ? $catId : 0)) ? 'true' : 'false'; ?>" data-id="<?= $cat->id; ?>" class="dropdown-item cat" href="javascript:void(0);"><?= $cat->name; ?></a></li>
 												<?php endforeach; ?>
 											</ul>
 								  	<input value="<?= isset($searchString) ? $searchString : null; ?>" class="w-50 form-control" type="search" id="search-cat-text" data-error="<?= lang('Category.sform-error'); ?>" placeholder="<?= lang('Category.search-plh'); ?>">

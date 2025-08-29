@@ -7,9 +7,11 @@
 			<div class="list-group list-group-flush">
 			  <?php foreach ($catList as $cat): ?>
 			  <?php if($cat->count == 0) continue; ?>
-				<a class="list-group-item list-group-item-action fw-bold" href="<?= base_url($cat->url); ?>"><?= $cat->name; ?>
+				<div class="list-group-item list-group-item-action">
+				<a href="<?= base_url($cat->url); ?>"><?= $cat->name; ?>
 					<span data-bs-original-title="<?= lang('Torrent.torInCat'); ?>" title="<?= lang('Torrent.torInCat'); ?>" class="badge bg-primary float-end"><?= $cat->count; ?></span>
 				</a>
+				</div>
 			<?php endforeach; ?>
 			</div>
 		</div>

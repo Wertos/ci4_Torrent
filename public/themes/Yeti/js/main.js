@@ -29,7 +29,7 @@ var BuildForm = function(id, cls, action, method, name) {
 	action = action ? action : '/';
 	method = method ? method : 'POST';
 	name = name ? name : '';
-	textarea = '<textarea data-editor id="textarea-'+id+'" class="form-control '+cls+'" name="'+name+'"></textarea>';
+	textarea = '<textarea data-editor id="textarea-'+id+'" class="mb-2 form-control '+cls+'" name="'+name+'"></textarea>';
 	button = '<button class="btn btn-primary btn-xs '+cls+'" id="button-'+id+'" type="submit">Отправить</button>';
 	const form = { open : '<form id="'+id+'" class="'+cls+'" action="'+action+'" method="'+method+'">', close : '</form>' };
 	return form.open+textarea+button+form.close;
@@ -183,6 +183,12 @@ $('*[data-pass="viewpass"]').click(function(){
 		}
 		
 });
+
+function insertTemplate(template, id) {
+	if (! template || ! id)
+			return false;
+	$('#'+id).load('/torrent_templates/'+template+'.txt');
+}
 
 function confirmation() {
 		const message = prompt('Вы подтверждаете удаление ? Если да введите в поле YES');

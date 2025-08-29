@@ -49,6 +49,8 @@ class Torrent extends BaseConfig
 //		public string $posterUploadPath = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterUploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterHtmlPath = 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
+
+		public string $templatesPath = 'uploads' . DIRECTORY_SEPARATOR . 'torrent_templates' . DIRECTORY_SEPARATOR;
     
     public array $validationPosterUploadRule = [
    	   'poster' => [

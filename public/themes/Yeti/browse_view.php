@@ -14,7 +14,7 @@
 	</div>
 </div>
 -->
-<table class="table table-bordered table-striped table-sm table-hover">
+<table class="table table-bordered table-striped table-sm table-hover small">
   <thead>
     <tr>
       <th scope="col" class="bg-secondary col-10 p-2 text-left"><?= lang('Browse.name'); ?></th>
@@ -28,7 +28,7 @@
   	$status = getDataTorrStatus($tor->modded, '');
   ?>
     <tr>
-      <td class="pt-2 pb-2 small">
+      <td class="pt-2 pb-2">
       	<a class="d-block clearfix fw-bold" href="<?= base_url('torrent/' . $tor->id . '-' . $tor->url); ?>" /><?= $tor->name; ?></a>
       		<hr class="p-0 m-1">
       		<div style="font-size: 12px; min-width: 250px;" class="p-1 ps-3 mt-1 badge rounded-pill bg-light border <?= $status['class']; ?> text-start">
@@ -41,10 +41,22 @@
       			<a href="<?= base_url($tor->caturl); ?>"><?= $tor->catname;?></a>
       		</div>
       </td>
-      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($tor->created_at); ?><br /><?= number_format($tor->downloaded); ?><span class="ms-1 me-1">|</span><?= number_format($tor->completed); ?></td>
-      <td class="pt-2 pb-2 text-center align-middle small">
+      <td class="pt-2 pb-2 text-center align-middle">
+      	<span title="<?= lang('Browse.add'); ?>">
+      		<?= toDate($tor->created_at); ?>
+      	</span>
+      	<br />
+      	<span title="<?= lang('Browse.downloaded'); ?>">
+	      	<?= number_format($tor->downloaded); ?>
+	    </span>
+	    <span class="ms-1 me-1">|</span>
+      	<span title="<?= lang('Browse.completed'); ?>">
+	    <?= number_format($tor->completed); ?>
+	  	</span>
+	  </td>
+      <td class="pt-2 pb-2 text-center align-middle">
       	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= number_format($tor->seed); ?></span>
-      	<span class="ms-1 me-1">|</span>
+      	<span class="">|</span>
       	<span class="text-danger" title="<?= lang('Browse.leech'); ?>"><?= number_format($tor->leech); ?></span><br />
       	<nobr title="<?= lang('Browse.size'); ?>"><?= number_to_size($tor->size); ?></nobr>
       </td>
