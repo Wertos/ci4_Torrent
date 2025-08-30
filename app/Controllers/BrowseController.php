@@ -142,10 +142,9 @@ class BrowseController extends BaseController
 			$torr = [];
 			$obj = new \StdClass;
 
-//			var_dump($sql); die();
 			if ($this->DBDriver == 'Postgre')
 			{
-			  	$sstr = str_replace(' ', '|', $sstr) . ":*";
+			  	$sstr = str_replace(' ', ':*|', $sstr) . ":*";
 				$sstr = pg_escape_string($sstr);
 
 			  	if ($catId) {
@@ -196,7 +195,7 @@ class BrowseController extends BaseController
 		private function highlightKeywords($text, $keyword)
 		{
 
-			$keyword = preg_replace('/^[a-zA-Z\p{Cyrillic}]+$/iu', '', $keyword);
+			$keyword = preg_replace('/[^\w\d\s]+/ui', '', $keyword);
 
 			$wordsAry = explode(" ", $keyword);
 

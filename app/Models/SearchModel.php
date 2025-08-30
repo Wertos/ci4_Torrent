@@ -71,9 +71,10 @@ class SearchModel extends Model {
 				'/[“”«»„]/iu'    =>   ' ', // Double quote
 				'/ /'            =>   ' ', // nonbreaking space (equiv. to 0x160)
 			);
+			$text = trim($text);
 			$text = preg_replace(array_keys($utf8), array_values($utf8), $text);
+			$text = preg_replace('/[^\w\d\s]/iu', '', $text);
 			$text = $this->db->escape($text);
-			$text = preg_replace('/[^a-zA-Zа-яёА-ЯЁ0-9\s]/iu', '', $text);
 			return $text;
 		}
 
