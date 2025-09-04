@@ -99,13 +99,13 @@ class BrowseController extends BaseController
 
       	$data = [
       		'breadcrumb' => $this->breadcrumb->output(),
-					'page_title' => $siteTitle,
-					'torList' => $torrents,
-					'no_torrents' => $no_torrents,
-					'pager_links' => $pager_links,
-				];			
+			'page_title' => $siteTitle,
+			'torList' => $torrents,
+			'no_torrents' => $no_torrents,
+			'pager_links' => $pager_links,
+		];
 
-				$this->themes::render('browse_view', $data);
+		$this->themes::render('browse_view', $data);
 
 		}
 
@@ -144,13 +144,13 @@ class BrowseController extends BaseController
 
 			if ($this->DBDriver == 'Postgre')
 			{
-			  	$sstr = str_replace(' ', ':*|', $sstr) . ":*";
+			  	$sstr = str_replace(' ', ':*|', $sstr) . ':*';
 				$sstr = pg_escape_string($sstr);
 
 			  	if ($catId) {
-			  		$sql = "to_tsvector(name || descr) @@ to_tsquery('$sstr') AND category = $catId";
+			  		$sql = "to_tsvector(name) @@ to_tsquery('$sstr') AND category = $catId";
 				} else {
-					$sql = "to_tsvector(name || descr) @@ to_tsquery('$sstr')";
+					$sql = "to_tsvector(name) @@ to_tsquery('$sstr')";
 				}
 			}
 			$torrents = $this->SearchModel->asObject()
@@ -195,7 +195,7 @@ class BrowseController extends BaseController
 		private function highlightKeywords($text, $keyword)
 		{
 
-			$keyword = preg_replace('/[^\w\d\s]+/ui', '', $keyword);
+			$keyword = preg_replace('/[^\w\d\s\-_]+/ui', '', $keyword);
 
 			$wordsAry = explode(" ", $keyword);
 
@@ -206,9 +206,9 @@ class BrowseController extends BaseController
 
 			$wordsCount = count($filteredArray);
 			
-			for($i=0; $i < $wordsCount; $i++)
+			for($i = 0; $i < $wordsCount; $i++)
 			{
-				$text = preg_replace("/(".preg_quote($filteredArray[$i]).")/iu", '<i class="text-danger">$1</i>', $text);
+				$text = preg_replace("/(".preg_quote($filteredArray[$i])."?[^\s]+)/iu", '<i class="text-danger">$1</i>', $text);
 			}
 
 			return $text;

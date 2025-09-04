@@ -7,23 +7,22 @@
  	<h6 class="card-header py-3"><?= lang('Torrent.editTorrent'); ?></h6>
 	<div class="card-body">
 		<?= form_open_multipart('torrent/edit/' . $details->id); ?>
-    	<?= csrf_field() ?>
 			<!-- torrent Name -->
   	  <div class="form-floating mb-4">
-				<input value="<?= $details->name; ?>" type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />
-				<label for="floatingTitleInput"><?= lang('Torrent.title') ?></label>
+			<input value="<?= $details->name; ?>" type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />
+			<label for="floatingTitleInput"><?= lang('Torrent.title') ?></label>
     		<small class="small ms-1 d-block"><?= lang('Torrent.titledesc', ['255']); ?></small>
     		<small class="small ms-1 d-block"><?= lang('Torrent.titleexample'); ?></small>
     	</div>
   	  <!-- Torrent Poster -->
 	    <div class="form-floating mb-4">
-				<input value="<?= $details->poster; ?>" type="url" class="form-control" id="floatingPosterInput" name="poster" inputmode="url" placeholder="<?= lang('Torrent.poster') ?>" <?= $posterRequired; ?> />
-    	  <label for="floatingPasswordConfirmInput"><?= lang('Torrent.poster') ?></label>
-    		<small class="small ms-1 d-block"><?= lang('Torrent.posterdesc'); ?></small>
+			<input value="<?= $details->poster; ?>" type="url" class="form-control" id="floatingPosterInput" name="poster" inputmode="url" placeholder="<?= lang('Torrent.poster') ?>" <?= $posterRequired; ?> />
+    	  	<label for="floatingPasswordConfirmInput"><?= lang('Torrent.poster') ?></label>
+			<small class="small ms-1 d-block"><?= lang('Torrent.posterdesc'); ?></small>
   	  </div>
   	  <!-- Torrent Description -->
 	    <div class="mb-4">
-    	  <label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
+    	  	<label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
     		<textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /><?= $details->descr; ?></textarea>
   	  </div>
   	  <!-- Torrent Category -->
@@ -37,7 +36,7 @@
   	  </div>
 			<hr />
 			<div class="form-check form-switch">
-			  <input <?= ($details->can_comment == 1) ? 'checked' : '' ; ?> name="can_comment" class="form-check-input" type="checkbox" id="flexSwitchCanComment" />
+			  <input <?= ($details->can_comment == 1) ? ' checked="checked" ' : '' ; ?> name="can_comment" class="form-check-input" type="checkbox" id="flexSwitchCanComment" />
 			  <label class="form-check-label" for="flexSwitchCanComment"><?= lang('Torrent.canComment'); ?></label>
 			</div>		  
     <div class="card-footer text-muted">

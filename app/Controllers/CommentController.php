@@ -41,9 +41,6 @@ class CommentController extends BaseController
 			if(! $this->postData['text'])
 								return redirect()->back()->withInput()->with('error', lang('Comment.notext'));
 
-			if (isset($this->postData['csrf_test_name']))
-						unset($this->postData['csrf_test_name']);
-			
 			if (! $this->validateData($this->postData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
       }

@@ -57,9 +57,9 @@ class TorrentController extends BaseController
 	   	$can_edit = 
 		    			($owner && $this->userData->can('tor.ownededit'))
 		    			|| ($owner && $this->userData->is_uploader)
-	    				|| $this->userData->is_moderator
-    					|| $this->userData->is_admin
-    					|| $this->userData->is_superadmin;
+	    				|| $this->is_mod
+    					|| $this->is_admin
+    					|| $this->is_superadmin;
     
       $this->TorrentModel->updateViews($tId);
 
@@ -196,9 +196,9 @@ class TorrentController extends BaseController
     	$can_edit = 
 		    			($owner && $this->userData->can('tor.ownededit'))
 		    			|| ($owner && $this->userData->is_uploader)
-						  || $this->userData->is_moderator
-    					|| $this->userData->is_admin
-    					|| $this->userData->is_superadmin;
+						|| $this->is_mod
+    					|| $this->is_admin
+    					|| $this->is_superadmin;
 
 			if(! $can_edit)
 				    	return redirect()->to('/')->with('error', lang('Torrent.notowner'));
@@ -248,9 +248,9 @@ class TorrentController extends BaseController
     	$can_edit = 
 		    			($owner && $this->userData->can('tor.ownededit'))
 		    			|| ($owner && $this->userData->is_uploader)
-						  || $this->userData->is_moderator
-    					|| $this->userData->is_admin
-    					|| $this->userData->is_superadmin;
+						|| $this->is_mod
+    					|| $this->is_admin
+    					|| $this->is_superadmin;
 
 			if(! $can_edit)
 				    	return redirect()->to('/')->with('error', lang('Torrent.editforbidden'));
@@ -262,12 +262,9 @@ class TorrentController extends BaseController
 			unset($rules['torrentfile']);
 
 			$postData = $this->request->getPost();
-			
-			$postData['can_comment'] = ($postData['can_comment'] == "on") ? 1 : 0;
 
-			if (isset($postData['csrf_test_name']))
-						unset($postData['csrf_test_name']);
-			
+			$postData['can_comment'] = isset($postData['can_comment']) ? 1 : 0;
+
 			if(! setting('Torrent.posterRequired')) {
 					unset($rules['poster']);
 			}
@@ -305,17 +302,12 @@ class TorrentController extends BaseController
 
 			$postData = $this->request->getPost();
 			
-			$postData['can_comment'] = ($postData['can_comment'] == "on") ? 1 : 0;
-
-			if (isset($postData['csrf_test_name']))
-						unset($postData['csrf_test_name']);
+			$postData['can_comment'] = isset($postData['can_comment']) ? 1 : 0;
 
 			if(! setting('Torrent.posterRequired')) {
 					unset($rules['poster']);
 			}
 			
-//			var_dump($_FILES);
-//			die();
 			if (! $this->validateData($postData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
 			}
@@ -341,7 +333,7 @@ class TorrentController extends BaseController
       		'magnet'	=>	$this->torrent->getMagnet(),
       		'url'	=>	url_title($this->translit->transliterate($postData['name']), '-', true),
       		'file'	=> ((setting('Torrent.allowUploadTorrent') === true) && $torrPath) ? 1 : 0,
-      		'can_comment'	=>	($postData['can_comment']) ? 1 : 0,
+      		'can_comment'	=>	$postData['can_comment'],
       		'modded'	=>	($this->isMod) ? 1 : 0,
       		'file_name'	=>	$torrName,
       		'version'	=>	$torrVersion,
@@ -433,9 +425,9 @@ class TorrentController extends BaseController
     	$can_delete = 
 		    			($owner && $this->userData->can('tor.ownededit'))
 		    			|| ($owner && $this->userData->is_uploader)
-						  || $this->userData->is_moderator
-    					|| $this->userData->is_admin
-    					|| $this->userData->is_superadmin;
+						|| $this->is_mod
+    					|| $this->is_admin
+    					|| $this->is_superadmin;
 
 			if(! $can_delete)
 				    	return redirect()->to('/')->with('error', lang('Torrent.deleteforbidden'));

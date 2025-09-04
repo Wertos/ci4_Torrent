@@ -47,6 +47,10 @@ $routes->get('admin/comments/news/(:num)',		'Admin\CommentController::CommentsLi
 $routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::CommentsList/user_id/$1');
 $routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
 
+$routes->get('mod/torrents/',					'ModController::UncheckView');
+//$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
+
+
 
 $routes->get('/', 													'Home::index');
 $routes->get('rules',            						'PageController::rules');

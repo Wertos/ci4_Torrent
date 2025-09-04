@@ -28,7 +28,19 @@
       			<a href="<?= base_url($tor->caturl); ?>"><?= $tor->catname;?></a>
       		</div>
       </td>
-      <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($tor->created_at); ?><br /><?= number_format($tor->downloaded); ?><span class="ms-1 me-1">|</span><?= number_format($tor->completed); ?></td>
+      <td class="pt-2 pb-2 text-center small align-middle">
+      	<span title="<?= lang('Browse.add'); ?>">
+      		<?= toDate($tor->created_at); ?>
+      	</span>
+      	<br />
+      	<span title="<?= lang('Browse.downloaded'); ?>">
+	      	<?= number_format($tor->downloaded); ?>
+	    </span>
+	    <span class="ms-1 me-1">|</span>
+      	<span title="<?= lang('Browse.completed'); ?>">
+	    <?= number_format($tor->completed); ?>
+	  	</span>
+      </td>
       <td class="pt-2 pb-2 text-center align-middle small">
       	<span class="text-success" title="<?= lang('Browse.seed'); ?>"><?= number_format($tor->seed); ?></span>
       	<span class="ms-1 me-1">|</span>

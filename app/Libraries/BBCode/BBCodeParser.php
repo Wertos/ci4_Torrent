@@ -116,6 +116,10 @@ class BBCodeParser {
             "pattern" => "/\[code\](.*?)\[\/code\]/siu", 
             "replace" => "<code>$1</code>",
         ),
+        'pre' => array(
+            "pattern" => "/\[pre\](.*?)\[\/pre\]/siu", 
+            "replace" => "<pre>$1</pre>",
+        ),
         'youtube' => array(
             "pattern" => "/\[youtube\](.*?)\[\/youtube\]/siu", 
             "replace" => "<iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/$1\" frameborder=\"0\" allowfullscreen></iframe>",
@@ -154,9 +158,6 @@ class BBCodeParser {
             }
         }
         return $source;
-        //return str_ireplace('\r\n', '<br>',  nl2br($source));
-        //return str_replace(['\r\n'], "<br />", $source);
-        //return preg_replace('/(?:(?:\r\n|\r|\n){2}\s*)/siu', "<br>", $source);
     }
 
     /**

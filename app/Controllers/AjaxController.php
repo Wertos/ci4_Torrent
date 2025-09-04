@@ -268,9 +268,6 @@ class AjaxController extends \App\Controllers\BaseController
 			if(!$text || $text === '')
 								return $this->_AjaxSend(['error' => lang('Comment.notext')]);
 
-			if (isset($postData['csrf_test_name']))
-						unset($postData['csrf_test_name']);
-			
 			if (! $this->validateData($postData, $rules)) {
          				return $this->_AjaxSend(['error' => $this->validator->getErrors()]); die();
       }

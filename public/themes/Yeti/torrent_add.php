@@ -19,7 +19,6 @@
 	</div>
 	<div class="card-body">
 		<?= form_open_multipart('torrent/add', ['id' => 'torrent']); ?>
-    	<?= csrf_field() ?>
   	  <!-- Torrent File -->
 	    <div class="mb-4">
 	    	<label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
@@ -50,6 +49,7 @@
   	  <!-- Torrent Description -->
 	    <div class="mb-4">
     	  <label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
+		  <?php include "widget/bbcode.php"; ?>
  		  <textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /></textarea>
           <fieldset class="border rounded-3 mt-2">
 		  <legend class="float-none w-auto px-1 small ms-2"><?= lang('Torrent.templates'); ?></legend>

@@ -31,7 +31,7 @@
 								<i class="bi bi-shield-check user_menu_icon"></i><?= lang('Admin.modmenu'); ?>
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<li><a class="dropdown-item" href="#"><?= lang('Admin.newtorrent'); ?></a></li>
+								<li><a class="dropdown-item" href="<?= base_url('mod/torrents'); ?>"><?= lang('Admin.newtorrent'); ?></a></li>
 								<li><a class="dropdown-item" href="#"><?= lang('Admin.report'); ?></a></li>
 								<!--<li><a class="dropdown-item" href="#"><?= lang('Admin.comments'); ?></a></li>-->
 							</ul>
@@ -53,7 +53,6 @@
 		</div>
 		<div class="card-body">
 			<form action="<?= url_to('user/login') ?>" method="post">
-      <?= csrf_field() ?>
       <!-- Email -->
       <div class="form-floating mb-3">
 				<input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>

@@ -3,7 +3,6 @@
 <div class="d-flex justify-content-center">
 	<div class="col-7">
 		<form action="<?= url_to('user/login') ?>" method="post">
-    	<?= csrf_field() ?>
       <!-- Email -->
       <div class="form-floating mb-3">
 	      <input type="email" class="form-control" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>

@@ -7,7 +7,8 @@
 	</div>
 	<div class="card-body">
 	    <div class="mb-4">
-    	  <label for="floatingTextInput"><?= lang('Comment.text') ?></label>
+    		<label for="floatingTextInput"><?= lang('Comment.text') ?></label>
+    		<?php include "bbcode.php"; ?>
     		<textarea data-editor autocorrect="on" spellcheck="true" name="text" class="form-control" id="floatingTextInput" rows="3" style="height: 50px; resize: none;" required /></textarea>
   	  </div>
   </div>

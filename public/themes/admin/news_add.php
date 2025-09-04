@@ -37,6 +37,7 @@
 					fullPanel : true,
 					iconsPath : '/themes/admin/js/nicedit/nicEditorIcons.gif',
 					maxHeight : 500,
+					bbCode    : true,
 			}).panelInstance('floatingTextInput');
 			nicEditors.findEditor('floatingTextInput').saveContent();
 

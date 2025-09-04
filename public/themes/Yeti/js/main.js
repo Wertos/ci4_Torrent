@@ -1,6 +1,5 @@
 function initializeTooltips() {
-//    const tooltipTriggerList = document.querySelectorAll('[title]');
-		const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'))
+	const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'))
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
       html: true,
       boundary: document.body,
@@ -16,7 +15,7 @@ $(document).ready(function() {
 $('.spoiler').click(function() {
      const icon = $(this).children('i');
      if(icon.is('.bi-plus-square')) {
-				icon.removeClass('bi-plus-square').addClass('bi-dash-square');
+			icon.removeClass('bi-plus-square').addClass('bi-dash-square');
      } else {
      		icon.removeClass('bi-dash-square').addClass('bi-plus-square');
      }
@@ -37,38 +36,6 @@ var BuildForm = function(id, cls, action, method, name) {
 //
 //  BBCode Start
 //
-$(document).ready(function() {
-    var editors = $("[data-editor]");
-    $(editors).each(function(i, el) {
-        const buttons = `
-        <div class="editor-buttons btn-toolbar" data-parent="editor-` + i + `">
-        	<div class="btn-group mr-2 me-3">
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="b"><i class="bi bi-type-bold"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="i"><i class="bi bi-type-italic"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="u"><i class="bi bi-type-underline"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="s"><i class="bi bi-type-strikethrough"></i></button>
-        	</div>
-        	<div class="btn-group mr-2 me-3">
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="left"><i class="bi bi-text-left"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="center"><i class="bi bi-text-center"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="right"><i class="bi bi-text-right"></i></button>
-        	</div>
-        	<div class="btn-group mr-2 me-3">
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="quote"><i class="bi bi-chat-left-quote"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="img"><i class="bi bi-image"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="url"><i class="bi bi-link"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-sm" data-bbcode="spoiler"><i class="bi bi-plus-square-dotted"></i></button>
-        	</div>
-        		<div class="dropdown">
-        			<button type="button" class="btn btn-primary btn-sm dropdown-toggle" type="button" id="smilies" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-emoji-smile"></i></button>
-        			<div class="dropdown-menu" aria-labelledby="smilies" id="smilies_table"></div>
-        		</div>
-        </div>`;
-        $(el).before(buttons);
-        $(el).addClass("editor-" + i);
-    });
-});
-
 $(document).ready(function() {
     $('#smilies_table').html(CI4.smilies);
     $('.editor-buttons button.bbcode').click(function() {
@@ -116,13 +83,6 @@ $('#search-cat a.cat').each(function() {
 				$('#search-cat-btn').attr('data-cat', $(this).data('id'));
 		}
 });
-/*
-$('#search-cat a.cat').on('click', function() {
-		var el = $(this);
-		$('#search-cat-btn span').text(el.text());
-		$('#search-cat-btn').attr('data-cat', el.data('id'));
-});
-*/
 $('#search-cat-reset').on('click', function() {
 		var el = $('#search-cat-btn');
 		el.attr('data-cat', 0);

@@ -73,8 +73,8 @@ class SearchModel extends Model {
 			);
 			$text = trim($text);
 			$text = preg_replace(array_keys($utf8), array_values($utf8), $text);
-			$text = preg_replace('/[^\w\d\s]/iu', '', $text);
-			$text = $this->db->escape($text);
+			$text = preg_replace('/[^\w\d\s\-_]/iu', '', $text);
+//			$text = $this->db->escape($text);
 			return $text;
 		}
 

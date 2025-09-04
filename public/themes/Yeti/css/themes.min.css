@@ -160,3 +160,15 @@ b, strong {font-weight: bold;}
 }
 .news img { max-width:350px; margin: 5px;}
 .fs-7 { font-size: 0.9rem !important; }
+
+.post-font-serif1 { font-family: Georgia,"URW Bookman L",serif }
+.post-font-serif2 { font-family: "Palatino Linotype",Palatino,"URW Palladio L",serif }
+.post-font-sans1 { font-family: Arial,"Liberation Sans",sans-serif }
+.post-font-sans2 { font-family: "Trebuchet MS","Nimbus Sans L",Tahoma,sans-serif }
+.post-font-sans3 { font-family: "Segoe UI","Gill Sans","FreeSans",Tahoma,sans-serif }
+.post-font-mono1 { font-family: "Lucida Console",monaco,"DejaVu Sans Mono",monospace }
+.post-font-mono2 { font-family: Consolas,"Andale Mono","Liberation Mono",monospace }
+.post-font-cursive1 { font-family: "Comic Sans MS","Comic Sans",sans-serif }
+.post-font-impact { font-family: Impact,"URW Bookman L",Georgia,serif }
+option.post-font-mono1 { padding-top: 2px }
+.topic-author {display:block;min-width:70px;width:70px;min-height:70px;height:70px;}

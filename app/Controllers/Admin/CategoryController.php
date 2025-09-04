@@ -60,9 +60,6 @@ class CategoryController extends \App\Controllers\AdminController
 			
 			$this->catData = $this->request->getPost();
 			
-			if (isset($this->catData['csrf_test_name']))
-						unset($this->catData['csrf_test_name']);
-			
 			if ($this->catData['url'] == '')
 			{
 					 $translitString = $this->translit->transliterate($this->catData['name']);
@@ -113,9 +110,6 @@ class CategoryController extends \App\Controllers\AdminController
 			$this->oldCat = $this->CatModel->getCatById($catId);
 			$this->catData = $this->request->getPost();
 			
-			if (isset($this->catData['csrf_test_name']))
-						unset($this->catData['csrf_test_name']);
-
   		$this->newCatData = [];
       foreach ($this->catData as $key => $value)
       {

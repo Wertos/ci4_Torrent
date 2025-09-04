@@ -3,7 +3,6 @@
 <div class="d-flex justify-content-center">
 	<div class="col-7">
 		<form action="<?= url_to('user/login/magic-link') ?>" method="post">
-    	<?= csrf_field() ?>
     	<!-- Email -->
     	<div class="form-floating mb-2">
     		<input type="email" class="form-control" id="floatingEmailInput" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"

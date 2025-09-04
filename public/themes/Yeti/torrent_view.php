@@ -52,7 +52,7 @@
         <hr />
         <div class="position-relative">
         <div style="top:17px; left:-20px;" class="position-absolute translate-middle">
-        	<a style="min-wodth:70px;min-height:70px;" title="<?= lang('Torrent.owner') . '<br />' . $details->username; ?>" href="<?= base_url('user/profile/' . $details->owner); ?>"><?= avatar($details->avatar, 70); ?></a>
+        	<a class="topic-author" title="<?= lang('Torrent.owner') . '<br />' . $details->username; ?>" href="<?= base_url('user/profile/' . $details->owner); ?>"><?= avatar($details->avatar, 70, 'img-rounded img-responsive border border-dark border-3'); ?></a>
         </div>
         </div>
         <ul class="list-inline ms-4">
@@ -151,7 +151,6 @@
 							<div class="collapse" id="collapseTrackers">
 							  <div id="tor-trackers" class="border border-dark card-body">
 							  <ul class="list-unstyled m-0">
-							  <?php //var_dump($announceList); die('sdfvsdvsdv'); ?>
 							  <?php foreach ($announceList as $announce) : ?>
 							  	<li class="small"><i class="bi bi-link-45deg me-1"></i><?= $announce; ?><hr class="p-0 m-0"></li>
 							  <?php endforeach; ?>
