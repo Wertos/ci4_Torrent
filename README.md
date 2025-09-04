@@ -1,4 +1,4 @@
-# CodeIgniter 4 Torren tracker
+# CodeIgniter 4 Torrent tracker
 
 Всё в глубукой alfa version, пишется для себя, просто так и в свободное время !
 
