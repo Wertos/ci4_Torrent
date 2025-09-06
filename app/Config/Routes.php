@@ -58,18 +58,19 @@ $routes->get('secure',            					'PageController::secure');
 $routes->get('about',            						'PageController::about');
 
 $routes->post('ajax/torstatus/(:num)',			'AjaxController::TorrentStatus/$1');
-$routes->post('ajax/tormove/(:num)',				'AjaxController::TorrentMove/$1');
+$routes->post('ajax/tormove/(:num)',			'AjaxController::TorrentMove/$1');
 $routes->post('ajax/updatepeers/(:num)',		'AjaxController::TorrentScrape/$1');
 $routes->get('ajax/commentedit/(:num)',			'AjaxController::CommentEditView/$1');
 $routes->post('ajax/commentedit/(:num)',		'AjaxController::CommentEditAction/$1');
-$routes->post('ajax/commentdelete/(:num)',	'AjaxController::CommentDelete/$1');
-$routes->post('ajax/ajaxpag',								'AjaxController::AjaxPag');
-$routes->post('ajax/addreport',							'AjaxController::AddReport');
-$routes->post('ajax/posterupload',					'AjaxController::PosterUpload');
-$routes->post('ajax/usertorrents',					'AjaxController::getUserTorrents');
-$routes->post('ajax/usercomments',					'AjaxController::getUserComments');
-$routes->post('ajax/userbookmarks',					'AjaxController::getUserBookMarks');
-$routes->post('/ajax/updatecaptcha',				'AjaxController::updateCaptcha');
+$routes->post('ajax/commentdelete/(:num)',		'AjaxController::CommentDelete/$1');
+$routes->post('ajax/ajaxpag',					'AjaxController::AjaxPag');
+$routes->post('ajax/addreport',					'AjaxController::AddReport');
+$routes->post('ajax/posterupload',				'AjaxController::PosterUpload');
+$routes->post('ajax/usertorrents',				'AjaxController::getUserTorrents');
+$routes->post('ajax/usercomments',				'AjaxController::getUserComments');
+$routes->post('ajax/userbookmarks',				'AjaxController::getUserBookMarks');
+$routes->post('ajax/updatecaptcha',				'AjaxController::updateCaptcha');
+$routes->post('ajax/delavatar',					'AjaxController::delAvatar');
 
 $routes->get('torrent/add',            			'TorrentController::TorrentAddShow');
 $routes->post('torrent/add',           			'TorrentController::TorrentAddAction');

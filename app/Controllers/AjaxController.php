@@ -82,11 +82,13 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->BookmarkModel = model(BookmarkModel::class);
       				$this->GlobalModel = model(GlobalModel::class);
       			break;
+                case 'delavatar':
+		      	break;
 		      	case 'updatecaptcha':
 			        $this->captcha = new Image();
-							$this->captcha->imageWidth = 250;
-							$this->captcha->imageHeight = 100;
-							$this->session = service('session', config('Session'));
+					$this->captcha->imageWidth = 250;
+					$this->captcha->imageHeight = 100;
+					$this->session = service('session', config('Session'));
       			break;
       		default: 
       			throw PageNotFoundException::forPageNotFound();
@@ -95,7 +97,26 @@ class AjaxController extends \App\Controllers\BaseController
 
   private function _AjaxSend($data) 
   {
-			return $this->response->setJSON($data);
+		return $this->response->setJSON($data);
+  }
+
+  public function delAvatar()
+  {
+		if (! $this->userData->logged_in)
+			throw PageNotFoundException::forPageNotFound();
+
+		$users = auth()->getProvider();
+		$user = $users->findById($this->userData->id);
+		$user->fill([
+    		'avatar' => ''
+		]);
+		$users->save($user);
+		unlink(setting('Torrent.AvatarHtmlPath') . $this->userData->avatar);
+		$data = [
+			'src'	=>	'/' . setting('Torrent.AvatarHtmlPath') . 'default_avatar.jpg',
+			'error'	=>	'',
+		];
+		return $this->_AjaxSend($data);
   }
   
   public function TorrentStatus(int $id)
@@ -106,10 +127,10 @@ class AjaxController extends \App\Controllers\BaseController
 	  		throw PageNotFoundException::forPageNotFound();
 	  	}	
 
- 			$data['modded'] = '';
-			$data['icon'] = '';
-			$data['class'] = '';
-			$data['status_text'] = '';
+		$data['modded'] = '';
+		$data['icon'] = '';
+		$data['class'] = '';
+		$data['status_text'] = '';
 
 	  	$status = (int) $this->request->getPost('status');
 	  	$id = (int) $this->request->getPost('id');
@@ -117,19 +138,19 @@ class AjaxController extends \App\Controllers\BaseController
  	    if (! $id) return;
  	    $stdata = getDataTorrStatus($status, 'fs-2');
 
- 			$data['modded'] = $status;
-			$data['icon'] = $stdata['icon'];
-			$data['class'] = $stdata['class'];
-			$data['status_text'] = $stdata['title'];
+ 		$data['modded'] = $status;
+		$data['icon'] = $stdata['icon'];
+		$data['class'] = $stdata['class'];
+		$data['status_text'] = $stdata['title'];
 
 	  	$st = $this->TorrentModel->update($id, ['modded' => $data['modded']]);
 
-			$data['action']	=	$action;
-			$data['id']	=	$id;
-			$data['error'] = ($st == true) ? '' : 'error';
-			$data['status'] = $status;
+		$data['action']	=	$action;
+		$data['id']	=	$id;
+		$data['error'] = ($st == true) ? '' : 'error';
+		$data['status'] = $status;
 			
-			return $this->_AjaxSend($data); die();
+		return $this->_AjaxSend($data); die();
   }
 
   public function TorrentMove($id)

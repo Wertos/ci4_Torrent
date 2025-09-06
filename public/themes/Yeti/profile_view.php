@@ -18,8 +18,11 @@
 	<div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 		<div class="row m-2 border p-2">
 			<div class="col-5">
-				<div align="center" style="margin-bottom: 7px;">
-					<?= avatar($user->avatar, 250); ?>
+				<div class="position-relative" align="center" style="margin-bottom: 7px;">
+					<?= avatar($user->avatar, 250, 'img-rounded img-responsive border border-dark border-3', 'profile-avatar'); ?>
+					<?php if ($user->avatar) : ?>
+						<div id="delavatar" onClick="CI4.delAvatar();" title="<?= lang('Profile.avatarDelete'); ?>" class="clickable position-absolute" style="top:10px;left:10px;"><i class="bi bi-x-circle fs-2 fw-bold text-danger"></i></div>
+					<?php endif ; ?>
 				</div>
       </div>
 			<div class="col-7">

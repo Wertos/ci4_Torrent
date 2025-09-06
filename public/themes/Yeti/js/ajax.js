@@ -8,6 +8,22 @@ $(document)
     initializeTooltips();
   });
 
+CI4.delAvatar = function() {
+	url = '/ajax/delavatar';
+	$.post( url, { action: "delavatar" })
+  	.done(function( data ) {
+  		if(data.error) {
+			alert(data.error);
+			return false;
+  		}
+  		$('.avatar').attr('src', data.src);
+        $('#delavatar').remove();
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+	});
+}
+
 CI4.updatePeers = function(id) {
 	url = '/ajax/updatepeers/'+id;
 	$.post( url, { id : id, action: "updatepeers" })
