@@ -1,3 +1,4 @@
+<?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
 <?php if ($moderate): ?>
 <div class="alert alert-danger" style="padding: 5px !important;">
 	<b class="fw-bold ps-1">Панель модерирования</b>

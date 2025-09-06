@@ -1,3 +1,4 @@
+<?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
 <?php foreach ($torList as $torrent) : ?>
 <?php
   $status = getDataTorrStatus($torrent->modded);

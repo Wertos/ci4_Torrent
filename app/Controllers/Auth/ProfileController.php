@@ -51,19 +51,19 @@ class ProfileController extends \App\Controllers\BaseController
 				$data['user'] = $users->findById((int) $id);
 
         if (!$this->userData->logged_in)
-				                  return redirect()->to('user/login')->with('error', lang('Login.needLogin'));
+		             return redirect()->to('user/login')->with('error', lang('Login.needLogin'));
 
         if (!$data['user'])
-				                  return redirect()->back()->with('error', lang('Login.errorViewProfile'));
+		             return redirect()->back()->with('error', lang('Login.errorViewProfile'));
 
-    		$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();
+    	$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['commcount'] = $this->CommentModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['bookcount'] = $this->BookmarkModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
-
+		
         $data['age'] = ($data['user']->birthdate) ? Time::parse($data['user']->birthdate)->getAge() : '';
         $data['page_title'] = $this->TorrConfig->siteTitle . ' | ' . lang('Profile.profile');
 				
-				$this->breadcrumb->append(lang('Profile.profile_view', [$data['user']->username]));
+		$this->breadcrumb->append(lang('Profile.profile_view', [$data['user']->username]));
   	    
   	    $data['breadcrumb'] = $this->breadcrumb->output();
         
@@ -108,9 +108,9 @@ class ProfileController extends \App\Controllers\BaseController
         $rules = $this->getValidationRules();
         $postData = $this->request->getPost();
 
-        $postData['first_name'] = $this->request->getPost('first_name') ?? $user->first_name;
-        $postData['last_name'] = $this->request->getPost('last_name') ?? $user->userData->last_name;
-        $postData['birthdate'] = $this->request->getPost('birthdate') ?? $user->userData->birthdate;
+//        $postData['first_name'] = $this->request->getPost('first_name');// ?? $user->first_name;
+//        $postData['last_name'] = $this->request->getPost('last_name');// ?? $user->userData->last_name;
+//        $postData['birthdate'] = $this->request->getPost('birthdate');// ?? $user->userData->birthdate;
 
         if (!empty($_FILES['avatar']['name']))
         {
@@ -137,40 +137,31 @@ class ProfileController extends \App\Controllers\BaseController
    	  		}
 	    }
 
-        foreach ($postData as $key => $value)
+        foreach ($this->allowedFields as $val)
         {
- 			if (!$value || !in_array($key, $this->allowedFields) || $value == $user->{$key})
- 			{
- 					if($key == 'password' || $key == 'password_confirm') continue;
- 					unset($rules[$key]);
- 					continue;
- 			}
- 			
- 			$newUserData[$key] = $value;
+ 			if (!isset($postData[$val])) continue;
+
+ 			$newUserData[$val] = (mb_strlen($postData[$val]) == 0 || !$postData[$val]) ? null : $postData[$val];
+         
+//         	if ($newUserData[$val] == null) {
+//            	unset(/*$rules[$val], */$newUserData[$val]);
+//            }
+//	        echo($val."<br>");
 	     }
+
+          unset($rules['email'], $newUserData['email']);
+          unset($rules['username'], $newUserData['username']);
+
 
         if(! isset($newUserData['password']) && ! isset($newUserData['password_confirm']))
         {
           unset($rules['password_confirm'], $rules['password'], $newUserData['password_confirm'], $newUserData['password']);
         }
-        
-        if(! isset($newUserData['email']))
-        {
-          unset($rules['email'], $newUserData['email']);
-        }
-        
-		if(! isset($newUserData['username']))
-        {
-          unset($rules['username'], $newUserData['username']);
-        }
-        
         if($newUserData)
         {
-//        	var_dump($rules);die();
      		if (! $this->validateData($newUserData, $rules)) {
         		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
      		}	
-//            var_dump($newUserData);die();
      		$user->fill($newUserData);
 			$users->save($user);
 		}

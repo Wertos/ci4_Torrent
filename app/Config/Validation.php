@@ -55,6 +55,7 @@ class Validation extends BaseConfig
         'first_name' => [
             'label' => 'Profile.firstname',
             'rules' => [
+                'permit_empty',
                 'max_length[30]',
                 'min_length[3]',
                 'regex_match[/^[a-zA-Z\p{Cyrillic}]+$/u]',
@@ -64,6 +65,7 @@ class Validation extends BaseConfig
         'last_name' => [
             'label' => 'Profile.lastname',
             'rules' => [
+                'permit_empty',
                 'max_length[30]',
                 'min_length[3]',
                 'regex_match[/^[a-zA-Z\p{Cyrillic}]+$/u]',
@@ -73,6 +75,7 @@ class Validation extends BaseConfig
         'birthdate' => [
             'label' => 'Profile.birthdate',
             'rules' => [
+                'permit_empty',
                 'valid_date',
             ],
         ],

@@ -1,3 +1,4 @@
+<?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
         <div class="editor-buttons " data-parent="editor-` + i + `">
             <!--
 			<div class="btn-group mb-2 mr-2 me-1 d-block">

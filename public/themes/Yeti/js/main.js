@@ -134,11 +134,11 @@ function humn_size (size) {
 }
 
 $('*[data-pass="viewpass"]').click(function(){
-		if ($(this).prev().prev('#floatingPasswordInput').is('[type="password"]')) {
-			$(this).prev().prev('#floatingPasswordInput').attr('type', 'text')
+		if ($(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').is('[type="password"]')) {
+			$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'text')
 			$(this).html('<i class="bi bi-lock"></i>');
 		} else {	
-			$(this).prev().prev('#floatingPasswordInput').attr('type', 'password');
+			$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'password');
 			$(this).html('<i class="bi bi-unlock"></i>');
 		}
 		
