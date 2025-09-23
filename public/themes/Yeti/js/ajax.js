@@ -1,4 +1,5 @@
-var $loading = $('#loading').hide();
+var $loading = $('#loading');
+$loading.hide();
 $(document)
   .ajaxStart(function () {
     $loading.show();
@@ -57,19 +58,22 @@ CI4.TorrMove = function(id) {
     	alert(JSON.stringify(response));
 		});
 }
-$( "#modpanel a.status" ).on( "click", function() {
+
+$('#modpanel a.status').bind('click', function() {
+  if ($(this).hasClass('disabled')) return false;
   id = $(this).attr('data-id');
   action = $(this).attr('data-action');
   status = $(this).attr('data-status');
-	$("#modpanel a.status").removeClass('border-bottom border-3 border-dark');
-	url = '/ajax/torstatus/'+id;
+  $('#modpanel a.status').removeClass('border-bottom border-3 border-dark disabled unclickable');
+//  $(this).on('click', true);
+  url = '/ajax/torstatus/'+id;
 	$.post( url, { id : id, action: action, status: status })
   	.done(function( data ) {
   		if(data.error) {
   				alert(data.error);
   				return false;
   		}
-  		$('#modpanel a[data-status="'+data.status+'"]').addClass('border-bottom border-3 border-dark');
+  		$('#modpanel a[data-status="'+data.status+'"]').addClass('unclickable disabled border-bottom border-3 border-dark');//.unbind('click');
   		$('#status #torrstatus').html(data.icon);
   		var parent = $('#torrstatus').parent('div');
   		parent.attr('class',

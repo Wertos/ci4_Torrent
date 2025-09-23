@@ -49,6 +49,9 @@ table .small {font-size:13px;}
 .clickable {
 		cursor: pointer !important;
 }
+.unclickable {
+		cursor: default !important;
+}
 .clickable:hover {
 		text-decoration: underline !important;
 }
