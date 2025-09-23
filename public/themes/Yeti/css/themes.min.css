@@ -55,6 +55,9 @@ table .small {font-size:13px;}
 .clickable:hover {
 		text-decoration: underline !important;
 }
+.unclickable:hover {
+		text-decoration: none !important;
+}
 ul.home_metadata {
     margin-top: 7px;
     margin-bottom: 0px;
