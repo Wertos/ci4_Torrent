@@ -12,10 +12,10 @@
 		<span class="p-1 ms-2 me-2 text-dark fw-bold">|</span>
 				<select id="category" class="w-25" aria-label="<?= lang('Torrent.category'); ?>" />
 				<?php foreach ($cats as $cat) :?>
-					<option <?= ($cat->id == $details->category) ? 'selected' : ''; ?> value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
+					<option <?= ($cat->id == $details->category) ? 'selected disabled' : ''; ?> value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
 				<?php endforeach; ?>
 				</select>
-				<span onclick="CI4.TorrMove(<?= $details->id; ?>); return false;" class="clickable" title="<?= lang('Torrent.moveTorrent'); ?>" id="catmove"><i class="bi bi-box-arrow-right text-primary ms-1 fs-6"></i></span>
+				<span onclick="<?= ($cat->id == $details->category) ? 'return false;' : 'CI4.TorrMove(<?= $details->id; ?>); return false;'; ?>" class="clickable" title="<?= lang('Torrent.moveTorrent'); ?>" id="catmove"><i class="bi bi-box-arrow-right text-primary ms-1 fs-6"></i></span>
 		<span class="p-1 ms-2 me-2 text-dark fw-bold">|</span>
 		<a class="me-1 text-danger" onclick="return confirmation();" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash fs-6"></i></a>
 	</div>
