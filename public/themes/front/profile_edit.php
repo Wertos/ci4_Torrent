@@ -7,13 +7,13 @@
 	    <div class="form-floating mb-2">
 				<input type="text" class="form-control is-invalid" id="floatingUserNameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= $userdata->username; ?>" disabled readonly>
     	  <label for="floatingUserNameInput"><?= lang('Auth.username') ?></label>
-    	  <div style="top:4px; left:100%;" class="position-absolute translate-middle badge rounded-pill bg-danger"><i class="bi bi-exclamation-circle"></i> <?= lang('Profile.fielddanger'); ?></div>
+    	  <div style="top:4px; left:100%;" class="position-absolute translate-middle badge bg-danger"><i class="bi bi-exclamation-circle"></i> <?= lang('Profile.fielddanger'); ?></div>
   	  </div>
   	  <!-- Email -->
 	    <div class="form-floating mb-2">
 				<input type="text" class="form-control is-invalid" id="floatingEmailInput" name="email" inputmode="text" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= $userdata->email; ?>" disabled readonly>
     	  <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
-    	  <div style="top:4px; left:100%;" class="position-absolute translate-middle badge rounded-pill bg-danger"><i class="bi bi-exclamation-circle"></i> <?= lang('Profile.fielddanger'); ?></div>
+    	  <div style="top:4px; left:100%;" class="position-absolute translate-middle badge bg-danger"><i class="bi bi-exclamation-circle"></i> <?= lang('Profile.fielddanger'); ?></div>
   	  </div>
   	  <!-- First Name -->
 	    <div class="form-floating mb-2">

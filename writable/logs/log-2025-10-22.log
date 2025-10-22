@@ -15,3 +15,568 @@ DEBUG - 2025-10-22 09:17:16 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2025-10-22 09:17:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
 DEBUG - 2025-10-22 09:17:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
 DEBUG - 2025-10-22 09:17:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:27:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:27:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:27:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:30:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:34:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:34:56 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('Жизнь:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('Жизнь')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:35:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:35:05 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('Фильм:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('Фильм')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:35:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:35:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:35:17 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:37:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:37:51 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:37:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:37:52 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:38:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:38:03 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:38:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:38:57 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:39:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 09:39:00 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 09:39:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:39:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:40:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:40:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:43:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+CRITICAL - 2025-10-22 09:43:32 --> ParseError: syntax error, unexpected token "echo"
+[Method: GET, Route: torrent/9-sneznyj-celovek-2025-web-dlrip-ot-portablius]
+in FCPATH/themes/front/torrent_view.php on line 18.
+ 1 SYSTEMPATH/View/View.php(229): CodeIgniter\View\View->{closure:CodeIgniter\View\View::render():223}()
+ 2 APPPATH/ThirdParty/templates/Themes.php(464): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/TorrentController.php(143): Arifrh\Themes\Themes::render()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\TorrentController->TorrentView()
+ 5 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2025-10-22 09:44:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+CRITICAL - 2025-10-22 09:44:35 --> ParseError: syntax error, unexpected token "echo"
+[Method: GET, Route: torrent/9-sneznyj-celovek-2025-web-dlrip-ot-portablius]
+in FCPATH/themes/front/torrent_view.php on line 18.
+ 1 SYSTEMPATH/View/View.php(229): CodeIgniter\View\View->{closure:CodeIgniter\View\View::render():223}()
+ 2 APPPATH/ThirdParty/templates/Themes.php(464): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/TorrentController.php(143): Arifrh\Themes\Themes::render()
+ 4 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\TorrentController->TorrentView()
+ 5 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2025-10-22 09:45:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:45:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:47:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:49:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 09:53:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:06:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:06:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:07:05 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:07:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:07:12 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:07:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:07:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:07:23 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:07:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:08:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:11:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:11:05 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:11:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:12:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:12:25 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:12:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:13:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:13:07 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:13:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:13:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:13:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:13:35 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:13:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:14:36 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:14:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:15:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:15:47 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:15:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:17:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:17:44 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:17:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:17:59 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:17:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:18:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 10:18:25 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(59): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 10:18:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:27:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:29:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:29:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:30:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:31:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:32:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:32:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:32:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:32:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:33:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:33:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:33:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:33:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:34:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:37:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:37:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:38:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:38:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:38:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:38:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:39:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:39:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:39:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:39:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:44:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:47:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:47:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 10:47:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+ERROR - 2025-10-22 20:51:45 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections? in /srv/http/torr.ws/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /srv/http/torr.ws/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /srv/http/torr.ws/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /srv/http/torr.ws/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /srv/http/torr.ws/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#5 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#6 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+#7 /srv/http/torr.ws/app/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+#8 /srv/http/torr.ws/app/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+#9 /srv/http/torr.ws/app/Controllers/BaseController.php(142): setting()
+#10 /srv/http/torr.ws/system/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+#11 /srv/http/torr.ws/system/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+#12 /srv/http/torr.ws/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#13 /srv/http/torr.ws/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#14 /srv/http/torr.ws/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /srv/http/torr.ws/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+CRITICAL - 2025-10-22 20:51:45 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+ 5 APPPATH/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+ 6 APPPATH/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+ 7 APPPATH/Controllers/BaseController.php(142): setting()
+ 8 SYSTEMPATH/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+ 9 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+10 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-10-22 20:52:43 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections? in /srv/http/torr.ws/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /srv/http/torr.ws/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /srv/http/torr.ws/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /srv/http/torr.ws/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /srv/http/torr.ws/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#5 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#6 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+#7 /srv/http/torr.ws/app/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+#8 /srv/http/torr.ws/app/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+#9 /srv/http/torr.ws/app/Controllers/BaseController.php(142): setting()
+#10 /srv/http/torr.ws/system/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+#11 /srv/http/torr.ws/system/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+#12 /srv/http/torr.ws/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#13 /srv/http/torr.ws/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#14 /srv/http/torr.ws/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /srv/http/torr.ws/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+CRITICAL - 2025-10-22 20:52:43 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+ 5 APPPATH/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+ 6 APPPATH/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+ 7 APPPATH/Controllers/BaseController.php(142): setting()
+ 8 SYSTEMPATH/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+ 9 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+10 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-10-22 20:52:45 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections? in /srv/http/torr.ws/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /srv/http/torr.ws/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /srv/http/torr.ws/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /srv/http/torr.ws/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /srv/http/torr.ws/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#5 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#6 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+#7 /srv/http/torr.ws/app/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+#8 /srv/http/torr.ws/app/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+#9 /srv/http/torr.ws/app/Controllers/BaseController.php(142): setting()
+#10 /srv/http/torr.ws/system/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+#11 /srv/http/torr.ws/system/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+#12 /srv/http/torr.ws/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#13 /srv/http/torr.ws/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#14 /srv/http/torr.ws/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /srv/http/torr.ws/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+CRITICAL - 2025-10-22 20:52:45 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+ 5 APPPATH/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+ 6 APPPATH/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+ 7 APPPATH/Controllers/BaseController.php(142): setting()
+ 8 SYSTEMPATH/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+ 9 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+10 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ERROR - 2025-10-22 20:52:47 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections? in /srv/http/torr.ws/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /srv/http/torr.ws/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /srv/http/torr.ws/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /srv/http/torr.ws/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /srv/http/torr.ws/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#5 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#6 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+#7 /srv/http/torr.ws/app/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+#8 /srv/http/torr.ws/app/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+#9 /srv/http/torr.ws/app/Controllers/BaseController.php(142): setting()
+#10 /srv/http/torr.ws/system/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+#11 /srv/http/torr.ws/system/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+#12 /srv/http/torr.ws/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#13 /srv/http/torr.ws/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#14 /srv/http/torr.ws/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /srv/http/torr.ws/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+CRITICAL - 2025-10-22 20:52:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+ 5 APPPATH/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+ 6 APPPATH/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+ 7 APPPATH/Controllers/BaseController.php(142): setting()
+ 8 SYSTEMPATH/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+ 9 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+10 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2025-10-22 21:21:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:21:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:21:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:21:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:21:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:23:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:29:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:34:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:34:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:37:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:37:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+ERROR - 2025-10-22 21:40:18 --> Error connecting to the database: ErrorException: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: ВАЖНО:  пользователь &quot;torrent&quot; не прошёл проверку подлинности (по паролю) in /srv/http/torr.ws/system/Database/Postgre/Connection.php:78
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /srv/http/torr.ws/system/Database/Postgre/Connection.php(78): pg_connect()
+#2 /srv/http/torr.ws/system/Database/BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect()
+#3 /srv/http/torr.ws/system/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#4 /srv/http/torr.ws/system/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+#5 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#6 /srv/http/torr.ws/app/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+#7 /srv/http/torr.ws/app/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+#8 /srv/http/torr.ws/app/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+#9 /srv/http/torr.ws/app/Controllers/BaseController.php(142): setting()
+#10 /srv/http/torr.ws/system/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+#11 /srv/http/torr.ws/system/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+#12 /srv/http/torr.ws/system/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#13 /srv/http/torr.ws/system/Boot.php(363): CodeIgniter\CodeIgniter->run()
+#14 /srv/http/torr.ws/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#15 /srv/http/torr.ws/public/index.php(59): CodeIgniter\Boot::bootWeb()
+#16 {main}
+CRITICAL - 2025-10-22 21:40:18 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: pg_connect(): Unable to connect to PostgreSQL server: connection to server at &quot;localhost&quot; (::1), port 5432 failed: ВАЖНО:  пользователь &quot;torrent&quot; не прошёл проверку подлинности (по паролю)
+[Method: GET, Route: /]
+in SYSTEMPATH/Database/BaseConnection.php on line 465.
+ 1 SYSTEMPATH/Database/BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query()
+ 3 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH/ThirdParty/settings/Handlers/DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate()
+ 5 APPPATH/ThirdParty/settings/Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has()
+ 6 APPPATH/ThirdParty/settings/Helpers/setting_helper.php(25): CodeIgniter\Settings\Settings->get()
+ 7 APPPATH/Controllers/BaseController.php(142): setting()
+ 8 SYSTEMPATH/CodeIgniter.php(904): App\Controllers\BaseController->initController()
+ 9 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+10 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+11 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+DEBUG - 2025-10-22 21:40:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:40:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:41:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:41:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:41:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-22 21:41:57 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(55): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-22 21:41:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:42:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:42:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:42:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-22 21:42:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.

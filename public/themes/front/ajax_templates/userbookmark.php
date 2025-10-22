@@ -20,7 +20,7 @@
       	<a class="me-1 text-danger" href="<?= base_url('bookmark/'.$bookmark->id); ?>" title="<?= lang('Bookmark.del'); ?>"><i class="bi bi-trash-fill"></i></a>
       	<a class="fw-bold" href="<?= base_url('torrent/' . $bookmark->id . '-' . $bookmark->url); ?>" /><?= $bookmark->name; ?></a>
       		<hr class="p-0 m-1">
-      		<div style="font-size: 12px; min-width: 250px;" class="p-1 ps-3 mt-1 badge rounded-pill bg-light border <?= $status['class']; ?> text-start">
+      		<div style="font-size: 12px; min-width: 250px;" class="p-1 ps-3 mt-1 badge bg-light border <?= $status['class']; ?> text-start">
       			<span title="<?= $status['title']; ?>"><?= $status['icon']; ?></span>
       			<span class="ms-1 me-1">|</span>
       			<?= getStrTorrVersion($bookmark->version); ?>

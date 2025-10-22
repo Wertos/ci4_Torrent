@@ -43,20 +43,23 @@ CI4.updatePeers = function(id) {
 		});
 }
 
-CI4.TorrMove = function(id) {
+CI4.TorrMove = function(id, tId) {
 	url = '/ajax/tormove/'+id;
 	newId = $( "select#category option:selected" ).val();
+	if (newId == tId) return false;
 	$.post( url, { id : id, newid: newId, action: "tormove" })
   	.done(function( data ) {
   		if(data.error) {
   				alert(data.error);
   				return false;
   		}
+  		$( "select#category option:disabled" ).attr({'disabled':false, 'selected':false});
+  		$( "select#category [value="+newId+"]" ).attr({'disabled':true, 'selected':true});
   		alert(data.success);
   	})
   	.fail(function( response ) {
     	alert(JSON.stringify(response));
-		});
+	});
 }
 
 $('#modpanel a.status').bind('click', function() {

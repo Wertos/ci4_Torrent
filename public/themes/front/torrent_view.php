@@ -1,7 +1,7 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
 <?php if ($moderate): ?>
 <div class="alert alert-danger" style="padding: 5px !important;">
-	<b class="fw-bold ps-1">Панель модерирования</b>
+	<b class="fw-bold ps-1"><?= lang('Admin.modpanel'); ?></b>
 	<div id="modpanel" class="m-1 p1">
 		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="0" class="<?= $details->modded == 0 ? 'unclickable disabled border-bottom border-3 border-dark' : '' ?> status p-1 text-warning" title="<?= lang('Torrent.status_name.not_approved'); ?>" href="javascript:void(0);"><i class="bi bi-exclamation-circle fs-6"></i></a>
 		<a data-id="<?= $details->id; ?>" data-action="torstatus" data-status="1" class="<?= $details->modded == 1 ? 'unclickable disabled border-bottom border-3 border-dark' : '' ?> status p-1 text-success" title="<?= lang('Torrent.status_name.approved'); ?>" href="javascript:void(0);"><i class="bi bi-check2-all fs-6"></i></a>
@@ -15,7 +15,7 @@
 					<option <?= ($cat->id == $details->category) ? 'selected disabled' : ''; ?> value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
 				<?php endforeach; ?>
 				</select>
-				<span onclick="<?= ($cat->id == $details->category) ? 'return false;' : 'CI4.TorrMove(<?= $details->id; ?>); return false;'; ?>" class="clickable" title="<?= lang('Torrent.moveTorrent'); ?>" id="catmove"><i class="bi bi-box-arrow-right text-primary ms-1 fs-6"></i></span>
+				<span onclick="CI4.TorrMove(<?= $details->id ?>, <?= $details->category; ?>); return false;" class="clickable" title="<?= lang('Torrent.moveTorrent'); ?>" id="catmove"><i class="bi bi-box-arrow-right text-primary ms-1 fs-6"></i></span>
 		<span class="p-1 ms-2 me-2 text-dark fw-bold">|</span>
 		<a class="me-1 text-danger" onclick="return confirmation();" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash fs-6"></i></a>
 	</div>
