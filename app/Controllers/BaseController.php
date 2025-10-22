@@ -165,7 +165,7 @@ abstract class BaseController extends Controller
 				$this->ogimage = base_url('themes/' . setting('Torrent.theme') . '/img/logo.png');
 
 				$this->themes = Themes::init($this->TorrConfig)
-								->addCSS(['bootstrap.min.css', 'themes.min.css', 'bootstrap-icons.min.css'])
+								->addCSS([setting('Torrent.css_theme'), 'themes.min.css', 'bootstrap-icons.min.css'])
 								->addJS(['jquery-3.7.1.min.js', 'jquery.treeview.js', 'bootstrap.bundle.min.js', 'main.js', 'ajax.js'])
 								->setVar(['userdata' => $this->userData])->setVar(['adminlink' => $this->adminlink])
 								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])

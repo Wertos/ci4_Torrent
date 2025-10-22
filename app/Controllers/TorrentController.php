@@ -47,10 +47,10 @@ class TorrentController extends BaseController
 			$torrentData = $this->TorrentModel->getDetail($tId);
 
 			if(! $torrentData)
-								throw PageNotFoundException::forPageNotFound();
+					throw PageNotFoundException::forPageNotFound();
 
 			if($torrentData->deleted_at != null)
-								return redirect()->back()->with('error', lang('Torrent.deleted'));
+					return redirect()->back()->with('error', lang('Torrent.deleted'));
 
 			$owner = ($this->userData->id == $torrentData->owner);
 
@@ -60,7 +60,7 @@ class TorrentController extends BaseController
 	    				|| $this->is_mod
     					|| $this->is_admin
     					|| $this->is_superadmin;
-    
+
       $this->TorrentModel->updateViews($tId);
 
 			if ($this->isMod)
@@ -70,14 +70,14 @@ class TorrentController extends BaseController
 					return redirect()->back()->with('error', lang('Torrent.notfound'));
 
 			$torrentFile = $this->TorrentModel->torrLoad(setting('Torrent.TorrentFilesPath'), $torrentData->file_name);
-			
-    	$data = [];
+//			var_dump($torrentFile); die();
+			$data = [];
 		
 			$pager = service('pager');
 			
 			if (setting('Torrent.commenEnable'))
 			{
-					$comments = $this->CommentModel->asObject()->where('fid', $tId)->orderBy('created_at', 'DESC')->getPagination(setting('Torrent.commentPerPage'));
+				$comments = $this->CommentModel->asObject()->where('fid', $tId)->orderBy('created_at', 'DESC')->getPagination(setting('Torrent.commentPerPage'));
 			}
 	   	
 	   	$status = getDataTorrStatus($torrentData->modded, 'fs-2');
@@ -86,41 +86,51 @@ class TorrentController extends BaseController
 	   	$smilies_array = get_clickable_smileys('/uploads/smileys/', 'floatingTextInput');
 	   	$col_array = $table->makeColumns($smilies_array, 8);
 
-	   	$annList = [];
-		$ann = $this->TorrentModel->getAnnounceList()->toArray();
-		array_walk_recursive($ann, function ($item) use (&$annList) {
-		    $annList[] = $item;    
-		});
-	   	$annList[] = $this->TorrentModel->getAnnounce();
-		$annList = array_unique($annList);
-
-	   	$data = [
-	   			'hash_v1' => $this->TorrentModel->hashToString($torrentData->infohash_v1),
-	   			'hash_v2' => $this->TorrentModel->hashToString($torrentData->infohash_v2),
-	   			'ogimage' => $torrentData->poster,
-	   			'bbcode' => new BBCodeParser(),
+		if(! is_null($torrentFile)) {
+			$annList = [];
+			$ann = $this->TorrentModel->getAnnounceList()->toArray();
+			array_walk_recursive($ann, function ($item) use (&$annList) {
+			    $annList[] = $item;
+			});
+			$annList[] = $this->TorrentModel->getAnnounce();
+			$annList = array_unique($annList);
+			$filestree = (setting('Torrent.allowFileList') === true) ? $torrentFile->toTree() : null;
+		}
+		else
+		{
+			$annList = [];
+			$filestree = null;
+		}
+		
+		
+		
+		$data = [
+			'hash_v1' => $this->TorrentModel->hashToString($torrentData->infohash_v1),
+			'hash_v2' => $this->TorrentModel->hashToString($torrentData->infohash_v2),
+			'ogimage' => $torrentData->poster,
+			'bbcode' => new BBCodeParser(),
       			'icon' => $status['icon'],
       			'title' => $status['title'],
       			'class' => $status['class'],
       			'details' => $torrentData,
 		      	'poster' => img($torrentData->poster),
 		      	'can_delete' => ($this->isMod || $can_edit),
-				'can_edit' => $can_edit,
-				'moderate' => $this->isMod,
-				'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')),
-				'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
-				'allowreport' => (setting('Torrent.allowreport') === true),
-				'allowFileList' => (setting('Torrent.allowFileList') === true),
-				'filestree' => (setting('Torrent.allowFileList') === true) ? $torrentFile->toTree() : null,
-				'cats' => ($this->isMod) ? $cats : null,
-				'comments' => $comments['comments'] ?? null,
-				'paginate' => $this->CommentModel->pager,
-				'canCommentEdit' => ($this->userData->logged_in && $this->userData->can('comment.ownededit')),
-				'canCommentDelete' => ($this->userData->logged_in && $this->userData->can('comment.owneddelete')),
-				'smilies' => $table->generate($col_array),
-				'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
-				'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
-			];
+			'can_edit' => $can_edit,
+			'moderate' => $this->isMod,
+			'download' => (setting('Torrent.allowUploadTorrent') === true) && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')) && $torrentFile,
+			'allowmagnet' => ($torrentData->modded === "1" || $torrentData->modded === "0"),
+			'allowreport' => (setting('Torrent.allowreport') === true),
+			'allowFileList' => (setting('Torrent.allowFileList') === true),
+			'filestree' => $filestree,
+			'cats' => ($this->isMod) ? $cats : null,
+			'comments' => $comments['comments'] ?? null,
+			'paginate' => $this->CommentModel->pager,
+			'canCommentEdit' => ($this->userData->logged_in && $this->userData->can('comment.ownededit')),
+			'canCommentDelete' => ($this->userData->logged_in && $this->userData->can('comment.owneddelete')),
+			'smilies' => $table->generate($col_array),
+			'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
+			'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
+		];
 
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;
 

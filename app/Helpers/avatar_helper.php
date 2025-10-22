@@ -7,16 +7,24 @@ use CodeIgniter\CodeIgniter;
  */
 function avatar($avatar, $size = 100, ?string $class = null, ?string $id = null) : string
 {
-	$config = new \Config\Torrent;  
+    $src = '';
+    $config = new \Config\Torrent;
     $avatarpath = $config->AvatarHtmlPath . $avatar;
     $avatarpath = str_ireplace('\\', '/', $avatarpath);
-    $image_properties = array(
-        'src' => ($avatar != '' ? $avatarpath : $config->AvatarHtmlPath . 'default_avatar.jpg'),
+    if ( !file_exists($avatarpath) || !$avatar) {
+	    $src = $config->AvatarHtmlPath . 'default_avatar.jpg';
+    }
+    else
+    {
+	    $src = $avatarpath;
+    }
+    $image_properties = [
+        'src' => $src,
         'class' => 'avatar ' . $class,
         'id'	=> $id,
         'width' => $size,
         'height' => $size
-    );
+    ];
 
     return img($image_properties);
 }

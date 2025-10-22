@@ -21,8 +21,8 @@ class Torrent extends BaseConfig
 		public string $TorrentUploadPath = 'torrents' . DIRECTORY_SEPARATOR;
     
 // Torrent settin    
-    public int  $torrentsPerPage = 20;
-    public int  $torrentsPerCatOnIndex = 5;
+		public int  $torrentsPerPage = 20;
+		public int  $torrentsPerCatOnIndex = 5;
 		public bool $allowUploadTorrent = true;
 		public bool $allowMagnet = true;
 		public bool $allowreport = true;
@@ -79,7 +79,8 @@ class Torrent extends BaseConfig
 		public int $newsPerAdminList = 10;
 
 // Theme setting
-		public $theme = 'Yeti';
+		public $theme = 'front';
+		public $css_theme = 'yeti.min.css';
 		public $theme_path = 'themes';
 		public $css_path = 'css';
 		public $js_path = 'js';
