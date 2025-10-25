@@ -1,0 +1,141 @@
+DEBUG - 2025-10-25 03:27:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 03:27:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 03:27:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 03:27:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 03:28:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 03:28:21 --> [DEPRECATED] Creation of dynamic property App\Controllers\TorrentController::$catList is deprecated in APPPATH/Controllers/TorrentController.php on line 162.
+ 1 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\TorrentController->TorrentAddShow()
+ 2 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TorrentController))
+ 3 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 03:29:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 03:29:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 04:05:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 09:56:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 09:59:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 09:59:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 09:59:52 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(55): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 09:59:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 09:59:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 09:59:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 09:59:59 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(55): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 09:59:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 10:00:53 --> [DEPRECATED] Creation of dynamic property App\Models\Admin\AdminModel::$sDate is deprecated in APPPATH/Models/Admin/AdminModel.php on line 39.
+ 1 SYSTEMPATH/BaseModel.php(373): App\Models\Admin\AdminModel->initialize()
+ 2 SYSTEMPATH/Model.php(159): CodeIgniter\BaseModel->__construct(null)
+ 3 SYSTEMPATH/Config/Factories.php(236): CodeIgniter\Model->__construct(Object(CodeIgniter\Database\Postgre\Connection))
+ 4 SYSTEMPATH/Config/Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\Admin\\AdminModel', [...])
+ 5 SYSTEMPATH/Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 6 APPPATH/Controllers/AjaxController.php(55): model('App\\Models\\Admin\\AdminModel')
+ 7 SYSTEMPATH/CodeIgniter.php(903): App\Controllers\AjaxController->__construct()
+ 8 SYSTEMPATH/CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 9 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 10:00:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:00:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:01:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:01:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:01:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 10:01:16 --> [DEPRECATED] pg_escape_string(): Automatic fetching of PostgreSQL connection is deprecated in APPPATH/Controllers/BrowseController.php on line 148.
+ 1 APPPATH/Controllers/BrowseController.php(148): pg_escape_string('2025:*')
+ 2 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\BrowseController->SearchView('2025')
+ 3 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BrowseController))
+ 4 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 10:01:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:22:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:22:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:22:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:22:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:22:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:23:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:50:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:55:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:56:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 10:56:54 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth\ProfileController::$userModel is deprecated in APPPATH/Controllers/Auth/ProfileController.php on line 98.
+ 1 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Auth\ProfileController->ProfileEditAction()
+ 2 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth\ProfileController))
+ 3 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-10-25 10:56:54 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth\ProfileController::$allowedFields is deprecated in APPPATH/Controllers/Auth/ProfileController.php on line 100.
+ 1 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\Auth\ProfileController->ProfileEditAction()
+ 2 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth\ProfileController))
+ 3 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 10:56:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:57:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:57:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+WARNING - 2025-10-25 10:57:21 --> [DEPRECATED] Creation of dynamic property App\Controllers\TorrentController::$catList is deprecated in APPPATH/Controllers/TorrentController.php on line 162.
+ 1 SYSTEMPATH/CodeIgniter.php(933): App\Controllers\TorrentController->TorrentAddShow()
+ 2 SYSTEMPATH/CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TorrentController))
+ 3 SYSTEMPATH/CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH/Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-10-25 10:57:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:57:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 10:59:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:00:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:01:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:01:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:03:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:12:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:13:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:15:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:16:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:17:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:19:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:20:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:20:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:20:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:21:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:22:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:23:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:23:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.
+DEBUG - 2025-10-25 11:23:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\DatabaseHandler' driver.

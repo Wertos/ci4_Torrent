@@ -3,7 +3,7 @@
 use CodeIgniter\CodeIgniter;
 
 
-		function getDataTorrStatus(?int $status = null, string $texSizeClass = 'fs-6')
+		function getDataTorrStatus(?int $status = null, string $texSizeClass = 'fs-7')
 		{
 		   	$data = [];
 		   	switch ($status) {
@@ -38,7 +38,7 @@ use CodeIgniter\CodeIgniter;
 	   		  	$data['title'] = lang('Torrent.status_name.need_edit');
 	   			break;
       		default: 
-	   			  $data['icon'] = '';
+	   			$data['icon'] = '';
 	   		  	$data['class'] = '';
 	   		  	$data['title'] = '';
 				}
@@ -55,13 +55,13 @@ use CodeIgniter\CodeIgniter;
     {
 		   	switch ($version) {
  					case 1:
-			   		  $ver = '<span title="' . lang('Torrent.torrentversion', [$version]). '" style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-primary">1</b></span>';
+			   		  $ver = '<span title="' . lang('Torrent.torrentversion', [$version]). '" style="" class="font-monospace fs-7' . $class . '">v<b class="text-primary">1</b></span>';
 		   			break;
  					case 2:
-			   		  $ver = '<span title="' . lang('Torrent.torrentversion', [$version]). '" style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-success">2</b></span>';
+			   		  $ver = '<span title="' . lang('Torrent.torrentversion', [$version]). '" style="" class="font-monospace fs-7' . $class . '">v<b class="text-success">2</b></span>';
 		   			break;
  					case 3:
-			   		  $ver = '<span title="' . lang('Torrent.torrentversion', ['Gibrid']). '" style="font-size: 11px !important;" class="font-monospace ' . $class . '">v<b class="text-danger">G</b></span>';
+			   		  $ver = '<span title="' . lang('Torrent.torrentversion', ['Gibrid']). '" style="" class="font-monospace fs-7' . $class . '">v<b class="text-danger">G</b></span>';
 		   			break;
       		default: 
 							$ver = '';

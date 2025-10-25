@@ -1,8 +1,8 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
         <div class="editor-buttons " data-parent="editor-` + i + `">
-            <!--
-			<div class="btn-group mb-2 mr-2 me-1 d-block">
-			    <select name="fontFace">
+<!--
+			<div class="btn-group">
+			    <select name="fontFace" class="form-select form-select-sm">
 					<option value="-1" selected="selected">Шрифт:</option>
 					<option class="post-font-serif1 em" value="serif1">Georgia</option>
 					<option class="post-font-serif2" value="serif2">&nbsp;Palatino</option>
@@ -14,8 +14,36 @@
 					<option class="post-font-cursive1 em" value="cursive1">Comic Sans MS</option>
 					<option class="post-font-impact" value="impact">Impact</option>
 				</select>
+				<select name="codeColor" class="form-select form-select-sm">
+					<option style="color: black; background: #fff;" value="black" selected="selected">Цвет:</option>
+					<option style="color: darkred;" value="darkred">&nbsp;Тёмно-красный</option>
+					<option style="color: brown;" value="brown">&nbsp;Коричневый</option>
+					<option style="color: #996600;" value="#996600">&nbsp;Оранжевый</option>
+					<option style="color: red;" value="red">&nbsp;Красный</option>
+					<option style="color: #993399;" value="#993399">&nbsp;Фиолетовый</option>
+					<option style="color: green;" value="green">&nbsp;Зелёный</option>
+					<option style="color: darkgreen;" value="darkgreen">&nbsp;Тёмно-Зелёный</option>
+					<option style="color: gray;" value="gray">&nbsp;Серый</option>
+					<option style="color: olive;" value="olive">&nbsp;Оливковый</option>
+					<option style="color: blue;" value="blue">&nbsp;Синий</option>
+					<option style="color: darkblue;" value="darkblue">&nbsp;Тёмно-синий</option>
+					<option style="color: indigo;" value="indigo">&nbsp;Индиго</option>
+					<option style="color: #006699;" value="#006699">&nbsp;Тёмно-Голубой</option>
+				</select>
+				<select name="codeSize" class="form-select form-select-sm">
+					<option value="12" selected="selected">Размер:</option>
+					<option value="10" class="fw-bold">Маленький</option>
+					<option value="11">&nbsp;size=11</option>
+					<option value="12" class="fw-bold" disabled="disabled">Обычный</option>
+					<option value="14">&nbsp;size=14</option>
+					<option value="16">&nbsp;size=16</option>
+					<option value="18" class="fw-bold">Большой</option>
+					<option value="20">&nbsp;size=20</option>
+					<option value="22">&nbsp;size=22</option>
+					<option value="24" class="fw-bold">Огромный</option>
+				</select>
 			</div>
-			-->
+-->
         	<div class="btn-group mr-2 me-1">
         		<button type="button" class="bbcode btn btn-primary btn-sm" title="<?= lang('BBcode.bold'); ?>" data-bbcode="b"><i class="bi bi-type-bold"></i></button>
         		<button type="button" class="bbcode btn btn-primary btn-sm" title="<?= lang('BBcode.italic'); ?>" data-bbcode="i"><i class="bi bi-type-italic"></i></button>
