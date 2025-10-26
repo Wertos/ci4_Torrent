@@ -61,7 +61,7 @@ $(document).ready(function() {
         var start = '[' + option_id + attribs + ']';
         var end = '[/' + option_id + ']';
         insert(start, end);
-        $(this).val("-1").change();
+        $(this).val("-1");
         return false;
     });
 
