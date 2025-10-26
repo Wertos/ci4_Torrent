@@ -180,14 +180,14 @@ class BrowseController extends BaseController
 		  	}
 
      		$data = [
-      			'breadcrumb' => $this->breadcrumb->output(),
-				'page_title' => $siteTitle,
-				'torList' => $torr,
-				'no_torrents' => $no_torrents,
-				'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
-				'catId'	=> $catId,
-				'searchString' => $str,
-			];			
+			'breadcrumb' => $this->breadcrumb->output(),
+			'page_title' => $siteTitle,
+			'torList' => $torr,
+			'no_torrents' => $no_torrents,
+			'pager_links' => $this->SearchModel->pager->only(['text', 'order'])->links(),
+			'catId'	=> $catId,
+			'searchString' => $str,
+		];
 
 			$this->themes::render('search_view', $data);
 		}

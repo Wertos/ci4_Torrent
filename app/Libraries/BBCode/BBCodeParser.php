@@ -7,11 +7,11 @@ class BBCodeParser {
     public $availableParsers = array(
         'bold' => array(
             "pattern" => "/\[b\](.*?)\[\/b\]/siu", 
-            "replace" => "<strong>$1</strong>",
+            "replace" => "<b>$1</b>",
         ),
         'italic' => array(
             "pattern" => "/\[i\](.*?)\[\/i\]/siu", 
-            "replace" => "<em>$1</em>",
+            "replace" => "<i>$1</i>",
         ),
         'underLine' => array(
             "pattern" => "/\[u\](.*?)\[\/u\]/siu", 
@@ -19,19 +19,19 @@ class BBCodeParser {
         ),
         'lineThrough' => array(
             "pattern" => "/\[s\](.*?)\[\/s\]/siu", 
-            "replace" => "<strike>$1</strike>",
+            "replace" => "<s>$1</s>",
         ),
         'fontSize' => array(
-            "pattern" => "/\[size\=([1-7])\](.*?)\[\/size\]/siu", 
-            "replace" => "<font size=\"$1\">$2</font>",
+            "pattern" => "/\[size\=([1-9]{2})\](.*?)\[\/size\]/siu", 
+            "replace" => "<span style=\"font-size: $1px; line-height: normal;\">$2</span>",
         ),
         'fontColor' => array(
             "pattern" => "/\[color\=([#a-zA-Z0-9]+)\](.*?)\[\/color\]/siu", 
-            "replace" => "<font color=\"$1\">$2</font>",
+            "replace" => "<span style=\"color: $1;\">$2</span>",
         ),
         'fontType' => array(
-            "pattern" => "/\[font\=\"(.*?)\"\](.*?)\[\/font\]/siu", 
-            "replace" => "<font style=\"font-family:$1\">$2</font>",
+            "pattern" => "/\[font\=(.*?)\](.*?)\[\/font\]/siu", 
+            "replace" => "<span class=\"post-font-$1\">$2</span>",
         ),
 
         'align' => array(

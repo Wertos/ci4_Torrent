@@ -49,11 +49,26 @@ $(document).ready(function() {
         insert(start, end);
         return false;
     });
+
+    $('.editor-buttons select.fontFace, .editor-buttons select.codeColor, .editor-buttons select.codeSize').change(function() {
+        var option_id = attribs = $(this).find(':selected').attr("data-bbcode");
+        option_id = option_id.replace(/[.*](.*)/, '');
+        if (/[.*]/.test(attribs)) {
+            attribs = attribs.replace(/.*[(.*)]/, '=');
+        } else {
+            attribs = '';
+        }
+        var start = '[' + option_id + attribs + ']';
+        var end = '[/' + option_id + ']';
+        insert(start, end);
+        $(this).val("-1").change();
+        return false;
+    });
+
 });
 
 function insert(start, end) {
-//    element = document.getElementById('floatingDescInput');
-    element = document.querySelector('[data-editor]');;
+    element = document.querySelector('[data-editor]');
     if (document.selection) {
         element.focus();
         sel = document.selection.createRange();
@@ -66,7 +81,7 @@ function insert(start, end) {
         element.value = element.value.substring(0, startPos) +
             start + element.value.substring(startPos, endPos) + end +
             element.value.substring(endPos, element.value.length);
-        element.setSelectionRange(startPos + start.length, endPos + end.length - 1);
+        element.setSelectionRange(startPos + start.length, endPos + start.length);
     } else {
         element.value += start + end;
     }

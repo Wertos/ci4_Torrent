@@ -1,49 +1,47 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
         <div class="editor-buttons " data-parent="editor-` + i + `">
-<!--
 			<div class="btn-group">
-			    <select name="fontFace" class="form-select form-select-sm">
+				<select class="fontFace form-select form-select-sm">
 					<option value="-1" selected="selected">Шрифт:</option>
-					<option class="post-font-serif1 em" value="serif1">Georgia</option>
-					<option class="post-font-serif2" value="serif2">&nbsp;Palatino</option>
-					<option class="post-font-sans1 em" value="sans1">Arial</option>
-					<option class="post-font-sans2" value="sans2">&nbsp;Trebuchet MS</option>
-					<option class="post-font-sans3" value="sans3">&nbsp;Segoe UI</option>
-					<option class="post-font-mono1 em" value="mono1">Monospaced</option>
-					<option class="post-font-mono2" value="mono2">&nbsp;Consolas</option>
-					<option class="post-font-cursive1 em" value="cursive1">Comic Sans MS</option>
-					<option class="post-font-impact" value="impact">Impact</option>
+					<option class="post-font-serif1 fw-bold" data-bbcode="font.serif1">Georgia</option>
+					<option class="post-font-serif2" data-bbcode="font.serif2">&nbsp;Palatino</option>
+					<option class="post-font-sans1 fw-bold" data-bbcode="font.sans1">Arial</option>
+					<option class="post-font-sans2" data-bbcode="font.sans2">&nbsp;Trebuchet MS</option>
+					<option class="post-font-sans3" data-bbcode="font.sans3">&nbsp;Segoe UI</option>
+					<option class="post-font-mono1 fw-bold" data-bbcode="font.mono1">Monospaced</option>
+					<option class="post-font-mono2" data-bbcode="font.mono2">&nbsp;Consolas</option>
+					<option class="post-font-cursive1 fw-bold" data-bbcode="font.cursive1">Comic Sans MS</option>
+					<option class="post-font-impact" data-bbcode="font.impact">Impact</option>
 				</select>
-				<select name="codeColor" class="form-select form-select-sm">
-					<option style="color: black; background: #fff;" value="black" selected="selected">Цвет:</option>
-					<option style="color: darkred;" value="darkred">&nbsp;Тёмно-красный</option>
-					<option style="color: brown;" value="brown">&nbsp;Коричневый</option>
-					<option style="color: #996600;" value="#996600">&nbsp;Оранжевый</option>
-					<option style="color: red;" value="red">&nbsp;Красный</option>
-					<option style="color: #993399;" value="#993399">&nbsp;Фиолетовый</option>
-					<option style="color: green;" value="green">&nbsp;Зелёный</option>
-					<option style="color: darkgreen;" value="darkgreen">&nbsp;Тёмно-Зелёный</option>
-					<option style="color: gray;" value="gray">&nbsp;Серый</option>
-					<option style="color: olive;" value="olive">&nbsp;Оливковый</option>
-					<option style="color: blue;" value="blue">&nbsp;Синий</option>
-					<option style="color: darkblue;" value="darkblue">&nbsp;Тёмно-синий</option>
-					<option style="color: indigo;" value="indigo">&nbsp;Индиго</option>
-					<option style="color: #006699;" value="#006699">&nbsp;Тёмно-Голубой</option>
+				<select class="codeColor form-select form-select-sm">
+					<option style="color: black; background: #fff;" value="-1" selected="selected">Цвет:</option>
+					<option style="color: darkred;"  data-bbcode="color.darkred">&nbsp;Тёмно-красный</option>
+					<option style="color: brown;"  data-bbcode="color.brown">&nbsp;Коричневый</option>
+					<option style="color: #996600;"  data-bbcode="color.#996600">&nbsp;Оранжевый</option>
+					<option style="color: red;"  data-bbcode="color.red">&nbsp;Красный</option>
+					<option style="color: #993399;"  data-bbcode="color.#993399">&nbsp;Фиолетовый</option>
+					<option style="color: green;"  data-bbcode="color.green">&nbsp;Зелёный</option>
+					<option style="color: darkgreen;"  data-bbcode="color.darkgreen">&nbsp;Тёмно-Зелёный</option>
+					<option style="color: gray;"  data-bbcode="color.gray">&nbsp;Серый</option>
+					<option style="color: olive;"  data-bbcode="color.olive">&nbsp;Оливковый</option>
+					<option style="color: blue;"  data-bbcode="color.blue">&nbsp;Синий</option>
+					<option style="color: darkblue;"  data-bbcode="color.darkblue">&nbsp;Тёмно-синий</option>
+					<option style="color: indigo;"  data-bbcode="color.indigo">&nbsp;Индиго</option>
+					<option style="color: #006699;"  data-bbcode="color.#006699">&nbsp;Тёмно-Голубой</option>
 				</select>
-				<select name="codeSize" class="form-select form-select-sm">
-					<option value="12" selected="selected">Размер:</option>
-					<option value="10" class="fw-bold">Маленький</option>
-					<option value="11">&nbsp;size=11</option>
-					<option value="12" class="fw-bold" disabled="disabled">Обычный</option>
-					<option value="14">&nbsp;size=14</option>
-					<option value="16">&nbsp;size=16</option>
-					<option value="18" class="fw-bold">Большой</option>
-					<option value="20">&nbsp;size=20</option>
-					<option value="22">&nbsp;size=22</option>
-					<option value="24" class="fw-bold">Огромный</option>
+				<select class="codeSize form-select form-select-sm">
+					<option value="-1" selected="selected">Размер:</option>
+					<option data-bbcode="size.10" class="fw-bold">Маленький</option>
+					<option data-bbcode="size.11">&nbsp;size=11</option>
+					<option data-bbcode="size.12" class="fw-bold" disabled="disabled">Обычный</option>
+					<option data-bbcode="size.14">&nbsp;size=14</option>
+					<option data-bbcode="size.16">&nbsp;size=16</option>
+					<option data-bbcode="size.18" class="fw-bold">Большой</option>
+					<option data-bbcode="size.20">&nbsp;size=20</option>
+					<option data-bbcode="size.22">&nbsp;size=22</option>
+					<option data-bbcode="size.24" class="fw-bold">Огромный</option>
 				</select>
 			</div>
--->
         	<div class="btn-group mr-2 me-1">
         		<button type="button" class="bbcode btn btn-primary btn-sm" title="<?= lang('BBcode.bold'); ?>" data-bbcode="b"><i class="bi bi-type-bold"></i></button>
         		<button type="button" class="bbcode btn btn-primary btn-sm" title="<?= lang('BBcode.italic'); ?>" data-bbcode="i"><i class="bi bi-type-italic"></i></button>
