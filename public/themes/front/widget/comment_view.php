@@ -42,7 +42,7 @@
   </ul>                                                   
   </div>
   <div class="card-footer text-center">
-			<?= $paginate->links(); ?>
+	<?= $paginate->links(); ?>
   </div>
 </div>
 <?php endif; ?>

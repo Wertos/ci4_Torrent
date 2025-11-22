@@ -15,10 +15,13 @@ use \App\Models\NewsModel;
 class NewsController extends \App\Controllers\AdminController
 {
     
+    private $NewsModel;
+    public $siteTitle;
+    
     function __construct()
     {
         $this->NewsModel = model(NewsModel::class);
-		}
+    }
 
 		public function NewsAddView()
 		{
@@ -62,23 +65,23 @@ class NewsController extends \App\Controllers\AdminController
     public function NewsList()
     {
 
-	    helper('torrent');
+	helper('torrent');
 
- 			$pager = service('pager');
+	$pager = service('pager');
 
-   		$news = $this->NewsModel->asObject()->withDeleted(true)->orderBy('created_at', 'DESC')->paginate(setting('Torrent.newsPerAdminList'));
+	$news = $this->NewsModel->asObject()->withDeleted(true)->orderBy('created_at', 'DESC')->paginate(setting('Torrent.newsPerAdminList'));
 
-			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('News.listnews');
+	$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('News.listnews');
 
-   		$data = [
-   				'page_title' => $this->siteTitle,
-					'newsList' => $news ?? null,
-					'pager_links' => $this->NewsModel->pager->links(),
-			];
+	$data = [
+		'page_title' => $this->siteTitle,
+		'newsList' => $news ?? null,
+		'pager_links' => $this->NewsModel->pager->links(),
+	];
 
-			$this->themes::render('news_list', $data);
+	$this->themes::render('news_list', $data);
 
-		}
+    }
 
     public function NewsDelete(?int $id = null)
     {

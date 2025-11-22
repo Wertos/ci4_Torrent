@@ -22,6 +22,7 @@ class AdminModel extends GlobalAdminModel
     public $commentModel;
     public $reportModel;
     public $newsModel;
+    private $sDate;
 
     protected function initialize(): void
     {
