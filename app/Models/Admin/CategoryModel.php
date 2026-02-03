@@ -71,15 +71,15 @@ class CategoryModel extends GlobalAdminModel
                 'is_unique[categories.sort]',
             ],
         ],
-/*
+
         'img' => [
             'label' => 'Category.Category.img',
             'rules' => [
-                'max_length[254]',
-                'valid_url',
+                'max_length[50]',
+		'regex_match[/\A[a-z0-9-_\.]+\z/]',
             ],
         ],
-*/
+
     ];
 
     protected $validationMessages   = [];

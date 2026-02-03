@@ -171,7 +171,8 @@ abstract class BaseController extends Controller
 								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])
 								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage])
 								->setVar(['news' => $this->news])->setVar(['isMod' => $this->isMod])->setVar(['isAdmin' => $this->isAdmin])
-								->setVar(['isSuperAdmin' => $this->isSuperAdmin]);
+								->setVar(['isSuperAdmin' => $this->isSuperAdmin])
+								->setVar(['catImgDir' => service('settings')->get('Torrent.catImageDir')]);
 
         // E.g.: $this->session = service('session');
 

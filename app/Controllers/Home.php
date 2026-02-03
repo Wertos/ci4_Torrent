@@ -38,7 +38,7 @@ class Home extends BaseController
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Site.SiteHome');
 			
 			$this->breadcrumb->append($this->TorrConfig->siteName . ' - ' . $this->TorrConfig->siteDescr);
-
+					 
       $data = [
       		'breadcrumb' => $this->breadcrumb->output(),
 					'page_title' => $siteTitle,

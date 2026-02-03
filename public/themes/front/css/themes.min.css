@@ -178,3 +178,17 @@ b, strong {font-weight: bold;}
 .post-font-impact { font-family: Impact,"URW Bookman L",Georgia,serif }
 option.post-font-mono1 { padding-top: 2px }
 .topic-author {display:block;min-width:70px;width:70px;min-height:70px;height:70px;}
+
+.btn-group-sm>.btn, .btn-esm {
+    --bs-btn-padding-y: 0.1rem;
+    --bs-btn-padding-x: 0.4rem;
+    --bs-btn-font-size: 0.8rem;
+    --bs-btn-border-radius: var(--bs-border-radius-sm);
+}
+.form-select-esm {
+    padding-top: 0.1rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.5rem;
+    font-size: 0.8rem;
+    border-radius: var(--bs-border-radius-sm);
+}

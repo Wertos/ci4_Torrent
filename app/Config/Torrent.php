@@ -41,7 +41,7 @@ class Torrent extends BaseConfig
 		];
 		public int $maxTimeOnAnnouncer = 3; //second
 
-		public bool $uploadPoster = false;
+		public bool $uploadPoster = true;
 //		public bool $uploadUrlPoster = true;
 		public bool $posterRequired = true;
 		public bool $resizePoster = false;
@@ -111,5 +111,7 @@ class Torrent extends BaseConfig
 
     function __construct() {
     			$this->widgetDir = FCPATH . $this->theme_path . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'widget' . DIRECTORY_SEPARATOR;
+    			$this->imageDir = FCPATH . $this->theme_path . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR;
+    			$this->catImageDir = DIRECTORY_SEPARATOR . $this->theme_path . DIRECTORY_SEPARATOR . $this->theme . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'catimg' . DIRECTORY_SEPARATOR;
     }
 }

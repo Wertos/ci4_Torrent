@@ -7,7 +7,6 @@
 	<div class="container-fluid p-3 p-md-4 d-flex justify-content-center">
 	<div class="col-8 mb-4">
 		<?= form_open('admin/categories/edit/'.$cat->id); ?>
-    	<?= csrf_field() ?>
   	  <!-- Cat Name -->
 	    <div class="form-floating mb-2">
 				<input value="<?= $cat->name; ?>" type="text" class="form-control" id="floatingCatNameInput" name="name" inputmode="text" autocomplete="name" placeholder="<?= lang('Category.Category.name') ?>" required />
@@ -32,8 +31,13 @@
     	</div>
   	  <!-- Cat Icon -->
 	    <div class="form-floating mb-2">
-				<input  value="<?= $cat->img; ?>"type="text" class="form-control" id="floatingCatIconInput" name="img" inputmode="text" autocomplete="img" placeholder="<?= lang('Category.Category.img') ?>">
-    	  <label for="floatingCatIconInput"><i class="fa-solid fa-image-landscape me-2"></i><?= lang('Category.Category.img') ?></label>
+			<input  value="<?= $cat->img; ?>"type="text" class="form-control" id="floatingCatIconInput" name="img" inputmode="text" autocomplete="img" placeholder="<?= lang('Category.Category.img') ?>">
+			<label for="floatingCatIconInput"><i class="fa-solid fa-image-landscape me-2"></i><?= lang('Category.Category.img') ?></label>
+			<?php foreach ($catImgArr as $catImg) : ?>
+				<div class="p-1 m-2 float-start border">
+					<img alt="<?= $catImg; ?>" title="<?= $catImg; ?>" width="24px" height="24px" style="cursor:pointer;" onClick="$('#floatingCatIconInput').val('<?= $catImg; ?>')" src="<?= service('settings')->get('Torrent.catImageDir').$catImg; ?>" />
+				</div>
+			<?php endforeach; ?>
   	  </div>
 		  <div class="d-grid col-12 col-md-8 mx-auto m-3">
   			<button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-square-check me-2"></i><?= lang('Auth.send') ?></button>

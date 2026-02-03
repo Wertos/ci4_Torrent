@@ -7,7 +7,6 @@
 	<div class="container-fluid p-3 p-md-4 d-flex justify-content-center">
 	<div class="col-8 mb-4">
 		<?= form_open('admin/categories/add'); ?>
-    	<?= csrf_field() ?>
   	  <!-- Cat Name -->
 			<div class="form-floating mb-2">
 				<input type="text" class="form-control" id="floatingCatNameInput" name="name" inputmode="none" autocomplete="name" placeholder="<?= lang('Category.Category.name') ?>" required />
@@ -26,7 +25,7 @@
 			</div>
 			<!-- Cat Sort -->
   	  <div class="form-floating mb-2">
-				<input type="number" pattern="\d*" min="0" class="form-control" id="floatingCatSortInput" name="sort" inputmode="Numeric" autocomplete="sort" placeholder="<?= lang('Category.Category.sort') ?>" required />
+				<input type="number" pattern="\d*" min="0" class="form-control" id="floatingCatSortInput" name="sort" inputmode="Numeric" placeholder="<?= lang('Category.Category.sort') ?>" required />
 				<label for="floatingCatSortInput"><i class="fa-solid fa-bars-sort me-2"></i><?= lang('Category.Category.sort') ?></label>
 				<small class="small ms-1 d-block text-danger"><?= lang('Category.Category.sortdesc') ?></small>
     	</div>
