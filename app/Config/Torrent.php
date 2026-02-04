@@ -20,7 +20,7 @@ class Torrent extends BaseConfig
 		public string $TorrentFilesPath = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'torrents' . DIRECTORY_SEPARATOR;
 		public string $TorrentUploadPath = 'torrents' . DIRECTORY_SEPARATOR;
     
-// Torrent settin    
+// Torrent setting
 		public int  $torrentsPerPage = 20;
 		public int  $torrentsPerCatOnIndex = 5;
 		public bool $allowUploadTorrent = true;
@@ -49,7 +49,8 @@ class Torrent extends BaseConfig
 //		public string $posterUploadPath = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterUploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterHtmlPath = 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
-
+		public string $imageDir;
+		public string $catImageDir;
 		public string $templatesPath = 'uploads' . DIRECTORY_SEPARATOR . 'torrent_templates' . DIRECTORY_SEPARATOR;
     
     public array $validationPosterUploadRule = [

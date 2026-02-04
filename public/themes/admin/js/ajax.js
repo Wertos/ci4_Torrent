@@ -120,6 +120,21 @@ CI4_Admin.CatDelete = function(id) {
 		});
 }
 
+CI4_Admin.CatOnOff = function(id) {
+	url = '/admin/categories/onoff/'+id;
+	$.post( url, { id : id, action: "CatOnOff" })
+  	.done(function( data ) {
+  		if(data.error) {
+  				alert(data.error);
+  				return false;
+  		}
+  		$('#rowid-'+data.id).removeClass("table-secondary");
+		$('div#catonoff-'+data.id+' a').html(data.icon).attr('data-bs-title', data.title);
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+	});
+}
 // implement JSON.stringify serialization
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

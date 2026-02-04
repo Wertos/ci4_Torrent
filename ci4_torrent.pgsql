@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.5
--- Dumped by pg_dump version 17.5
+\restrict WzOzZ18LQs9OtunXj681B3MlGSqJZvtL3bnKwSpiMD2tiHd47AE9UeeTPnbeyMa
+
+-- Dumped from database version 18.1
+-- Dumped by pg_dump version 18.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -357,7 +359,9 @@ CREATE TABLE public.categories (
     img character varying(100) NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    enabled smallint DEFAULT 1 NOT NULL,
+    CONSTRAINT categories_enabled_check CHECK ((enabled = ANY (ARRAY[0, 1])))
 );
 
 
@@ -675,8 +679,8 @@ CREATE TABLE public.users (
     updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
     avatar character varying(255) DEFAULT ''::character varying,
-    first_name character varying(255) DEFAULT ''::character varying NOT NULL,
-    last_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    first_name character varying(255) DEFAULT ''::character varying,
+    last_name character varying(255) DEFAULT ''::character varying,
     birthdate date,
     active smallint DEFAULT 0 NOT NULL
 );
@@ -1118,6 +1122,15 @@ ALTER TABLE ONLY public.auth_remember_tokens
 
 
 --
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+
+
+--
 -- PostgreSQL database dump complete
 --
+
+\unrestrict WzOzZ18LQs9OtunXj681B3MlGSqJZvtL3bnKwSpiMD2tiHd47AE9UeeTPnbeyMa
 

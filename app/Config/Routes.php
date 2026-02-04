@@ -20,6 +20,7 @@ $routes->get('admin/categories/edit/(:num)',    'Admin\CategoryController::CatEd
 $routes->post('admin/categories/edit/(:num)',   'Admin\CategoryController::CatEditAction/$1');
 
 $routes->post('admin/categories/delete/(:num)', 'Admin\AjaxController::CatDelete/$1');
+$routes->post('admin/categories/onoff/(:num)', 'Admin\AjaxController::CatOnOff/$1');
                                                 
 $routes->post('/admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete/$1');
 $routes->post('/admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');

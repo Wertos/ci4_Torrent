@@ -46,6 +46,7 @@ class AjaxController extends \App\Controllers\AdminController
       					
       			break;
 				case 'CatDelete':
+				case 'CatOnOff':
       				$this->CatModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
       		default: 
@@ -285,5 +286,32 @@ class AjaxController extends \App\Controllers\AdminController
   {
 			$this->CatModel->CatDelete($id);
 			return $this->_AjaxSend(['id' => $id]); die();
-	}
+  }
+
+  public function CatOnOff($id)
+  {
+			$id = intval($id);
+
+			$catData = $this->CatModel->getCatById($id);
+
+			if ($catData->enabled == 1)
+			{
+				$this->CatModel->update($id, ['enabled' => 0]);
+				$icon = '<i class="fa-solid fa-eye-slash text-secondary cursor-pointer"></i>';
+				$title = lang('Category.Disabled');
+			} 
+			elseif ($catData->enabled == 0)
+			{
+				$this->CatModel->update($id, ['enabled' => 1]);
+				$icon = '<i class="fa-solid fa-eye text-success	cursor-pointer"></i>';
+				$title = lang('Category.Enabled');
+			}
+			else
+			{
+				return;
+			}
+
+			return $this->_AjaxSend(['id' => $id, 'icon' => $icon, 'title' => $title]); die();
+  }
+
 }

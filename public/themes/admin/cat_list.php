@@ -26,7 +26,7 @@
   </thead>
   <tbody>
   	<?php foreach ($catList as $cat) { ?>
-  	<tr id="rowid-<?= $cat->id; ?>">
+  	<tr id="rowid-<?= $cat->id; ?>" class="<?= ($cat->enabled == false) ? 'table-secondary' : '' ?>">
   		<td id="catid-<?= $cat->id; ?>"><?= $cat->id; ?></td>
   		<td id="catname-<?= $cat->id; ?>"><?= $cat->name; ?><br /><small style="font-size:10px;" class="bg-warning-subtle p-1"><?= $cat->desc; ?></small></td>
   		<td id="caturl-<?= $cat->id; ?>"><?= $cat->url; ?></td>
@@ -36,6 +36,24 @@
       	<div id="catdelete-<?= $cat->id; ?>" class="d-inline">
       		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Delete'); ?>" onclick="CI4_Admin.CatDelete(<?= $cat->id; ?>); return false;">
       			<i class="fa-solid fa-trash-xmark text-danger cursor-pointer"></i>
+      		</a>
+		</div>
+      	<div id="catonoff-<?= $cat->id; ?>" class="d-inline">
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" 
+					data-bs-title="
+					<?php if ($cat->enabled == true) {
+						echo lang('Category.Enabled');
+					} else {
+						echo lang('Category.Disabled');
+					} ?>" 
+					onclick="CI4_Admin.CatOnOff(<?= $cat->id; ?>); return false;">
+      			<i class="fa-solid 
+					<?php if ($cat->enabled == true) : ?>
+						fa-eye text-success
+					<?php else : ?>
+						fa-eye-slash text-secondary
+					<?php endif; ?>
+				cursor-pointer"></i>
       		</a>
       	</div>
 				<div id="catedit-<?= $cat->id; ?>" class="d-inline">

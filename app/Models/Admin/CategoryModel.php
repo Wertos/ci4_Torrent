@@ -19,7 +19,7 @@ class CategoryModel extends GlobalAdminModel
     protected $returnType       = 'array';//\App\Entities\Torrent::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['sort','name','desc','parent','url','img'];
+    protected $allowedFields    = ['sort','name','desc','parent','url','img', 'enabled'];
 
     // Dates
     protected $useTimestamps = true;

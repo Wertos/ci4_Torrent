@@ -22,7 +22,8 @@ class GlobalModel extends Model
         	return $this->db->table('categories')
         					->select('*')
         					->where('deleted_at =', null)
-									->groupBy('id')
+							->where('enabled =', 1)		
+					->groupBy('id')
                 	->orderBy('sort', 'ASC')
                 	->get()->getResult();
     }
@@ -32,6 +33,7 @@ class GlobalModel extends Model
         					->select('categories.*, COUNT(torrents.id) AS count')
 									->join('torrents', 'torrents.category = categories.id', 'left')
 									->where('categories.deleted_at =', null)
+	           						->where('categories.enabled =', 1)		
 									->where('torrents.deleted_at =', null)
 									->groupBy('categories.id')
                 	->orderBy('categories.sort', 'ASC')
