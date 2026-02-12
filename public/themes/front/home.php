@@ -6,11 +6,13 @@
    <div class="card panel-default">
    <!-- Default panel contents -->
    	<div class="card-header fs-6">
-		<?php if ($cat->img) : ?>
-			<div class="float-start pe-1 pt-1 pb-1 me-2">
-				<img width="32" src="<?= $catImgDir . $cat->img; ?>" />
-			</div>
-		<?php endif; ?>
+		<div class="float-start pe-1 pt-1 pb-1 me-2">
+			<?php if ($cat->img) : ?>
+    			<img width="32" src="<?= $catImgDir . $cat->img; ?>" />
+			<?php else : ?>
+    			<img width="32" src="<?= $catImgDir; ?>no_image.png" />
+			<?php endif; ?>
+		</div>
 		<?= anchor($cat->url, $cat->name,['class' => 'link-primary text-decoration-none']); ?>
 		<span data-bs-original-title="<?= lang('Torrent.torInCat'); ?>" title="<?= lang('Torrent.torInCat'); ?>" class="badge bg-primary float-end"><?= $cat->count ?></span>
    		<small style="font-size:10px; display:block;"><?= $cat->desc; ?></small>
