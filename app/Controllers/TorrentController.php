@@ -77,7 +77,7 @@ class TorrentController extends BaseController
 			
 			if (setting('Torrent.commenEnable'))
 			{
-				$comments = $this->CommentModel->asObject()->where('fid', $tId)->orderBy('created_at', 'DESC')->getPagination(setting('Torrent.commentPerPage'));
+				$comments = $this->CommentModel->asObject()->where('tid', $tId)->orderBy('created_at', 'DESC')->getPagination(setting('Torrent.commentPerPage'));
 			}
 	   	
 	   	$status = getDataTorrStatus($torrentData->modded, 'fs-2');
@@ -129,7 +129,7 @@ class TorrentController extends BaseController
 			'canCommentDelete' => ($this->userData->logged_in && $this->userData->can('comment.owneddelete')),
 			'smilies' => $table->generate($col_array),
 			'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
-			'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 't_id' => $torrentData->id])->first(),
+			'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id, 'tid' => $torrentData->id])->first(),
 		];
 
 			$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;
@@ -444,9 +444,9 @@ class TorrentController extends BaseController
 
 			$torrentFile = setting('Torrent.TorrentFilesPath') . $torrentData->file_name;
 
-			$this->CommentModel->where('fid', $tId)->delete();
-			$this->ReportModel->where('fid', $tId)->delete();
-			$this->BookmarkModel->where('t_id', $tId)->delete();
+			$this->CommentModel->where('tid', $tId)->delete();
+			$this->ReportModel->where('tid', $tId)->delete();
+			$this->BookmarkModel->where('tid', $tId)->delete();
 			$this->TorrentModel->delete($tId);
 			
 			if ( file_exists($torrentFile) && ! $storeFiles)

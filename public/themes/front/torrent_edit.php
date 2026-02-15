@@ -7,6 +7,13 @@
  	<h6 class="card-header py-3"><?= lang('Torrent.editTorrent'); ?></h6>
 	<div class="card-body">
 		<?= form_open_multipart('torrent/edit/' . $details->id); ?>
+  	  <!-- Torrent File -->
+<!--
+	    <div class="mb-4">
+	    	<label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
+			<input type="file" class="form-control form-control-lg" id="floatingFileInput" name="torrentfile" accept=".torrent" />
+		</div>
+-->
 			<!-- torrent Name -->
   	  <div class="form-floating mb-4">
 			<input value="<?= $details->name; ?>" type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />

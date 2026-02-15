@@ -46,7 +46,7 @@
   			</div>
   		</td>
   		<td class="col-1" id="commentmaterial-<?= $comment->id; ?>">
-  			<a class="me-2" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.by_material'); ?>" href="<?= base_url('admin/comments/torrent/' . $comment->fid); ?>">
+  			<a class="me-2" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.by_material'); ?>" href="<?= base_url('admin/comments/torrent/' . $comment->tid); ?>">
   				<i class="text-secondary-emphasis fa-solid fa-magnifying-glass"></i>
   			</a>
   			<a target="_blank" data-bs-toggle="tooltip" data-bs-title="<?= $comment->tname; ?>" href="<?= base_url($comment->location . '/' . $comment->tid . '-' . $comment->turl); ?>">

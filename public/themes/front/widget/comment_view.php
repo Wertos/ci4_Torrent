@@ -19,7 +19,7 @@
   				<span style="font-size:10px;" class="small"><?= $comment->created_at; ?></span>
   				<span class="float-end d-none showhide">
   				<?php if ($canCommentEdit && ($userdata->id = $comment->user_id)) : ?>
-  					<button class="btn btn-outline-primary btn-xs" onclick="CI4.EditComment(<?= $comment->id; ?>, <?= $comment->fid; ?>); return false;"><i title="<?= lang('Comment.edit'); ?>" class="bi bi-pen"></i></button>
+  					<button class="btn btn-outline-primary btn-xs" onclick="CI4.EditComment(<?= $comment->id; ?>, <?= $comment->tid; ?>); return false;"><i title="<?= lang('Comment.edit'); ?>" class="bi bi-pen"></i></button>
   				<?php	endif; ?>
   				<?php if ($userdata->logged_in) : ?>
   					<button class="btn btn-outline-primary btn-xs" onclick="CI4.QuoteComment(<?= $comment->id; ?>, '<?= $comment->username; ?>'); return false;"><i title="<?= lang('Comment.quote'); ?>" class="bi bi-chat-square-quote"></i></button>

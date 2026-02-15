@@ -23,7 +23,7 @@
 	    <div class="mb-4">
 	    	<label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
 			<input type="file" class="form-control form-control-lg" id="floatingFileInput" name="torrentfile" accept=".torrent" required />
-			</div>
+		</div>
 			<!-- torrent Name -->
 		<div class="form-floating mb-4">
 			<input type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />

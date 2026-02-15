@@ -15,7 +15,7 @@ class ReportModel extends Model {
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['fid','comment','modded_by','location', 'sender', 'ip'];
+    protected $allowedFields    = ['tid','comment','modded_by','location', 'sender', 'ip', 'category'];
 
     // Dates
     protected $useTimestamps = true;

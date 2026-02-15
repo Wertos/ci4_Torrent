@@ -270,7 +270,7 @@ class AjaxController extends \App\Controllers\BaseController
   {
   	
   	if(! $this->userData->logged_in)
-  												throw PageNotFoundException::forPageNotFound();
+  					throw PageNotFoundException::forPageNotFound();
 
   	$comment = $this->CommentModel->where('id', $id)->first();
   	return $this->_AjaxSend($comment); die();
@@ -356,19 +356,20 @@ class AjaxController extends \App\Controllers\BaseController
 	{
 	
 	  	if(! $this->userData->logged_in)
-  											throw PageNotFoundException::forPageNotFound();
+  					throw PageNotFoundException::forPageNotFound();
   		
-  		$data['fid'] = (int) $this->request->getPost('id');
+  		$data['tid'] = (int) $this->request->getPost('id');
   		$data['location'] = (string) $this->request->getPost('type');
   		$data['comment'] = (string) $this->request->getPost('comment');
   		$data['sender'] = $this->userData->id;
   		$data['ip'] = $this->request->getIPAddress();
-			$act = false;
+		$data['category'] = (int) $this->request->getPost('category');
+		$act = false;
   		
-  		$checkReport = $this->ReportModel->where(['fid' => $data['fid'], 'modded_by' => 0, 'location' => $data['location']])->first();
+  		$checkReport = $this->ReportModel->where(['tid' => $data['tid'], 'modded_by' => 0, 'location' => $data['location']])->first();
 
   		if(! $checkReport)
-  								$act = $this->ReportModel->insert($data);
+  				$act = $this->ReportModel->insert($data);
   		
   		$data['error'] = ($act) ? false : true;
   		$data['error_text'] = (!$act) ? lang('Report.adderror') : '';
@@ -382,13 +383,13 @@ class AjaxController extends \App\Controllers\BaseController
 	{
 	
 	  	if(! $this->userData->logged_in)
-  											throw PageNotFoundException::forPageNotFound();
+  					throw PageNotFoundException::forPageNotFound();
         
         $file = $this->request->getFile('poster'); // 'userfile' is the name attribute of your input file field
         $path = setting('Torrent.posterUploadPath');
         $image = service('image');
         if(! $this->userData->can_upload) {
-        		$data = ['error' => lang('Torrent.cannotuploadposter')];
+        	$data = ['error' => lang('Torrent.cannotuploadposter')];
             return $this->_AjaxSend($data); die();
         }
         if (! $this->validateData([], setting('Torrent.validationPosterUploadRule'))) {
@@ -434,7 +435,7 @@ class AjaxController extends \App\Controllers\BaseController
 			$direction = (string) $this->request->getPost('direction');
 			
 			if(! $userId || ! $this->userData->logged_in)
-  											throw PageNotFoundException::forPageNotFound();
+  							throw PageNotFoundException::forPageNotFound();
 
 			$offset = (int) $this->request->getPost('offset');
 

@@ -16,7 +16,7 @@ class BookmarkController extends BaseController
     {
         $this->BookmarkModel = model(BookmarkModel::class);
         $this->TorrentModel = model(TorrentModel::class);
-		}
+	}
 
     public function BookMark(int $id)
     {
@@ -29,9 +29,11 @@ class BookmarkController extends BaseController
 			  $user_id = $this->userData->id;
 				$message = '';
 				$type = 'error';					
-				$bookmark = $this->BookmarkModel->where(['user_id' => $user_id, 't_id' => $id])->first();
+				$bookmark = $this->BookmarkModel->where(['user_id' => $user_id, 'tid' => $id])->first();
+				$category = $this->BookmarkModel->getTorrCat($id)->category;
+
 				if ($bookmark === null) {
-						$result = $this->BookmarkModel->insert(['user_id' => $user_id, 't_id' => $id]);
+						$result = $this->BookmarkModel->insert(['user_id' => $user_id, 'tid' => $id, 'category' => $category]);
 						if ($result) {
 									$type = 'message';
 									$message = lang('Bookmark.addsuccess');
@@ -40,7 +42,7 @@ class BookmarkController extends BaseController
 									$message = lang('Bookmark.adderror');
 						}
 				} else {
-						$result = $this->BookmarkModel->where(['user_id' => $user_id, 't_id' => $id])->delete();
+						$result = $this->BookmarkModel->where(['user_id' => $user_id, 'tid' => $id])->delete();
 						if ($result) {
 									$type = 'message';
 									$message = lang('Bookmark.deletesuccess');

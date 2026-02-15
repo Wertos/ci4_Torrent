@@ -1,5 +1,5 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
-<?= form_open('/comment/add/'.$details->id, '', ['tid' => $details->id]); ?>
+<?= form_open('/comment/add/'.$details->id, '', ['tid' => $details->id, 'category' => $details->category]); ?>
 <?php echo smiley_js(); ?>
 <div class="card mt-4 border-primary" id="commentForm">
 	<div class="card-header">

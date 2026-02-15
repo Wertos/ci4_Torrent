@@ -282,7 +282,7 @@ class AjaxController extends \App\Controllers\AdminController
 			return true;
   }
 
-  public function CatDelete($id)
+  public function CatDelete(int $id)
   {
 			$this->CatModel->CatDelete($id);
 			return $this->_AjaxSend(['id' => $id]); die();

@@ -111,7 +111,9 @@ class CategoryModel extends GlobalAdminModel
         return $this->db->table('categories')->where('id', $id)->get()->getRow();
     }
 
-    function CatDelete($id) {
+    function CatDelete(int $id) {
+
+		$this->db->table('torrents')->where('category', $id)->delete();
         $this->db->table('categories')->where('id', $id)->delete();
     }
 

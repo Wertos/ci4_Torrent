@@ -29,7 +29,7 @@ class CommentController extends \App\Controllers\AdminController
 
 		$pager = service('pager');
 		
-		$sort_fields = ['created_at', 'updated_at', 'user_id', 'fid'];
+		$sort_fields = ['created_at', 'updated_at', 'user_id', 'tid'];
 		$material_fields = ['torrent', 'news', 'user_id'];
 		$sort = 'created_at';
 //		$material = 'torrent';
@@ -44,7 +44,7 @@ class CommentController extends \App\Controllers\AdminController
 		switch ($material) {
 		    case 'torrent':
 		    case 'news':
-		        $where = ($id !== null) ? "comments.fid = " . $id : $where;
+		        $where = ($id !== null) ? "comments.tid = " . $id : $where;
 		        break;
 		    case 'user_id':
 		        $where = ($id !== null) ? "comments.user_id = " . $id : $where;

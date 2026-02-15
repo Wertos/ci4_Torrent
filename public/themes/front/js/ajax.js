@@ -272,7 +272,8 @@ CI4.AddReport = function(id, type) {
 
 	$('#button-'+id).on('click', function() {
 		var comment = $('#textarea-'+id).val();
-		$.post( url, { id : id, type : type, action: "addreport", comment : $.trim(comment) })
+		var catId = $('a#category').attr('data-catid');
+		$.post( url, { id : id, type : type, action: "addreport", comment : $.trim(comment), category : catId })
   		.done(function( data ) {
   			myModal.hide();
   			if(data.error) {
@@ -280,7 +281,8 @@ CI4.AddReport = function(id, type) {
   				return false;		
   			}
  				alert(JSON.stringify(data.success_text));
- 				return false;		
+ 				window.location.reload();
+				return false;		
   		})
   		.fail(function( response ) {
     		alert(JSON.stringify(response));

@@ -15,7 +15,7 @@ class CommentModel extends Model {
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['text','user_id','fid','location'];
+    protected $allowedFields    = ['text','user_id','tid','location','category'];
 
     // Dates
     protected $useTimestamps = true;
@@ -64,7 +64,7 @@ class CommentModel extends Model {
 //    		$this->builder()
         		$this
         		->select('torrents.url as turl, torrents.name as tname, torrents.id as tid, comments.*')
-        		->join('torrents', 'torrents.id = comments.fid', 'left');
+        		->join('torrents', 'torrents.id = comments.tid', 'left');
 //    		    ->where('id', $user_id)
 //		        ->first();
 		    return $this;

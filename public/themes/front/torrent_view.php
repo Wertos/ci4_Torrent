@@ -106,7 +106,7 @@
         <tr>
             <td class="rowhead"><?= lang('Torrent.category'); ?></td>
             <td class="border-start">
-            	<a href="<?= base_url($details->caturl); ?>"><?= $details->catname; ?></a>
+            	<a id="category" data-catid="<?= $details->category; ?>" href="<?= base_url($details->caturl); ?>"><?= $details->catname; ?></a>
            		<small class="small d-block bg-warning-subtle p-1"><?= $details->catdesc; ?></small>
             </td>
         </tr>

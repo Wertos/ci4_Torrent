@@ -15,7 +15,7 @@ class BookmarkModel extends Model {
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id','t_id'];
+    protected $allowedFields    = ['user_id','tid','category'];
 
     // Dates
     protected $useTimestamps = true;
@@ -50,8 +50,8 @@ class BookmarkModel extends Model {
     }
     
     public function getUserBookMarks(int $userId, int $limit = 10, int $offset = 0) {
-        return $this->db->table('bookmarks b')->select('b.user_id, b.t_id, b.created_at, b.updated_at, b.deleted_at, t.id, t.owner, t.size, t.type, t.name, t.category, t.created_at, t.poster, t.url, t.modded, t.seed, t.leech, t.views, t.downloaded, t.completed, t.version, u.username, c.name AS catname, c.url AS caturl')
-                        ->join('torrents t', 't.id = b.t_id' , 'left')
+        return $this->db->table('bookmarks b')->select('b.user_id, b.tid, b.created_at, b.updated_at, b.deleted_at, t.id, t.owner, t.size, t.type, t.name, t.category, t.created_at, t.poster, t.url, t.modded, t.seed, t.leech, t.views, t.downloaded, t.completed, t.version, u.username, c.name AS catname, c.url AS caturl')
+                        ->join('torrents t', 't.id = b.tid' , 'left')
                         ->join('categories c', 'c.id = t.category' , 'left')
                         ->join('users u', 'u.id = t.owner' , 'left')
                         ->where(['b.user_id' => $userId])
@@ -60,5 +60,9 @@ class BookmarkModel extends Model {
                         ->limit($limit, $offset)
                         ->get()->getResult();
     }
+
+    public function getTorrCat(int $tid) {
+        return $this->db->table('torrents')->select('category')->where(['id' => $tid])->get()->getRow();
+	}
 
 }

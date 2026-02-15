@@ -41,7 +41,7 @@
   		<td id="reportmodded-<?= $report->id; ?>">
   			<?= ($report->modded_by > 0) ? '<a targer="_blank" href="'.base_url('user/profile/'.$report->sender).'">'.$report->user_sender.'</a>' : '-'; ?>
   		</td>
-  		<td id="reportlocation-<?= $report->id; ?>"><?= ($report->location == 'torrents') ? '<a href="' . base_url('torrent/'.$report->fid) . '" target="_blank">'.lang('Report.location_torrents') . '</a>' : '<a href="' .  base_url('admin/comments/#'.$report->fid) . '" >' . lang('Report.location_comments') . '</a>'; ?></td>
+  		<td id="reportlocation-<?= $report->id; ?>"><?= ($report->location == 'torrents') ? '<a href="' . base_url('torrent/'.$report->tid) . '" target="_blank">'.lang('Report.location_torrents') . '</a>' : '<a href="' .  base_url('admin/comments/#'.$report->tid) . '" >' . lang('Report.location_comments') . '</a>'; ?></td>
   		<td id="reportip-<?= $report->id; ?>"><?= $report->ip; ?></td>
   		<td class="text-center">
       	<div id="reportdelete-<?= $report->id; ?>" class="d-inline">

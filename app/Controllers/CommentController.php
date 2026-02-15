@@ -46,12 +46,13 @@ class CommentController extends BaseController
       }
 
       $data = [
-          'text' => $this->postData['text'],
+          	'text' => $this->postData['text'],
       		'created_at' => Time::now(setting('App.appTimezone'))->toDateTimeString(),
       		'updated_at' => null,
       		'user_id' => (int) $this->userData->id,
-      		'fid' => (int) $this->postData['tid'],
+      		'tid' => (int) $this->postData['tid'],
       		'location' => 'torrent',
+			'category' => (int) $this->postData['category'],
       ];
 //      var_dump($data); die();
       $this->CommentModel->insert($data);

@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict WzOzZ18LQs9OtunXj681B3MlGSqJZvtL3bnKwSpiMD2tiHd47AE9UeeTPnbeyMa
+\restrict y8YhJMyl9u5xCbenUZ2q3dDdDmXIvi89gDb5PhGbycdSZt7s1afCCwjjMOUAOFC
 
--- Dumped from database version 18.1
--- Dumped by pg_dump version 18.1
+-- Dumped from database version 18.2
+-- Dumped by pg_dump version 18.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,6 +18,22 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO pg_database_owner;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
 
 --
 -- Name: location; Type: TYPE; Schema: public; Owner: torrent
@@ -314,10 +330,11 @@ ALTER SEQUENCE public.auth_token_logins_id_seq OWNED BY public.auth_token_logins
 CREATE TABLE public.bookmarks (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    t_id integer NOT NULL,
+    tid integer CONSTRAINT bookmarks_t_id_not_null NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    category integer DEFAULT 0 NOT NULL
 );
 
 
@@ -396,13 +413,14 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 CREATE TABLE public.comments (
     id integer NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
-    fid integer DEFAULT 0 NOT NULL,
+    tid integer DEFAULT 0 CONSTRAINT comments_fid_not_null NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
     editedby integer DEFAULT 0 NOT NULL,
     text text NOT NULL,
-    location public.location DEFAULT 'torrent'::public.location
+    location public.location DEFAULT 'torrent'::public.location,
+    category integer DEFAULT 0 NOT NULL
 );
 
 
@@ -515,7 +533,7 @@ ALTER SEQUENCE public.news_id_seq OWNED BY public.news.id;
 
 CREATE TABLE public.reports (
     id integer NOT NULL,
-    fid integer NOT NULL,
+    tid integer CONSTRAINT reports_fid_not_null NOT NULL,
     comment text NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -523,7 +541,8 @@ CREATE TABLE public.reports (
     modded_by integer DEFAULT 0 NOT NULL,
     location character varying(10) NOT NULL,
     sender integer DEFAULT 0 NOT NULL,
-    ip character varying(100) NOT NULL
+    ip character varying(100) NOT NULL,
+    category integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1132,5 +1151,5 @@ REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict WzOzZ18LQs9OtunXj681B3MlGSqJZvtL3bnKwSpiMD2tiHd47AE9UeeTPnbeyMa
+\unrestrict y8YhJMyl9u5xCbenUZ2q3dDdDmXIvi89gDb5PhGbycdSZt7s1afCCwjjMOUAOFC
 

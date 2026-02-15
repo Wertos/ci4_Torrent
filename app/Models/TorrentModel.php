@@ -275,10 +275,10 @@ class TorrentModel extends Model {
 
 		public function getDetail(int $tId)
 		{
-		  $q = $this->db->table($this->table.' AS t')->select('t.*, c.name AS catname, c.url AS caturl, c.desc AS catdesc, u.username, u.avatar, r.fid AS rid, r.comment AS rtext, r.created_at AS radded, r.sender AS rsender, r.modded_by AS rmodded')
+		  $q = $this->db->table($this->table.' AS t')->select('t.*, c.name AS catname, c.url AS caturl, c.desc AS catdesc, u.username, u.avatar, r.tid AS rid, r.comment AS rtext, r.created_at AS radded, r.sender AS rsender, r.modded_by AS rmodded')
                 ->join('categories c', 'c.id = t.category', 'left')
                 ->join('users u', 'u.id = t.owner', 'left')
-                ->join('reports r', 'r.fid = '.$tId, 'left')
+                ->join('reports r', 'r.tid = '.$tId, 'left')
                 ->where('t.id', (int) $tId)
                 ->limit(1)->get()->getRow();
 		  return isset($q) ? $q : null;		
