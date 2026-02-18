@@ -126,15 +126,13 @@ class TorrentModel extends Model {
         $query->where('id', $id);
         return $query->set($row)->update();
     }
-/*
-		public function delete($id = null, bool $purge = false)
+
+		public function torrCatDelete(int $cid)
     {
-//        $this->db->table('comments')->where('fid', $id)->delete();
-//        $this->db->table('reports')->where('fid', $id)->delete();
-        $query = $this->db->table($this->table)->where('id', $id);
-        return $query->delete();
+//        $query = $this->db->table($this->table)->where('id', $id);
+//        return $query->delete();
     }
-*/
+
 		public function torrLoad (string $filePath, string $fileName)
 		{
 		     if (! file_exists($filePath . $fileName)) {
@@ -325,16 +323,16 @@ class TorrentModel extends Model {
 	
         switch ($ver) {
 			case 1:
-		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash1)) : hex2bin($hash1);
+		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea($this->db->connID, hex2bin($hash1)) : hex2bin($hash1);
 				$arry['tid'] = $this->where('infohash_v1', $arry['hash1'])->first();
 				break;
 			case 2:
-		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash2)) : hex2bin($hash2);
+		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea($this->db->connID, hex2bin($hash2)) : hex2bin($hash2);
 				$arry['tid'] = $this->where('infohash_v1', $arry['hash2'])->first();
 				break;
 			case 3:
-		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash1)) : hex2bin($hash1);
-		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea(hex2bin($hash2)) : hex2bin($hash2);
+		   		$arry['hash1'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea($this->db->connID, hex2bin($hash1)) : hex2bin($hash1);
+		   		$arry['hash2'] = ($this->db->DBDriver == 'Postgre') ? pg_escape_bytea($this->db->connID, hex2bin($hash2)) : hex2bin($hash2);
 				$arry['tid'] = $this->where('infohash_v1', $arry['hash1'])->orWhere('infohash_v2', $arry['hash2'])->first();
 				break;
 		}

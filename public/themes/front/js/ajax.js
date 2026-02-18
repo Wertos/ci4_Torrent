@@ -259,7 +259,7 @@ CI4.AjaxPag = function(catId, event) {
   		})
   		.fail(function( response ) {
     		alert(JSON.stringify(response));
-			});
+		});
 		return false;
 }
 

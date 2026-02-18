@@ -28,154 +28,177 @@ use Arifrh\Themes\Themes;
  */
 abstract class BaseController extends Controller
 {
+  /**
+   * Instance of the main Request object.
+   *
+   * @var CLIRequest|IncomingRequest
+   */
+  protected $request;
 
-    /**
-     * Instance of the main Request object.
-     *
-     * @var CLIRequest|IncomingRequest
-     */
-    protected $request;
+  /**
+   * An array of helpers to be loaded automatically upon
+   * class instantiation. These helpers will be available
+   * to all other controllers that extend BaseController.
+   *
+   * @var list<string>
+   */
+  protected $helpers = ["torrent", "avatar", "html", "uri", "menu"];
 
-    /**
-     * An array of helpers to be loaded automatically upon
-     * class instantiation. These helpers will be available
-     * to all other controllers that extend BaseController.
-     *
-     * @var list<string>
-     */
-    protected $helpers = ['torrent', 'avatar','html','uri', 'menu'];
+  /**
+   * Be sure to declare properties for any property fetch you initialized.
+   * The creation of dynamic property is deprecated in PHP 8.2.
+   */
+  // protected $session;
+  public $TorrConfig;
+  public $setting;
+  public $translit;
+  public $GlobalModel;
+  public $StatsModel;
+  public $breadcrumb;
+  public $userData;
+  public $adminlink;
+  public $themes;
+  public $catHome;
+  public string $ogimage;
+  public $NewsModel;
+  public $news;
+  public $isMod;
+  public $isAdmin;
+  public $isSuperAdmin;
 
-    /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
-     */
-    // protected $session;
-    public $TorrConfig;
-    public $setting;
-    public $translit;
-    public $GlobalModel;
-    public $StatsModel;
-    public $breadcrumb;
-    public $userData;
-    public $adminlink;
-    public $themes;
-    public $catHome;
-    public string $ogimage;
-    public $NewsModel;
-    public $news;
-	public $isMod;
-	public $isAdmin;
-	public $isSuperAdmin;
+  private function initUser()
+  {
+    $this->userData = auth()->user();
+    //			var_dump($this->userData); die();
+    if (auth()->loggedIn()) {
+      $this->userData->logged_in = true;
+      $this->userData->is_superadmin = $this->userData->inGroup("superadmin") && $this->userData->logged_in;
+      $this->userData->is_admin = $this->userData->inGroup("admin") && $this->userData->logged_in;
+      $this->userData->is_moderator = $this->userData->inGroup("moderator") && $this->userData->logged_in;
+      $this->userData->is_uploader = $this->userData->inGroup("uploader") && $this->userData->logged_in;
+      $this->userData->is_user = $this->userData->inGroup("user") && $this->userData->logged_in;
+      $this->userData->is_banned = $this->userData->isBanned() && $this->userData->logged_in;
 
-    private function initUser()
-    {
+      $this->userData->can_upload =
+        $this->userData->is_uploader ||
+        $this->userData->is_moderator ||
+        $this->userData->is_admin ||
+        $this->userData->is_superadmin ||
+        $this->userData->can("tor.upload");
 
-			$this->userData = auth()->user();
-//			var_dump($this->userData); die();
-			if (auth()->loggedIn())
-			{
-				$this->userData->logged_in = true;
-				$this->userData->is_superadmin = ($this->userData->inGroup('superadmin') && $this->userData->logged_in);
-				$this->userData->is_admin = ($this->userData->inGroup('admin') && $this->userData->logged_in);
-				$this->userData->is_moderator = ($this->userData->inGroup('moderator') && $this->userData->logged_in);
-				$this->userData->is_uploader = ($this->userData->inGroup('uploader') && $this->userData->logged_in);
-                $this->userData->is_user = ($this->userData->inGroup('user') && $this->userData->logged_in);
-			    $this->userData->is_banned = ($this->userData->isBanned() && $this->userData->logged_in);
-		        
-		        $this->userData->can_upload = 
-		    								($this->userData->is_uploader
-								    		|| $this->userData->is_moderator
-    										|| $this->userData->is_admin
-    										|| $this->userData->is_superadmin
-    										|| $this->userData->can('tor.upload'));
-
-		    	$this->userData->can_comment = 
-		    								($this->userData->is_uploader
-		    								|| $this->userData->is_user
-								    		|| $this->userData->is_moderator
-    										|| $this->userData->is_admin
-    										|| $this->userData->is_superadmin
-    										|| $this->userData->can('comment.add'));
-
-			}
-			else
-			{
-				$this->userData = new \stdClass();
-				$this->userData->logged_in = false;
-				$this->userData->is_superadmin = false;
-				$this->userData->is_admin = false;
-				$this->userData->is_moderator = false;
-				$this->userData->is_uploader = false;
-				$this->userData->is_user = false;
-				$this->userData->is_banned = false;
-				$this->userData->is_guest = true;
-				$this->userData->can_upload = false;
-				$this->userData->can_comment = false;
-				$this->userData->id = 0;
-			}
-
-    	return $this->userData;
+      $this->userData->can_comment =
+        $this->userData->is_uploader ||
+        $this->userData->is_user ||
+        $this->userData->is_moderator ||
+        $this->userData->is_admin ||
+        $this->userData->is_superadmin ||
+        $this->userData->can("comment.add");
+    } else {
+      $this->userData = new \stdClass();
+      $this->userData->logged_in = false;
+      $this->userData->is_superadmin = false;
+      $this->userData->is_admin = false;
+      $this->userData->is_moderator = false;
+      $this->userData->is_uploader = false;
+      $this->userData->is_user = false;
+      $this->userData->is_banned = false;
+      $this->userData->is_guest = true;
+      $this->userData->can_upload = false;
+      $this->userData->can_comment = false;
+      $this->userData->id = 0;
     }
 
-    /**
-     * @return void
-     */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
-        // Do Not Edit This Line
-				// Preload any models, libraries, etc, here.
-        parent::initController($request, $response, $logger);
+    return $this->userData;
+  }
 
-				$this->setting = service('settings');
-				
-				$this->TorrConfig = config('Torrent');
+  /**
+   * @return void
+   */
+  public function initController(
+    RequestInterface $request,
+    ResponseInterface $response,
+    LoggerInterface $logger,
+  ) {
+    // Do Not Edit This Line
+    // Preload any models, libraries, etc, here.
+    parent::initController($request, $response, $logger);
 
-				$this->translit = \Transliterator::create('Any-Latin; Latin-ASCII');
+    $this->setting = service("settings");
 
-				$this->GlobalModel = model(GlobalModel::class);
-				$this->StatsModel = model(StatsModel::class);
+    $this->TorrConfig = config("Torrent");
 
-				// Cache data news on index page
-				if (! $this->news = cache('news')) {
-				    $this->NewsModel = model(NewsModel::class);
-						
-						$this->news = $this->NewsModel->asObject()->orderBy('created_at', 'desc')->findAll(setting('Torrent.newsPerIndex'));
-						
-						cache()->save('news', $this->news);
-				}
+    $this->translit = \Transliterator::create("Any-Latin; Latin-ASCII");
 
-				// Cache data category on index page
-				if (! $this->catHome = cache('CatHome')) {
+    $this->GlobalModel = model(GlobalModel::class);
+    $this->StatsModel = model(StatsModel::class);
 
-						$this->catHome = $this->GlobalModel->getCatHome();
-						
-						cache()->save('CatHome', $this->catHome);
-				}
+    // Cache data news on index page
+    if (!($this->news = cache("news"))) {
+      $this->NewsModel = model(NewsModel::class);
 
-				$this->breadcrumb = new BreadcrumbClass();
-				
-				$this->breadcrumb->prepend('<i class="bi bi-house m-1"></i>', '/');
-    		
-    			$this->userData = $this->initUser();
+      $this->news = $this->NewsModel
+        ->asObject()
+        ->orderBy("created_at", "desc")
+        ->findAll(setting("Torrent.newsPerIndex"));
 
-				$this->isMod = ($this->userData->is_superadmin || $this->userData->is_admin || $this->userData->is_moderator) ? true : false;
-				$this->isAdmin = ($this->userData->is_superadmin || $this->userData->is_admin) ? true : false;
-				$this->isSuperAdmin = ($this->userData->is_superadmin) ? true : false;
-
-				$this->ogimage = base_url('themes/' . setting('Torrent.theme') . '/img/logo.png');
-
-				$this->themes = Themes::init($this->TorrConfig)
-								->addCSS([setting('Torrent.css_theme'), 'themes.min.css', 'bootstrap-icons.min.css'])
-								->addJS(['jquery-3.7.1.min.js', 'jquery.treeview.js', 'bootstrap.bundle.min.js', 'main.js', 'ajax.js'])
-								->setVar(['userdata' => $this->userData])->setVar(['adminlink' => $this->adminlink])
-								->setVar(['catList' => $this->catHome])->setVar(['widgets' => $this->setting->get('Torrent.widgets')])
-								->setVar(['stats' => $this->StatsModel->displayStats()])->setVar(['ogimage' => $this->ogimage])
-								->setVar(['news' => $this->news])->setVar(['isMod' => $this->isMod])->setVar(['isAdmin' => $this->isAdmin])
-								->setVar(['isSuperAdmin' => $this->isSuperAdmin])
-								->setVar(['catImgDir' => service('settings')->get('Torrent.catImageDir')]);
-
-        // E.g.: $this->session = service('session');
-
+      cache()->save("news", $this->news);
     }
 
+    // Cache data category on index page
+    if (!($this->catHome = cache("CatHome"))) {
+      $this->catHome = $this->GlobalModel->getCatHome();
+
+      cache()->save("CatHome", $this->catHome);
+    }
+
+    $this->breadcrumb = new BreadcrumbClass();
+
+    $this->breadcrumb->prepend('<i class="bi bi-house m-1"></i>', "/");
+
+    $this->userData = $this->initUser();
+
+    $this->isMod =
+      $this->userData->is_superadmin ||
+      $this->userData->is_admin ||
+      $this->userData->is_moderator
+        ? true
+        : false;
+    $this->isAdmin =
+      $this->userData->is_superadmin || $this->userData->is_admin
+        ? true
+        : false;
+    $this->isSuperAdmin = $this->userData->is_superadmin ? true : false;
+
+    $this->ogimage = base_url(
+      "themes/" . setting("Torrent.theme") . "/img/logo.png",
+    );
+
+    $this->themes = Themes::init($this->TorrConfig)
+      ->addCSS([
+        setting("Torrent.css_theme"),
+        "themes.min.css",
+        "bootstrap-icons.min.css",
+      ])
+      ->addJS([
+//        "jquery-3.7.1.min.js",
+		"jquery-4.0.0.min.js",
+        "jquery.treeview.js",
+        "bootstrap.bundle.min.js",
+        "main.js",
+        "ajax.js",
+      ])
+      ->setVar(["userdata" => $this->userData])
+      ->setVar(["adminlink" => $this->adminlink])
+      ->setVar(["catList" => $this->catHome])
+      ->setVar(["widgets" => $this->setting->get("Torrent.widgets")])
+      ->setVar(["stats" => $this->StatsModel->displayStats()])
+      ->setVar(["ogimage" => $this->ogimage])
+      ->setVar(["news" => $this->news])
+      ->setVar(["isMod" => $this->isMod])
+      ->setVar(["isAdmin" => $this->isAdmin])
+      ->setVar(["isSuperAdmin" => $this->isSuperAdmin])
+      ->setVar(["catImgDir" => service("settings")->get("Torrent.catImageDir")]);
+
+    // E.g.: $this->session = service('session');
+  }
 }

@@ -11,60 +11,69 @@ use App\Models\TorrentModel;
 
 class BookmarkController extends BaseController
 {
+  function __construct()
+  {
+    $this->BookmarkModel = model(BookmarkModel::class);
+    $this->TorrentModel = model(TorrentModel::class);
+  }
 
-    function __construct()
-    {
-        $this->BookmarkModel = model(BookmarkModel::class);
-        $this->TorrentModel = model(TorrentModel::class);
-	}
+  public function BookMark(int $id)
+  {
+    if (!$id || !$this->userData->logged_in) {
+      throw PageNotFoundException::forPageNotFound();
+    }
 
-    public function BookMark(int $id)
-    {
-				if (! $id || ! $this->userData->logged_in)
-								throw PageNotFoundException::forPageNotFound();
+    if (!$this->CheckTorrent($id)) {
+      return redirect()->back()->with("error", lang("Bookmark.tnotfound"));
+    }
 
-				if (! $this->CheckTorrent($id))
-								return redirect()->back()->with('error', lang('Bookmark.tnotfound'));
+    $user_id = $this->userData->id;
+    $message = "";
+    $type = "error";
+    $bookmark = $this->BookmarkModel
+      ->where(["user_id" => $user_id, "tid" => $id])
+      ->first();
+    $category = $this->BookmarkModel->getTorrCat($id)->category;
 
-			  $user_id = $this->userData->id;
-				$message = '';
-				$type = 'error';					
-				$bookmark = $this->BookmarkModel->where(['user_id' => $user_id, 'tid' => $id])->first();
-				$category = $this->BookmarkModel->getTorrCat($id)->category;
+    if ($bookmark === null) {
+      $result = $this->BookmarkModel->insert([
+        "user_id" => $user_id,
+        "tid" => $id,
+        "category" => $category,
+      ]);
+      if ($result) {
+        $type = "message";
+        $message = lang("Bookmark.addsuccess");
+      } else {
+        $type = "error";
+        $message = lang("Bookmark.adderror");
+      }
+    } else {
+      $result = $this->BookmarkModel
+        ->where(["user_id" => $user_id, "tid" => $id])
+        ->delete();
+      if ($result) {
+        $type = "message";
+        $message = lang("Bookmark.deletesuccess");
+      } else {
+        $type = "error";
+        $message = lang("Bookmark.deleteerror");
+      }
+    }
 
-				if ($bookmark === null) {
-						$result = $this->BookmarkModel->insert(['user_id' => $user_id, 'tid' => $id, 'category' => $category]);
-						if ($result) {
-									$type = 'message';
-									$message = lang('Bookmark.addsuccess');
-						} else {
-									$type = 'error';
-									$message = lang('Bookmark.adderror');
-						}
-				} else {
-						$result = $this->BookmarkModel->where(['user_id' => $user_id, 'tid' => $id])->delete();
-						if ($result) {
-									$type = 'message';
-									$message = lang('Bookmark.deletesuccess');
-						} else {
-									$type = 'error';
-									$message = lang('Bookmark.deleteerror');
-						}
-				}
-		
-		    return redirect()->back()->with($type, $message);
-		}
+    return redirect()->back()->with($type, $message);
+  }
 
-		private function CheckTorrent (int $id) : bool
-		{
-				$result = $this->TorrentModel->withDeleted()->find($id);
-				
-				if ($result) {
-						return true;
-				} else {
-						return false;
-				}
-				
-				return false;
-		}
+  private function CheckTorrent(int $id): bool
+  {
+    $result = $this->TorrentModel->withDeleted()->find($id);
+
+    if ($result) {
+      return true;
+    } else {
+      return false;
+    }
+
+    return false;
+  }
 }

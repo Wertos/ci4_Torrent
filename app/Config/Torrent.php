@@ -41,7 +41,7 @@ class Torrent extends BaseConfig
 		];
 		public int $maxTimeOnAnnouncer = 3; //second
 
-		public bool $uploadPoster = true;
+		public bool $uploadPoster = false;
 //		public bool $uploadUrlPoster = true;
 		public bool $posterRequired = true;
 		public bool $resizePoster = false;

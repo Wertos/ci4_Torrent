@@ -12,52 +12,65 @@ use App\Models\CommentModel;
 
 class CommentController extends BaseController
 {
-    public $CommentModel;
-    public $postData;
+      public $CommentModel;
+      public $postData;
 
-    function __construct()
-    {
-		$this->CommentModel = model(CommentModel::class);
-	}
-
-    public function CommentAddAction(int $tId = null)
-    {
-    	
-    	$this->postData = $this->request->getPost();
-
-    	if(!$this->userData->can_comment)
-    	{
-    			return redirect()->back()->withInput()->with('error', lang('Comment.addforbidden'));
-    	}
-
-			if ($tId != $this->postData['tid'])
-								return redirect()->back()->withInput()->with('error', lang('Comment.unknownerror'));
-			
-
-			$validation = service('validation');
-
-			$rules = $this->CommentModel->validationRules;
-			
-			if(! $this->postData['text'])
-								return redirect()->back()->withInput()->with('error', lang('Comment.notext'));
-
-			if (! $this->validateData($this->postData, $rules)) {
-         		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+      function __construct()
+      {
+            $this->CommentModel = model(CommentModel::class);
       }
 
-      $data = [
-          	'text' => $this->postData['text'],
-      		'created_at' => Time::now(setting('App.appTimezone'))->toDateTimeString(),
-      		'updated_at' => null,
-      		'user_id' => (int) $this->userData->id,
-      		'tid' => (int) $this->postData['tid'],
-      		'location' => 'torrent',
-			'category' => (int) $this->postData['category'],
-      ];
-//      var_dump($data); die();
-      $this->CommentModel->insert($data);
-      return redirect()->to('torrent/'.$tId)->with('message', lang('Comment.addsuccess'));
-    }
+      public function CommentAddAction(int $tId = null)
+      {
+            $this->postData = $this->request->getPost();
 
+            if (!$this->userData->can_comment) {
+                  return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with("error", lang("Comment.addforbidden"));
+            }
 
+            if ($tId != $this->postData["tid"]) {
+                  return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with("error", lang("Comment.unknownerror"));
+            }
+
+            $validation = service("validation");
+
+            $rules = $this->CommentModel->validationRules;
+
+            if (!$this->postData["text"]) {
+                  return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with("error", lang("Comment.notext"));
+            }
+
+            if (!$this->validateData($this->postData, $rules)) {
+                  return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with("errors", $this->validator->getErrors());
+            }
+
+            $data = [
+                  "text" => $this->postData["text"],
+                  "created_at" => Time::now(
+                        setting("App.appTimezone"),
+                  )->toDateTimeString(),
+                  "updated_at" => null,
+                  "user_id" => (int) $this->userData->id,
+                  "tid" => (int) $this->postData["tid"],
+                  "location" => "torrent",
+                  "category" => (int) $this->postData["category"],
+            ];
+            //      var_dump($data); die();
+            $this->CommentModel->insert($data);
+            return redirect()
+                  ->to("torrent/" . $tId)
+                  ->with("message", lang("Comment.addsuccess"));
+      }
 }

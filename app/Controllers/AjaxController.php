@@ -214,13 +214,13 @@ class AjaxController extends \App\Controllers\BaseController
 			{
 				$hash = [$infoHash_V1, $infoHash_V2];
 			}
-			
-			$info[$infoHash_V1]['seeders'] = 0;
-			$info[$infoHash_V2]['seeders'] = 0;
-			$info[$infoHash_V1]['leechers'] = 0;
-			$info[$infoHash_V2]['leechers'] = 0;
-			$info[$infoHash_V1]['completed'] = 0;
-			$info[$infoHash_V2]['completed'] = 0;
+//			var_dump($infoHash_V1); die();			
+			$info[$infoHash_V1 ?? '']['seeders'] = 0;
+			$info[$infoHash_V2 ?? '']['seeders'] = 0;
+			$info[$infoHash_V1 ?? '']['leechers'] = 0;
+			$info[$infoHash_V2 ?? '']['leechers'] = 0;
+			$info[$infoHash_V1 ?? '']['completed'] = 0;
+			$info[$infoHash_V2 ?? '']['completed'] = 0;
 
 			$iii = $this->scraper->scrape( $hash, $announcer, count($announcer), $maxTimeOnAnnouncer);
 
@@ -234,7 +234,7 @@ class AjaxController extends \App\Controllers\BaseController
 			{
 			
 			}
-//			var_dump($info); die();
+
 			if($infoHash_V1 && !$infoHash_V2)
 			{
 				$seed = $info[$infoHash_V1]['seeders'];

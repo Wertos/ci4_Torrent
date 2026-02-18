@@ -11,37 +11,35 @@ use App\Models\NewsModel;
 
 class NewsController extends BaseController
 {
+      public $NewsModel;
 
-    public $NewsModel;
+      function __construct()
+      {
+            $this->NewsModel = model(NewsModel::class);
+      }
 
-    function __construct()
-    {
-        $this->NewsModel = model(NewsModel::class);
-	}
+      public function NewsView(?int $id = null)
+      {
+            helper("number");
+            helper("torrent");
+            helper("form");
 
-    public function NewsView(?int $id = null)
-    {
-    	  helper('number');
-    	  helper('torrent');
-				helper('form');
+            if (!$id) {
+                  throw PageNotFoundException::forPageNotFound();
+            }
 
-	    	if(! $id)
-  	  	     throw PageNotFoundException::forPageNotFound();
+            $news = $this->NewsModel->asObject()->find($id);
 
-    		$news = $this->NewsModel->asObject()->find($id);
+            $siteTitle = $this->TorrConfig->siteTitle . " | " . $news->title;
+            $this->breadcrumb->append(lang("News.news"), "");
+            $this->breadcrumb->append($news->title);
 
-				$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $news->title;
-	      $this->breadcrumb->append(lang('News.news'), '');
-  	    $this->breadcrumb->append($news->title);      
-			
-				$data = [
-						'page_title' => $siteTitle,
-						'newsData' => $news,
-						'breadcrumb' => $this->breadcrumb->output(),
-				];
-			
-				$this->themes::render('news_view', $data);
-		
-		}
+            $data = [
+                  "page_title" => $siteTitle,
+                  "newsData" => $news,
+                  "breadcrumb" => $this->breadcrumb->output(),
+            ];
 
+            $this->themes::render("news_view", $data);
+      }
 }

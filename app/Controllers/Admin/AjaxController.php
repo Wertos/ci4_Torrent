@@ -284,6 +284,10 @@ class AjaxController extends \App\Controllers\AdminController
 
   public function CatDelete(int $id)
   {
+//			$this->CommentModel->where('category', $id)->delete();
+//			$this->ReportModel->where('category', $id)->delete();
+//			$this->BookmarkModel->where('category', $id)->delete();
+//			$this->TorrentModel->where('category', $id)->delete($id);
 			$this->CatModel->CatDelete($id);
 			return $this->_AjaxSend(['id' => $id]); die();
   }
