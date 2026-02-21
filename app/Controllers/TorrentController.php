@@ -61,9 +61,9 @@ class TorrentController extends BaseController
             $can_edit =
                   ($owner && $this->userData->can("tor.ownededit")) ||
                   ($owner && $this->userData->is_uploader) ||
-                  $this->is_mod ||
-                  $this->is_admin ||
-                  $this->is_superadmin;
+                  $this->isMod ||
+                  $this->isAdmin ||
+                  $this->isSuperAdmin;
 
             $this->TorrentModel->updateViews($tId);
 
@@ -257,9 +257,9 @@ class TorrentController extends BaseController
             $can_edit =
                   ($owner && $this->userData->can("tor.ownededit")) ||
                   ($owner && $this->userData->is_uploader) ||
-                  $this->is_mod ||
-                  $this->is_admin ||
-                  $this->is_superadmin;
+                  $this->isMod ||
+                  $this->isAdmin ||
+                  $this->isSuperAdmin;
 
             if (!$can_edit) {
                   return redirect()
@@ -323,9 +323,9 @@ class TorrentController extends BaseController
             $can_edit =
                   ($owner && $this->userData->can("tor.ownededit")) ||
                   ($owner && $this->userData->is_uploader) ||
-                  $this->is_mod ||
-                  $this->is_admin ||
-                  $this->is_superadmin;
+                  $this->isMod ||
+                  $this->isAdmin ||
+                  $this->isSuperAdmin;
 
             if (!$can_edit) {
                   return redirect()
@@ -560,9 +560,9 @@ class TorrentController extends BaseController
             $can_delete =
                   ($owner && $this->userData->can("tor.ownededit")) ||
                   ($owner && $this->userData->is_uploader) ||
-                  $this->is_mod ||
-                  $this->is_admin ||
-                  $this->is_superadmin;
+                  $this->isMod ||
+                  $this->isAdmin ||
+                  $this->isSuperAdmin;
 
             if (!$can_delete) {
                   return redirect()
