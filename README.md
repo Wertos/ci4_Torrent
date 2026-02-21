@@ -1,6 +1,6 @@
 # CodeIgniter 4 Torrent tracker
 
-Всё в глубукой alfa version, пишется для себя, просто так и в свободное время !
+Всё в глубокой alfa version, пишется для себя, просто так и в свободное время !
 
 Поддержа MySQL и PostgreSQL
 
