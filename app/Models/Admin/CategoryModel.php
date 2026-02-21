@@ -74,6 +74,7 @@ class CategoryModel extends GlobalAdminModel
 
         'img' => [
             'label' => 'Category.Category.img',
+			'permit_empty',
             'rules' => [
                 'max_length[50]',
 				'regex_match[/\A[a-z0-9-_\.]+\z/]',
