@@ -30,7 +30,8 @@
   	  <!-- Torrent Description -->
 	    <div class="mb-4">
     	  	<label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
-    		<textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /><?= $details->descr; ?></textarea>
+			<?php include "widget/bbcode.php"; ?>
+			<textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /><?= $details->descr; ?></textarea>
   	  </div>
   	  <!-- Torrent Category -->
 	    <div class="mb-4">

@@ -41,13 +41,17 @@ class CategoryController extends \App\Controllers\AdminController
     public function CatAddShow()
     {
 				helper('form');
+		        helper('filesystem');
 
 				$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Category.Create');
+
+				$catImgArr = directory_map('.'.service('settings')->get('Torrent.catImageDir'), 0, true);
 			
 				$data = [
 						'page_title' => $this->siteTitle,
-				];
-			
+						'catImgArr' => $catImgArr,
+            	];
+
 				$this->themes::render('cat_add', $data);
 		}
     
@@ -55,20 +59,20 @@ class CategoryController extends \App\Controllers\AdminController
     {
 			
 			$validation = service('validation');
-
 			$rules = $this->CatModel->validationRules;
 			
 			$this->catData = $this->request->getPost();
-			
+
 			if ($this->catData['url'] == '')
 			{
 					 $translitString = $this->translit->transliterate($this->catData['name']);
 					 $this->catData['url'] = url_title($translitString, '-', true);
 			}
+//			var_dump($this->catData); die();
 
 			if (! $this->validateData($this->catData, $rules)) {
          		return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-      }
+      		}
 
 			$lastCatId = $this->CatModel->CatInsert($this->catData);
 
