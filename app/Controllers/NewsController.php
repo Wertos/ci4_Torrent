@@ -29,7 +29,7 @@ class NewsController extends BaseController
 
             $newsCount = $this->NewsModel->newsCount();
 
-			$newsList = $this->NewsModel->asObject()->findAll($perPage, $offset);
+			$newsList = $this->NewsModel->getNews($perPage, $offset);//findAll($perPage, $offset);
 
 			if (!$newsList) $no_news = true;
 

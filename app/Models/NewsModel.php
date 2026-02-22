@@ -76,6 +76,8 @@ class NewsModel extends Model {
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    protected $builder;
+	
     protected function initialize(): void
     {
         parent::initialize();
@@ -84,9 +86,19 @@ class NewsModel extends Model {
 
     public function newsCount()
 	{
-		$builder = $this->db->table($this->table);
-		return $builder->where('deleted_at', null)->countAllResults();
+		$this->builder = $this->db->table($this->table);
+		return $this->builder->where('deleted_at', null)->countAllResults();
 	}
 
+    public function getNews(int $limit, int $offset)
+	{
+		$query = $this->db->table($this->table.' AS n')->select('n.*, u.username')
+					->join('users u', 'u.id = n.user_id', 'left')
+					->where('n.deleted_at', null)
+					->limit($offset, $limit)
+					->get()->getResult();
+		return $query ?? NULL;
+
+	}
 
 }
