@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -55,7 +56,7 @@ class BrowseController extends BaseController
 
                   $data["cat"] = $cat;
             }
-            $catId = isset($cat->id) ? $cat->id : null;
+            $catId = isset($cat->id) ? (int)$cat->id : null;
             $catName = isset($cat->name) ? $cat->name : lang("Browse.allview");
             $torCount = $this->GlobalModel->getTorrentCount($catId);
 
@@ -75,7 +76,7 @@ class BrowseController extends BaseController
                         ))
                   ) {
                         $torrents = $this->GlobalModel->getTorrentByCat(
-                              $cat->id,
+                              $catId,
                               $perPage,
                               $offset,
                         );

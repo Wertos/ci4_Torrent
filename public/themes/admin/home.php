@@ -6,7 +6,7 @@
             <hr>
             <div class="row g-4 mb-4">
               <div class="col-lg-3 col-md-6">
-                <a href="#" class="text-decoration-none">
+                <a href="<?= base_url('admin/torrents'); ?>" class="text-decoration-none">
                   <div class="card bg-primary bg-gradient shadow-sm custom-card">
                     <div class="card-body p-3 pb-2 px-3 d-flex flex-row justify-content-between align-items-center">
                       <div>
@@ -22,7 +22,7 @@
               </div>
 
               <div class="col-lg-3 col-md-6">
-                <a href="#" class="text-decoration-none">
+                <a href="<?= base_url('admin/torrents?today'); ?>" class="text-decoration-none">
                   <div class="card bg-dark bg-success shadow-sm custom-card">
                     <div class="card-body p-3 pb-2 px-3 d-flex flex-row justify-content-between align-items-center">
                       <div>

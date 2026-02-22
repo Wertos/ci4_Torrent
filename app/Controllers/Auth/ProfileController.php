@@ -41,16 +41,16 @@ class ProfileController extends \App\Controllers\BaseController
 	  		
     		$no_torrents = false;
 
-				if (!$id)
-				{
+			if (!$id)
+			{
         		$id = $this->userData->id;
-        }
+	        }
     		
-				// Get the User Provider (UserModel by default)
-				$users = auth()->getProvider();
-				$data['user'] = $users->findById((int) $id);
+			// Get the User Provider (UserModel by default)
+			$users = auth()->getProvider();
+			$data['user'] = $users->findById((int) $id);
 
-        if (!$this->userData->logged_in)
+    	    if (!$this->userData->logged_in)
 		             return redirect()->to('user/login')->with('error', lang('Login.needLogin'));
 
         if (!$data['user'])

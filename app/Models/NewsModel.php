@@ -82,7 +82,11 @@ class NewsModel extends Model {
         $this->db = \Config\Database::connect();
     }
 
-
+    public function newsCount()
+	{
+		$builder = $this->db->table($this->table);
+		return $builder->where('deleted_at', null)->countAllResults();
+	}
 
 
 }

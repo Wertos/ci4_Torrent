@@ -18,7 +18,7 @@
 				</div>
 				<?php if($userdata->can_upload) : ?>
 					<div class="list-group-item list-group-item-action">
-						<a href="<?= base_url('torrent/add'); ?>"><i class="bi bi-cloud-plus user_menu_icon"></i><?= lang('Torrent.addTorrent'); ?></a>
+						<a class="fw-bold text-danger" href="<?= base_url('torrent/add'); ?>"><i class="bi bi-cloud-plus user_menu_icon"></i><?= lang('Torrent.addTorrent'); ?></a>
 					</div>
 				<?php endif; ?>
 				<div class="list-group-item list-group-item-action">

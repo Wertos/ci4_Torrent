@@ -59,7 +59,10 @@
 									<a class="nav-link fs-7 <?= setActive('/'); ?>" href="<?= base_url('/')?>"><?= lang('Site.SiteHome'); ?></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link fs-7 <?= setActive('/rules');; ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
+									<a class="nav-link fs-7 <?= setActive('/news'); ?>" href="<?= base_url('news')?>"><?= lang('News.news'); ?></a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link fs-7 <?= setActive('/rules'); ?>" href="<?= base_url('rules')?>"><?= lang('Site.rules'); ?></a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link fs-7 <?= setActive('/secure'); ?>" href="<?= base_url('secure')?>"><?= lang('Site.secure'); ?></a>
@@ -93,7 +96,7 @@
 			</nav>
 <!-- BreadCrumb section end -->
 		<div class="container-fluid px-5 mx-auto">
-			<div class="row mx-5">
+			<div class="row mx-3">
 				<div class="col-9">
 <!-- Messages section start -->
 					<?php if (session('error') !== null) : ?>

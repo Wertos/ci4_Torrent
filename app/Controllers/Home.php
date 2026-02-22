@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -26,7 +27,7 @@ class Home extends BaseController
           ))
         ) {
           $torList[$catList->id] = $this->GlobalModel->getTorrentByCat(
-            $catList->id,
+            (int)$catList->id,
             setting("Torrent.torrentsPerCatOnIndex"),
           );
           cache()->save(
@@ -47,7 +48,7 @@ class Home extends BaseController
     $data = [
       "breadcrumb" => $this->breadcrumb->output(),
       "page_title" => $siteTitle,
-      //					'catList'	=> $this->catHome,
+//		'catList'	=> $this->catHome,
       "torList" => $torList,
       "cats" => $no_cats,
       "torrents" => $no_torrents,

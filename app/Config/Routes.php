@@ -20,7 +20,7 @@ $routes->get('admin/categories/edit/(:num)',    'Admin\CategoryController::CatEd
 $routes->post('admin/categories/edit/(:num)',   'Admin\CategoryController::CatEditAction/$1');
 
 $routes->post('admin/categories/delete/(:num)', 'Admin\AjaxController::CatDelete/$1');
-$routes->post('admin/categories/onoff/(:num)', 'Admin\AjaxController::CatOnOff/$1');
+$routes->post('admin/categories/onoff/(:num)',  'Admin\AjaxController::CatOnOff/$1');
                                                 
 $routes->post('/admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete/$1');
 $routes->post('/admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');
@@ -41,22 +41,21 @@ $routes->post('admin/news/edit/(:num)',         'Admin\NewsController::NewsEditA
 $routes->get('admin/news/del/(:num)',           'Admin\NewsController::NewsDelete/$1');
 $routes->get('admin/news/harddel/(:num)',       'Admin\NewsController::NewsHardDelete/$1');
 $routes->get('admin/news/restore/(:num)',       'Admin\NewsController::NewsRestore/$1');
-
 $routes->get('admin/comments',					'Admin\CommentController::CommentsList');
 $routes->get('admin/comments/torrent/(:num)',	'Admin\CommentController::CommentsList/torrent/$1');
 $routes->get('admin/comments/news/(:num)',		'Admin\CommentController::CommentsList/news/$1');
 $routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::CommentsList/user_id/$1');
 $routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
 
+$routes->get('admin/torrents',					'Admin\TorrentController::TorrList');
+
 $routes->get('mod/torrents/',					'ModController::UncheckView');
 //$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
 
-
-
-$routes->get('/', 													'Home::index');
-$routes->get('rules',            						'PageController::rules');
-$routes->get('secure',            					'PageController::secure');
-$routes->get('about',            						'PageController::about');
+$routes->get('/', 								'Home::index');
+$routes->get('rules',            				'PageController::rules');
+$routes->get('secure',            				'PageController::secure');
+$routes->get('about',            				'PageController::about');
 
 $routes->post('ajax/torstatus/(:num)',			'AjaxController::TorrentStatus/$1');
 $routes->post('ajax/tormove/(:num)',			'AjaxController::TorrentMove/$1');
@@ -82,34 +81,34 @@ $routes->get('torrent/(:num)-(:any)',  			'TorrentController::TorrentView/$1');
 $routes->get('torrent/dl/(:num)',      			'TorrentController::TorrentSend/$1');
 $routes->get('torrent/delete/(:num)',  			'TorrentController::TorrentDelete/$1');
 
-$routes->get('browse',			              	'BrowseController::BrowseView');
-$routes->get('browse/search/',			        'BrowseController::SearchView/');
-$routes->get('([a-z0-9-]+)/page/(:num)',  	'BrowseController::BrowseView/$1');
-$routes->get('([a-z0-9-]+)',              	'BrowseController::BrowseView/$1');
+$routes->post('comment/add/(:num)',  			'CommentController::CommentAddAction/$1');
+$routes->get('bookmark/(:num)',  				'BookmarkController::Bookmark/$1');
 
-$routes->post('comment/add/(:num)',  				'CommentController::CommentAddAction/$1');
-$routes->get('bookmark/(:num)',  				  	'BookmarkController::Bookmark/$1');
+$routes->get('news',  		  					'NewsController::NewsList');
+$routes->get('news/(:num)-([a-z0-9-_]+)', 	  	'NewsController::NewsView/$1');
 
-$routes->get('news/(:num)-(:any)',  		  	'NewsController::NewsView/$1');
-
-$routes->get('user/profile', 								'Auth\ProfileController::ProfileView');
-$routes->get('user/profile/(:num)', 				'Auth\ProfileController::ProfileView/$1');
-$routes->get('user/edit', 									'Auth\ProfileController::ProfileEditView');
-$routes->post('user/update', 								'Auth\ProfileController::ProfileEditAction');
+$routes->get('user/profile', 					'Auth\ProfileController::ProfileView');
+$routes->get('user/profile/(:num)', 			'Auth\ProfileController::ProfileView/$1');
+$routes->get('user/edit', 						'Auth\ProfileController::ProfileEditView');
+$routes->post('user/update', 					'Auth\ProfileController::ProfileEditAction');
 
 //service('auth')->routes($routes);
 service('auth')->routes($routes, ['except' => ['login', 'register', 'magic-link', 'logout', 'auth-actions']]);
-$routes->get('user/register', 							'Auth\RegisterController::RegisterView', ['as' => 'register']);
-$routes->post('user/register', 							'Auth\RegisterController::registerAction');
-$routes->get('user/login', 									'Auth\LoginController::loginView', ['as' => 'login']);
-$routes->post('user/login', 								'\CodeIgniter\Shield\Controllers\LoginController::loginAction');
+$routes->get('user/register', 					'Auth\RegisterController::RegisterView', ['as' => 'register']);
+$routes->post('user/register', 					'Auth\RegisterController::registerAction');
+$routes->get('user/login', 						'Auth\LoginController::loginView', ['as' => 'login']);
+$routes->post('user/login', 					'\CodeIgniter\Shield\Controllers\LoginController::loginAction');
 /*
 $routes->get('user/login/magic-link', 'Auth\MagicLinkController::loginView');
 $routes->post('user/login/magic-link', 'Auth\MagicLinkController::loginAction');
 $routes->get('user/login/verify-magic-link', '\CodeIgniter\Shield\Controllers\MagicLinkController::verify');
 */
-$routes->get('user/logout', 								'\CodeIgniter\Shield\Controllers\LoginController::logoutAction', ['as' => 'logout']);
+$routes->get('user/logout', 					'\CodeIgniter\Shield\Controllers\LoginController::logoutAction', ['as' => 'logout']);
 $routes->get('user/auth-action-show', 			'\CodeIgniter\Shield\Controllers\ActionController::show', ['as' => 'auth-action-show']);
 $routes->post('user/auth-action-handle', 		'\CodeIgniter\Shield\Controllers\ActionController::handle', ['as' => 'auth-action-handle']);
 $routes->post('user/auth-action-verify', 		'\CodeIgniter\Shield\Controllers\ActionController::verify', ['as' => 'auth-action-verify']);
 
+$routes->get('browse',			              	'BrowseController::BrowseView');
+$routes->get('browse/search/',			        'BrowseController::SearchView');
+$routes->get('([a-z0-9-_]+)/page/(:num)',  		'BrowseController::BrowseView/$1');
+$routes->get('([a-z0-9-_]+)',              		'BrowseController::BrowseView/$1');

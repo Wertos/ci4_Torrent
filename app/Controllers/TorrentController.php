@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -94,7 +95,7 @@ class TorrentController extends BaseController
                         ->getPagination(setting("Torrent.commentPerPage"));
             }
 
-            $status = getDataTorrStatus($torrentData->modded, "fs-2");
+            $status = getDataTorrStatus((int)$torrentData->modded, "fs-2");
             $table = new \CodeIgniter\View\Table();
 
             $smilies_array = get_clickable_smileys(
@@ -147,7 +148,7 @@ class TorrentController extends BaseController
                   "allowmagnet" =>
                         $torrentData->modded === "1" ||
                         $torrentData->modded === "0",
-                  "allowreport" => setting("Torrent.allowreport") === true,
+                  "allowreport" => setting("Torrent.allowreport") === true && $this->userData->logged_in,
                   "allowFileList" => setting("Torrent.allowFileList") === true,
                   "filestree" => $filestree,
                   "cats" => $this->isMod ? $cats : null,
