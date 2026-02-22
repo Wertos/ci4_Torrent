@@ -23,13 +23,18 @@ class NewsController extends BaseController
 
 			$no_news = false;
 
+            $newsList = NULL;
+
             $page = (int) ($this->request->getGet("page") ?? 1);
             $perPage = setting("Torrent.torrentsPerPage");
             $offset = ($page - 1) * $perPage;
 
             $newsCount = $this->NewsModel->newsCount();
 
-			$newsList = $this->NewsModel->getNews($perPage, $offset);//findAll($perPage, $offset);
+		    if (!($newsList = cache("newsList"))) {
+				$newsList = $this->NewsModel->getNews($perPage, $offset);
+				cache()->save("newsList", $newsList);
+			}
 
 			if (!$newsList) $no_news = true;
 
@@ -44,6 +49,8 @@ class NewsController extends BaseController
 				'no_news'	=> $no_news,
 				'newsList'	=> $newsList,
 				'pager_links'	=> $pager_links,
+                'breadcrumb' => $this->breadcrumb->output(),
+
 			];			
 
 			$this->themes::render('news_list', $data);
