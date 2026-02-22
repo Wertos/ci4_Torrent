@@ -510,7 +510,7 @@ class TorrentController extends BaseController
       /************************************************************/
       public function TorrentSend($tId)
       {
-            $torrentData = $this->TorrentModel->getFileName($tId);
+            $torrentData = $this->TorrentModel->getFileName((int)$tId);
 
             if ($torrentData === null) {
                   return redirect()
