@@ -120,7 +120,7 @@ class BrowseController extends BaseController
             $this->themes::render("browse_view", $data);
       }
 
-      public function SearchView(string $str)
+      public function SearchView()
       {
             helper("number");
             helper("torrent");

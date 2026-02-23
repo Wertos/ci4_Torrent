@@ -8,6 +8,7 @@ use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\Model as GlobalAdminModel;
 use CodeIgniter\I18n\Time;
+use \App\Models\Admin\TorrentModel;
 
 class CategoryModel extends GlobalAdminModel
 {
@@ -51,9 +52,9 @@ class CategoryModel extends GlobalAdminModel
         ],
 
         'url' => [
-            'required',
             'label' => 'Category.Category.url',
             'rules' => [
+				'required',
                 'max_length[30]',
                 'min_length[3]',
                 'regex_match[/\A[a-z0-9-_\.]+\z/]',
@@ -62,9 +63,9 @@ class CategoryModel extends GlobalAdminModel
         ],
 
         'sort' => [
-            'required',
             'label' => 'Category.Category.sort',
             'rules' => [
+	            'required',
                 'max_length[100]',
                 'min_length[1]',
                 'is_natural',
@@ -74,8 +75,8 @@ class CategoryModel extends GlobalAdminModel
 
         'img' => [
             'label' => 'Category.Category.img',
-			'permit_empty',
             'rules' => [
+				'permit_empty',
                 'max_length[50]',
 				'regex_match[/\A[a-z0-9-_\.]+\z/]',
             ],
@@ -114,8 +115,23 @@ class CategoryModel extends GlobalAdminModel
 
     function CatDelete(int $id) {
 
+		$torrentModel = model(TorrentModel::class);
+
+		$torrFiles = $this->db->table('torrents')->select('file_name')->where('category', $id)->get()->getResult();
+
+		foreach ($torrFiles as $file)
+		{
+			$torrFile = setting("Torrent.TorrentFilesPath") . $file->file_name;
+			if (file_exists($torrFile)) {
+				unlink($torrFile);
+			}
+		}
+
 		$this->db->table('torrents')->where('category', $id)->delete();
-        $this->db->table('categories')->where('id', $id)->delete();
+		$this->db->table('comments')->where('category', $id)->delete();
+		$this->db->table('reports')->where('category', $id)->delete();
+		$this->db->table('bookmarks')->where('category', $id)->delete();
+		$this->db->table('categories')->where('id', $id)->delete();
     }
 
     function CatInsert($data) : int {

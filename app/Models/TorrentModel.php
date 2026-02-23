@@ -56,13 +56,14 @@ class TorrentModel extends Model {
             ],
         ],
         'torrentfile' => [
-     	      'label' => 'Torrent.file',
+			'label' => 'Torrent.file',
           	'rules' => [
               	'uploaded[torrentfile]',
-                 'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
+                'required',
+                'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
                 'max_size[torrentfile,1024]',
-                  'ext_in[torrentfile,torrent]',
-        		],
+                'ext_in[torrentfile,torrent]',
+        	],
         ],
         'can_comment' => [
             'label' => 'Torrent.can_comment',

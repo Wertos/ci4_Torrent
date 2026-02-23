@@ -50,4 +50,24 @@ class TorrentModel extends GlobalAdminModel
         parent::initialize();
         $this->db = \Config\Database::connect();
     }
+
+    public function delTorrent(int $tId, bool $full = true)
+    {
+
+		$fileName = $this->db->table($this->table)->select('file_name')->where('id', $tId)->limit(1)->get()->getRow()->file_name;
+
+        $torrentFile = setting("Torrent.TorrentFilesPath") . $fileName;
+
+        if (file_exists($torrentFile)) {
+              unlink($torrentFile);
+        }
+		
+		$this->db->table($this->table)->where('id', $tId)->delete();
+
+		if ($full == true) {
+	        $this->db->table('comments')->where('tid', $tId)->delete();
+    	    $this->db->table('reports')->where('tid', $tId)->delete();
+        	$this->db->table('bookmarks')->where('tid', $tId)->delete();
+		}
+	}
 }

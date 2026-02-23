@@ -92,8 +92,8 @@ class GlobalModel extends Model
 
     function getTorrentCount(?int $id = null)
     {
-        	$query = $this->db->table('torrents')->where('deleted_at =', null)->select('COUNT(id) AS count');
-        	if ($id)
+       	$query = $this->db->table('torrents')->where('deleted_at =', null)->select('COUNT(id) AS count');
+       	if ($id)
         				$query->where('category', $id);
           $data = $query->get()->getRow();
           return (int) $data->count;

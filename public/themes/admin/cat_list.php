@@ -34,7 +34,7 @@
   		<td id="catimg-<?= $cat->id; ?>"><?= $cat->img; ?></td>
   		<td>
       	<div id="catdelete-<?= $cat->id; ?>" class="d-inline">
-      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Delete'); ?>" onclick="CI4_Admin.CatDelete(<?= $cat->id; ?>); return false;">
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Delete'); ?>" onclick="if(!confirmation()) { return false; }; CI4_Admin.CatDelete(<?= $cat->id; ?>); return false;">
       			<i class="fa-solid fa-trash-xmark text-danger cursor-pointer"></i>
       		</a>
 		</div>

@@ -58,7 +58,6 @@ class AdminModel extends GlobalAdminModel
 
 		public function getCountUsers(): int
 		{
-				
 				$count = (int) $this->userModel->countAll();
 				
 				return $count;
