@@ -57,6 +57,8 @@ class CommentController extends BaseController
                         ->with("errors", $this->validator->getErrors());
             }
 
+			$location = $this->postData["location"];
+
             $data = [
                   "text" => $this->postData["text"],
                   "created_at" => Time::now(
@@ -65,13 +67,13 @@ class CommentController extends BaseController
                   "updated_at" => null,
                   "user_id" => (int) $this->userData->id,
                   "tid" => (int) $this->postData["tid"],
-                  "location" => "torrent",
+                  "location" => $location,
                   "category" => (int) $this->postData["category"],
             ];
             //      var_dump($data); die();
             $this->CommentModel->insert($data);
             return redirect()
-                  ->to("torrent/" . $tId)
+                  ->to($location."/" . $tId)
                   ->with("message", lang("Comment.addsuccess"));
       }
 }

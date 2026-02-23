@@ -86,6 +86,7 @@ $routes->get('bookmark/(:num)',  				'BookmarkController::Bookmark/$1');
 
 $routes->get('news',  		  					'NewsController::NewsList');
 $routes->get('news/(:num)-([a-z0-9-_]+)', 	  	'NewsController::NewsView/$1');
+$routes->get('news/(:num)',         			'NewsController::NewsView/$1');
 
 $routes->get('user/profile', 					'Auth\ProfileController::ProfileView');
 $routes->get('user/profile/(:num)', 			'Auth\ProfileController::ProfileView/$1');

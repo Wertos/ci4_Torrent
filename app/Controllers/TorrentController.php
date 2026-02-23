@@ -91,6 +91,7 @@ class TorrentController extends BaseController
                   $comments = $this->CommentModel
                         ->asObject()
                         ->where("tid", $tId)
+						->where("location", "torrent")
                         ->orderBy("created_at", "DESC")
                         ->getPagination(setting("Torrent.commentPerPage"));
             }
@@ -169,6 +170,7 @@ class TorrentController extends BaseController
                               "tid" => $torrentData->id,
                         ])
                         ->first(),
+				   "location" => "torrent",
             ];
 
             $siteTitle =

@@ -59,7 +59,7 @@ class TorrentModel extends Model {
 			'label' => 'Torrent.file',
           	'rules' => [
               	'uploaded[torrentfile]',
-                'required',
+//                'required',
                 'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
                 'max_size[torrentfile,1024]',
                 'ext_in[torrentfile,torrent]',

@@ -180,7 +180,6 @@ abstract class BaseController extends Controller
         "bootstrap-icons.min.css",
       ])
       ->addJS([
-//        "jquery-3.7.1.min.js",
 		"jquery-4.0.0.min.js",
         "jquery.treeview.js",
         "bootstrap.bundle.min.js",

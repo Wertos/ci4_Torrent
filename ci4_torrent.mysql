@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Фев 22 2026 г., 14:43
+-- Время создания: Фев 23 2026 г., 16:04
 -- Версия сервера: 8.4.7-7
 -- Версия PHP: 8.5.3
 
@@ -216,6 +216,7 @@ CREATE TABLE `news` (
   `url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `can_comment` tinyint(1) NOT NULL DEFAULT '1',
   `user_id` int NOT NULL,
+  `category` int NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
