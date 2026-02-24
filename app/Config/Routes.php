@@ -77,7 +77,7 @@ $routes->post('torrent/add',           			'TorrentController::TorrentAddAction')
 $routes->get('torrent/edit/(:num)',    			'TorrentController::TorrentEditShow/$1');
 $routes->post('torrent/edit/(:num)',   			'TorrentController::TorrentEditAction/$1');
 $routes->get('torrent/(:num)',         			'TorrentController::TorrentView/$1');
-$routes->get('torrent/(:num)-(:any)',  			'TorrentController::TorrentView/$1');
+$routes->get('torrent/(:num)-([a-z0-9-_]+)',  			'TorrentController::TorrentView/$1');
 $routes->get('torrent/dl/(:num)',      			'TorrentController::TorrentSend/$1');
 $routes->get('torrent/delete/(:num)',  			'TorrentController::TorrentDelete/$1');
 
