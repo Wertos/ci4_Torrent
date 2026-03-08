@@ -15,7 +15,7 @@ class NewsModel extends Model {
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title','text','url', 'can_comment', 'user_id'];
+    protected $allowedFields    = ['title','text','url','can_comment','user_id'];
 
     // Dates
     protected $useTimestamps = true;

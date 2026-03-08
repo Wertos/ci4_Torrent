@@ -105,11 +105,11 @@ CI4.EditComment = function(id, tId) {
   	})
   	.fail(function( response ) {
     	alert(JSON.stringify(response));
-		});
+	});
 	
 	$('#button-'+id).on('click', function() {
 		var text = $('#textarea-'+id).val();
-		$.post( url, { id : id, action: "commentedit", text : $.trim(text) })
+		$.post( url, { id : id, action: "commentedit", text : text.trim() })
   		.done(function( data ) {
   			if(data.error) {
   				alert(JSON.stringify(data.error));
@@ -120,7 +120,7 @@ CI4.EditComment = function(id, tId) {
   		})
   		.fail(function( response ) {
     		alert(JSON.stringify(response));
-			});
+		});
 		return false;
 	});
 }

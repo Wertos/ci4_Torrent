@@ -45,29 +45,86 @@ class TorrentModel extends GlobalAdminModel
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	public $sDate;
+
     protected function initialize(): void
     {
         parent::initialize();
         $this->db = \Config\Database::connect();
+		if ($this->db->DBDriver == 'Postgre') 
+		{
+			$this->sDate = 'CURRENT_DATE';
+		} 
+		else 
+		{
+			$this->sDate = 'CURDATE()';
+		}
+
     }
 
     public function delTorrent(int $tId, bool $full = true)
     {
-
+        $data = [];
+		
 		$fileName = $this->db->table($this->table)->select('file_name')->where('id', $tId)->limit(1)->get()->getRow()->file_name;
 
         $torrentFile = setting("Torrent.TorrentFilesPath") . $fileName;
 
         if (file_exists($torrentFile)) {
-              unlink($torrentFile);
+              $data['delfile'] = unlink($torrentFile);
         }
 		
-		$this->db->table($this->table)->where('id', $tId)->delete();
-
-		if ($full == true) {
-	        $this->db->table('comments')->where('tid', $tId)->delete();
-    	    $this->db->table('reports')->where('tid', $tId)->delete();
-        	$this->db->table('bookmarks')->where('tid', $tId)->delete();
-		}
+		$data['deltor'] = $this->db->table($this->table)->where('id', $tId)->delete();
+		$data['delcom'] = $this->db->table('comments')->where('tid', $tId)->delete();
+		$data['delrep'] = $this->db->table('reports')->where('tid', $tId)->delete();
+		$data['delbok'] = $this->db->table('bookmarks')->where('tid', $tId)->delete();
+		
+		return $data;
 	}
+
+    public function getTorrents(int $catId,
+								?int $statusId = null,
+								int $owner,
+								int $today,
+								int $limit = 20,
+								int $offset = 0
+					)
+	{
+   			$this->select('torrents.url as turl, torrents.name as tname, torrents.id as tid,
+						  categories.id as cid, categories.name as cname, categories.url as curl,
+						  users.id as uid, users.username as uname');
+
+			$this->join('categories', 'categories.id = torrents.category', 'left');
+			$this->join('users', 'users.id = torrents.owner', 'left');
+
+			if ($catId) {
+				$this->where('categories.id', $catId);
+			}
+
+			if ($statusId !== NULL) {
+				$this->where('torrents.modded', $statusId);
+			}
+
+			if ($owner) {
+				$this->where('torrents.owner', $owner);
+			}
+
+			if ($today) {
+				$this->where('torrents.created_at >= ' . $this->sDate);
+			}
+
+			$this->orderBy('torrents.created_at', 'DESC');
+			return $this;
+	}
+
+    public function getPagination(?int $perPage = null): array
+    {
+        $this->builder()
+            ->select('torrents.*');
+        return [
+            'torrents'  => $this->paginate($perPage),
+            'pager' => $this->pager,
+        ];
+    }
+
 }

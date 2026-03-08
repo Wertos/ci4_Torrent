@@ -22,12 +22,14 @@ $routes->post('admin/categories/edit/(:num)',   'Admin\CategoryController::CatEd
 $routes->post('admin/categories/delete/(:num)', 'Admin\AjaxController::CatDelete/$1');
 $routes->post('admin/categories/onoff/(:num)',  'Admin\AjaxController::CatOnOff/$1');
                                                 
-$routes->post('/admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete/$1');
-$routes->post('/admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');
-$routes->post('/admin/users/restore/(:num)',    'Admin\AjaxController::UserRestore/$1');
+$routes->post('admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete/$1');
+$routes->post('admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');
+$routes->post('admin/users/restore/(:num)',    'Admin\AjaxController::UserRestore/$1');
 
-$routes->post('/admin/users/act/(:num)',        'Admin\AjaxController::UserAct/$1');
-$routes->post('/admin/users/ban/(:num)',        'Admin\AjaxController::UserBan/$1');
+$routes->post('admin/users/act/(:num)',        'Admin\AjaxController::UserAct/$1');
+$routes->post('admin/users/ban/(:num)',        'Admin\AjaxController::UserBan/$1');
+$routes->post('admin/userbyname/(:any)',       'Admin\AjaxController::UserByName/$1');
+$routes->post('admin/torrmanage',        		'Admin\AjaxController::TorrManage');
 
 $routes->get('admin/reports',                   'Admin\ReportController::ReportList');
 $routes->get('admin/reports/del/(:num)',        'Admin\ReportController::ReportDelete/$1');
@@ -48,6 +50,7 @@ $routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::Comments
 $routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
 
 $routes->get('admin/torrents',					'Admin\TorrentController::TorrList');
+$routes->get('admin/torrents/del/(:num)',		'Admin\TorrentController::dellTorr/$1');
 
 $routes->get('mod/torrents/',					'ModController::UncheckView');
 //$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
@@ -77,7 +80,7 @@ $routes->post('torrent/add',           			'TorrentController::TorrentAddAction')
 $routes->get('torrent/edit/(:num)',    			'TorrentController::TorrentEditShow/$1');
 $routes->post('torrent/edit/(:num)',   			'TorrentController::TorrentEditAction/$1');
 $routes->get('torrent/(:num)',         			'TorrentController::TorrentView/$1');
-$routes->get('torrent/(:num)-([a-z0-9-_]+)',  			'TorrentController::TorrentView/$1');
+$routes->get('torrent/(:num)-([a-z0-9-_]+)',  	'TorrentController::TorrentView/$1');
 $routes->get('torrent/dl/(:num)',      			'TorrentController::TorrentSend/$1');
 $routes->get('torrent/delete/(:num)',  			'TorrentController::TorrentDelete/$1');
 

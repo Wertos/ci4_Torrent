@@ -61,3 +61,8 @@ div.blockquote {
     border-bottom: 1px solid #e2e3e4;
 }
 p.quote_author { font-weight: bold; }
+
+.btn-group-xs > .btn, .btn-xs {
+    font-size  : .875rem;
+    line-height  : .5;
+}

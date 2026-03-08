@@ -1,5 +1,4 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
-
 <?= doctype('html5') ?>
 <html lang="ru">
   <head>
@@ -102,24 +101,35 @@
 					<?php if (session('error') !== null) : ?>
 						<div class="alert alert-dismissible alert-danger" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-							<?= esc(session('error')) ?>
+							<?= session('error') ?>
 						</div>
 					<?php elseif (session('errors') !== null) : ?>
 						<div class="alert alert-dismissible alert-danger" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 							<?php if (is_array(session('errors'))) : ?>
 								<?php foreach (session('errors') as $error) : ?>
-									<?= esc($error) ?><br />
+									<?= $error ?><br />
 								<?php endforeach ?>
-              <?php else : ?>
-                <?= esc(session('errors')) ?>
-              <?php endif ?>
-            </div>
+							<?php else : ?>
+								<?= session('errors') ?>
+							<?php endif ?>
+						</div>
 					<?php endif ?>
-          <?php if (session('message') !== null) : ?>
+					<?php if (session('message') !== null) : ?>
 						<div class="alert alert-dismissible alert-success" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-							<?= esc(session('message')) ?>
+							<?= session('message') ?>
 						</div>
-          <?php endif ?>
+					<?php elseif (session('messages') !== null) : ?>
+						<div class="alert alert-dismissible alert-success" role="alert">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							<?php if (is_array(session('messages'))) : ?>
+								<?php foreach (session('messages') as $message) : ?>
+									<?= $message ?><br />
+								<?php endforeach ?>
+							<?php else : ?>
+								<?= session('messages') ?>
+							<?php endif ?>
+						</div>
+					<?php endif ?>
 <!-- Messages section end -->

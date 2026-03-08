@@ -119,4 +119,100 @@ class AdminModel extends GlobalAdminModel
 				
 				return $count;
 		}                                
+
+		public function systemLoad($coreCount = 2, $interval = 1)
+		{
+			$rs = sys_getloadavg();
+			$interval = $interval >= 1 && 3 <= $interval ? $interval : 1;
+			$load = $rs[$interval];
+			return round(($load * 100) / $coreCount,2);
+		}
+
+		public function diskUsage()
+		{
+			$disktotal = disk_total_space ('/');
+			$diskfree  = disk_free_space  ('/');
+			$diskuse   = round (100 - (($diskfree / $disktotal) * 100)) .'%';
+			return $diskuse;
+		}
+
+		public function serverUptime()
+		{
+			$uptime = floor(preg_replace ('/\.[0-9]+/', '', file_get_contents('/proc/uptime')) / 86400);
+			return $uptime;
+		}
+
+		public function memoryUsage()
+		{
+	
+			$mem = memory_get_usage(true);
+	
+			if ($mem < 1024) {
+		
+				$$memory = $mem .' B'; 
+		
+			} elseif ($mem < 1048576) {
+		
+				$memory = round($mem / 1024, 2) .' KB';
+		
+			} else {
+		
+				$memory = round($mem / 1048576, 2) .' MB';
+		
+			}
+	
+			return $memory;
+	
+		}
+/**
+ * Returns the number of available CPU cores
+ * 
+ *  Should work for Linux, Windows, Mac & BSD
+ * 
+ * @return integer 
+ */
+		public function getNumCpus()
+		{
+			$numCpus = 1;
+
+			if (is_file('/proc/cpuinfo'))
+			{
+				$cpuinfo = file_get_contents('/proc/cpuinfo');
+				preg_match_all('/^processor/m', $cpuinfo, $matches);
+
+				$numCpus = count($matches[0]);
+			}
+			else if ('WIN' == strtoupper(substr(PHP_OS, 0, 3)))
+			{
+				$process = @popen('wmic cpu get NumberOfCores', 'rb');
+
+				if (false !== $process)
+				{
+					fgets($process);
+					$numCpus = intval(fgets($process));
+
+					pclose($process);
+				}
+			}
+			else
+			{
+				$process = @popen('sysctl -a', 'rb');
+
+				if (false !== $process)
+				{
+					$output = stream_get_contents($process);
+
+					preg_match('/hw.ncpu: (\d+)/', $output, $matches);
+					if ($matches)
+					{
+						$numCpus = intval($matches[1][0]);
+					}
+
+					pclose($process);
+				}
+			}
+  
+		return $numCpus;
+	}
+
 }                                                                                                                          

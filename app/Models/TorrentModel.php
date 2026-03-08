@@ -11,15 +11,14 @@ use Arokettu\Bencode\Bencode;
 class TorrentModel extends Model {
     protected $DBGroup          = 'default';
     protected $table            = 'torrents';
-//    protected $uniqueKey				=	'infohash';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';//\App\Entities\Torrent::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-//    protected $allowedFields    = ['owner','infohash','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name'];
-    protected $allowedFields    = ['name','descr','category','poster','can_comment','torrentfile'];
+//    protected $allowedFields    = ['owner','infohash_v1','infohash_v2','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name'];
+    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile'];
 
     // Dates
     protected $useTimestamps = true;
@@ -30,55 +29,42 @@ class TorrentModel extends Model {
 
     // Validation
     protected $validationRules = [
+//		'owner' => ['rules' => ['numeric']],
+//		'numfiles' => ['rules' => ['numeric']],
+//		'size' => ['rules' => ['numeric']],
+//		'type' => ['rules' => ['numeric']],
         'name' => [
             'label' => 'Torrent.title',
-            'rules' => [
-                'required',
-                'max_length[500]',
-                'min_length[3]',
-                'string',
-            ],
-        ],
-        'poster' => [
-            'label' => 'Torrent.poster',
-            'rules' => [
-                'max_length[254]',
-                'valid_url',
-            ],
+            'rules' => ['required','max_length[500]','min_length[3]','string'],
         ],
         'descr' => [
             'label' => 'Torrent.description',
-            'rules' => [
-                'required',
-                'max_length[20000]',
-                'min_length[3]',
-                'string',
-            ],
-        ],
-        'torrentfile' => [
-			'label' => 'Torrent.file',
-          	'rules' => [
-              	'uploaded[torrentfile]',
-//                'required',
-                'mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]',
-                'max_size[torrentfile,1024]',
-                'ext_in[torrentfile,torrent]',
-        	],
-        ],
-        'can_comment' => [
-            'label' => 'Torrent.can_comment',
-            'rules' => [
-                'required',
-                'numeric',
-            ],
+            'rules' => ['required','max_length[20000]','min_length[3]','string'],
         ],
         'category' => [
             'label' => 'Torrent.category',
-            'rules' => [
-                'required',
-                'numeric',
-            ],
+            'rules' => ['required','numeric'],
         ],
+        'poster' => [
+            'label' => 'Torrent.poster',
+            'rules' => ['max_length[254]','valid_url'],
+        ],
+//		'magnet' => ['rules' => ['string']],
+//		'url' => ['rules' => ['string']],
+//		'file' => ['rules' => ['numeric']],
+        'can_comment' => [
+            'label' => 'Torrent.can_comment',
+            'rules' => ['required','numeric'],
+        ],
+        'torrentfile' => [
+			'label' => 'Torrent.file',
+			'rules' => ['uploaded[torrentfile]','mime_in[torrentfile,application/bittorrent,application/x-bittorrent,application/force-download,application/torrent,torrent]','max_size[torrentfile,1024]','ext_in[torrentfile,torrent]'],
+        ],
+//		'modded' => ['rules' => ['required','numeric']],
+//		'file_name' => ['rules' => ['string']],
+//		'version' => ['rules' => ['numeric']],
+//		'infohash_v1' => ['rules' => ['string']],
+//		'infohash_v2' => ['rules' => ['string']],
     ];
 
     protected $validationMessages   = [];
@@ -103,36 +89,21 @@ class TorrentModel extends Model {
     {
         parent::initialize();
         $this->db = \Config\Database::connect();
-//		$this->DBDriver = setting('Database.default')['DBDriver'];
-//		var_dump($this->db->DBDriver); die();
     }
 
 		public function insert($row = null, bool $returnID = true): int
-    {
-        $query = $this->db->table($this->table);
-        $result = $query->insert($row, $returnID);
-        if ( $returnID == true ) 
-        {
-        	return $this->db->insertID();
-        }
-        else
-        {
-          return $result;
-        }
-    }
-
-		public function update($id = null, $row = null): bool
-    {
-        $query = $this->db->table($this->table);
-        $query->where('id', $id);
-        return $query->set($row)->update();
-    }
-
-		public function torrCatDelete(int $cid)
-    {
-//        $query = $this->db->table($this->table)->where('id', $id);
-//        return $query->delete();
-    }
+		{
+			$query = $this->db->table($this->table);
+			$result = $query->insert($row, $returnID);
+    		if ( $returnID == true ) 
+        	{
+        		return $this->db->insertID();
+			}
+			else
+			{
+				return $result;
+			}
+		}
 
 		public function torrLoad (string $filePath, string $fileName)
 		{
@@ -283,15 +254,17 @@ class TorrentModel extends Model {
 		  return isset($q) ? $q : null;		
 		}
 
-		function updateViews($id) {
-        $query = $this->db->table($this->table)->set('views', 'views + 1', FALSE)->where('id', $id);
-        return $query->update();
-    }
+		function updateViews($id)
+		{
+			$query = $this->db->table($this->table)->set('views', 'views + 1', FALSE)->where('id', $id);
+			return $query->update();
+		}
 
-		function updateDownloaded($id) {
-        $query = $this->db->table($this->table)->set('downloaded', 'downloaded + 1', FALSE)->where('id', $id);
-        return $query->update();
-    }
+		function updateDownloaded($id)
+		{
+        	$query = $this->db->table($this->table)->set('downloaded', 'downloaded + 1', FALSE)->where('id', $id);
+	        return $query->update();
+    	}
     
     public function checkHash(?string $hash = null): bool
     {
@@ -343,7 +316,7 @@ class TorrentModel extends Model {
 		return $arry;
 
 	}
-	
+
 	public function hashToString ($hash = null)
 	{
 		if(! $hash)

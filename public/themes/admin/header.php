@@ -28,13 +28,14 @@
 
         <ul class="nav nav-pills flex-column">
           <li class="nav-item <?= activate_menu('Home', 'index'); ?>">
-            <a class="nav-link" href="<?= base_url('admin'); ?>">
+            <a class="nav-link text-decoration-none" href="<?= base_url('admin'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.DashBoard'); ?>"><i class="fas fa-dashboard"></i></span>
               <span class="menu"><?= lang('Admin.DashBoard'); ?></span>
             </a>
           </li>
 
           <!-- drodown menu start -->
+<!--
           <li class="nav-item position-relative" href="#setting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="setting">
             <a class="nav-link" href="#setting">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Site.setting'); ?>">
@@ -62,12 +63,13 @@
               </a>
             </li>
           </div>
+-->
           <!-- dropdown menu end -->
 
           <!-- drodown menu start -->
           <li class="nav-item position-relative" href="#category" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="category">
-            <a class="nav-link" href="#category">
-              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Categories'); ?>">
+            <a class="nav-link text-decoration-none" href="#category">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.catmanage'); ?>">
                 <i class="fas fa-list"></i>
               </span>
               <span class="menu"><?= lang('Category.Categories'); ?></span>
@@ -75,7 +77,7 @@
           </li>
           <div class="collapse" id="category">
             <li class="nav-item <?= setActive('/admin/categories'); ?>">
-              <a class="nav-link" href="<?= base_url('admin/categories'); ?>">
+              <a class="nav-link text-decoration-none" href="<?= base_url('admin/categories'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.List'); ?>">
                   <i class="fas fa-list-tree"></i>
                 </span>
@@ -84,7 +86,7 @@
             </li>
 
             <li class="nav-item <?= setActive('/admin/categories/add'); ?>">
-              <a class="nav-link" href="<?= base_url('admin/categories/add'); ?>">
+              <a class="nav-link text-decoration-none" href="<?= base_url('admin/categories/add'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Category.Create'); ?>">
                   <i class="fas fa-plus"></i>
                 </span>
@@ -97,8 +99,8 @@
 
           <!-- drodown menu start -->
           <li class="nav-item position-relative" href="#news" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="news">
-            <a class="nav-link" href="#news">
-              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.news'); ?>">
+            <a class="nav-link text-decoration-none" href="#news">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.newsmanage'); ?>">
                 <i class="fa-solid fa-newspaper"></i>
               </span>
               <span class="menu"><?= lang('News.news'); ?></span>
@@ -106,7 +108,7 @@
           </li>
           <div class="collapse" id="news">
             <li class="nav-item <?= setActive('/admin/news/list'); ?>">
-              <a class="nav-link" href="<?= base_url('admin/news/list'); ?>">
+              <a class="nav-link text-decoration-none" href="<?= base_url('admin/news/list'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.listnews'); ?>">
                   <i class="fa-solid fa-list"></i>
                 </span>
@@ -115,7 +117,7 @@
             </li>
 
             <li class="nav-item <?= setActive('/admin/news/add'); ?>">
-              <a class="nav-link" href="<?= base_url('admin/news/add'); ?>">
+              <a class="nav-link text-decoration-none" href="<?= base_url('admin/news/add'); ?>">
                 <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.addnews'); ?>">
                   <i class="fa-solid fa-plus"></i>
                 </span>
@@ -127,28 +129,35 @@
           
           
           <li class="nav-item <?= setActive('/admin/users'); ?>">
-            <a class="nav-link" href="<?= base_url('admin/users'); ?>">
+            <a class="nav-link text-decoration-none" href="<?= base_url('admin/users'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.UsersTitle'); ?>"><i class="fas fa-users"></i></span>
               <span class="menu"><?= lang('Admin.Users'); ?></span>
             </a>
           </li>
 
           <li class="nav-item <?= setActive('/admin/reports'); ?>">
-            <a class="nav-link" href="<?= base_url('admin/reports'); ?>">
+            <a class="nav-link text-decoration-none" href="<?= base_url('admin/reports'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Admin.reports'); ?>"><i class="fas fa-share"></i></span>
               <span class="menu"><?= lang('Admin.report'); ?></span>
             </a>
           </li>
 
           <li class="nav-item <?= setActive('/admin/comments'); ?>">
-            <a class="nav-link" href="<?= base_url('admin/comments'); ?>">
-              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.comments'); ?>"><i class="fa-solid fa-comment"></i></span>
+            <a class="nav-link text-decoration-none" href="<?= base_url('admin/comments'); ?>">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.commmanage'); ?>"><i class="fa-solid fa-comment"></i></span>
               <span class="menu"><?= lang('Comment.comments'); ?></span>
             </a>
           </li>
 
+          <li class="nav-item <?= setActive('/admin/torrents'); ?>">
+            <a class="nav-link text-decoration-none" href="<?= base_url('admin/torrents'); ?>">
+              <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Torrent.tormanage'); ?>"><i class="fa-duotone fa-solid fa-arrow-up-arrow-down"></i></i></span>
+              <span class="menu"><?= lang('Torrent.torrents'); ?></span>
+            </a>
+          </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('user/logout'); ?>">
+            <a class="nav-link text-decoration-none" href="<?= base_url('user/logout'); ?>">
               <span class="icon" data-bs-toggle="tooltip" data-bs-title="<?= lang('Login.logout'); ?>"><i class="fas fa-sign-out"></i></span>
               <span class="menu"><?= lang('Login.logout'); ?></span>
             </a>
@@ -206,27 +215,49 @@
         <main class="bg-secondary bg-opacity-25 min-vh-100">
           <div class="container-fluid p-3 p-md-4">
 <!-- Messages section start -->
+					<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+						<symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+						</symbol>
+						<symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+						</symbol>
+						<symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+						</symbol>
+					</svg>
 					<?php if (session('error') !== null) : ?>
 						<div class="alert alert-dismissible alert-danger" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-							<?= esc(session('error')) ?>
+							<?= session('error') ?>
 						</div>
 					<?php elseif (session('errors') !== null) : ?>
 						<div class="alert alert-dismissible alert-danger" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 							<?php if (is_array(session('errors'))) : ?>
 								<?php foreach (session('errors') as $error) : ?>
-									<?= esc($error) ?><br />
+									<?= $error ?>
 								<?php endforeach ?>
-              <?php else : ?>
-                <?= esc(session('errors')) ?>
-              <?php endif ?>
-            </div>
+							<?php else : ?>
+								<?= session('errors') ?>
+							<?php endif ?>
+						</div>
 					<?php endif ?>
-          <?php if (session('message') !== null) : ?>
+					<?php if (session('message') !== null) : ?>
 						<div class="alert alert-dismissible alert-success" role="alert">
 							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-							<?= esc(session('message')) ?>
+							<?= session('message') ?>
 						</div>
-          <?php endif ?>
+					<?php elseif (session('messages') !== null) : ?>
+						<div class="alert alert-dismissible alert-success" role="alert">
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+							<?php if (is_array(session('messages'))) : ?>
+								<?php foreach (session('messages') as $message) : ?>
+									<?= $message ?>
+								<?php endforeach ?>
+							<?php else : ?>
+								<?= session('messages') ?>
+							<?php endif ?>
+						</div>
+					<?php endif ?>
 <!-- Messages section end -->

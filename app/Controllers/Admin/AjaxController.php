@@ -12,6 +12,8 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use Arifrh\Themes\Themes;
 use \App\Models\Admin\AdminModel;
 use \App\Models\Admin\CategoryModel;
+use \App\Models\Admin\TorrentModel;
+use \App\Models\UserModel;        
 
 class AjaxController extends \App\Controllers\AdminController
 {
@@ -37,18 +39,24 @@ class AjaxController extends \App\Controllers\AdminController
 				case 'UserDelete':
 				case 'UserHardDelete':
 				case 'UserRestore':
+				case 'UserByName':
       				$this->db = \Config\Database::connect();
+                	$this->userModel = model(UserModel::class);
       			break;
 				case 'UserAct':
       					
       			break;
 				case 'UserBan':
-      					
+
       			break;
 				case 'CatDelete':
 				case 'CatOnOff':
       				$this->CatModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
+				case 'TorrManage':
+      				$this->TorrModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
+      			break;
+
       		default: 
       			throw PageNotFoundException::forPageNotFound();
       }
@@ -56,10 +64,30 @@ class AjaxController extends \App\Controllers\AdminController
 
   private function _AjaxSend($data) 
   {
-
 			return $this->response->setJSON($data);
   }
-  
+  public function UserByName($name)
+  {
+	$this->data = [];
+	$html = '';
+
+	$users = $this->db->table('users')->select('username, id')
+				->like('username', $name)->get()->getResult();
+
+	foreach($users as $user)
+	{
+		$html .= '<li><a onclick="CI4_Admin.NameIns('.$user->id.', \''.$user->username.'\');" data-name="'.$user->username.'" data-id="'.$user->id.'" class="dropdown-item username" href="javascript:void(0);">'.$user->username.'</a></li>';
+	}
+	if($html == '')
+				$html = '<li><a class="dropdown-item" href="#">No result</a></li>';
+
+	$this->data = [
+		'error' => '',
+		'html'	=> $html,
+	];
+	return $this->_AjaxSend($this->data); die ();
+  }
+
   public function UserDelete($id)
   {
       $users = auth()->getProvider();
@@ -157,12 +185,6 @@ class AjaxController extends \App\Controllers\AdminController
 			
 			return $this->_AjaxSend($this->data);
   }
-
-
-
-
-
-
 
   public function UserAct($id)
   {
@@ -284,10 +306,6 @@ class AjaxController extends \App\Controllers\AdminController
 
   public function CatDelete(int $id)
   {
-//			$this->CommentModel->where('category', $id)->delete();
-//			$this->ReportModel->where('category', $id)->delete();
-//			$this->BookmarkModel->where('category', $id)->delete();
-//			$this->TorrentModel->where('category', $id)->delete($id);
 			$this->CatModel->CatDelete($id);
 			return $this->_AjaxSend(['id' => $id]); die();
   }
@@ -316,6 +334,28 @@ class AjaxController extends \App\Controllers\AdminController
 			}
 
 			return $this->_AjaxSend(['id' => $id, 'icon' => $icon, 'title' => $title]); die();
+  }
+
+  public function TorrManage()
+  {
+			$data = $this->request->getPost();
+			$ids = $data['ids'];
+			$event = $data['event'];
+			if ($event == 'delete') {
+				foreach ($ids as $id)
+				{
+//					$this->TorrModel->delTorrent(int $id);
+				}
+			}
+			else if ($event == 'move') {
+				foreach ($ids as $id)
+				{
+//					$this->TorrModel->moveTorrent(int $id);
+				}
+			}
+			else { die(); }
+
+			return $this->_AjaxSend($data); die();
   }
 
 }

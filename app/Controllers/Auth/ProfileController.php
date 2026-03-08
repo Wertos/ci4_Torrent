@@ -35,27 +35,29 @@ class ProfileController extends \App\Controllers\BaseController
 
     public function ProfileView(?int $id = null)
     {
-    	  helper('number');
-    	  helper('torrent');
-    	  $pager = service('pager');
+		helper('number');
+		helper('torrent');
+		
+		$pager = service('pager');
 	  		
-    		$no_torrents = false;
+		$no_torrents = false;
 
-			if (!$id)
-			{
-        		$id = $this->userData->id;
-	        }
+		if (!$id)
+		{
+       		$id = $this->userData->id;
+        }
     		
-			// Get the User Provider (UserModel by default)
-			$users = auth()->getProvider();
-			$data['user'] = $users->findById((int) $id);
+		// Get the User Provider (UserModel by default)
+		$users = auth()->getProvider();
+		$data['user'] = $users->withGroups()->findById((int) $id);
 
-    	    if (!$this->userData->logged_in)
+   	    if (!$this->userData->logged_in)
 		             return redirect()->to('user/login')->with('error', lang('Login.needLogin'));
 
         if (!$data['user'])
 		             return redirect()->back()->with('error', lang('Login.errorViewProfile'));
 
+		$data['groups'] = $data['user']->groups;
     	$data['torrcount'] = $this->TorrentModel->where('owner', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['commcount'] = $this->CommentModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();
         $data['bookcount'] = $this->BookmarkModel->where('user_id', $data['user']->id)->where('deleted_at', null)->countAllResults();

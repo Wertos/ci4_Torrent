@@ -23,6 +23,7 @@ return [
 		'lastname'		=>  'Фамилия',
 		'birthdate'   =>  'Дата рождения',
 		'created'     =>  'Зерегистрирован',
+		'groups' => 'Группы',
 		'passwordnotcompare'	=>	'Пароли не совпадают',
 		'updatedsuccess'	=>	'Ваш профиль успешно обновлён !',
 		'fielddanger' => 'Изменение этого поля недоступно !',

@@ -12,6 +12,9 @@ use App\Models\TorrentModel;
 
 class BookmarkController extends BaseController
 {
+  public $BookmarkModel;
+  public $TorrentModel;
+
   function __construct()
   {
     $this->BookmarkModel = model(BookmarkModel::class);

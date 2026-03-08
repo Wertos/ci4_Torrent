@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\HTTP\Message;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use \CodeIgniter\AdminController;
-use App\Models\CommentModel;
+use \App\Models\Admin\CommentModel;
 use App\Libraries\BBCode\BBCodeParser;
 
 class CommentController extends \App\Controllers\AdminController
@@ -28,60 +28,50 @@ class CommentController extends \App\Controllers\AdminController
 		helper('url');
 
 		$pager = service('pager');
+		$perPage = setting('Torrent.commentPerPage');
+		$page = (int) ($this->request->getGet("page") ?? 1);
+		$offset = ($page - 1) * $perPage;
 		
-		$sort_fields = ['created_at', 'updated_at', 'user_id', 'tid'];
-		$material_fields = ['torrent', 'news', 'user_id'];
+//		$sort_fields = ['created_at', 'updated_at', 'user_id', 'tid'];
+		$location_fields = ['torrent', 'news'];
 		$sort = 'created_at';
-//		$material = 'torrent';
-
-		$where = 'comments.id = comments.id';
-		
-		$material = ($material && in_array($material, $material_fields)) ? $material : 'torrent';
-		if ($material == 'user_id') {
-			$material = 'torrent,news';
-		}
-		
-		switch ($material) {
-		    case 'torrent':
-		    case 'news':
-		        $where = ($id !== null) ? "comments.tid = " . $id : $where;
-		        break;
-		    case 'user_id':
-		        $where = ($id !== null) ? "comments.user_id = " . $id : $where;
-		        break;
-		}
 
 		$sort = $this->request->getGet('sort');
+		$location = $this->request->getGet('location') ?? '';
+		$poster = $this->request->getGet('poster') ?? '';
+		$today = str_contains($_SERVER['QUERY_STRING'], 'today') ? true : false;
+
+		$poster = $poster <= 0 ? 0 : (int) $poster;
+		$location = in_array($location, $location_fields) ? $location : '';
+
+//										$location $owner $today $limit $offset
+		$comments = $this->CommentModel->asObject()->getComments($location, $poster, $today, $perPage, $offset)->getPagination($perPage);
 
 		$no_comments = false;
 
-		$sort = ($sort && in_array($sort, $sort_fields)) ? $sort : 'created_at';
-		
-   		$comments = $this->CommentModel
-    			->asObject()->whereIn('location', explode(',', $material))
-    			->where($where)
-       				->withTorrents()
-    				->orderBy($sort, 'DESC')
-    			->getPagination(setting('Torrent.commentPerPage'));
-
 		if (! $comments['comments'])
-				$no_comments = true;
-
+		{
+			$no_comments = true;
+		}
+	   	
 	   	$table = new \CodeIgniter\View\Table();
         $smilies_array = get_clickable_smileys('/uploads/smileys/', 'floatingTextInput');
 	   	$col_array = $table->makeColumns($smilies_array, 8);
 	
+		$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Comment.commmanage');
+
 		$data = [
 			'comments'		=> $comments['comments'],
 			'bbcode'		=> new BBCodeParser(),
 			'paginate'		=> $this->CommentModel->pager,
 			'no_comments'	=> $no_comments,
 			'sort'			=> $sort,
-	
+			'location_fields' => $location_fields,
+			'location' => $location,
+			'poster' => ($poster) ? auth()->getProvider()->findById($poster)->username : '',
+			'page_title' => $siteTitle,
 		];
 	
-		$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Comments.list');
-
 		$data['page_title'] = $siteTitle;
 
 		$this->themes::render('comments_list', $data);

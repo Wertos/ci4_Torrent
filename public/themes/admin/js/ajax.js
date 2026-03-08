@@ -135,6 +135,72 @@ CI4_Admin.CatOnOff = function(id) {
     	alert(JSON.stringify(response));
 	});
 }
+CI4_Admin.NameIns = function(id, name) {
+	$('#UserId').val(id);
+	$('#filterByUser').val(name);
+	$('#userlist')
+		.css('display', 'none')
+		.html("");
+//	if(getParameterByName('user')) {
+//		alert(replaceUrlParam(url = window.location.href, 'poster', id));
+	window.location.href = replaceUrlParam(url = window.location.href, 'poster', id);
+//	}
+};
+
+$('input#filterByUser').on( 'keyup', function(e) {
+    if (e.which !== 32) {
+        var value = $(this).val();
+        var noWhitespaceValue = value.replace(/\s+/g, '');
+        var noWhitespaceCount = noWhitespaceValue.length;
+        if (noWhitespaceCount >= 3) {
+			url = '/admin/userbyname/'+value;
+			$.post( url, { value : value, action: "UserByName" })
+			.done(function( data ) {
+				if(data.error) {
+  					alert(data.error);
+	  				return false;
+  				}
+				if (data.html) {
+					$('#userlist')
+						.css('display', 'block')
+						.html(data.html);
+				}
+			})
+			.fail(function( response ) {
+				alert(JSON.stringify(response));
+			});
+        }
+        else
+        {
+			$('#userlist')
+				.css('display', 'none')
+				.html("");
+        }
+    }
+});
+
+CI4_Admin.TorrManage = function(ids, event) {
+		url = '/admin/torrmanage';
+		$.post( url, { ids : ids, event : event, action: "TorrManage" })
+			.done(function( data ) {
+				if (data.event == 'delete') {
+					var idArr = data.ids;
+					idArr.forEach(function(id) {
+						$('tr#rowid-'+id).remove();
+					});
+				}
+				if (data.event == 'move') {
+					var idArr = data.ids;
+					idArr.forEach(function(id) {
+
+					});
+				}
+			})
+			.fail(function( response ) {
+				alert(JSON.stringify(response));
+			});
+}
+
 // implement JSON.stringify serialization
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

@@ -10,7 +10,7 @@
                   <div class="card bg-primary bg-gradient shadow-sm custom-card">
                     <div class="card-body p-3 pb-2 px-3 d-flex flex-row justify-content-between align-items-center">
                       <div>
-                        <h1><i class="fas fa-angles-down fa-2x text-white-50"></i></h1>
+                        <h1><i class="fa-duotone fa-solid fa-arrow-up-arrow-down fa-2x text-white-50"></i></h1>
                       </div>
                       <div class="text-center">
                         <h4 class="display-4 fw-bold text-white"><?= $countTorrents; ?></h4>
@@ -22,7 +22,7 @@
               </div>
 
               <div class="col-lg-3 col-md-6">
-                <a href="<?= base_url('admin/torrents?today'); ?>" class="text-decoration-none">
+                <a href="admin/torrents?today" class="text-decoration-none">
                   <div class="card bg-dark bg-success shadow-sm custom-card">
                     <div class="card-body p-3 pb-2 px-3 d-flex flex-row justify-content-between align-items-center">
                       <div>
@@ -87,7 +87,7 @@
               </div>
 
               <div class="col-lg-3 col-md-6">
-                <a href="<?= base_url('admin/comments'); ?>" class="text-decoration-none">
+                <a href="admin/comments?today" class="text-decoration-none">
                   <div class="card bg-dark bg-success shadow-sm custom-card">
                     <div class="card-body p-3 pb-2 px-3 d-flex flex-row justify-content-between align-items-center">
                       <div>
@@ -137,3 +137,18 @@
               <div class="col-lg-12">
               </div>
             </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+              <div class="fs-4 text-secondary fw-bolder"><?= lang('Admin.SystemInfo'); ?></div>
+            </div>
+            <hr>
+            <h5 class="display-4 fw-bold"><?= $cpuCores; ?></h5>
+            <h5 class="display-4 fw-bold"><?= $cpuThread; ?></h5>
+            <h5 class="display-4 fw-bold"><?= $systemLoad; ?></h5>
+            <h5 class="display-4 fw-bold"><?= $memoryUsage; ?></h5>
+            <h5 class="display-4 fw-bold"><?= $diskUsage; ?></h5>
+			<?= PHP_OS_FAMILY ?>
+			<?= PHP_OS ?>
+
+<?= PHP_VERSION ?>
+<?= PHP_EXTRA_VERSION ?>

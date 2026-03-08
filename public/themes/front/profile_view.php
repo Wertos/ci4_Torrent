@@ -41,6 +41,19 @@
  				<h6 class="d-inline"><?= lang('Profile.created'); ?></h6>
 				<h5 class="d-inline ms-4 float-end me-5"><?= toDate($user->created_at); ?></h5>
 				<hr class="d-block crearfix">
+ 				<h6 class="d-inline"><?= lang('Profile.groups'); ?></h6>
+				<h6 class="d-inline ms-4 float-end me-5">
+				<?php foreach(setting('AuthGroups.groups') as $group => $descGroup) : ?>
+				<?php if (in_array($group, $user->groups)) : ?>
+						<span title="<?= $descGroup['description']; ?>"
+								class="btn btn-xs btn-primary d-block mb-1"><?= $descGroup['title']; ?></span>
+				<?php else : ?>
+						<span title="<?= $descGroup['description']; ?>"
+								class="btn btn-xs btn-outline-secondary d-block mb-1"><?= $descGroup['title']; ?></span>
+				<?php endif; ?>
+				<?php endforeach; ?>
+				</h6>
+				<hr class="d-block crearfix w-100">
 			</div>
 		</div>
 	</div>

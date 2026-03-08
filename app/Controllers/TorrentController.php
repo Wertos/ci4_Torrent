@@ -240,7 +240,7 @@ class TorrentController extends BaseController
       /*                                                          */
       /*                                                          */
       /************************************************************/
-      public function TorrentEditShow($tId)
+      public function TorrentEditShow(int $tId)
       {
             helper("form");
             helper("torrent");
@@ -311,7 +311,7 @@ class TorrentController extends BaseController
       /*                                                          */
       /*                                                          */
       /************************************************************/
-      public function TorrentEditAction($tId)
+      public function TorrentEditAction(int $tId)
       {
             if (!$this->userData->can_upload) {
                   return redirect()
@@ -447,6 +447,10 @@ class TorrentController extends BaseController
                   "created_at" => Time::now(
                         setting("App.appTimezone"),
                   )->toDateTimeString(),
+                  "updated_at" => Time::now(
+                        setting("App.appTimezone"),
+                  )->toDateTimeString(),
+
             ];
 
             $arr = $this->TorrentModel->torrCheck(
@@ -459,7 +463,7 @@ class TorrentController extends BaseController
                   $data["infohash_v1"] = $arr["hash1"];
                   $data["infohash_v2"] = null;
                   if (!isset($arr["tid"])) {
-                        $id = $this->TorrentModel->insert($data);
+						$id = $this->TorrentModel->insert($data);
                         return redirect()
                               ->to("torrent/" . $id)
                               ->with(
@@ -471,7 +475,7 @@ class TorrentController extends BaseController
                   $data["infohash_v2"] = $arr["hash2"];
                   $data["infohash_v1"] = null;
                   if (!isset($arr["tid"])) {
-                        $id = $this->TorrentModel->insert($data, true);
+                        $id = $this->TorrentModel->insert($data);
                         return redirect()
                               ->to("torrent/" . $id)
                               ->with(
@@ -484,7 +488,7 @@ class TorrentController extends BaseController
                   $data["infohash_v2"] = $arr["hash2"];
 
                   if (!isset($arr["tid"])) {
-                        $id = $this->TorrentModel->insert($data, true);
+                        $id = $this->TorrentModel->insert($data);
                         return redirect()
                               ->to("torrent/" . $id)
                               ->with(

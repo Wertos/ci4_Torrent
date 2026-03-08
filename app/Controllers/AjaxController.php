@@ -143,8 +143,8 @@ class AjaxController extends \App\Controllers\BaseController
 		$data['icon'] = $stdata['icon'];
 		$data['class'] = $stdata['class'];
 		$data['status_text'] = $stdata['title'];
-
-	  	$st = $this->TorrentModel->update($id, ['modded' => $data['modded']]);
+//		var_dump($id); die();
+	  	$st = $this->TorrentModel->update($id, ['modded' => $status]);
 
 		$data['action']	=	$action;
 		$data['id']	=	$id;

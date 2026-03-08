@@ -85,6 +85,11 @@ return [
 		'newtorrent'=>	'Торренты на проверку',
 		'report'	=>	'Жалобы',
 		'unchecked'	=>	'Непроверенные торренты',
+		'filterByStatus' => 'Фильтр по статусу',
+		'filterByCat' => 'Фильтр по категории',
+		'filterByUser' => 'Фильтр по автору',
+		'sort' => ['asc' => 'ASC', 'desc' => 'DESC'],
+		'reset' => 'Сбросить фильтры',
 
 	   ];
 ?>

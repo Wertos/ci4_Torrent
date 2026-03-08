@@ -6,7 +6,7 @@
     <tr>
       <th scope="col" class="bg-secondary col-10 p-2 text-left"><?= lang('Comment.text'); ?></th>
       <th scope="col" class="bg-secondary col-1 p-2 text-center"><?= lang('Comment.created_at'); ?></th>
-      <th scope="col" class="bg-secondary col-1 p-2 text-center"><?= lang('Comment.torrent'); ?></th>
+      <th scope="col" class="bg-secondary col-1 p-2 text-center"><?= lang('Comment.material'); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -16,7 +16,7 @@
     <tr>
       <td class="pt-2 pb-2 small commentText"><?= $bbcode->parse(parse_smileys($com->text, '/uploads/smileys/')); ?></td>
       <td class="pt-2 pb-2 text-center small align-middle"><?= toDate($com->created_at); ?></td>
-      <td class="pt-2 pb-2 text-center align-middle small"><a href="<?= base_url('torrent/' . $com->tid . '-' . $com->turl . '#comment-' . $com->id); ?>" class="fw-bold fs-6"><i class="bi bi-box-arrow-up-right"></i></a></td>
+      <td class="pt-2 pb-2 text-center align-middle small"><a href="<?= base_url($com->location.'/' . $com->tid . '-' . $com->turl . '#comment-' . $com->id); ?>" class="fw-bold fs-6"><i class="bi bi-box-arrow-up-right"></i></a></td>
     </tr>
   <?php endforeach; ?>
   </tbody>

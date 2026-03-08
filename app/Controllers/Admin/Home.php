@@ -30,7 +30,14 @@ class Home extends \App\Controllers\AdminController
 			$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Admin.AdminHome');
 			
 			$data['page_title'] = $this->siteTitle;
-			
+
+			$data['cpuThread'] = $this->adminModel->getNumCpus();
+			$data['cpuCores'] = $data['cpuThread'] / 2;
+			$data['systemLoad'] = $this->adminModel->systemLoad($data['cpuThread'], $interval = 1);
+			$data['memoryUsage'] = $this->adminModel->memoryUsage();
+			$data['diskUsage'] = $this->adminModel->diskUsage();
+//			$data[''] = 
+
 			$this->themes::render('home', $data);
     }
 }

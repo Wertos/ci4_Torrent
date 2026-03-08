@@ -21,7 +21,7 @@ class CommentController extends BaseController
             $this->CommentModel = model(CommentModel::class);
       }
 
-      public function CommentAddAction(int $tId = null)
+      public function CommentAddAction(int $tId)
       {
             $this->postData = $this->request->getPost();
 

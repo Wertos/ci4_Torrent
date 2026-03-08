@@ -4,6 +4,7 @@ declare(strict_types=1);
 return [
     // Exceptions
 		'Categories'  => 'Категории',
+		'catmanage' => 'Менеджер категорий',
 		'Category' => [
 				'name' => 'Категория',
 				'url' => 'Короткая ссылка',
