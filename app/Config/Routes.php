@@ -43,11 +43,12 @@ $routes->post('admin/news/edit/(:num)',         'Admin\NewsController::NewsEditA
 $routes->get('admin/news/del/(:num)',           'Admin\NewsController::NewsDelete/$1');
 $routes->get('admin/news/harddel/(:num)',       'Admin\NewsController::NewsHardDelete/$1');
 $routes->get('admin/news/restore/(:num)',       'Admin\NewsController::NewsRestore/$1');
+
 $routes->get('admin/comments',					'Admin\CommentController::CommentsList');
-$routes->get('admin/comments/torrent/(:num)',	'Admin\CommentController::CommentsList/torrent/$1');
-$routes->get('admin/comments/news/(:num)',		'Admin\CommentController::CommentsList/news/$1');
-$routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::CommentsList/user_id/$1');
-$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
+#$routes->get('admin/comments/torrent/(:num)',	'Admin\CommentController::CommentsList/torrent/$1');
+#$routes->get('admin/comments/news/(:num)',		'Admin\CommentController::CommentsList/news/$1');
+#$routes->get('admin/comments/user_id/(:num)',	'Admin\CommentController::CommentsList/user_id/$1');
+$routes->get('admin/comments/del/',				'Admin\CommentController::CommentsDelete');
 
 $routes->get('admin/torrents',					'Admin\TorrentController::TorrList');
 $routes->get('admin/torrents/del/(:num)',		'Admin\TorrentController::dellTorr/$1');

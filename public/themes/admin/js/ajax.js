@@ -141,10 +141,7 @@ CI4_Admin.NameIns = function(id, name) {
 	$('#userlist')
 		.css('display', 'none')
 		.html("");
-//	if(getParameterByName('user')) {
-//		alert(replaceUrlParam(url = window.location.href, 'poster', id));
 	window.location.href = replaceUrlParam(url = window.location.href, 'poster', id);
-//	}
 };
 
 $('input#filterByUser').on( 'keyup', function(e) {

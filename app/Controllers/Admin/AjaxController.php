@@ -79,7 +79,7 @@ class AjaxController extends \App\Controllers\AdminController
 		$html .= '<li><a onclick="CI4_Admin.NameIns('.$user->id.', \''.$user->username.'\');" data-name="'.$user->username.'" data-id="'.$user->id.'" class="dropdown-item username" href="javascript:void(0);">'.$user->username.'</a></li>';
 	}
 	if($html == '')
-				$html = '<li><a class="dropdown-item" href="#">No result</a></li>';
+		$html = '<li><a class="dropdown-item" href="#">'.lang('Admin.userNotFound').'</a></li>';
 
 	$this->data = [
 		'error' => '',

@@ -77,12 +77,16 @@ class CommentController extends \App\Controllers\AdminController
 		$this->themes::render('comments_list', $data);
 	}
 
-    public function CommentsDelete (?int $id = null)
+    public function CommentsDelete ()
     {
-    	if(! $id)
+		$ids = $this->request->getGet('del');
+
+		if (! preg_match_all('/^[,0-9]+$/siu', $ids) || ! $ids )
     	     throw PageNotFoundException::forPageNotFound();
-   	
-    	$this->CommentModel->delete($id);
+
+		$arrIds = array_map('intval', explode(',', $ids));
+
+    	$this->CommentModel->delete($arrIds);
         return redirect()->back()->with('message', lang('Comment.delete_success'));
     }
 }

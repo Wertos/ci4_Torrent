@@ -5,9 +5,6 @@
 	</div>
 <hr />
 	<div class="col-lg-12">
-	   <?php if ($no_comments) : ?>
-		   <?= lang('Comment.no_comment'); ?>
-	   <?php else : ?>
  <table class="table table-sm align-middle">
     <tr>
     	<td colspan="2">
@@ -17,7 +14,7 @@
     <tr>
     	<td colspan="2" id="btnManage" class="d-none">
 			<div class="btn-group pb-3 pt-3" role="group">
-				<button data-event="delete" id="cDel" type="button" class="btn btn-xs btn-danger fw-bold"><?= lang('Comment.deleteComments'); ?></button>
+				<button data-event="cdelete" id="cDel" type="button" class="btn btn-xs btn-danger fw-bold"><?= lang('Comment.deleteComments'); ?></button>
 			</div>
     	</td>
     </tr>
@@ -36,13 +33,14 @@
 			<input value="<?= $poster; ?>" autocomplete="off" name="useranme" type="text" class="form-control form-control-sm" id="filterByUser" placeholder="<?= lang('Admin.filterByUser'); ?>">
 			<input name="userid" type="hidden" id="UserId">
 			<ul class="dropdown-menu" id="userlist">
-				<li><a class="dropdown-item" href="#">Action</a></li>
+				<li><a class="dropdown-item" href="#"><?= lang('Admin.userNotFound'); ?></a></li>
 			</ul>
         </td>
     </tr>
  </table>
-
-
+<?php if ($no_comments) : ?>
+	<?= lang('Comment.no_comment'); ?>
+<?php else : ?>
  <table class="table table-sm table-hover align-middle">
   <thead>
     <tr>
@@ -88,7 +86,7 @@
   		<td class="col-1" id="commentupdated-<?= $comment->id; ?>"><?= ($comment->updated_at == $comment->created_at) ? '-' : $comment->updated_at; ?></td>
   		<td class="col-1 text-center">
        	<div id="newsdelete-<?= $comment->id; ?>" class="d-inline">
-      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" onclick="return confirmation();" href="<?= base_url('admin/comments/del/' . $comment->id); ?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.delete'); ?>">
+      		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" onclick="return confirmation();" href="<?= base_url('admin/comments?del=' . $comment->id); ?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.delete'); ?>">
       			<i class="fa-solid fa-trash-xmark cursor-pointer text-danger"></i>
       		</a>
       	</div>

@@ -179,16 +179,22 @@ $('input[id^="select-"]').each(function (e) {
 $('#tDel, #tMov, #cDel').on('click', function () {
 	var event = $(this).data('event');
 	let idsArray = new Array;
-	$('input[name="torrSelect"]:checked, input[name="torrSelect"]:checked').each(function (e) {
+	$('input[name="torrSelect"]:checked, input[name="comSelect"]:checked').each(function (e) {
 		var val = $(this).attr('value');
 		idsArray.push(val);
 	});
 	if (Object.keys(idsArray).length <= 0) {
 		return false;
 	}
-	if(event == 'delete' || event == 'move') {
+	if(event == 'tdelete' || event == 'tmove') {
 		CI4_Admin.TorrManage(idsArray, event);
-	} else {
+	} 
+	else if (event == 'cdelete')
+	{
+		window.location.href = '/admin/comments/del?del='+idsArray;
+	}
+	else
+	{
 		alert("Invalid event");	
 	}
 });

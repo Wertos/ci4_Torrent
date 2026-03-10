@@ -14,8 +14,8 @@
     <tr>
     	<td colspan="3" id="btnManage" class="d-none">
 			<div class="btn-group pb-3 pt-3" role="group">
-				<button data-event="delete" id="tDel" type="button" class="btn btn-xs btn-danger fw-bold"><?= lang('Torrent.deleteTorrents'); ?></button>
-				<button data-event="move" id="tMov" type="button" class="btn btn-xs btn-primary fw-bold"><?= lang('Torrent.moveTorrents'); ?></button>
+				<button data-event="tdelete" id="tDel" type="button" class="btn btn-xs btn-danger fw-bold"><?= lang('Torrent.deleteTorrents'); ?></button>
+				<button data-event="tmove" id="tMov" type="button" class="btn btn-xs btn-primary fw-bold"><?= lang('Torrent.moveTorrents'); ?></button>
 			</div>
     	</td>
     </tr>
@@ -43,7 +43,7 @@
 			<input autocomplete="off" name="useranme" type="text" class="form-control form-control-sm" id="filterByUser" placeholder="<?= lang('Admin.filterByUser'); ?>">
 			<input name="userid" type="hidden" id="UserId">
 			<ul class="dropdown-menu" id="userlist">
-				<li><a class="dropdown-item" href="#">Action</a></li>
+				<li><a class="dropdown-item" href="#"><?= lang('Admin.userNotFound'); ?></a></li>
 			</ul>
         </td>
     </tr>
