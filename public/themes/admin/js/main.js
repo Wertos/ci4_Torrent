@@ -54,28 +54,23 @@ function refreshTime() {
 }
 setInterval(refreshTime, 1000);
 
-const collapseElement = document.querySelector('[data-bs-toggle="collapse"]');
-collapseElement.classList.add('collapsed');
-let isCollapsed = true;
-
-collapseElement.addEventListener('click', function () {
-  if (isCollapsed) {
-    this.classList.add('collapsed');
-    isCollapsed = false;
-  } else {
-    this.classList.remove('collapsed');
-    isCollapsed = true;
+var childItems = $('div.collapse .nav-item');
+childItems.each(function( e ) {
+  if ($(this).hasClass('active')) {
+	$(this).parent('div.collapse')
+    	.addClass('show')
+		.prev('li.position-relative')
+		.attr('aria-expanded', 'true')
+		.addClass('collapsed');
   }
 });
-
-const childItems = $('div.collapse .nav-item');
-childItems.each(function() {
-  if ($(this).hasClass('active')) {
-    $(this).parent('div.collapse').addClass('show');
-    $(this).parent('div.collapse').prev('li.position-relative').removeClass('collapsed');
-  } else {
-    $(this).parent('div.collapse').prev('li.position-relative').addClass('collapsed');
-  }
+$('[data-bs-toggle="collapse"]').on('click', function () {
+	isCollapsed = $(this).attr('aria-expanded');
+	if (isCollapsed == "true") {
+		$(this).addClass('collapsed');
+	} else {
+		$(this).removeClass('collapsed');
+	}
 });
 
 function confirmation() {
