@@ -230,7 +230,7 @@ class AjaxController extends \App\Controllers\BaseController
 			if ( $this->scraper->has_errors() ) {
 				 $errors = $this->scraper->get_errors() ;
 			}
-			
+
 			if($useTorrentAnnouncer)
 			{
 			
@@ -254,7 +254,7 @@ class AjaxController extends \App\Controllers\BaseController
 				$leech = $info[$infoHash_V1]['leechers'] + $info[$infoHash_V2]['leechers'];
 				$completed = $info[$infoHash_V1]['completed'] + $info[$infoHash_V2]['completed'];
 			}
-
+//			var_dump($seed."  ".$leech."  ".$completed); die();
 			$updated_peer = Time::now(setting('App.appTimezone'))->toDateTimeString();
 			$this->TorrentModel->update($id, ['seed' => $seed, 'leech' => $leech, 'completed' => $completed, 'updated_peer' => $updated_peer]);
 

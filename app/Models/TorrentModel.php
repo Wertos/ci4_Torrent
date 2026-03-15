@@ -18,7 +18,7 @@ class TorrentModel extends Model {
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
 //    protected $allowedFields    = ['owner','infohash_v1','infohash_v2','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name'];
-    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile'];
+    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile','seed','leech','completed','updated_peer'];
 
     // Dates
     protected $useTimestamps = true;

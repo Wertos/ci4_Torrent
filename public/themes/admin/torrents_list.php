@@ -1,6 +1,6 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-	   <div class="fs-4 text-secondary fw-bolder"><?= lang('Torrent.torrents'); ?></div>
+	   <div class="fs-4 text-secondary fw-bolder"><?= lang('Torrent.tormanage'); ?></div>
      <div class="text-secondary lead fw-normal" id="curr_date_time"></div>
    </div>
 <hr />
