@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $routes->get('admin',                           'Admin\Home::index');
+$routes->get('admin/config',                    'Admin\ConfigController::index');
 $routes->get('admin/users',                     'Admin\UserController::UserList');
 $routes->get('admin/user/edit/(:num)',          'Admin\UserController::UserEditShow/$1');
 $routes->post('admin/user/update/(:num)',       'Admin\UserController::UserEditAction/$1');

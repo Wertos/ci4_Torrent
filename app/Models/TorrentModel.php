@@ -89,7 +89,20 @@ class TorrentModel extends Model {
     {
         parent::initialize();
         $this->db = \Config\Database::connect();
-    }
+        $config = new \Config\Torrent();
+    	if ($config->uploadPoster === TRUE) {
+	        $this->validationRules['poster'] = [
+				'label' => 'Torrent.poster',
+				'rules' => [
+					'uploaded[poster]',
+					'is_image[poster]',
+					'mime_in[poster,image/jpg,image/jpeg,image/gif,image/png]',
+					'max_size[poster,512]',
+					'max_dims[poster,2000,2000]',
+				],
+			];
+		}
+	}
 
 		public function insert($row = null, bool $returnID = true): int
 		{

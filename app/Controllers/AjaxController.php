@@ -75,7 +75,7 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->ReportModel = model(ReportModel::class);
       			break;
 				case 'posterupload':
-//      				$this->ReportModel = model(ReportModel::class);
+      				$this->TorrentModel = model(TorrentModel::class);
       			break;
 				case 'userdata':
       				$this->TorrentModel = model(TorrentModel::class);
@@ -382,10 +382,10 @@ class AjaxController extends \App\Controllers\BaseController
 
 	public function PosterUpload()
 	{
-	
 	  	if(! $this->userData->logged_in)
   					throw PageNotFoundException::forPageNotFound();
-        
+
+		$validation = service("validation");
         $file = $this->request->getFile('poster'); // 'userfile' is the name attribute of your input file field
         $path = setting('Torrent.posterUploadPath');
         $image = service('image');
@@ -393,7 +393,8 @@ class AjaxController extends \App\Controllers\BaseController
         	$data = ['error' => lang('Torrent.cannotuploadposter')];
             return $this->_AjaxSend($data); die();
         }
-        if (! $this->validateData([], setting('Torrent.validationPosterUploadRule'))) {
+        $rules = $this->TorrentModel->validationRules;
+        if (! $this->validateData([], $rules['poster'])) {
             $data = ['error' => $this->validator->getErrors()];
             return $this->_AjaxSend($data); die();
         }

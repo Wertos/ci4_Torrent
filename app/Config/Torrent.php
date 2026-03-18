@@ -52,19 +52,6 @@ class Torrent extends BaseConfig
 		public string $imageDir;
 		public string $catImageDir;
 		public string $templatesPath = 'uploads' . DIRECTORY_SEPARATOR . 'torrent_templates' . DIRECTORY_SEPARATOR;
-    
-    public array $validationPosterUploadRule = [
-   	   'poster' => [
-     	      'label' => 'Torrent.poster',
-       	    'rules' => [
-          	      'uploaded[poster]',
-             	    'is_image[poster]',
-               	  'mime_in[poster,image/jpg,image/jpeg,image/gif,image/png]',
-                 	'max_size[poster,512]',
-                 	'max_dims[poster,2000,2000]',
-            ],
-       ],
- 	  ];
 
 // Comment setting
 		public bool $commenEnable = true;
@@ -103,7 +90,7 @@ class Torrent extends BaseConfig
 
 
 // Widget setting
-    public $widgetDir; // See consructor
+		public $widgetDir; // See consructor
 		public $widgets = [
 //			'widget php file' => enable or disable(true or false)
 				'category' => true,

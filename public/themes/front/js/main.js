@@ -10,29 +10,6 @@ function initializeTooltips() {
 $(document).ready(function() {
     initializeTooltips();
 });
-
-///spoiler
-$('.spoiler').click(function() {
-     const icon = $(this).children('i');
-     if(icon.is('.bi-plus-square')) {
-			icon.removeClass('bi-plus-square').addClass('bi-dash-square');
-     } else {
-     		icon.removeClass('bi-dash-square').addClass('bi-plus-square');
-     }
-     $(this).next('.card-body').toggleClass('d-none');
-});
-
-var BuildForm = function(id, cls, action, method, name) {
-	id = id ? id : 'form';
-	cls = cls ? cls : '';
-	action = action ? action : '/';
-	method = method ? method : 'POST';
-	name = name ? name : '';
-	textarea = '<textarea data-editor id="textarea-'+id+'" class="mb-2 form-control '+cls+'" name="'+name+'"></textarea>';
-	button = '<button class="btn btn-primary btn-xs '+cls+'" id="button-'+id+'" type="submit">Отправить</button>';
-	const form = { open : '<form id="'+id+'" class="'+cls+'" action="'+action+'" method="'+method+'">', close : '</form>' };
-	return form.open+textarea+button+form.close;
-}
 //
 //  BBCode Start
 //
@@ -85,6 +62,28 @@ function insert(start, end) {
     } else {
         element.value += start + end;
     }
+}
+///spoiler
+$('.spoiler').click(function() {
+     const icon = $(this).children('i');
+     if(icon.is('.bi-plus-square')) {
+			icon.removeClass('bi-plus-square').addClass('bi-dash-square');
+     } else {
+     		icon.removeClass('bi-dash-square').addClass('bi-plus-square');
+     }
+     $(this).next('.card-body').toggleClass('d-none');
+});
+
+var BuildForm = function(id, cls, action, method, name) {
+	id = id ? id : 'form';
+	cls = cls ? cls : '';
+	action = action ? action : '/';
+	method = method ? method : 'POST';
+	name = name ? name : '';
+	textarea = '<textarea data-editor id="textarea-'+id+'" class="mb-2 form-control '+cls+'" name="'+name+'"></textarea>';
+	button = '<button class="btn btn-primary btn-xs '+cls+'" id="button-'+id+'" type="submit">Отправить</button>';
+	const form = { open : '<form id="'+id+'" class="'+cls+'" action="'+action+'" method="'+method+'">', close : '</form>' };
+	return form.open+textarea+button+form.close;
 }
 // header search start
 $('#search-cat a.cat').on('click', function() {
