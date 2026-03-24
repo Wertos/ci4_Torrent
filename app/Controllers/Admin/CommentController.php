@@ -72,8 +72,6 @@ class CommentController extends \App\Controllers\AdminController
 			'page_title' => $siteTitle,
 		];
 	
-		$data['page_title'] = $siteTitle;
-
 		$this->themes::render('comments_list', $data);
 	}
 

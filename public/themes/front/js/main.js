@@ -9,6 +9,7 @@ function initializeTooltips() {
 }
 $(document).ready(function() {
     initializeTooltips();
+	initSpoiler();
 });
 //
 //  BBCode Start
@@ -64,15 +65,17 @@ function insert(start, end) {
     }
 }
 ///spoiler
-$('.spoiler').click(function() {
-     const icon = $(this).children('i');
-     if(icon.is('.bi-plus-square')) {
+function initSpoiler() {
+	$('.spoiler').click(function() {
+		const icon = $(this).children('i');
+		if(icon.is('.bi-plus-square')) {
 			icon.removeClass('bi-plus-square').addClass('bi-dash-square');
-     } else {
-     		icon.removeClass('bi-dash-square').addClass('bi-plus-square');
-     }
-     $(this).next('.card-body').toggleClass('d-none');
-});
+		} else {
+			icon.removeClass('bi-dash-square').addClass('bi-plus-square');
+		}
+		$(this).next('.card-body').toggleClass('d-none');
+	});
+}
 
 var BuildForm = function(id, cls, action, method, name) {
 	id = id ? id : 'form';

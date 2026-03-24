@@ -96,7 +96,7 @@ class TorrentController extends BaseController
                         ->getPagination(setting("Torrent.commentPerPage"));
             }
 
-            $status = getDataTorrStatus((int)$torrentData->modded, "fs-2");
+            $status = getDataTorrStatus((int)$torrentData->modded, "fs-1");
             $table = new \CodeIgniter\View\Table();
 
             $smilies_array = get_clickable_smileys(

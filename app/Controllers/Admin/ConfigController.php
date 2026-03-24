@@ -8,7 +8,6 @@ use \App\Models\Admin\AdminModel;
 
 class ConfigController extends \App\Controllers\AdminController
 {
-
     protected function initialize(): void
     {
         parent::initialize();
@@ -18,23 +17,20 @@ class ConfigController extends \App\Controllers\AdminController
     public function index()
     {
     	helper('setting');
-		//$config = setting('Torrent');
 		$config = config('Torrent');
+		$settings = [];
+
 		foreach ($config as $key => $val)
 		{
-			if (is_array($val))
-			{
-		        $text = '';
-				foreach ($val as $v)
-				{
-					$text .= $v."<br>";
-				}
-				$val = $text;
-				unset($text);
-			}
-			echo lang('Config.'.$key)."    ".$val."<br />";
-			//var_dump(service('settings')->get('Torrent.legalAnnouncer'));
-//		$this->db->table("setting")->insert($object);
+			if(gettype($val) == "array") continue;
+			$settings[$key] = $val;
 		}
+
+		$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Config.settingManager');
+		$data = [
+			'page_title' => $siteTitle,
+			'settings'	=> $settings,
+		];
+		$this->themes::render('setting', $data);
 	}
 }

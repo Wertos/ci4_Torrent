@@ -18,6 +18,11 @@
 		</div>
 	</div>
 	<div class="card-body">
+		<div style="display:none;" id="prevContent" class="border border-primary alert alert-dismissible alert-light" role="alert">
+			<button type="button" class="btn-close" onClick="$('#prevContent').css('display', 'none'); return false;" ></button>
+			<div class="clearfix w-100"></div>
+			<div id="prevHtml" class="w-100"></div>
+		</div>
 		<?= form_open_multipart('torrent/add', ['id' => 'torrent']); ?>
   	  <!-- Torrent File -->
 	    <div class="mb-4">
@@ -41,9 +46,13 @@
   	  </div>
   	  <?php else : ?>
 	    <div class="form-floating mb-4">
-				<input type="url" class="form-control" id="floatingPosterInput" name="poster" inputmode="url" placeholder="<?= lang('Torrent.poster') ?>" <?= $posterRequired; ?> />
-    	  <label for="floatingPosterInput"><?= lang('Torrent.poster') ?></label>
-    		<small class="small ms-1 d-block"><?= lang('Torrent.posterdesc'); ?></small>
+			<input <?= setting('Torrent.uploadUrlPoster') ? 'style="display:inline !important; width:78% !important; float:left;"' : ''; ?> type="url" class="form-control" id="floatingPosterInput" name="poster" inputmode="url" placeholder="<?= lang('Torrent.poster') ?>" <?= $posterRequired; ?> />
+			<?php if (setting('Torrent.uploadUrlPoster')) : ?>
+				<button style="padding: 13px;" class="btn btn-outline-success progress-bar progress-bar-striped bg-success progress-bar-animated btn-lg" role="progressbar" type="button" id="uploadurlposter"><?= lang('Torrent.uploadposter'); ?></button>
+			<?php endif; ?>
+			<label for="floatingPosterInput"><?= lang('Torrent.poster') ?></label>
+			<div class="clearfix"></div>
+			<small style="width:80% !important; float:left;" class="small ms-1 d-block"><?= lang('Torrent.posterdesc'); ?></small>
   	  </div>
   	  <?php endif;?>
   	  <!-- Torrent Description -->
@@ -76,11 +85,12 @@
 			  <input name="can_comment" class="form-check-input" type="checkbox" id="flexSwitchCanComment" checked />
 			  <label class="form-check-label" for="flexSwitchCanComment"><?= lang('Torrent.canComment'); ?></label>
 			</div>		  
-    <div class="card-footer text-muted">
-		  <div class="col-12 col-md-8 mx-auto m-3 text-center">
-  			<button type="submit" class="btn btn-primary btn-block"><i class="bi bi-plus-circle me-1"></i><?= lang('Torrent.addsend') ?></button>
-  	  </div>
-  	</div>
+		<div class="card-footer text-muted">
+			<div class="col-12 col-md-8 mx-auto m-3 text-center">
+  				<button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i><?= lang('Torrent.addsend') ?></button>
+				<button id="TorPreview" class="btn btn-success"><i class="bi bi-binoculars me-1"></i><?= lang('Torrent.preview') ?></button>
+			</div>
+		</div>
    </div>
     <?= form_close(); ?>
 	</div>

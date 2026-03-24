@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 return [
-
+	'settingManager'	=> 'Менеджер настроек',
+	'settings' => [
 		'appname' => 'Название приложения',
 		'siteTitle' => 'Заголовок',
 		'siteName' => 'Имя сайта',
@@ -26,10 +27,10 @@ return [
 		'useTorrentAnnouncer' => 'Использовать трекеры из торрент-файла',
 		'legalAnnouncer' => 'Список трекеров для парсинга пиров',
 		'maxTimeOnAnnouncer' => '',
-		'uploadPoster' => 'Загружать постеры на сервер',
-		'posterRequired' => 'Постеры обязательны в раздаче',
-		'resizePoster' => 'Изменять размер постеров',
-		'convertPoster' => 'Конвертация постеров в webp',
+		'uploadPoster' => '| Загружать постеры на сервер',
+		'posterRequired' => '|-   Постеры обязательны в раздаче',
+		'resizePoster' => '|-   Изменять размер постеров',
+		'convertPoster' => '-   Конвертация постеров в webp',
 		'posterUploadPath' => 'Путь для загрузки постеров',
 		'posterHtmlPath' => 'HTML путь для загрузки постеров',
 		'imageDir' => 'Директория с изображениями',
@@ -53,7 +54,11 @@ return [
 		'template' => 'Шаблон',
 		'footer' => 'Подвал шаблона',
 		'use_full_template' => '',
-		'plugin_path' => 'Путь до виджетов',
+		'plugin_path' => 'Путь js плагинов шаблона',
 		'widgetDir' => 'Директория виджетов',
 		'widgets' => 'Виджеты',
+		'enableAnnouncer' => 'Задействовать свой анонсер',
+		'maxTimeOnAnnouncer' => 'Макс. время ожидания ответа от серверов для парсинга пиров',
+		'newsPerAdminList' => 'Кол/во новостей на страницу в админ панели',
+	],
 ];

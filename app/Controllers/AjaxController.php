@@ -85,6 +85,8 @@ class AjaxController extends \App\Controllers\BaseController
       			break;
                 case 'delavatar':
 		      	break;
+                case 'torrpreview':
+		      	break;
 		      	case 'updatecaptcha':
 			        $this->captcha = new Image();
 					$this->captcha->imageWidth = 250;
@@ -137,7 +139,7 @@ class AjaxController extends \App\Controllers\BaseController
 	  	$id = (int) $this->request->getPost('id');
 	  	$action = (string) $this->request->getPost('action');
  	    if (! $id) return;
- 	    $stdata = getDataTorrStatus($status, 'fs-2');
+ 	    $stdata = getDataTorrStatus($status, 'fs-1');
 
  		$data['modded'] = $status;
 		$data['icon'] = $stdata['icon'];
@@ -555,8 +557,29 @@ class AjaxController extends \App\Controllers\BaseController
 
 	function updateCaptcha()
 	{
-	    $this->session->set('captcha', $this->captcha->getCode()); 
-      $data['captcha'] = $this->captcha->getImage();
-			return $this->_AjaxSend($data); die();	
+		$this->session->set('captcha', $this->captcha->getCode()); 
+		$data['captcha'] = $this->captcha->getImage();
+		return $this->_AjaxSend($data); die();	
 	}
+
+	function torrPreview()
+	{
+		$bbcode = new BBCodeParser();
+		$poster = (string) $this->request->getPost('poster');
+		$text = (string) $this->request->getPost('text');
+		$renderedText = $bbcode->parse($text);
+		$htmlPoster = '<div class="d-table mb-15 ms-3 p-1 float-end border border-1">';
+		$imageProperties = [
+		    'src'    => $poster,
+			'alt'    => '',
+		    'width'  => '200',
+		];
+		$htmlPoster .= img($imageProperties);
+		$htmlPoster .= '</div>';
+		$data = [
+			'html' => $htmlPoster.$renderedText,
+		];
+		return $this->_AjaxSend($data); die();	
+	}
+
 }

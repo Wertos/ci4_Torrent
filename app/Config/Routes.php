@@ -76,6 +76,7 @@ $routes->post('ajax/usercomments',				'AjaxController::getUserComments');
 $routes->post('ajax/userbookmarks',				'AjaxController::getUserBookMarks');
 $routes->post('ajax/updatecaptcha',				'AjaxController::updateCaptcha');
 $routes->post('ajax/delavatar',					'AjaxController::delAvatar');
+$routes->post('ajax/torrpreview',				'AjaxController::torrPreview');
 
 $routes->get('torrent/add',            			'TorrentController::TorrentAddShow');
 $routes->post('torrent/add',           			'TorrentController::TorrentAddAction');

@@ -129,7 +129,14 @@ button.disabled, .btn[disabled] {
     background-position: center center;
     background-image:url(../img/loading_icon.gif);
 }
-#torrstatus {line-height: 35px; width: 38px; height: 38px; text-align: center; align-items: center; vertical-align: middle;}
+#torrstatus {
+	line-height: 35px;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+}
 #status {top: -20px; right: -20px;}
 /*.commentText > .card, .commentText > .card-body {display: unset;}*/
 .commentText img {max-width: 200px;}

@@ -329,13 +329,42 @@ $('#uploadposter').click(function(e) {
 
 $('#captcha').click(function() {
 	url = '/ajax/updatecaptcha';
-	$.post( url, { action: "updatecaptcha" })
+	$.post( url, { 
+		action: "updatecaptcha"
+	})
   	.done(function( data ) {
   		if(data.error) {
   			alert(data.error);
   			return false;		
   		}
     	$('#captcha').attr('src', data.captcha);
+    	return false;
+  	})
+  	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+	});
+});
+
+$('#TorPreview').on('click', function() {
+	url = '/ajax/torrpreview';
+	poster = $('#floatingPosterInput').val();
+	text = $('#floatingDescInput').val();
+	if (! isValidUrl(poster) ) {
+		return false;
+	}
+	$.post( url, {
+		action: "torrpreview",
+		poster: poster,
+		text: text
+	})
+  	.done(function( data ) {
+  		if(data.error) {
+  			alert(data.error);
+  			return false;		
+  		}
+    	$('#prevContent').css('display', 'block');
+    	$('#prevHtml').html(data.html);
+        initSpoiler();
     	return false;
   	})
   	.fail(function( response ) {
@@ -363,3 +392,13 @@ JSON.stringify = JSON.stringify || function (obj) {
         return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
     }
 };
+const isValidUrl = urlString=> {
+	let url;
+	try { 
+		url =new URL(urlString); 
+	}
+	catch(e){ 
+		return false; 
+	}
+	return url.protocol === "http:" || url.protocol === "https:";
+}
