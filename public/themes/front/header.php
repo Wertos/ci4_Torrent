@@ -21,7 +21,7 @@
 		<meta property="og:image" content="<?= $ogimage ?>" />
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="<?= $page_title ?>">
-    <?php Arifrh\Themes\Themes::renderCSS(); ?>
+
   	<script type="text/javascript">
   		window.CI4 = {};
   		CI4.urihash = window.location.hash;

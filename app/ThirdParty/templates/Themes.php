@@ -504,7 +504,7 @@ class Themes
 
 				if (is_file($css_file))
 				{
-					$latest_version = filemtime($css_file);
+					$latest_version = filectime($css_file);
 
 					$css_file   = str_replace(FCPATH, '', $css_file);
 					$latest_css = base_url($css_file . '?v=' . $latest_version);
@@ -533,10 +533,11 @@ class Themes
 
 				if (is_file($js_file))
 				{
-					$latest_version = filemtime($js_file);
+					$latest_version = filectime($js_file);
 					
 					$js_file   = str_replace(FCPATH, '', $js_file);
 					$latest_js = base_url($js_file . '?v=' . $latest_version);
+					//$latest_js = base_url($js_file);
 
 					echo script_tag($latest_js);
 				}

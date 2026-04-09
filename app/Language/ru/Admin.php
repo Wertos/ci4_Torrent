@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 return [
     // Exceptions
+    'RebuildCSS' => 'Обновить стили',
+    'RebuildJS' => 'Обновить яваскрипты',
 	'FullScreen'=>	'Полный экран',
 	'DashBoard'	=>	'Панель инструментов',
 	'AdminHome'  => 'Админ панель',

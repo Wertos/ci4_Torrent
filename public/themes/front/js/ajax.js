@@ -249,7 +249,7 @@ CI4.AjaxPag = function(catId, event) {
   			if (data.offset <= 0)	{
   					$('#backward-'+data.catId).attr('disabled', true);
   			}
-  			if(data.offset + data.perpage > data.torrcount)	{
+  			if(data.offset + data.perpage > data.torrcount - 1)	{
   					$('#forward-'+data.catId).attr('disabled', true);
   			}	else {
   					$('#forward-'+data.catId).attr('disabled', false);  			
@@ -349,7 +349,7 @@ $('#TorPreview').on('click', function() {
 	url = '/ajax/torrpreview';
 	poster = $('#floatingPosterInput').val();
 	text = $('#floatingDescInput').val();
-	if (! isValidUrl(poster) ) {
+	if ( !isValidUrl(poster) || !text) {
 		return false;
 	}
 	$.post( url, {

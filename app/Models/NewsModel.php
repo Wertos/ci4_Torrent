@@ -96,6 +96,7 @@ class NewsModel extends Model {
 					->join('users u', 'u.id = n.user_id', 'left')
 					->where('n.deleted_at', null)
 					->limit($limit, $offset)
+					->orderBy('n.id', 'DESC')
 					->get()->getResult();
 		return $query ?? NULL;
 

@@ -9,6 +9,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Libraries\Breadcrumb\BreadcrumbClass;
+use App\Libraries\JShrink\Minifier;
 use App\Models\GlobalModel;
 use App\Models\StatsModel;
 use App\Models\NewsModel;
@@ -172,31 +173,60 @@ abstract class BaseController extends Controller
     $this->ogimage = base_url(
       "themes/" . setting("Torrent.theme") . "/img/logo.png",
     );
+    
+    $aryJs = $this->TorrConfig->siteJs;
+	$aryCSS = $this->TorrConfig->siteCSS;
 
+    if ( $this->TorrConfig->minifyJs === TRUE )
+    {
+	    $minInlineJs = '';
+        $jsPath = $this->TorrConfig->fullThemePath . $this->TorrConfig->js_path . DIRECTORY_SEPARATOR;
+		$minifyJsFileName = $jsPath . $this->TorrConfig->minifyJsFileName;
+	    if ( ! file_exists($minifyJsFileName) || filectime($minifyJsFileName) < time() - $this->TorrConfig->jsLifeTime )
+		{
+	    	foreach ($this->TorrConfig->siteJs as $jsFile)
+		    {
+    		    $file = file_get_contents($jsPath . $jsFile);
+				$minInlineJs .= \JShrink\Minifier::minify($file);
+		    }
+			file_put_contents($minifyJsFileName, $minInlineJs);
+		}
+		$aryJs = [$this->TorrConfig->minifyJsFileName];
+	}
+
+    if ( $this->TorrConfig->minifyCss === TRUE )
+    {
+	    $minInlineCss = '';
+        $cssPath = $this->TorrConfig->fullThemePath . $this->TorrConfig->css_path . DIRECTORY_SEPARATOR;
+		$minifyCssFileName = $cssPath . $this->TorrConfig->minifyCssFileName;
+	    if ( ! file_exists($minifyCssFileName) || filectime($minifyCssFileName) < time() - $this->TorrConfig->cssLifeTime )
+		{
+	    	foreach ($this->TorrConfig->siteCSS as $cssFile)
+		    {
+    		    $css = file_get_contents($cssPath . $cssFile);
+				$css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+				$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
+				$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+				$minInlineCss .= trim($css);
+		    }
+			file_put_contents($minifyCssFileName, $minInlineCss);
+		}
+		$aryCSS = [$this->TorrConfig->minifyCssFileName];
+	}
+ 
     $this->themes = Themes::init($this->TorrConfig)
-      ->addCSS([
-        setting("Torrent.css_theme"),
-        "themes.min.css",
-        "bootstrap-icons.min.css",
-      ])
-      ->addJS([
-		"jquery-4.0.0.min.js",
-        "jquery.treeview.js",
-        "bootstrap.bundle.min.js",
-        "main.js",
-        "ajax.js",
-      ])
+      ->addCSS($aryCSS)->addJS($aryJs)
       ->setVar(["userdata" => $this->userData])
       ->setVar(["adminlink" => $this->adminlink])
       ->setVar(["catList" => $this->catHome])
-      ->setVar(["widgets" => $this->setting->get("Torrent.widgets")])
+      ->setVar(["widgets" => $this->TorrConfig->widgets])
       ->setVar(["stats" => $this->StatsModel->displayStats()])
       ->setVar(["ogimage" => $this->ogimage])
       ->setVar(["news" => $this->news])
       ->setVar(["isMod" => $this->isMod])
       ->setVar(["isAdmin" => $this->isAdmin])
       ->setVar(["isSuperAdmin" => $this->isSuperAdmin])
-      ->setVar(["catImgDir" => service("settings")->get("Torrent.catImageDir")]);
+      ->setVar(["catImgDir" => $this->TorrConfig->catImageDir]);
 
     // E.g.: $this->session = service('session');
   }

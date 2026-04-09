@@ -18,10 +18,11 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div style="display:none;" id="prevContent" class="border border-primary alert alert-dismissible alert-light" role="alert">
+		<div data-bs-spy="scroll" data-bs-smooth-scroll="true" style="display:none;" id="prevContent" class="border border-primary alert alert-dismissible alert-light" role="alert">
 			<button type="button" class="btn-close" onClick="$('#prevContent').css('display', 'none'); return false;" ></button>
 			<div class="clearfix w-100"></div>
 			<div id="prevHtml" class="w-100"></div>
+			<div class="clearfix w-100"></div>
 		</div>
 		<?= form_open_multipart('torrent/add', ['id' => 'torrent']); ?>
   	  <!-- Torrent File -->
@@ -88,7 +89,7 @@
 		<div class="card-footer text-muted">
 			<div class="col-12 col-md-8 mx-auto m-3 text-center">
   				<button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i><?= lang('Torrent.addsend') ?></button>
-				<button id="TorPreview" class="btn btn-success"><i class="bi bi-binoculars me-1"></i><?= lang('Torrent.preview') ?></button>
+				<button href="#prevContent" id="TorPreview" class="btn btn-success"><i class="bi bi-binoculars me-1"></i><?= lang('Torrent.preview') ?></button>
 			</div>
 		</div>
    </div>

@@ -7,7 +7,7 @@ use CodeIgniter\Config\BaseConfig;
 class Torrent extends BaseConfig
 {
 // Site seo config
-    public string $appname = 'Codeigniter 4 torrent-tracker';
+		public string $appname = 'Codeigniter 4 torrent-tracker';
 		public string $siteTitle = 'Site Title';
 		public string $siteName = 'Site Name';
 		public string $siteDescr = 'Site Descr';
@@ -46,7 +46,6 @@ class Torrent extends BaseConfig
 		public bool $posterRequired = true;
 		public bool $resizePoster = false;
 		public bool $convertPoster = true; //to webp
-//		public string $posterUploadPath = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterUploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterHtmlPath = 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $imageDir;
@@ -67,17 +66,37 @@ class Torrent extends BaseConfig
 		public int $newsPerAdminList = 10;
 
 // Theme setting
-		public $theme = 'front';
-		public $css_theme = 'yeti.min.css';
-		public $theme_path = 'themes';
-		public $css_path = 'css';
-		public $js_path = 'js';
-		public $image_path = 'img';
-		public $header = 'header';
-		public $template = 'home';
-		public $footer = 'footer';
-		public $use_full_template = FALSE;
-		public $plugin_path = 'plugins';
+		public bool $minifyJs = FALSE;
+		public bool $minifyCss = FALSE;
+		public string $minifyJsFileName = 'build.min.js';
+		public string $minifyCssFileName = 'build.min.css';
+		public int $jsLifeTime = 259200;
+		public int $cssLifeTime = 259200;
+		public string $fullThemePath = FCPATH . 'themes' . DIRECTORY_SEPARATOR . 'front' . DIRECTORY_SEPARATOR;
+		public string $theme = 'front';
+//		public string $css_theme = 'yeti.min.css';
+		public string $theme_path = 'themes';
+		public string $css_path = 'css';
+		public string $js_path = 'js';
+		public string $image_path = 'img';
+		public string $header = 'header';
+		public string $template = 'home';
+		public string $footer = 'footer';
+		public bool $use_full_template = FALSE;
+		public string $plugin_path = 'plugins';
+		public array $siteCSS = [
+			"yeti.min.css",
+	        "themes.min.css",
+    	    "bootstrap-icons.min.css",
+		];
+		public array $siteJs = [
+			"jquery-4.0.0.min.js",
+			"jquery.treeview.js",
+			"bootstrap.bundle.min.js",
+			"main.js",
+			"ajax.js",
+		];
+
 		/**
 		public $plugins = [
 			'bootbox' => [

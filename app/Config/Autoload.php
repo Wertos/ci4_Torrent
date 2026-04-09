@@ -38,14 +38,14 @@ class Autoload extends AutoloadConfig
      * @var array<string, list<string>|string>
      */
     public $psr4 = [
-			    APP_NAMESPACE							 => APPPATH,
-					'Config'        					 => APPPATH . 'Config',
-					'CodeIgniter\Settings'     => APPPATH . 'ThirdParty/settings',
-					'CodeIgniter\Shield'       => APPPATH . 'ThirdParty/shield',
-					'Arifrh\Themes'            => APPPATH . 'ThirdParty/templates',
-					'Arokettu\Torrent'         => APPPATH . 'ThirdParty/torrent',
-					'Arokettu\Bencode'				 =>	APPPATH . 'ThirdParty/bencode',
-					'Scrapeer'				         => APPPATH . 'ThirdParty/scraper',
+			    	APP_NAMESPACE				=> APPPATH,
+					'Config'					=> APPPATH . 'Config',
+					'CodeIgniter\Settings'		=> APPPATH . 'ThirdParty/settings',
+					'CodeIgniter\Shield'		=> APPPATH . 'ThirdParty/shield',
+					'Arifrh\Themes'				=> APPPATH . 'ThirdParty/templates',
+					'Arokettu\Torrent'			=> APPPATH . 'ThirdParty/torrent',
+					'Arokettu\Bencode'			=> APPPATH . 'ThirdParty/bencode',
+					'Scrapeer'					=> APPPATH . 'ThirdParty/scraper',
     ];
 
     /**
@@ -89,6 +89,7 @@ class Autoload extends AutoloadConfig
             APPPATH . 'ThirdParty/iter/iter.php',
             APPPATH . 'ThirdParty/iter/iter.rewindable.php',
             APPPATH . 'Libraries/is-resource/functions.php',
+            APPPATH . 'Libraries/JShrink/Minifier.php',
     ];
 
     /**

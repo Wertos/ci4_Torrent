@@ -198,6 +198,17 @@ CI4_Admin.TorrManage = function(ids, event) {
 			});
 }
 
+CI4_Admin.Rebuild = function(type) {
+		url = '/admin/rebuild';
+		$.post( url, { type : type, action: "Rebuild" })
+			.done(function( data ) {
+				alert(data.text);
+			})
+			.fail(function( response ) {
+				alert(JSON.stringify(response));
+			});
+}
+
 // implement JSON.stringify serialization
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

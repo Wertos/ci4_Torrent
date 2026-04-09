@@ -199,3 +199,9 @@ option.post-font-mono1 { padding-top: 2px }
     font-size: 0.8rem;
     border-radius: var(--bs-border-radius-sm);
 }
+.form-switch .form-check-input, .form-check-input {
+	width: 40px;
+	height: 20px;
+	margin-right: 15px;
+	margin-top: -1px;
+}
