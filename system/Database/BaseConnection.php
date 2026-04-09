@@ -16,6 +16,12 @@ namespace CodeIgniter\Database;
 use Closure;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Events\Events;
+use CodeIgniter\I18n\Time;
+use Exception;
+use ReflectionClass;
+use ReflectionNamedType;
+use ReflectionType;
+use ReflectionUnionType;
 use stdClass;
 use Stringable;
 use Throwable;
@@ -43,7 +49,6 @@ use Throwable;
  * @property-read bool       $pretend
  * @property-read string     $queryClass
  * @property-read array      $reservedIdentifiers
- * @property-read bool       $strictOn
  * @property-read string     $subdriver
  * @property-read string     $swapPre
  * @property-read int        $transDepth
@@ -59,6 +64,13 @@ use Throwable;
  */
 abstract class BaseConnection implements ConnectionInterface
 {
+    /**
+     * Cached builtin type names per class/property.
+     *
+     * @var array<class-string, array<string, list<string>>>
+     */
+    private static array $propertyBuiltinTypesCache = [];
+
     /**
      * Data Source Name / Connect string
      *
@@ -157,6 +169,20 @@ abstract class BaseConnection implements ConnectionInterface
     protected $DBCollat = '';
 
     /**
+     * Database session timezone
+     *
+     * false    = Don't set timezone (default, backward compatible)
+     * true     = Automatically sync with app timezone
+     * string   = Specific timezone (offset or named timezone)
+     *
+     * Named timezones (e.g., 'America/New_York') will be automatically
+     * converted to offsets (e.g., '-05:00') for database compatibility.
+     *
+     * @var bool|string
+     */
+    protected $timezone = false;
+
+    /**
      * Swap Prefix
      *
      * @var string
@@ -178,17 +204,6 @@ abstract class BaseConnection implements ConnectionInterface
     protected $compress = false;
 
     /**
-     * Strict ON flag
-     *
-     * Whether we're running in strict SQL mode.
-     *
-     * @var bool|null
-     *
-     * @deprecated 4.5.0 Will move to MySQLi\Connection.
-     */
-    protected $strictOn;
-
-    /**
      * Settings for a failover connection.
      *
      * @var array
@@ -202,6 +217,14 @@ abstract class BaseConnection implements ConnectionInterface
      * @var Query
      */
     protected $lastQuery;
+
+    /**
+     * The exception that would have been thrown on the last failed query
+     * if DBDebug were enabled. Null when the last query succeeded or when
+     * DBDebug is true (in which case the exception is thrown directly and
+     * this property is never set).
+     */
+    protected ?DatabaseException $lastException = null;
 
     /**
      * Connection ID
@@ -372,9 +395,14 @@ abstract class BaseConnection implements ConnectionInterface
             unset($params['dateFormat']);
         }
 
+        $typedPropertyTypes = $this->getBuiltinPropertyTypesMap(array_keys($params));
+
         foreach ($params as $key => $value) {
             if (property_exists($this, $key)) {
-                $this->{$key} = $value;
+                $this->{$key} = $this->castScalarValueForTypedProperty(
+                    $value,
+                    $typedPropertyTypes[$key] ?? [],
+                );
             }
         }
 
@@ -390,6 +418,126 @@ abstract class BaseConnection implements ConnectionInterface
             // (DBPrefix) even when the main database is down.
             $this->initialize();
         }
+    }
+
+    /**
+     * Some config values (especially env overrides without clear source type)
+     * can still reach us as strings. Coerce them for typed properties to keep
+     * strict typing compatible.
+     *
+     * @param list<string> $types
+     */
+    private function castScalarValueForTypedProperty(mixed $value, array $types): mixed
+    {
+        if (! is_string($value)) {
+            return $value;
+        }
+
+        if ($types === [] || in_array('string', $types, true) || in_array('mixed', $types, true)) {
+            return $value;
+        }
+
+        $trimmedValue = trim($value);
+
+        if (in_array('null', $types, true) && strtolower($trimmedValue) === 'null') {
+            return null;
+        }
+
+        if (in_array('int', $types, true) && preg_match('/^[+-]?\d+$/', $trimmedValue) === 1) {
+            return (int) $trimmedValue;
+        }
+
+        if (in_array('float', $types, true) && is_numeric($trimmedValue)) {
+            return (float) $trimmedValue;
+        }
+
+        if (in_array('bool', $types, true) || in_array('false', $types, true) || in_array('true', $types, true)) {
+            $boolValue = filter_var($trimmedValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+            if ($boolValue !== null) {
+                if (in_array('bool', $types, true)) {
+                    return $boolValue;
+                }
+
+                if ($boolValue === false && in_array('false', $types, true)) {
+                    return false;
+                }
+
+                if ($boolValue === true && in_array('true', $types, true)) {
+                    return true;
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param list<string> $properties
+     *
+     * @return array<string, list<string>>
+     */
+    private function getBuiltinPropertyTypesMap(array $properties): array
+    {
+        $className = static::class;
+        $requested = array_fill_keys($properties, true);
+
+        if (! isset(self::$propertyBuiltinTypesCache[$className])) {
+            self::$propertyBuiltinTypesCache[$className] = [];
+        }
+
+        // Fill only the properties requested by this call that are not cached yet.
+        $missing = array_diff_key($requested, self::$propertyBuiltinTypesCache[$className]);
+
+        if ($missing !== []) {
+            $reflection = new ReflectionClass($className);
+
+            foreach ($reflection->getProperties() as $property) {
+                $propertyName = $property->getName();
+
+                if (! isset($missing[$propertyName])) {
+                    continue;
+                }
+
+                $type = $property->getType();
+
+                if (! $type instanceof ReflectionType) {
+                    self::$propertyBuiltinTypesCache[$className][$propertyName] = [];
+
+                    continue;
+                }
+
+                $namedTypes   = $type instanceof ReflectionUnionType ? $type->getTypes() : [$type];
+                $builtinTypes = [];
+
+                foreach ($namedTypes as $namedType) {
+                    if (! $namedType instanceof ReflectionNamedType || ! $namedType->isBuiltin()) {
+                        continue;
+                    }
+
+                    $builtinTypes[] = $namedType->getName();
+                }
+
+                if ($type->allowsNull() && ! in_array('null', $builtinTypes, true)) {
+                    $builtinTypes[] = 'null';
+                }
+
+                self::$propertyBuiltinTypesCache[$className][$propertyName] = $builtinTypes;
+            }
+
+            // Untyped or unresolved properties are cached as empty to avoid re-reflecting them.
+            foreach (array_keys($missing) as $propertyName) {
+                self::$propertyBuiltinTypesCache[$className][$propertyName] ??= [];
+            }
+        }
+
+        $typedProperties = [];
+
+        foreach ($properties as $property) {
+            $typedProperties[$property] = self::$propertyBuiltinTypesCache[$className][$property] ?? [];
+        }
+
+        return $typedProperties;
     }
 
     /**
@@ -433,10 +581,15 @@ abstract class BaseConnection implements ConnectionInterface
             if (! empty($this->failover) && is_array($this->failover)) {
                 // Go over all the failovers
                 foreach ($this->failover as $index => $failover) {
+                    $typedPropertyTypes = $this->getBuiltinPropertyTypesMap(array_keys($failover));
+
                     // Replace the current settings with those of the failover
                     foreach ($failover as $key => $val) {
                         if (property_exists($this, $key)) {
-                            $this->{$key} = $val;
+                            $this->{$key} = $this->castScalarValueForTypedProperty(
+                                $val,
+                                $typedPropertyTypes[$key] ?? [],
+                            );
                         }
                     }
 
@@ -682,8 +835,9 @@ abstract class BaseConnection implements ConnectionInterface
 
         // Run the query for real
         try {
-            $exception      = null;
-            $this->resultID = $this->simpleQuery($query->getQuery());
+            $exception           = null;
+            $this->lastException = null;
+            $this->resultID      = $this->simpleQuery($query->getQuery());
         } catch (DatabaseException $exception) {
             $this->resultID = false;
         }
@@ -721,11 +875,7 @@ abstract class BaseConnection implements ConnectionInterface
                 Events::trigger('DBQuery', $query);
 
                 if ($exception instanceof DatabaseException) {
-                    throw new DatabaseException(
-                        $exception->getMessage(),
-                        $exception->getCode(),
-                        $exception,
-                    );
+                    throw $exception;
                 }
 
                 return false;
@@ -1508,7 +1658,7 @@ abstract class BaseConnection implements ConnectionInterface
     {
         $driver = $this->getDriverFunctionPrefix();
 
-        if (! str_contains($driver, $functionName)) {
+        if (! str_starts_with($functionName, $driver)) {
             $functionName = $driver . $functionName;
         }
 
@@ -1832,6 +1982,17 @@ abstract class BaseConnection implements ConnectionInterface
     abstract public function error(): array;
 
     /**
+     * Returns the exception that would have been thrown on the last failed
+     * query if DBDebug were enabled. Returns null if the last query succeeded
+     * or if DBDebug is true (in which case the exception is always thrown
+     * directly and this method will always return null).
+     */
+    public function getLastException(): ?DatabaseException
+    {
+        return $this->lastException;
+    }
+
+    /**
      * Insert ID
      *
      * @return int|string
@@ -1913,6 +2074,68 @@ abstract class BaseConnection implements ConnectionInterface
     protected function _enableForeignKeyChecks()
     {
         return '';
+    }
+
+    /**
+     * Converts a named timezone to an offset string.
+     *
+     * Converts timezone identifiers (e.g., 'America/New_York') to offset strings
+     * (e.g., '-05:00' or '-04:00' depending on DST). This is useful because not all
+     * databases have timezone tables loaded, but all support offset notation.
+     *
+     * @param string $timezone Named timezone (e.g., 'America/New_York', 'UTC', 'Europe/Paris')
+     *
+     * @return string Offset string (e.g., '+00:00', '-05:00', '+01:00')
+     */
+    protected function convertTimezoneToOffset(string $timezone): string
+    {
+        // If it's already an offset, return as-is
+        if (preg_match('/^[+-]\d{2}:\d{2}$/', $timezone)) {
+            return $timezone;
+        }
+
+        try {
+            $offset = Time::now($timezone)->getOffset();
+
+            // Convert offset seconds to +-HH:MM format
+            $hours   = (int) ($offset / 3600);
+            $minutes = abs((int) (($offset % 3600) / 60));
+
+            return sprintf('%+03d:%02d', $hours, $minutes);
+        } catch (Exception $e) {
+            // If timezone conversion fails, log and return UTC
+            log_message('error', "Invalid timezone '{$timezone}'. Falling back to UTC. {$e->getMessage()}.");
+
+            return '+00:00';
+        }
+    }
+
+    /**
+     * Gets the timezone string to use for database session.
+     *
+     * Handles the timezone configuration logic:
+     * - false: Don't set timezone (returns null)
+     * - true: Auto-sync with app timezone from config
+     * - string: Use specific timezone (converts named timezones to offsets)
+     *
+     * @return string|null The timezone offset string, or null if timezone should not be set
+     */
+    protected function getSessionTimezone(): ?string
+    {
+        if ($this->timezone === false) {
+            return null;
+        }
+
+        // Auto-sync with app timezone
+        if ($this->timezone === true) {
+            $appConfig = config('App');
+            $timezone  = $appConfig->appTimezone;
+        } else {
+            // Use specific timezone from config
+            $timezone = $this->timezone;
+        }
+
+        return $this->convertTimezoneToOffset($timezone);
     }
 
     /**

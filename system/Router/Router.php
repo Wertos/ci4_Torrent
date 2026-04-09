@@ -157,9 +157,7 @@ class Router implements RouterInterface
     {
         $config = config(App::class);
 
-        if (isset($config->permittedURIChars)) {
-            $this->permittedURIChars = $config->permittedURIChars;
-        }
+        $this->permittedURIChars = $config->permittedURIChars;
 
         $this->collection = $routes;
 
@@ -172,7 +170,7 @@ class Router implements RouterInterface
         $this->translateURIDashes = $this->collection->shouldTranslateURIDashes();
 
         if ($this->collection->shouldAutoRoute()) {
-            $autoRoutesImproved = config(Feature::class)->autoRoutesImproved ?? false;
+            $autoRoutesImproved = config(Feature::class)->autoRoutesImproved;
             if ($autoRoutesImproved) {
                 assert($this->collection instanceof RouteCollection);
 
@@ -384,7 +382,7 @@ class Router implements RouterInterface
      * Tells the system whether we should translate URI dashes or not
      * in the URI from a dash to an underscore.
      *
-     * @deprecated This method should be removed.
+     * @deprecated 4.2.0 This method should be removed.
      */
     public function setTranslateURIDashes(bool $val = false): self
     {
@@ -601,7 +599,7 @@ class Router implements RouterInterface
      *
      * @return array returns an array of remaining uri segments that don't map onto a directory
      *
-     * @deprecated this function name does not properly describe its behavior so it has been deprecated
+     * @deprecated 4.1.2 this function name does not properly describe its behavior so it has been deprecated
      *
      * @codeCoverageIgnore
      */
@@ -617,7 +615,7 @@ class Router implements RouterInterface
      *
      * @return array returns an array of remaining uri segments that don't map onto a directory
      *
-     * @deprecated Not used. Moved to AutoRouter class.
+     * @deprecated 4.2.0 Not used. Moved to AutoRouter class.
      */
     protected function scanControllers(array $segments): array
     {
@@ -665,7 +663,7 @@ class Router implements RouterInterface
      *
      * @return void
      *
-     * @deprecated This method should be removed.
+     * @deprecated 4.2.0 This method should be removed.
      */
     public function setDirectory(?string $dir = null, bool $append = false, bool $validate = true)
     {
@@ -683,7 +681,7 @@ class Router implements RouterInterface
      *
      * regex comes from https://www.php.net/manual/en/language.variables.basics.php
      *
-     * @deprecated Moved to AutoRouter class.
+     * @deprecated 4.2.0 Moved to AutoRouter class.
      */
     private function isValidSegment(string $segment): bool
     {
@@ -725,7 +723,7 @@ class Router implements RouterInterface
     /**
      * Sets the default controller based on the info set in the RouteCollection.
      *
-     * @deprecated This was an unnecessary method, so it is no longer used.
+     * @deprecated 4.2.0 This was an unnecessary method, so it is no longer used.
      *
      * @return void
      */
@@ -803,8 +801,8 @@ class Router implements RouterInterface
                 if ($instance instanceof RouteAttributeInterface) {
                     $this->routeAttributes['class'][] = $instance;
                 }
-            } catch (Throwable) {
-                log_message('error', 'Failed to instantiate attribute: ' . $attribute->getName());
+            } catch (Throwable $e) {
+                $this->logRouteAttributeInstantiationFailure($attribute->getName(), $this->controller, null, $e);
             }
         }
 
@@ -823,12 +821,41 @@ class Router implements RouterInterface
                     if ($instance instanceof RouteAttributeInterface) {
                         $this->routeAttributes['method'][] = $instance;
                     }
-                } catch (Throwable) {
-                    // Skip attributes that fail to instantiate
-                    log_message('error', 'Failed to instantiate attribute: ' . $attribute->getName());
+                } catch (Throwable $e) {
+                    $this->logRouteAttributeInstantiationFailure($attribute->getName(), $this->controller, $this->method, $e);
                 }
             }
         }
+    }
+
+    /**
+     * Logs an attribute instantiation failure with the resolved route context.
+     *
+     * @param string      $attributeName Fully qualified attribute class name.
+     * @param string      $controller    Resolved controller class name.
+     * @param string|null $method        Resolved controller method name, if applicable.
+     */
+    private function logRouteAttributeInstantiationFailure(
+        string $attributeName,
+        string $controller,
+        ?string $method,
+        Throwable $e,
+    ): void {
+        $location = $controller;
+
+        if ($method !== null && $method !== '') {
+            $location .= '::' . $method . '()';
+        }
+
+        log_message(
+            'error',
+            'Failed to instantiate route attribute "{attribute}" on "{location}": {message}',
+            [
+                'attribute' => $attributeName,
+                'location'  => $location,
+                'message'   => $e->getMessage(),
+            ],
+        );
     }
 
     /**

@@ -18,6 +18,7 @@ use CodeIgniter\Cache\CacheInterface;
 use CodeIgniter\Cache\ResponseCache;
 use CodeIgniter\CLI\Commands;
 use CodeIgniter\CodeIgniter;
+use CodeIgniter\Context\Context;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Database\MigrationRunner;
 use CodeIgniter\Debug\Exceptions;
@@ -198,6 +199,8 @@ class Services extends BaseService
      * The CURL Request class acts as a simple HTTP client for interacting
      * with other servers, typically through APIs.
      *
+     * @todo v4.8.0 Remove $config parameter since unused
+     *
      * @return CURLRequest
      */
     public static function curlrequest(array $options = [], ?ResponseInterface $response = null, ?App $config = null, bool $getShared = true)
@@ -207,7 +210,7 @@ class Services extends BaseService
         }
 
         $config ??= config(App::class);
-        $response ??= new Response($config);
+        $response ??= new Response();
 
         return new CURLRequest(
             $config,
@@ -515,17 +518,10 @@ class Services extends BaseService
      * createRequest() injects IncomingRequest or CLIRequest.
      *
      * @return CLIRequest|IncomingRequest
-     *
-     * @deprecated The parameter $config and $getShared are deprecated.
      */
-    public static function request(?App $config = null, bool $getShared = true)
+    public static function request()
     {
-        if ($getShared) {
-            return static::getSharedInstance('request', $config);
-        }
-
-        // @TODO remove the following code for backward compatibility
-        return AppServices::incomingrequest($config, $getShared);
+        return static::$instances['request'] ?? static::incomingrequest(getShared: false);
     }
 
     /**
@@ -576,6 +572,8 @@ class Services extends BaseService
     /**
      * The Response class models an HTTP response.
      *
+     * @todo v4.8.0 Remove $config parameter since unused
+     *
      * @return ResponseInterface
      */
     public static function response(?App $config = null, bool $getShared = true)
@@ -584,13 +582,13 @@ class Services extends BaseService
             return static::getSharedInstance('response', $config);
         }
 
-        $config ??= config(App::class);
-
-        return new Response($config);
+        return new Response();
     }
 
     /**
      * The Redirect class provides nice way of working with redirects.
+     *
+     * @todo v4.8.0 Remove $config parameter since unused
      *
      * @return RedirectResponse
      */
@@ -600,8 +598,7 @@ class Services extends BaseService
             return static::getSharedInstance('redirectresponse', $config);
         }
 
-        $config ??= config(App::class);
-        $response = new RedirectResponse($config);
+        $response = new RedirectResponse();
         $response->setProtocolVersion(AppServices::get('request')->getProtocolVersion());
 
         return $response;
@@ -871,5 +868,17 @@ class Services extends BaseService
         }
 
         return new Typography();
+    }
+
+    /**
+     * The Context class provides a way to store and retrieve static data throughout requests.
+     */
+    public static function context(bool $getShared = true): Context
+    {
+        if ($getShared) {
+            return static::getSharedInstance('context');
+        }
+
+        return new Context();
     }
 }

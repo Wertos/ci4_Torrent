@@ -93,6 +93,10 @@ class Autoloader
      */
     protected $helpers = ['url'];
 
+    public function __construct(private readonly string $composerPath = COMPOSER_PATH)
+    {
+    }
+
     /**
      * Reads in the configuration array (described above) and stores
      * the valid parts that we'll need.
@@ -127,7 +131,7 @@ class Autoloader
             $this->helpers = [...$this->helpers, ...$config->helpers];
         }
 
-        if (is_file(COMPOSER_PATH)) {
+        if (is_file($this->composerPath)) {
             $this->loadComposerAutoloader($modules);
         }
 
@@ -139,11 +143,11 @@ class Autoloader
         // The path to the vendor directory.
         // We do not want to enforce this, so set the constant if Composer was used.
         if (! defined('VENDORPATH')) {
-            define('VENDORPATH', dirname(COMPOSER_PATH) . DIRECTORY_SEPARATOR);
+            define('VENDORPATH', dirname($this->composerPath) . DIRECTORY_SEPARATOR);
         }
 
         /** @var ClassLoader $composer */
-        $composer = include COMPOSER_PATH;
+        $composer = include $this->composerPath;
 
         // Should we load through Composer's namespaces, also?
         if ($modules->discoverInComposer) {
@@ -321,51 +325,6 @@ class Autoloader
     }
 
     /**
-     * Check file path.
-     *
-     * Checks special characters that are illegal in filenames on certain
-     * operating systems and special characters requiring special escaping
-     * to manipulate at the command line. Replaces spaces and consecutive
-     * dashes with a single dash. Trim period, dash and underscore from beginning
-     * and end of filename.
-     *
-     * @return string The sanitized filename
-     *
-     * @deprecated No longer used. See https://github.com/codeigniter4/CodeIgniter4/issues/7055
-     */
-    public function sanitizeFilename(string $filename): string
-    {
-        // Only allow characters deemed safe for POSIX portable filenames.
-        // Plus the forward slash for directory separators since this might be a path.
-        // http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_278
-        // Modified to allow backslash and colons for on Windows machines.
-        $result = preg_match_all('/[^0-9\p{L}\s\/\-_.:\\\\]/u', $filename, $matches);
-
-        if ($result > 0) {
-            $chars = implode('', $matches[0]);
-
-            throw new InvalidArgumentException(
-                'The file path contains special characters "' . $chars
-                . '" that are not allowed: "' . $filename . '"',
-            );
-        }
-        if ($result === false) {
-            $message = preg_last_error_msg();
-
-            throw new RuntimeException($message . '. filename: "' . $filename . '"');
-        }
-
-        // Clean up our filename edges.
-        $cleanFilename = trim($filename, '.-_');
-
-        if ($filename !== $cleanFilename) {
-            throw new InvalidArgumentException('The characters ".-_" are not allowed in filename edges: "' . $filename . '"');
-        }
-
-        return $cleanFilename;
-    }
-
-    /**
      * @param array{only?: list<string>, exclude?: list<string>} $composerPackages
      */
     private function loadComposerNamespaces(ClassLoader $composer, array $composerPackages): void
@@ -443,44 +402,6 @@ class Autoloader
     }
 
     /**
-     * Locates autoload information from Composer, if available.
-     *
-     * @deprecated No longer used.
-     *
-     * @return void
-     */
-    protected function discoverComposerNamespaces()
-    {
-        if (! is_file(COMPOSER_PATH)) {
-            return;
-        }
-
-        /**
-         * @var ClassLoader $composer
-         */
-        $composer = include COMPOSER_PATH;
-        $paths    = $composer->getPrefixesPsr4();
-        $classes  = $composer->getClassMap();
-
-        unset($composer);
-
-        // Get rid of CodeIgniter so we don't have duplicates
-        if (isset($paths['CodeIgniter\\'])) {
-            unset($paths['CodeIgniter\\']);
-        }
-
-        $newPaths = [];
-
-        foreach ($paths as $key => $value) {
-            // Composer stores namespaces with trailing slash. We don't.
-            $newPaths[rtrim($key, '\\ ')] = $value;
-        }
-
-        $this->prefixes = array_merge($this->prefixes, $newPaths);
-        $this->classmap = array_merge($this->classmap, $classes);
-    }
-
-    /**
      * Loads helpers
      */
     public function loadHelpers(): void
@@ -539,8 +460,11 @@ class Autoloader
         }
 
         $csp = service('csp');
-        if ($csp->enabled()) {
-            RichRenderer::$js_nonce  = $csp->getScriptNonce();
+        if ($csp->scriptNonceEnabled()) {
+            RichRenderer::$js_nonce = $csp->getScriptNonce();
+        }
+
+        if ($csp->styleNonceEnabled()) {
             RichRenderer::$css_nonce = $csp->getStyleNonce();
         }
 

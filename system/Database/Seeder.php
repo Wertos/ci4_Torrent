@@ -16,8 +16,6 @@ namespace CodeIgniter\Database;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Exceptions\InvalidArgumentException;
 use Config\Database;
-use Faker\Factory;
-use Faker\Generator;
 
 /**
  * Class Seeder
@@ -67,18 +65,11 @@ class Seeder
     protected $silent = false;
 
     /**
-     * Faker Generator instance.
-     *
-     * @deprecated
-     */
-    private static ?Generator $faker = null;
-
-    /**
      * Seeder constructor.
      */
     public function __construct(Database $config, ?BaseConnection $db = null)
     {
-        $this->seedPath = $config->filesPath ?? APPPATH . 'Database/';
+        $this->seedPath = $config->filesPath;
 
         if ($this->seedPath === '') {
             throw new InvalidArgumentException('Invalid filesPath set in the Config\Database.');
@@ -102,20 +93,6 @@ class Seeder
             $this->db    = Database::connect($config->defaultGroup);
             $this->forge = Database::forge($config->defaultGroup);
         }
-    }
-
-    /**
-     * Gets the Faker Generator instance.
-     *
-     * @deprecated
-     */
-    public static function faker(): ?Generator
-    {
-        if (! self::$faker instanceof Generator && class_exists(Factory::class)) {
-            self::$faker = Factory::create();
-        }
-
-        return self::$faker;
     }
 
     /**

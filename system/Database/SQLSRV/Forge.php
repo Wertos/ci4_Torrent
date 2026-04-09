@@ -95,15 +95,6 @@ class Forge extends BaseForge
     protected $fkAllowActions = ['CASCADE', 'SET NULL', 'NO ACTION', 'RESTRICT', 'SET DEFAULT'];
 
     /**
-     * CREATE TABLE IF statement
-     *
-     * @var string
-     *
-     * @deprecated This is no longer used.
-     */
-    protected $createTableIfStr;
-
-    /**
      * CREATE TABLE statement
      *
      * @var string
@@ -166,6 +157,25 @@ class Forge extends BaseForge
 
             return false; // @codeCoverageIgnore
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see https://stackoverflow.com/questions/7469130/cannot-drop-database-because-it-is-currently-in-use
+     */
+    public function dropDatabase(string $dbName): bool
+    {
+        try {
+            $this->db->query(sprintf(
+                'ALTER DATABASE %s SET SINGLE_USER WITH ROLLBACK IMMEDIATE',
+                $this->db->escapeIdentifier($dbName),
+            ));
+        } catch (DatabaseException) {
+            // no-op
+        }
+
+        return parent::dropDatabase($dbName);
     }
 
     /**

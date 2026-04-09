@@ -115,7 +115,11 @@ class CURLRequest extends OutgoingRequest
      *  - timeout
      *  - any other request options to use as defaults.
      *
+     * @todo v4.8.0 Remove $config parameter since unused
+     *
      * @param array<string, mixed> $options
+     *
+     * @phpstan-ignore-next-line constructor.unusedParameter
      */
     public function __construct(App $config, URI $uri, ?ResponseInterface $response = null, array $options = [])
     {
@@ -125,20 +129,20 @@ class CURLRequest extends OutgoingRequest
 
         parent::__construct(Method::GET, $uri);
 
-        $this->responseOrig = $response ?? new Response($config);
+        $this->responseOrig = $response ?? new Response();
         // Remove the default Content-Type header.
         $this->responseOrig->removeHeader('Content-Type');
 
         $this->baseURI        = $uri->useRawQueryString();
         $this->defaultOptions = $options;
 
-        $this->shareOptions = config(ConfigCURLRequest::class)->shareOptions ?? true;
+        $this->shareOptions = config(ConfigCURLRequest::class)->shareOptions;
 
         $this->config = $this->defaultConfig;
         $this->parseOptions($options);
 
         // Share Connection
-        $optShareConnection = config(ConfigCURLRequest::class)->shareConnectionOptions ?? [
+        $optShareConnection = config(ConfigCURLRequest::class)->shareConnectionOptions ?? [ // @phpstan-ignore nullCoalesce.property
             CURL_LOCK_DATA_CONNECT,
             CURL_LOCK_DATA_DNS,
         ];
@@ -309,7 +313,7 @@ class CURLRequest extends OutgoingRequest
     protected function parseOptions(array $options)
     {
         if (array_key_exists('baseURI', $options)) {
-            $this->baseURI = $this->baseURI->setURI($options['baseURI']);
+            $this->baseURI = new URI($options['baseURI'], true);
             unset($options['baseURI']);
         }
 
@@ -504,14 +508,14 @@ class CURLRequest extends OutgoingRequest
                     $this->response->setHeader($title, $value);
                 }
             } elseif (str_starts_with($header, 'HTTP')) {
-                preg_match('#^HTTP\/([12](?:\.[01])?) (\d+) (.+)#', $header, $matches);
+                preg_match('#^HTTP\/([12](?:\.[01])?) (\d+)(?: (.+))?#', $header, $matches);
 
                 if (isset($matches[1])) {
                     $this->response->setProtocolVersion($matches[1]);
                 }
 
                 if (isset($matches[2])) {
-                    $this->response->setStatusCode((int) $matches[2], $matches[3] ?? null);
+                    $this->response->setStatusCode((int) $matches[2], $matches[3] ?? '');
                 }
             }
         }

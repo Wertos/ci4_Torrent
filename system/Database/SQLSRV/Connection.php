@@ -15,6 +15,7 @@ namespace CodeIgniter\Database\SQLSRV;
 
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use CodeIgniter\Database\Exceptions\UniqueConstraintViolationException;
 use CodeIgniter\Database\TableName;
 use stdClass;
 
@@ -66,6 +67,11 @@ class Connection extends BaseConnection
     public $schema = 'dbo';
 
     /**
+     * Trust server certificate.
+     */
+    public bool $trustServerCertificate = false;
+
+    /**
      * Quoted identifier flag
      *
      * Whether to use SQL-92 standard quoted identifier
@@ -109,13 +115,14 @@ class Connection extends BaseConnection
         $charset = in_array(strtolower($this->charset), ['utf-8', 'utf8'], true) ? 'UTF-8' : SQLSRV_ENC_CHAR;
 
         $connection = [
-            'UID'                  => empty($this->username) ? '' : $this->username,
-            'PWD'                  => empty($this->password) ? '' : $this->password,
-            'Database'             => $this->database,
-            'ConnectionPooling'    => $persistent ? 1 : 0,
-            'CharacterSet'         => $charset,
-            'Encrypt'              => $this->encrypt === true ? 1 : 0,
-            'ReturnDatesAsStrings' => 1,
+            'UID'                    => empty($this->username) ? '' : $this->username,
+            'PWD'                    => empty($this->password) ? '' : $this->password,
+            'Database'               => $this->database,
+            'ConnectionPooling'      => $persistent ? 1 : 0,
+            'CharacterSet'           => $charset,
+            'Encrypt'                => $this->encrypt === true ? 1 : 0,
+            'TrustServerCertificate' => $this->trustServerCertificate ? 1 : 0,
+            'ReturnDatesAsStrings'   => 1,
         ];
 
         // If the username and password are both empty, assume this is a
@@ -519,56 +526,49 @@ class Connection extends BaseConnection
             : sqlsrv_query($this->connID, $sql, [], ['Scrollable' => $this->scrollable]);
 
         if ($stmt === false) {
-            $trace = debug_backtrace();
-            $first = array_shift($trace);
+            $trace   = debug_backtrace();
+            $first   = array_shift($trace);
+            $message = $this->getAllErrorMessages();
 
             log_message('error', "{message}\nin {exFile} on line {exLine}.\n{trace}", [
-                'message' => $this->getAllErrorMessages(),
+                'message' => $message,
                 'exFile'  => clean_path($first['file']),
                 'exLine'  => $first['line'],
                 'trace'   => render_backtrace($trace),
             ]);
 
+            $error     = $this->error();
+            $exception = $this->isUniqueConstraintViolation()
+                ? new UniqueConstraintViolationException($message, $error['code'])
+                : new DatabaseException($message, $error['code']);
+
             if ($this->DBDebug) {
-                throw new DatabaseException($this->getAllErrorMessages());
+                throw $exception;
             }
+
+            $this->lastException = $exception;
         }
 
         return $stmt;
     }
 
-    /**
-     * Returns the last error encountered by this connection.
-     *
-     * @return array<string, int|string>
-     *
-     * @deprecated Use `error()` instead.
-     */
-    public function getError()
+    private function isUniqueConstraintViolation(): bool
     {
-        $error = [
-            'code'    => '00000',
-            'message' => '',
-        ];
-
-        $sqlsrvErrors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
-
-        if (! is_array($sqlsrvErrors)) {
-            return $error;
+        $errors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
+        if (! is_array($errors)) {
+            return false;
         }
 
-        $sqlsrvError = array_shift($sqlsrvErrors);
-        if (isset($sqlsrvError['SQLSTATE'])) {
-            $error['code'] = isset($sqlsrvError['code']) ? $sqlsrvError['SQLSTATE'] . '/' . $sqlsrvError['code'] : $sqlsrvError['SQLSTATE'];
-        } elseif (isset($sqlsrvError['code'])) {
-            $error['code'] = $sqlsrvError['code'];
+        foreach ($errors as $error) {
+            // SQLSTATE 23000 (integrity constraint violation) with SQL Server error
+            // 2627 (UNIQUE CONSTRAINT or PRIMARY KEY violation) or 2601 (UNIQUE INDEX violation).
+            if (($error['SQLSTATE'] ?? '') === '23000'
+                && in_array($error['code'] ?? 0, [2627, 2601], true)) {
+                return true;
+            }
         }
 
-        if (isset($sqlsrvError['message'])) {
-            $error['message'] = $sqlsrvError['message'];
-        }
-
-        return $error;
+        return false;
     }
 
     /**

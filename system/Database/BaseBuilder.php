@@ -1513,7 +1513,7 @@ class BaseBuilder
      */
     public function limit(?int $value = null, ?int $offset = 0)
     {
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll && $value === 0) {
             $value = null;
         }
@@ -1635,7 +1635,7 @@ class BaseBuilder
      */
     public function get(?int $limit = null, int $offset = 0, bool $reset = true)
     {
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll && $limit === 0) {
             $limit = null;
         }
@@ -1773,7 +1773,7 @@ class BaseBuilder
             $this->where($where);
         }
 
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll && $limit === 0) {
             $limit = null;
         }
@@ -2261,24 +2261,6 @@ class BaseBuilder
     }
 
     /**
-     * Allows key/value pairs to be set for batch inserts
-     *
-     * @param mixed $key
-     *
-     * @return $this|null
-     *
-     * @deprecated
-     */
-    public function setInsertBatch($key, string $value = '', ?bool $escape = null)
-    {
-        if (! is_array($key)) {
-            $key = [[$key => $value]];
-        }
-
-        return $this->setData($key, $escape);
-    }
-
-    /**
      * Compiles an insert query and returns the sql
      *
      * @return bool|string
@@ -2500,7 +2482,7 @@ class BaseBuilder
             $this->where($where);
         }
 
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll && $limit === 0) {
             $limit = null;
         }
@@ -2547,7 +2529,7 @@ class BaseBuilder
             $valStr[] = $key . ' = ' . $val;
         }
 
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll) {
             return 'UPDATE ' . $this->compileIgnore('update') . $table . ' SET ' . implode(', ', $valStr)
                 . $this->compileWhereHaving('QBWhere')
@@ -2710,28 +2692,6 @@ class BaseBuilder
     }
 
     /**
-     * Allows key/value pairs to be set for batch updating
-     *
-     * @param array|object $key
-     *
-     * @return $this
-     *
-     * @throws DatabaseException
-     *
-     * @deprecated
-     */
-    public function setUpdateBatch($key, string $index = '', ?bool $escape = null)
-    {
-        if ($index !== '') {
-            $this->onConstraint($index);
-        }
-
-        $this->setData($key, $escape);
-
-        return $this;
-    }
-
-    /**
      * Compiles a delete string and runs "DELETE FROM table"
      *
      * @return bool|string TRUE on success, FALSE on failure, string on testMode
@@ -2824,7 +2784,7 @@ class BaseBuilder
 
         $sql = $this->_delete($this->removeAlias($table));
 
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll && $limit === 0) {
             $limit = null;
         }
@@ -3099,7 +3059,7 @@ class BaseBuilder
             . $this->compileWhereHaving('QBHaving')
             . $this->compileOrderBy();
 
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll) {
             if ($this->QBLimit) {
                 $sql = $this->_limit($sql . "\n");
@@ -3548,18 +3508,6 @@ class BaseBuilder
         ];
 
         return $key . '.' . $count;
-    }
-
-    /**
-     * Returns a clone of a Base Builder with reset query builder values.
-     *
-     * @return $this
-     *
-     * @deprecated
-     */
-    protected function cleanClone()
-    {
-        return (clone $this)->from([], true)->resetQuery();
     }
 
     /**

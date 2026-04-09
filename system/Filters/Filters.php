@@ -22,8 +22,6 @@ use Config\Filters as FiltersConfig;
 use Config\Modules;
 
 /**
- * Filters
- *
  * @see \CodeIgniter\Filters\FiltersTest
  */
 class Filters
@@ -125,26 +123,6 @@ class Filters
     protected array $filterClassInstances = [];
 
     /**
-     * Any arguments to be passed to filters.
-     *
-     * @var array<string, list<string>|null> [name => params]
-     *
-     * @deprecated 4.6.0 No longer used.
-     */
-    protected $arguments = [];
-
-    /**
-     * Any arguments to be passed to filtersClass.
-     *
-     * @var array<class-string, list<string>|null> [classname => arguments]
-     *
-     * @deprecated 4.6.0 No longer used.
-     */
-    protected $argumentsClass = [];
-
-    /**
-     * Constructor.
-     *
      * @param FiltersConfig $config
      */
     public function __construct($config, RequestInterface $request, ResponseInterface $response, ?Modules $modules = null)
@@ -465,7 +443,7 @@ class Filters
         // Decode URL-encoded string
         $uri = urldecode($uri ?? '');
 
-        $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false;
+        $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false; // @phpstan-ignore nullCoalesce.property
         if ($oldFilterOrder) {
             $this->processGlobals($uri);
             $this->processMethods();
@@ -500,8 +478,6 @@ class Filters
     public function reset(): self
     {
         $this->initialized = false;
-
-        $this->arguments = $this->argumentsClass = [];
 
         $this->filters = $this->filtersClass = [
             'before' => [],
@@ -644,18 +620,6 @@ class Filters
         return $this;
     }
 
-    /**
-     * Returns the arguments for a specified key, or all.
-     *
-     * @return array<string, string>|string
-     *
-     * @deprecated 4.6.0 Already does not work.
-     */
-    public function getArguments(?string $key = null)
-    {
-        return ((string) $key === '') ? $this->arguments : $this->arguments[$key];
-    }
-
     // --------------------------------------------------------------------
     // Processors
     // --------------------------------------------------------------------
@@ -669,10 +633,6 @@ class Filters
      */
     protected function processGlobals(?string $uri = null)
     {
-        if (! isset($this->config->globals) || ! is_array($this->config->globals)) {
-            return;
-        }
-
         $uri = strtolower(trim($uri ?? '', '/ '));
 
         // Add any global filters, unless they are excluded for this URI
@@ -706,7 +666,7 @@ class Filters
         }
 
         if (isset($filters['before'])) {
-            $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false;
+            $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false; // @phpstan-ignore nullCoalesce.property
             if ($oldFilterOrder) {
                 $this->filters['before'] = array_merge($this->filters['before'], $filters['before']);
             } else {
@@ -726,33 +686,11 @@ class Filters
      */
     protected function processMethods()
     {
-        if (! isset($this->config->methods) || ! is_array($this->config->methods)) {
-            return;
-        }
-
         $method = $this->request->getMethod();
 
-        $found = false;
-
         if (array_key_exists($method, $this->config->methods)) {
-            $found = true;
-        }
-        // Checks lowercase HTTP method for backward compatibility.
-        // @deprecated 4.5.0
-        // @TODO remove this in the future.
-        elseif (array_key_exists(strtolower($method), $this->config->methods)) {
-            @trigger_error(
-                'Setting lowercase HTTP method key "' . strtolower($method) . '" is deprecated.'
-                . ' Use uppercase HTTP method like "' . strtoupper($method) . '".',
-                E_USER_DEPRECATED,
-            );
+            $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false; // @phpstan-ignore nullCoalesce.property
 
-            $found  = true;
-            $method = strtolower($method);
-        }
-
-        if ($found) {
-            $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false;
             if ($oldFilterOrder) {
                 $this->filters['before'] = array_merge($this->filters['before'], $this->config->methods[$method]);
             } else {
@@ -770,7 +708,7 @@ class Filters
      */
     protected function processFilters(?string $uri = null)
     {
-        if (! isset($this->config->filters) || $this->config->filters === []) {
+        if ($this->config->filters === []) {
             return;
         }
 
@@ -802,7 +740,7 @@ class Filters
             }
         }
 
-        $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false;
+        $oldFilterOrder = config(Feature::class)->oldFilterOrder ?? false; // @phpstan-ignore nullCoalesce.property
 
         if (isset($filters['before'])) {
             if ($oldFilterOrder) {

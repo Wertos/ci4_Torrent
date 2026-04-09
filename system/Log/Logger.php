@@ -115,6 +115,34 @@ class Logger implements LoggerInterface
     protected $cacheLogs = false;
 
     /**
+     * Whether to log the global context data.
+     *
+     * Set in app/Config/Logger.php
+     */
+    protected bool $logGlobalContext = false;
+
+    /**
+     * Whether to log per-call context data passed to log methods.
+     *
+     * Set in app/Config/Logger.php
+     */
+    protected bool $logContext = false;
+
+    /**
+     * Whether to include the stack trace when a Throwable is in the context.
+     *
+     * Set in app/Config/Logger.php
+     */
+    protected bool $logContextTrace = false;
+
+    /**
+     * Whether to keep context keys that were already used as placeholders.
+     *
+     * Set in app/Config/Logger.php
+     */
+    protected bool $logContextUsedKeys = false;
+
+    /**
      * Constructor.
      *
      * @param \Config\Logger $config
@@ -138,9 +166,7 @@ class Logger implements LoggerInterface
             $this->loggableLevels[] = $stringLevel;
         }
 
-        if (isset($config->dateFormat)) {
-            $this->dateFormat = $config->dateFormat;
-        }
+        $this->dateFormat = $config->dateFormat;
 
         if ($config->handlers === []) {
             throw LogException::forNoHandlers('LoggerConfig');
@@ -154,6 +180,11 @@ class Logger implements LoggerInterface
         if ($this->cacheLogs) {
             $this->logCache = [];
         }
+
+        $this->logGlobalContext   = $config->logGlobalContext ?? $this->logGlobalContext; // @phpstan-ignore nullCoalesce.property
+        $this->logContext         = $config->logContext ?? $this->logContext; // @phpstan-ignore nullCoalesce.property
+        $this->logContextTrace    = $config->logContextTrace ?? $this->logContextTrace; // @phpstan-ignore nullCoalesce.property
+        $this->logContextUsedKeys = $config->logContextUsedKeys ?? $this->logContextUsedKeys; // @phpstan-ignore nullCoalesce.property
     }
 
     /**
@@ -250,7 +281,32 @@ class Logger implements LoggerInterface
             return;
         }
 
+        $interpolatedKeys = array_keys(array_filter(
+            $context,
+            static fn ($key): bool => str_contains((string) $message, '{' . $key . '}'),
+            ARRAY_FILTER_USE_KEY,
+        ));
+
         $message = $this->interpolate($message, $context);
+
+        if ($this->logContext) {
+            if (! $this->logContextUsedKeys) {
+                foreach ($interpolatedKeys as $key) {
+                    unset($context[$key]);
+                }
+            }
+
+            $context = $this->normalizeContext($context);
+        } else {
+            $context = [];
+        }
+
+        if ($this->logGlobalContext) {
+            $globalContext = service('context')->getAll();
+            if ($globalContext !== []) {
+                $context[HandlerInterface::GLOBAL_CONTEXT_KEY] = $globalContext;
+            }
+        }
 
         if ($this->cacheLogs) {
             $this->logCache[] = ['level' => $level, 'msg' => $message];
@@ -268,10 +324,43 @@ class Logger implements LoggerInterface
             }
 
             // If the handler returns false, then we don't execute any other handlers.
-            if (! $handler->setDateFormat($this->dateFormat)->handle($level, $message)) {
+            if (! $handler->setDateFormat($this->dateFormat)->handle($level, $message, $context)) {
                 break;
             }
         }
+    }
+
+    /**
+     * Normalizes context values for structured logging.
+     * Per PSR-3, if an Exception is given to produce a stack trace, it MUST be
+     * in a key named "exception". Only that key is converted into an array
+     * representation.
+     *
+     * @param array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
+    protected function normalizeContext(array $context): array
+    {
+        if (isset($context['exception']) && $context['exception'] instanceof Throwable) {
+            $value = $context['exception'];
+
+            $normalized = [
+                'class'   => $value::class,
+                'message' => $value->getMessage(),
+                'code'    => $value->getCode(),
+                'file'    => clean_path($value->getFile()),
+                'line'    => $value->getLine(),
+            ];
+
+            if ($this->logContextTrace) {
+                $normalized['trace'] = $value->getTraceAsString();
+            }
+
+            $context['exception'] = $normalized;
+        }
+
+        return $context;
     }
 
     /**

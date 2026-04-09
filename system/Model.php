@@ -19,12 +19,15 @@ use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\Database\Exceptions\UniqueConstraintViolationException;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\Exceptions\BadMethodCallException;
+use CodeIgniter\Exceptions\InvalidArgumentException;
 use CodeIgniter\Exceptions\ModelException;
 use CodeIgniter\Validation\ValidationInterface;
 use Config\Database;
 use Config\Feature;
+use Generator;
 use stdClass;
 
 /**
@@ -145,9 +148,7 @@ class Model extends BaseModel
 
     public function __construct(?ConnectionInterface $db = null, ?ValidationInterface $validation = null)
     {
-        /**
-         * @var BaseConnection|null $db
-         */
+        /** @var BaseConnection $db */
         $db ??= Database::connect($this->DBGroup);
 
         $this->db = $db;
@@ -233,7 +234,7 @@ class Model extends BaseModel
      */
     protected function doFindAll(?int $limit = null, int $offset = 0)
     {
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll) {
             $limit ??= 0;
         }
@@ -525,18 +526,22 @@ class Model extends BaseModel
     }
 
     /**
-     * {@inheritDoc}
+     * Iterates over the result set in chunks of the specified size.
      *
-     * Works with `$this->builder` to get the Compiled select to
-     * determine the rows to operate on.
-     * This method works only with dbCalls.
+     * @param int $size The number of records to retrieve in each chunk.
+     *
+     * @return Generator<list<array<string, string>>|list<object>>
      */
-    public function chunk(int $size, Closure $userFunc)
+    private function iterateChunks(int $size): Generator
     {
+        if ($size <= 0) {
+            throw new InvalidArgumentException('$size must be a positive integer.');
+        }
+
         $total  = $this->builder()->countAllResults(false);
         $offset = 0;
 
-        while ($offset <= $total) {
+        while ($offset < $total) {
             $builder = clone $this->builder();
             $rows    = $builder->get($size, $offset);
 
@@ -552,10 +557,32 @@ class Model extends BaseModel
                 continue;
             }
 
+            yield $rows;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function chunk(int $size, Closure $userFunc)
+    {
+        foreach ($this->iterateChunks($size) as $rows) {
             foreach ($rows as $row) {
                 if ($userFunc($row) === false) {
                     return;
                 }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function chunkRows(int $size, Closure $userFunc): void
+    {
+        foreach ($this->iterateChunks($size) as $rows) {
+            if ($userFunc($rows) === false) {
+                return;
             }
         }
     }
@@ -687,6 +714,54 @@ class Model extends BaseModel
         }
 
         return $row;
+    }
+
+    /**
+     * Finds the first row matching attributes or inserts a new row.
+     *
+     * Note: without a DB unique constraint, this is not race-safe.
+     *
+     * @param array<string, mixed>|object $attributes
+     * @param array<string, mixed>|object $values
+     *
+     * @return array<string, mixed>|false|object
+     */
+    public function firstOrInsert(array|object $attributes, array|object $values = []): array|false|object
+    {
+        if (is_object($attributes)) {
+            $attributes = $this->transformDataToArray($attributes, 'insert');
+        }
+
+        if ($attributes === []) {
+            throw new InvalidArgumentException('firstOrInsert() requires non-empty $attributes.');
+        }
+
+        $row = $this->where($attributes)->first();
+        if ($row !== null) {
+            return $row;
+        }
+
+        if (is_object($values)) {
+            $values = $this->transformDataToArray($values, 'insert');
+        }
+
+        $data = array_merge($attributes, $values);
+
+        try {
+            $id = $this->insert($data);
+        } catch (UniqueConstraintViolationException) {
+            return $this->where($attributes)->first() ?? false;
+        }
+
+        if ($id === false) {
+            if ($this->db->getLastException() instanceof UniqueConstraintViolationException) {
+                return $this->where($attributes)->first() ?? false;
+            }
+
+            return false;
+        }
+
+        return $this->where($this->primaryKey, $id)->first() ?? false;
     }
 
     public function update($id = null, $row = null): bool

@@ -11,11 +11,8 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace CodeIgniter\Test\Mock;
+namespace CodeIgniter\Database\Exceptions;
 
-use CodeIgniter\CodeIgniter;
-
-class MockCodeIgniter extends CodeIgniter
+class UniqueConstraintViolationException extends DatabaseException
 {
-    protected ?string $context = 'web';
 }

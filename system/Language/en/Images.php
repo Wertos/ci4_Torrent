@@ -20,6 +20,7 @@ return [
     'jpgNotSupported'        => 'JPG images are not supported.',
     'pngNotSupported'        => 'PNG images are not supported.',
     'webpNotSupported'       => 'WEBP images are not supported.',
+    'avifNotSupported'       => 'AVIF images are not supported.',
     'fileNotSupported'       => 'The supplied file is not a supported image type.',
     'unsupportedImageCreate' => 'Your server does not support the required functionality to process this type of image.',
     'jpgOrPngRequired'       => 'The image resize protocol specified in your preferences only works with JPEG or PNG image types.',
@@ -33,6 +34,6 @@ return [
     'invalidDirection'       => 'Flip direction can be only "vertical" or "horizontal". Given: "{0}"',
     'exifNotSupported'       => 'Reading EXIF data is not supported by this PHP installation.',
 
-    // @deprecated
+    // @deprecated 4.7.0
     'libPathInvalid' => 'The path to your image library is not correct. Please set the correct path in your image preferences. "{0}"',
 ];

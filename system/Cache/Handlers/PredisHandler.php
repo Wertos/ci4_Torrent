@@ -65,9 +65,7 @@ class PredisHandler extends BaseHandler
     {
         $this->prefix = $config->prefix;
 
-        if (isset($config->redis)) {
-            $this->config = array_merge($this->config, $config->redis);
-        }
+        $this->config = array_merge($this->config, $config->redis);
     }
 
     public function initialize(): void
@@ -76,7 +74,7 @@ class PredisHandler extends BaseHandler
             $this->redis = new Client($this->config, ['prefix' => $this->prefix]);
             $this->redis->time();
         } catch (Exception $e) {
-            throw new CriticalError('Cache: Predis connection refused (' . $e->getMessage() . ').');
+            throw new CriticalError('Cache: Predis connection refused (' . $e->getMessage() . ').', $e->getCode(), $e);
         }
     }
 

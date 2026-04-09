@@ -33,24 +33,9 @@ use Throwable;
 class CLI
 {
     /**
-     * Is the readline library on the system?
-     *
-     * @var bool
-     *
-     * @deprecated 4.4.2 Should be protected, and no longer used.
-     * @TODO Fix to camelCase in the next major version.
-     */
-    public static $readline_support = false;
-
-    /**
      * The message displayed at prompts.
-     *
-     * @var string
-     *
-     * @deprecated 4.4.2 Should be protected.
-     * @TODO Fix to camelCase in the next major version.
      */
-    public static $wait_msg = 'Press any key to continue...';
+    protected static string $waitMsg = 'Press any key to continue...';
 
     /**
      * Has the class already been initialized?
@@ -112,7 +97,7 @@ class CLI
     protected static $segments = [];
 
     /**
-     * @var array<string, string|null>
+     * @var array<string, list<string|null>|string|null>
      */
     protected static $options = [];
 
@@ -159,11 +144,6 @@ class CLI
     public static function init()
     {
         if (is_cli()) {
-            // Readline is an extension for PHP that makes interactivity with PHP
-            // much more bash-like.
-            // http://www.php.net/manual/en/readline.installation.php
-            static::$readline_support = extension_loaded('readline');
-
             // clear segments & options to keep testing clean
             static::$segments = [];
             static::$options  = [];
@@ -171,12 +151,14 @@ class CLI
             // Check our stream resource for color support
             static::$isColored = static::hasColorSupport(STDOUT);
 
-            static::parseCommandLine();
+            $parser = new CommandLineParser(service('superglobals')->server('argv', []));
+
+            static::$segments = $parser->getArguments();
+            static::$options  = $parser->getOptions();
 
             static::$initialized = true;
         } elseif (! defined('STDOUT')) {
-            // If the command is being called from a controller
-            // we need to define STDOUT ourselves
+            // If the command is being called from a controller we need to define STDOUT ourselves
             // For "! defined('STDOUT')" see: https://github.com/codeigniter4/CodeIgniter4/issues/7047
             define('STDOUT', 'php://output'); // @codeCoverageIgnore
         }
@@ -522,19 +504,9 @@ class CLI
         } elseif ($seconds > 0) {
             sleep($seconds);
         } else {
-            static::write(static::$wait_msg);
+            static::write(static::$waitMsg);
             static::$io->input();
         }
-    }
-
-    /**
-     * if operating system === windows
-     *
-     * @deprecated 4.3.0 Use `is_windows()` instead
-     */
-    public static function isWindows(): bool
-    {
-        return is_windows();
     }
 
     /**
@@ -874,10 +846,14 @@ class CLI
      * Parses the command line it was called from and collects all
      * options and valid segments.
      *
+     * @deprecated 4.8.0 No longer used.
+     *
      * @return void
      */
     protected static function parseCommandLine()
     {
+        @trigger_error(sprintf('The static method %s() is deprecated and no longer used.', __METHOD__), E_USER_DEPRECATED);
+
         $args = $_SERVER['argv'] ?? [];
         array_shift($args); // scrap invoking program
         $optionValue = false;
@@ -949,8 +925,11 @@ class CLI
     }
 
     /**
-     * Gets a single command-line option. Returns TRUE if the option
-     * exists, but doesn't have a value, and is simply acting as a flag.
+     * Gets the value of an individual option.
+     *
+     * * If the option was passed without a value, this will return `true`.
+     * * If the option was not passed at all, this will return `null`.
+     * * If the option was an array of values, this will return the last value passed for that option.
      *
      * @return string|true|null
      */
@@ -960,17 +939,34 @@ class CLI
             return null;
         }
 
-        // If the option didn't have a value, simply return TRUE
-        // so they know it was set, otherwise return the actual value.
-        $val = static::$options[$name] ?? true;
+        $value = static::$options[$name] ?? true;
 
-        return $val;
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        return $value[count($value) - 1] ?? true;
+    }
+
+    /**
+     * Gets the raw value of an individual option, which may be a string,
+     * a list of `string|null`, or `true` if the option was passed without a value.
+     *
+     * @return list<string|null>|string|true|null
+     */
+    public static function getRawOption(string $name): array|string|true|null
+    {
+        if (! array_key_exists($name, static::$options)) {
+            return null;
+        }
+
+        return static::$options[$name] ?? true;
     }
 
     /**
      * Returns the raw array of options found.
      *
-     * @return array<string, string|null>
+     * @return array<string, list<string|null>|string|null>
      */
     public static function getOptions(): array
     {
@@ -990,27 +986,33 @@ class CLI
             return '';
         }
 
-        $out = '';
+        $out = [];
+
+        $valueCallback = static function (?string $value, string $name) use (&$out): void {
+            if ($value === null) {
+                $out[] = $name;
+            } elseif (str_contains($value, ' ')) {
+                $out[] = sprintf('%s "%s"', $name, $value);
+            } else {
+                $out[] = sprintf('%s %s', $name, $value);
+            }
+        };
 
         foreach (static::$options as $name => $value) {
-            if ($useLongOpts && mb_strlen($name) > 1) {
-                $out .= "--{$name} ";
+            $name = $useLongOpts && mb_strlen($name) > 1 ? "--{$name}" : "-{$name}";
+
+            if (is_array($value)) {
+                foreach ($value as $val) {
+                    $valueCallback($val, $name);
+                }
             } else {
-                $out .= "-{$name} ";
-            }
-
-            if ($value === null) {
-                continue;
-            }
-
-            if (mb_strpos($value, ' ') !== false) {
-                $out .= "\"{$value}\" ";
-            } elseif ($value !== null) {
-                $out .= "{$value} ";
+                $valueCallback($value, $name);
             }
         }
 
-        return $trim ? trim($out) : $out;
+        $output = implode(' ', $out);
+
+        return $trim ? $output : "{$output} ";
     }
 
     /**
@@ -1129,7 +1131,35 @@ class CLI
     /**
      * Testing purpose only
      *
-     * @testTag
+     * @internal
+     */
+    public static function reset(): void
+    {
+        static::$initialized = false;
+        static::$segments    = [];
+        static::$options     = [];
+        static::$lastWrite   = null;
+        static::$height      = null;
+        static::$width       = null;
+        static::$isColored   = static::hasColorSupport(STDOUT);
+
+        static::resetInputOutput();
+    }
+
+    /**
+     * Testing purpose only
+     *
+     * @internal
+     */
+    public static function resetLastWrite(): void
+    {
+        static::$lastWrite = null;
+    }
+
+    /**
+     * Testing purpose only
+     *
+     * @internal
      */
     public static function setInputOutput(InputOutput $io): void
     {
@@ -1139,7 +1169,7 @@ class CLI
     /**
      * Testing purpose only
      *
-     * @testTag
+     * @internal
      */
     public static function resetInputOutput(): void
     {

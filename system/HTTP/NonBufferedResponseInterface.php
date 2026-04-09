@@ -11,11 +11,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace CodeIgniter\Test\Mock;
+namespace CodeIgniter\HTTP;
 
-use CodeIgniter\CodeIgniter;
-
-class MockCodeIgniter extends CodeIgniter
+/**
+ * Marker interface for responses that bypass output buffering
+ * and send their body directly to the client (e.g. downloads, SSE streams).
+ */
+interface NonBufferedResponseInterface
 {
-    protected ?string $context = 'web';
 }

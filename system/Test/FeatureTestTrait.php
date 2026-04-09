@@ -15,6 +15,7 @@ namespace CodeIgniter\Test;
 
 use Closure;
 use CodeIgniter\Events\Events;
+use CodeIgniter\Exceptions\RuntimeException;
 use CodeIgniter\HTTP\Exceptions\RedirectException;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Method;
@@ -68,19 +69,15 @@ trait FeatureTestTrait
             $collection->resetRoutes();
 
             foreach ($routes as $route) {
-                if ($route[0] === strtolower($route[0])) {
-                    @trigger_error(
-                        'Passing lowercase HTTP method "' . $route[0] . '" is deprecated.'
-                        . ' Use uppercase HTTP method like "' . strtoupper($route[0]) . '".',
-                        E_USER_DEPRECATED,
-                    );
+                if (! in_array($route[0], ['add', 'CLI', ...Method::all()], true)) {
+                    throw new RuntimeException(sprintf(
+                        'Invalid HTTP method "%s" provided for route "%s".',
+                        $route[0],
+                        $route[1],
+                    ));
                 }
 
-                /**
-                 * @TODO For backward compatibility. Remove strtolower() in the future.
-                 * @deprecated 4.5.0
-                 */
-                $method = strtolower($route[0]);
+                $method = strtolower($route[0]); // convert to method of RouteCollection
 
                 if (isset($route[3])) {
                     $collection->{$method}($route[1], $route[2], $route[3]);
@@ -173,26 +170,12 @@ trait FeatureTestTrait
      * Calls a single URI, executes it, and returns a TestResponse
      * instance that can be used to run many assertions against.
      *
-     * @param string $method HTTP verb
+     * @param uppercase-string $method HTTP verb
      *
      * @return TestResponse
      */
     public function call(string $method, string $path, ?array $params = null)
     {
-        if ($method === strtolower($method)) {
-            @trigger_error(
-                'Passing lowercase HTTP method "' . $method . '" is deprecated.'
-                . ' Use uppercase HTTP method like "' . strtoupper($method) . '".',
-                E_USER_DEPRECATED,
-            );
-        }
-
-        /**
-         * @deprecated 4.5.0
-         * @TODO remove this in the future.
-         */
-        $method = strtoupper($method);
-
         // Simulate having a blank session
         $_SESSION = [];
         service('superglobals')->setServer('REQUEST_METHOD', $method);

@@ -161,9 +161,8 @@ class Boot
         static::autoloadHelpers();
 
         static::initializeCodeIgniter();
-        $console = static::initializeConsole();
 
-        return static::runCommand($console);
+        return static::runCommand(static::initializeConsole());
     }
 
     /**
@@ -205,7 +204,7 @@ class Boot
     protected static function loadDotEnv(Paths $paths): void
     {
         require_once $paths->systemDirectory . '/Config/DotEnv.php';
-        $envDirectory = $paths->envDirectory ?? $paths->appDirectory . '/../';
+        $envDirectory = $paths->envDirectory ?? $paths->appDirectory . '/../'; // @phpstan-ignore nullCoalesce.property
         (new DotEnv($envDirectory))->load();
     }
 
@@ -424,23 +423,22 @@ class Boot
 
     protected static function initializeConsole(): Console
     {
-        $console = new Console();
-
-        // Show basic information before we do anything else.
-        if (is_int($suppress = array_search('--no-header', $_SERVER['argv'], true))) {
-            unset($_SERVER['argv'][$suppress]);
-            $suppress = true;
-        }
-
-        $console->showHeader($suppress);
-
-        return $console;
+        return new Console();
     }
 
     protected static function runCommand(Console $console): int
     {
-        $exit = $console->run();
+        $exitCode = $console->initialize()->run();
 
-        return is_int($exit) ? $exit : EXIT_SUCCESS;
+        if (! is_int($exitCode)) {
+            @trigger_error(sprintf(
+                'Since v4.8.0, commands must return an integer exit code. Last command "%s" exited with %s. Defaulting to EXIT_SUCCESS.',
+                $console->getCommand(),
+                get_debug_type($exitCode),
+            ), E_USER_DEPRECATED);
+            $exitCode = EXIT_SUCCESS;
+        }
+
+        return $exitCode;
     }
 }

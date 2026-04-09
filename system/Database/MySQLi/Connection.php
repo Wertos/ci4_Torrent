@@ -15,6 +15,7 @@ namespace CodeIgniter\Database\MySQLi;
 
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use CodeIgniter\Database\Exceptions\UniqueConstraintViolationException;
 use CodeIgniter\Database\TableName;
 use CodeIgniter\Exceptions\LogicException;
 use mysqli;
@@ -93,6 +94,11 @@ class Connection extends BaseConnection
     public $foundRows = false;
 
     /**
+     * Strict SQL mode
+     */
+    protected bool $strictOn = false;
+
+    /**
      * Connect to the database.
      *
      * @return false|mysqli
@@ -123,26 +129,31 @@ class Connection extends BaseConnection
             $this->mysqli->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
         }
 
-        if ($this->strictOn !== null) {
-            if ($this->strictOn) {
-                $this->mysqli->options(
-                    MYSQLI_INIT_COMMAND,
-                    "SET SESSION sql_mode = CONCAT(@@sql_mode, ',', 'STRICT_ALL_TABLES')",
-                );
-            } else {
-                $this->mysqli->options(
-                    MYSQLI_INIT_COMMAND,
-                    "SET SESSION sql_mode = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-                                        @@sql_mode,
-                                        'STRICT_ALL_TABLES,', ''),
-                                    ',STRICT_ALL_TABLES', ''),
-                                'STRICT_ALL_TABLES', ''),
-                            'STRICT_TRANS_TABLES,', ''),
-                        ',STRICT_TRANS_TABLES', ''),
-                    'STRICT_TRANS_TABLES', '')",
-                );
-            }
+        $initCommands = [];
+
+        if ($this->strictOn) {
+            $initCommands[] = "sql_mode = CONCAT(@@sql_mode, ',', 'STRICT_ALL_TABLES')";
+        } else {
+            $initCommands[] = "sql_mode = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                @@sql_mode,
+                                'STRICT_ALL_TABLES,', ''),
+                            ',STRICT_ALL_TABLES', ''),
+                        'STRICT_ALL_TABLES', ''),
+                    'STRICT_TRANS_TABLES,', ''),
+                ',STRICT_TRANS_TABLES', ''),
+            'STRICT_TRANS_TABLES', '')";
         }
+
+        // Set session timezone if configured
+        $timezoneOffset = $this->getSessionTimezone();
+        if ($timezoneOffset !== null) {
+            $initCommands[] = "time_zone = '{$timezoneOffset}'";
+        }
+
+        $this->mysqli->options(
+            MYSQLI_INIT_COMMAND,
+            'SET SESSION ' . implode(', ', $initCommands),
+        );
 
         if (is_array($this->encrypt)) {
             $ssl = [];
@@ -306,9 +317,16 @@ class Connection extends BaseConnection
                 'trace'   => render_backtrace($e->getTrace()),
             ]);
 
+            // MySQL error 1062: ER_DUP_ENTRY – duplicate key value
+            $exception = $e->getCode() === 1062
+                ? new UniqueConstraintViolationException($e->getMessage(), $e->getCode(), $e)
+                : new DatabaseException($e->getMessage(), $e->getCode(), $e);
+
             if ($this->DBDebug) {
-                throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+                throw $exception;
             }
+
+            $this->lastException = $exception;
         }
 
         return false;

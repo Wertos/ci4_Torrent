@@ -18,6 +18,7 @@ use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\BaseResult;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Database\Exceptions\DataException;
+use CodeIgniter\Database\Exceptions\UniqueConstraintViolationException;
 use CodeIgniter\Database\Query;
 use CodeIgniter\Database\RawSql;
 use CodeIgniter\DataCaster\Cast\CastInterface;
@@ -582,8 +583,25 @@ abstract class BaseModel
      * @return void
      *
      * @throws DataException
+     * @throws InvalidArgumentException if $size is not a positive integer
      */
     abstract public function chunk(int $size, Closure $userFunc);
+
+    /**
+     * Loops over records in batches, allowing you to operate on each chunk at a time.
+     * This method works only with DB calls.
+     *
+     * This method calls the `$userFunc` with the chunk, instead of a single record as in `chunk()`.
+     * This allows you to operate on multiple records at once, which can be more efficient for certain operations.
+     *
+     * @param Closure(list<array<string, string>>|list<object>): mixed $userFunc
+     *
+     * @return void
+     *
+     * @throws DataException
+     * @throws InvalidArgumentException if $size is not a positive integer
+     */
+    abstract public function chunkRows(int $size, Closure $userFunc);
 
     /**
      * Fetches the row of database.
@@ -652,7 +670,7 @@ abstract class BaseModel
      */
     public function findAll(?int $limit = null, int $offset = 0)
     {
-        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true;
+        $limitZeroAsAll = config(Feature::class)->limitZeroAsAll ?? true; // @phpstan-ignore nullCoalesce.property
         if ($limitZeroAsAll) {
             $limit ??= 0;
         }
@@ -852,6 +870,7 @@ abstract class BaseModel
      * @return ($returnID is true ? false|int|string : bool)
      *
      * @throws ReflectionException
+     * @throws UniqueConstraintViolationException
      */
     public function insert($row = null, bool $returnID = true)
     {

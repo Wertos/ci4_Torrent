@@ -37,7 +37,6 @@ return [
     'cannotSetBinary'        => 'When setting filepath cannot set binary.',
     'cannotSetFilepath'      => 'When setting binary cannot set filepath: "{0}"',
     'notFoundDownloadSource' => 'Not found download body source.',
-    'cannotSetCache'         => 'It does not support caching for downloading.',
     'cannotSetStatusCode'    => 'It does not support change status code for downloading. code: {0}, reason: {1}',
 
     // Response
@@ -58,10 +57,6 @@ return [
     'methodNotFound'     => 'Controller method is not found: "{0}"',
     'localeNotSupported' => 'Locale is not supported: {0}',
 
-    // CSRF
-    // @deprecated use 'Security.disallowedAction'
-    'disallowedAction' => 'The action you requested is not allowed.',
-
     // Uploaded file moving
     'alreadyMoved' => 'The uploaded file has already been moved.',
     'invalidFile'  => 'The original file is not a valid file.',
@@ -76,8 +71,4 @@ return [
     'uploadErrNoTmpDir'  => 'File could not be uploaded: missing temporary directory.',
     'uploadErrExtension' => 'File upload was stopped by a PHP extension.',
     'uploadErrUnknown'   => 'The file "%s" was not uploaded due to an unknown error.',
-
-    // SameSite setting
-    // @deprecated
-    'invalidSameSiteSetting' => 'The SameSite setting must be None, Lax, Strict, or a blank string. Given: {0}',
 ];
