@@ -123,7 +123,7 @@ abstract class BaseController extends Controller
     // Do Not Edit This Line
     // Preload any models, libraries, etc, here.
     parent::initController($request, $response, $logger);
-
+//    $this->cachePage(38400);
     $this->setting = service("settings");
 
     $this->TorrConfig = config("Torrent");

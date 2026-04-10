@@ -2,30 +2,24 @@
 <?= doctype('html5') ?>
 <html lang="ru">
   <head>
-		<meta charset="<?= setting('App.charset'); ?>">
-		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="generator" content="<?= setting('Torrent.appname');?>">
-		<?php if (setting('Torrent.siteDescr')) :?>
-		<meta name="description" content="<?= setting('Torrent.siteDescr'); ?>"/>
-		<meta property="og:description" content="<?= setting('Torrent.siteDescr'); ?>">
-		<meta property="twitter:description" content="<?= setting('Torrent.siteDescr'); ?>">
-		<?php endif; ?>
-		<?php if (setting('Torrent.siteKeyword')) :?>
-		<meta name="keywords" content="<?= setting('Torrent.siteKeyword'); ?>" />
-		<?php endif; ?>
-    <title><?= $page_title ?></title>
-		<meta name="apple-mobile-web-app-title" content="<?= setting('Torrent.siteName'); ?>">
-		<meta name="application-name" content="<?= setting('Torrent.siteName'); ?>"/>
-		<meta property="og:site_name" content="<?= setting('Torrent.siteName'); ?>">
-		<meta property="og:image" content="<?= $ogimage ?>" />
-		<meta property="og:type" content="website">
-		<meta property="og:title" content="<?= $page_title ?>">
-
-  	<script type="text/javascript">
-  		window.CI4 = {};
-  		CI4.urihash = window.location.hash;
-  	</script>
+	<meta charset="<?= setting('App.charset'); ?>">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="generator" content="<?= setting('Torrent.appname');?>">
+	<title><?= $page_title ?></title>
+	<meta name="description" content="<?= setting('Torrent.siteDescr'); ?>"/>
+	<meta name="keywords" content="<?= setting('Torrent.siteKeyword'); ?>" />
+	<meta name="apple-mobile-web-app-title" content="<?= setting('Torrent.siteName'); ?>">
+	<meta name="application-name" content="<?= setting('Torrent.siteName'); ?>"/>
+	<meta property="og:site_name" content="<?= setting('Torrent.siteName'); ?>">
+	<meta property="og:image" content="<?= $ogimage ?>" />
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="<?= $page_title ?>">
+	<meta property="og:description" content="<?= setting('Torrent.siteDescr'); ?>">
+	<script type="text/javascript">
+		window.CI4 = {};
+		CI4.urihash = window.location.hash;
+	</script>
   </head>
   <body>
 			<div class="ms-1 page-header bg-primary text-center" id="banner">
