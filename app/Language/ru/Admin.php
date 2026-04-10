@@ -15,6 +15,8 @@ return [
     // Exceptions
     'RebuildCSS' => 'Обновить стили',
     'RebuildJS' => 'Обновить яваскрипты',
+    'JSRebuildComplete' => 'Кеш яваскрипт обновлён.',
+    'CSSRebuildComplete' => 'Кеш CSS обновлён.',
 	'FullScreen'=>	'Полный экран',
 	'DashBoard'	=>	'Панель инструментов',
 	'AdminHome'  => 'Админ панель',

@@ -13,7 +13,8 @@ use Arifrh\Themes\Themes;
 use \App\Models\Admin\AdminModel;
 use \App\Models\Admin\CategoryModel;
 use \App\Models\Admin\TorrentModel;
-use \App\Models\UserModel;        
+use \App\Models\UserModel;
+use \App\Libraries\JShrink\Minifier;
 
 class AjaxController extends \App\Controllers\AdminController
 {
@@ -56,7 +57,8 @@ class AjaxController extends \App\Controllers\AdminController
 				case 'TorrManage':
       				$this->TorrModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
-
+				case 'Rebuild':
+				break;
       		default: 
       			throw PageNotFoundException::forPageNotFound();
       }
@@ -358,4 +360,47 @@ class AjaxController extends \App\Controllers\AdminController
 			return $this->_AjaxSend($data); die();
   }
 
+  public function Rebuild()
+  {
+    $type = $this->request->getPost('type');
+    $config = config("Torrent");
+
+    if ( $type === 'js' )
+    {
+	    $minInlineJs = '';
+        $jsPath = $config->fullThemePath . $config->js_path . DIRECTORY_SEPARATOR;
+		$minifyJsFileName = $jsPath . $config->minifyJsFileName;
+	    if ( ! file_exists($minifyJsFileName) || filectime($minifyJsFileName) < time() - $config->jsLifeTime )
+		{
+	    	foreach ($config->siteJs as $jsFile)
+		    {
+    		    $file = file_get_contents($jsPath . $jsFile);
+				$minInlineJs .= \JShrink\Minifier::minify($file);
+		    }
+			file_put_contents($minifyJsFileName, $minInlineJs);
+		}
+		return $this->_AjaxSend(['text' => lang('Admin.JSRebuildComplete')]); die();
+	}
+    
+    if ( $type === 'css' )
+    {
+	    $minInlineCss = '';
+        $cssPath = $config->fullThemePath . $config->css_path . DIRECTORY_SEPARATOR;
+		$minifyCssFileName = $cssPath . $config->minifyCssFileName;
+	    if ( ! file_exists($minifyCssFileName) || filectime($minifyCssFileName) < time() - $config->cssLifeTime )
+		{
+	    	foreach ($config->siteCSS as $cssFile)
+		    {
+    		    $css = file_get_contents($cssPath . $cssFile);
+				$css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+				$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
+				$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+				$minInlineCss .= trim($css);
+		    }
+			file_put_contents($minifyCssFileName, $minInlineCss);
+		}
+		return $this->_AjaxSend(['text' => lang('Admin.CSSRebuildComplete')]); die();
+	}
+	die();
+  }
 }
