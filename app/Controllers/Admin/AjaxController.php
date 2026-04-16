@@ -370,15 +370,12 @@ class AjaxController extends \App\Controllers\AdminController
 	    $minInlineJs = '';
         $jsPath = $config->fullThemePath . $config->js_path . DIRECTORY_SEPARATOR;
 		$minifyJsFileName = $jsPath . $config->minifyJsFileName;
-	    if ( ! file_exists($minifyJsFileName) || filectime($minifyJsFileName) < time() - $config->jsLifeTime )
-		{
-	    	foreach ($config->siteJs as $jsFile)
-		    {
-    		    $file = file_get_contents($jsPath . $jsFile);
-				$minInlineJs .= \JShrink\Minifier::minify($file);
-		    }
-			file_put_contents($minifyJsFileName, $minInlineJs);
-		}
+    	foreach ($config->siteJs as $jsFile)
+	    {
+   		    $file = file_get_contents($jsPath . $jsFile);
+			$minInlineJs .= \JShrink\Minifier::minify($file, ['flaggedComments' => false]);
+	    }
+		file_put_contents($minifyJsFileName, $minInlineJs);
 		return $this->_AjaxSend(['text' => lang('Admin.JSRebuildComplete')]); die();
 	}
     
@@ -387,18 +384,15 @@ class AjaxController extends \App\Controllers\AdminController
 	    $minInlineCss = '';
         $cssPath = $config->fullThemePath . $config->css_path . DIRECTORY_SEPARATOR;
 		$minifyCssFileName = $cssPath . $config->minifyCssFileName;
-	    if ( ! file_exists($minifyCssFileName) || filectime($minifyCssFileName) < time() - $config->cssLifeTime )
-		{
-	    	foreach ($config->siteCSS as $cssFile)
-		    {
-    		    $css = file_get_contents($cssPath . $cssFile);
-				$css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
-				$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
-				$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
-				$minInlineCss .= trim($css);
-		    }
-			file_put_contents($minifyCssFileName, $minInlineCss);
-		}
+    	foreach ($config->siteCSS as $cssFile)
+	    {
+   		    $css = file_get_contents($cssPath . $cssFile);
+			$css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+			$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
+			$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
+			$minInlineCss .= trim($css);
+	    }
+		file_put_contents($minifyCssFileName, $minInlineCss);
 		return $this->_AjaxSend(['text' => lang('Admin.CSSRebuildComplete')]); die();
 	}
 	die();

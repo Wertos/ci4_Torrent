@@ -66,8 +66,8 @@ class Torrent extends BaseConfig
 		public int $newsPerAdminList = 10;
 
 // Theme setting
-		public bool $minifyJs = FALSE;
-		public bool $minifyCss = FALSE;
+		public bool $minifyJs = TRUE;
+		public bool $minifyCss = TRUE;
 		public string $minifyJsFileName = 'build.min.js';
 		public string $minifyCssFileName = 'build.min.css';
 		public int $jsLifeTime = 259200;

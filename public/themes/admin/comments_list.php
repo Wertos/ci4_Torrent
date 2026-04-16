@@ -76,8 +76,9 @@
 				$id = ($comment->clocate == 'news') ? $comment->nid : $comment->tid;
 				$title = ($comment->clocate == 'news') ? $comment->ntitle : $comment->ttitle;
 				$url = ($comment->clocate == 'news') ? $comment->nurl : $comment->turl;
+				$fltr = ($comment->clocate == 'news') ? '?news='.$id : '?torrent='.$id;
             ?>
-  			<a class="me-2" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.by_topic'); ?>" href="<?= base_url('admin/comments?topic=' . $comment->cuid); ?>"><i class="text-secondary-emphasis fa-solid fa-magnifying-glass"></i></a>
+  			<a class="me-2" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.by_topic'); ?>" href="<?= base_url('admin/comments' . $fltr); ?>"><i class="text-secondary-emphasis fa-solid fa-magnifying-glass"></i></a>
   			<a target="_blank" data-bs-toggle="tooltip" data-bs-title="<?= $title; ?>" href="<?= base_url($comment->clocate . '/' . $id . '-' . $url); ?>">
 				<?= word_limiter($title, 4, '&#8230;'); ?>
   			</a>

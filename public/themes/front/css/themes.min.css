@@ -77,6 +77,7 @@ ul.home_metadata li {
 	margin: 0 2px; padding: 8px 6px;
 	max-height: 284px; overflow: auto;
 }
+#tor-filelist .small {font-size:8px;}
 .tor-filelist-fullsize { max-height: unset !important; }
 #tor-filelist i { color: #7A7A7A; padding-left: 4px; }
 #tor-filelist s { color: #0000FF; text-decoration: none; }

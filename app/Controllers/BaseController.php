@@ -179,39 +179,14 @@ abstract class BaseController extends Controller
 
     if ( $this->TorrConfig->minifyJs === TRUE )
     {
-	    $minInlineJs = '';
-        $jsPath = $this->TorrConfig->fullThemePath . $this->TorrConfig->js_path . DIRECTORY_SEPARATOR;
-		$minifyJsFileName = $jsPath . $this->TorrConfig->minifyJsFileName;
-	    if ( ! file_exists($minifyJsFileName) || filectime($minifyJsFileName) < time() - $this->TorrConfig->jsLifeTime )
-		{
-	    	foreach ($this->TorrConfig->siteJs as $jsFile)
-		    {
-    		    $file = file_get_contents($jsPath . $jsFile);
-				$minInlineJs .= \JShrink\Minifier::minify($file);
-		    }
-			file_put_contents($minifyJsFileName, $minInlineJs);
-		}
-		$aryJs = [$this->TorrConfig->minifyJsFileName];
+        helper('minify');
+		$aryJs = JSMinify();
 	}
 
     if ( $this->TorrConfig->minifyCss === TRUE )
     {
-	    $minInlineCss = '';
-        $cssPath = $this->TorrConfig->fullThemePath . $this->TorrConfig->css_path . DIRECTORY_SEPARATOR;
-		$minifyCssFileName = $cssPath . $this->TorrConfig->minifyCssFileName;
-	    if ( ! file_exists($minifyCssFileName) || filectime($minifyCssFileName) < time() - $this->TorrConfig->cssLifeTime )
-		{
-	    	foreach ($this->TorrConfig->siteCSS as $cssFile)
-		    {
-    		    $css = file_get_contents($cssPath . $cssFile);
-				$css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
-				$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
-				$css = str_replace(["\r\n", "\r", "\n", "\t"], '', $css);
-				$minInlineCss .= trim($css);
-		    }
-			file_put_contents($minifyCssFileName, $minInlineCss);
-		}
-		$aryCSS = [$this->TorrConfig->minifyCssFileName];
+        helper('minify');
+		$aryCSS = CSSMinify();
 	}
  
     $this->themes = Themes::init($this->TorrConfig)

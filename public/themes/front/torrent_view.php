@@ -76,8 +76,8 @@
                     <li title="<?= lang('Torrent.downloaded'); ?>" class="list-inline-item"><i class="bi bi-box-arrow-down"></i> <?= number_format($details->downloaded ?? 0); ?></li>
                     <?php if ($moderate): ?>
                     <li class="list-inline-item">|</li>
-									  <li title="<?= lang('Torrent.updateStats'); ?>" class="list-inline-item"><a href="javascript:void(0)" class="text-danger clickable" onclick="CI4.updatePeers('<?= $details->id ?>')" id="updatestats"><i class="bi bi-arrow-clockwise"></i></a></li>
-										<?php endif; ?>
+					<li title="<?= lang('Torrent.updateStats'); ?>" class="list-inline-item"><a href="javascript:void(0)" class="text-danger clickable" onclick="CI4.updatePeers('<?= $details->id ?>')" id="updatestats"><b><i class="bi bi-arrow-clockwise"></i></b></a></li>
+					<?php endif; ?>
                 </ul>
             </li>
             <li class="float-end">
