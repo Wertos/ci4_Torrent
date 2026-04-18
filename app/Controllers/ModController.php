@@ -55,7 +55,6 @@ class ModController extends BaseController
 		 	->where('torrents.deleted_at', null)
 		 	->paginate(setting('Torrent.torrentsPerPage'));
 
-//		 var_dump($torrents); die();
 		 if(!$torrents)
 		 {
 		   	$no_torrents = true;

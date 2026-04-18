@@ -82,6 +82,14 @@ class TorrentModel extends GlobalAdminModel
 		return $data;
 	}
 
+    public function moveTorrent(int $tId, int $moveTo)
+    {
+        $data = [];
+		$data['movetor'] = $this->db->table($this->table)->replace(['category' => $moveTo])->where('id', $tId);
+		
+		return $data;
+    }
+
     public function getTorrents(int $catId,
 								?int $statusId = null,
 								int $owner,

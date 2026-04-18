@@ -342,6 +342,7 @@ class AjaxController extends \App\Controllers\AdminController
   {
 			$data = $this->request->getPost();
 			$ids = $data['ids'];
+			$moveTo = $data['cto'];
 			$event = $data['event'];
 			if ($event == 'delete') {
 				foreach ($ids as $id)
@@ -352,10 +353,12 @@ class AjaxController extends \App\Controllers\AdminController
 			else if ($event == 'move') {
 				foreach ($ids as $id)
 				{
-//					$this->TorrModel->moveTorrent(int $id);
+//					$this->TorrModel->moveTorrent(int $id, int $moveTo);
 				}
 			}
-			else { die(); }
+			else {
+				die();
+			}
 
 			return $this->_AjaxSend($data); die();
   }

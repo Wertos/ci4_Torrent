@@ -16,230 +16,185 @@ use App\Models\GlobalModel;
 
 class BrowseController extends BaseController
 {
-      public $GlobalModel;
-      public $TorrentModel;
-      public $SearchModel;
-      public $siteTitle;
-      private $DBDriver;
+	public $GlobalModel;
+	public $TorrentModel;
+	public $SearchModel;
+	public $siteTitle;
+	private $DBDriver;
 
-      function __construct()
-      {
-            $this->GlobalModel = model(GlobalModel::class);
-            $this->TorrentModel = model(TorrentModel::class);
-            $this->SearchModel = model(SearchModel::class);
-            $this->DBDriver = \Config\Database::connect()->DBDriver;
-      }
+	function __construct()
+	{
+		$this->GlobalModel = model(GlobalModel::class);
+		$this->TorrentModel = model(TorrentModel::class);
+		$this->SearchModel = model(SearchModel::class);
+		$this->DBDriver = \Config\Database::connect()->DBDriver;
+	}
+	
+	public function BrowseView(?string $url = null)
+	{
+		helper("number");
+		helper("torrent");
+		$pager = service("pager");
+		$no_torrents = false;
+		if ($url)
+		{
+			if (!($cat = cache("CatFromUrl_" . $url)))
+			{
+				$cat = $this->GlobalModel->getCatFromUrl($url);
+				cache()->save("CatFromUrl_" . $url, $cat);
+			}
+			if (!$cat)
+			{
+				throw PageNotFoundException::forPageNotFound();
+			}
+			$data["cat"] = $cat;
+		}
+		$catId = isset($cat->id) ? (int)$cat->id : null;
+		$catName = isset($cat->name) ? $cat->name : lang("Browse.allview");
+		$torCount = $this->GlobalModel->getTorrentCount($catId);
+		$page = (int) ($this->request->getGet("page") ?? 1);
+		$perPage = setting("Torrent.torrentsPerPage");
+		$offset = ($page - 1) * $perPage;
+		if (!($this->catHome = cache("CatHome")))
+		{
+			$this->catHome = $this->GlobalModel->getCatHome();
+			cache()->save("CatHome", $this->catHome);
+		}
+		if ($catId)
+		{
+			if ( !($torrents = cache( "TorrentByCat_" . $catId . "_" . $page, )) )
+			{
+				$torrents = $this->GlobalModel->getTorrentByCat( $catId, $perPage, $offset, );
+				cache()->save( "TorrentByCat_" . $catId . "_" . $page, $torrents, );
+			}
+		}
+		else
+		{
+			if (!($torrents = cache("TorrentByCat_" . $page)))
+			{
+				$torrents = $this->GlobalModel->getAllTorrent( $perPage, $offset, );
+				cache()->save("TorrentByCat_" . $page, $torrents);
+			}
+		}
+		$pager_links = $pager->makeLinks($page, $perPage, $torCount);
+		if (!$torrents)
+		{
+			$no_torrents = true;
+		}
+		$siteTitle = $this->TorrConfig->siteTitle . " | " . $catName;
+		$this->breadcrumb->append(lang("Browse.allview"), "browse");
+		if ($url)
+		{
+			$this->breadcrumb->append($cat->name);
+		}
+		$data = [
+			"breadcrumb" => $this->breadcrumb->output(),
+			"page_title" => $siteTitle,
+			"torList" => $torrents,
+			"no_torrents" => $no_torrents,
+			"pager_links" => $pager_links
+		];
+		$this->themes::render("browse_view", $data);
+	}
 
-      /************************************************************/
-      /*                                                          */
-      /*             Torrents view                                */
-      /*                                                          */
-      /*                                                          */
-      /************************************************************/
-      public function BrowseView(?string $url = null)
-      {
-            helper("number");
-            helper("torrent");
-            $pager = service("pager");
+	public function SearchView()
+	{
+		helper("number");
+		helper("torrent");
+		$pager = service("pager");
+		$where = "";
+		$str = $this->request->getGet("text");
+		$catId = (int) $this->request->getGet("cat");
+		if ($catId)
+		{
+			$where = " AND category = " . $catId . " ";
+		}
+		if ($str == "" || !$str)
+		{
+			return redirect() ->back() ->with("error", lang("Browse.nullstr"));
+		}
+		$sstr = $this->SearchModel->cleanString($str);
+		$arr = $this->SearchModel->StringToArray($sstr);
+		$where1 = $this->SearchModel->ArrayToSql($arr, ["name"]);
+		$where2 = $this->SearchModel->ArrayToSql($arr, ["descr"]);
+		if ($catId)
+		{
+			$where = " AND category = " . $catId . " ";
+			$sql = "(" . $where1 . $where . ")" . " OR (" . $where2 . $where . ")";
+		}
+		else
+		{
+			$sql = $where1 . " OR " . $where2;
+		}
+		$no_torrents = true;
+		$torr = [];
+		$obj = new \StdClass();
+		if ($this->DBDriver == "Postgre")
+		{
+			$sstr = str_replace(" ", ":*|", $sstr) . ":*";
+			$sstr = pg_escape_string($sstr);
+			if ($catId)
+			{
+				$sql = "to_tsvector(name) @@ to_tsquery('$sstr') AND category = $catId";
+			}
+			else
+			{
+				$sql = "to_tsvector(name) @@ to_tsquery('$sstr')";
+			}
+		}
+		$torrents = $this->SearchModel
+							->asObject()
+							->where(new RawSql($sql))
+							->orderBy("created_at", "DESC")
+							->paginate(setting("Torrent.torrentsPerPage"));
 
-            $no_torrents = false;
-            if ($url) {
-                  if (!($cat = cache("CatFromUrl_" . $url))) {
-                        $cat = $this->GlobalModel->getCatFromUrl($url);
-
-                        cache()->save("CatFromUrl_" . $url, $cat);
-                  }
-
-                  if (!$cat) {
-                        throw PageNotFoundException::forPageNotFound();
-                  }
-
-                  $data["cat"] = $cat;
-            }
-            $catId = isset($cat->id) ? (int)$cat->id : null;
-            $catName = isset($cat->name) ? $cat->name : lang("Browse.allview");
-            $torCount = $this->GlobalModel->getTorrentCount($catId);
-
-            $page = (int) ($this->request->getGet("page") ?? 1);
-            $perPage = setting("Torrent.torrentsPerPage");
-            $offset = ($page - 1) * $perPage;
-
-            if (!($this->catHome = cache("CatHome"))) {
-                  $this->catHome = $this->GlobalModel->getCatHome();
-                  cache()->save("CatHome", $this->catHome);
-            }
-
-            if ($catId) {
-                  if (
-                        !($torrents = cache(
-                              "TorrentByCat_" . $catId . "_" . $page,
-                        ))
-                  ) {
-                        $torrents = $this->GlobalModel->getTorrentByCat(
-                              $catId,
-                              $perPage,
-                              $offset,
-                        );
-                        cache()->save(
-                              "TorrentByCat_" . $catId . "_" . $page,
-                              $torrents,
-                        );
-                  }
-            } else {
-                  if (!($torrents = cache("TorrentByCat_" . $page))) {
-                        $torrents = $this->GlobalModel->getAllTorrent(
-                              $perPage,
-                              $offset,
-                        );
-                        cache()->save("TorrentByCat_" . $page, $torrents);
-                  }
-            }
-
-            $pager_links = $pager->makeLinks($page, $perPage, $torCount);
-
-            if (!$torrents) {
-                  $no_torrents = true;
-            }
-
-            $siteTitle = $this->TorrConfig->siteTitle . " | " . $catName;
-
-            $this->breadcrumb->append(lang("Browse.allview"), "browse");
-
-            if ($url) {
-                  $this->breadcrumb->append($cat->name);
-            }
-
-            $data = [
-                  "breadcrumb" => $this->breadcrumb->output(),
-                  "page_title" => $siteTitle,
-                  "torList" => $torrents,
-                  "no_torrents" => $no_torrents,
-                  "pager_links" => $pager_links,
-            ];
-
-            $this->themes::render("browse_view", $data);
-      }
-
-      public function SearchView()
-      {
-            helper("number");
-            helper("torrent");
-            $pager = service("pager");
-            $where = "";
-
-            $str = $this->request->getGet("text");
-            $catId = (int) $this->request->getGet("cat");
-
-            if ($catId) {
-                  $where = " AND category = " . $catId . " ";
-            }
-
-            if ($str == "" || !$str) {
-                  return redirect()
-                        ->back()
-                        ->with("error", lang("Browse.nullstr"));
-            }
-
-            $sstr = $this->SearchModel->cleanString($str);
-            $arr = $this->SearchModel->StringToArray($sstr);
-            $where1 = $this->SearchModel->ArrayToSql($arr, ["name"]);
-            $where2 = $this->SearchModel->ArrayToSql($arr, ["descr"]);
-
-            if ($catId) {
-                  $where = " AND category = " . $catId . " ";
-                  $sql =
-                        "(" .
-                        $where1 .
-                        $where .
-                        ")" .
-                        " OR (" .
-                        $where2 .
-                        $where .
-                        ")";
-            } else {
-                  $sql = $where1 . " OR " . $where2;
-            }
-
-            $no_torrents = true;
-            $torr = [];
-            $obj = new \StdClass();
-
-            if ($this->DBDriver == "Postgre") {
-                  $sstr = str_replace(" ", ":*|", $sstr) . ":*";
-                  $sstr = pg_escape_string($sstr);
-
-                  if ($catId) {
-                        $sql = "to_tsvector(name) @@ to_tsquery('$sstr') AND category = $catId";
-                  } else {
-                        $sql = "to_tsvector(name) @@ to_tsquery('$sstr')";
-                  }
-            }
-            $torrents = $this->SearchModel
-                  ->asObject()
-                  //								->select('*')
-                  ->where(new RawSql($sql))
-                  ->orderBy("created_at", "DESC")
-                  ->paginate(setting("Torrent.torrentsPerPage"));
-
-            if ($torrents) {
-                  $no_torrents = false;
-            }
-
-            $siteTitle =
-                  $this->TorrConfig->siteTitle . " | " . lang("Browse.search");
-            $this->breadcrumb->append(
-                  lang("Browse.searchwhen") . ' "' . $str . '"',
-            );
-
-            foreach ($torrents as $arrkey => $value) {
-                  foreach ($torrents[$arrkey] as $key => $val) {
-                        if ($key == "name") {
-                              $obj->name = $this->highlightKeywords($val, $str);
-                              continue;
-                        }
-                        $obj->{$key} = $val;
-                  }
-                  $torr[$arrkey] = $obj;
-                  unset($obj);
-                  $obj = new \StdClass();
-            }
-
-            $data = [
-                  "breadcrumb" => $this->breadcrumb->output(),
-                  "page_title" => $siteTitle,
-                  "torList" => $torr,
-                  "no_torrents" => $no_torrents,
-                  "pager_links" => $this->SearchModel->pager
-                        ->only(["text", "order"])
-                        ->links(),
-                  "catId" => $catId,
-                  "searchString" => $str,
-            ];
-
-            $this->themes::render("search_view", $data);
-      }
-
-      private function highlightKeywords($text, $keyword)
-      {
-            $keyword = preg_replace("/[^\w\d\s\-_]+/ui", "", $keyword);
-
-            $wordsAry = explode(" ", $keyword);
-
-            $filteredArray = array_filter($wordsAry, function ($value) {
-                  return mb_strlen($value) >= 3;
-            });
-            $filteredArray = array_values($filteredArray);
-
-            $wordsCount = count($filteredArray);
-
-            for ($i = 0; $i < $wordsCount; $i++) {
-                  $text = preg_replace(
-                        "/(" . preg_quote($filteredArray[$i]) . "?[^\s]+)/iu",
-                        '<i class="text-danger">$1</i>',
-                        $text,
-                  );
-            }
-
-            return $text;
-      }
+		if ($torrents)
+		{
+			$no_torrents = false;
+		}
+		$siteTitle = $this->TorrConfig->siteTitle . " | " . lang("Browse.search");
+		$this->breadcrumb->append( lang("Browse.searchwhen") . ' ___PLACEHOLDER_58___', );
+		foreach ($torrents as $arrkey => $value)
+		{
+			foreach ($torrents[$arrkey] as $key => $val)
+			{
+				if ($key == "name")
+				{
+					$obj->name = $this->highlightKeywords($val, $str);
+					continue;
+				}
+				$obj->{$key} = $val;
+			}
+			$torr[$arrkey] = $obj;
+			unset($obj);
+			$obj = new \StdClass();
+		}
+		$data = [
+			"breadcrumb" => $this->breadcrumb->output(),
+			"page_title" => $siteTitle,
+			"torList" => $torr,
+			"no_torrents" => $no_torrents,
+			"pager_links" => $this->SearchModel->pager->only(["text", "order"])->links(),
+			"catId" => $catId, "searchString" => $str
+		];
+		$this->themes::render("search_view", $data);
+	}
+	
+	private function highlightKeywords($text, $keyword)
+	{
+		$keyword = preg_replace("/[^\w\d\s\-_]+/ui", "", $keyword);
+		$wordsAry = explode(" ", $keyword);
+		$filteredArray = array_filter($wordsAry, function ($value)
+		{
+			return mb_strlen($value) >= 3;
+		}
+		);
+		$filteredArray = array_values($filteredArray);
+		$wordsCount = count($filteredArray);
+		for ($i = 0; $i < $wordsCount; $i++)
+		{
+			$text = preg_replace( "/(" . preg_quote($filteredArray[$i]) . "?[^\s]+)/iu", '<i class=___PLACEHOLDER_75___>$1</i>', $text, );
+		}
+		return $text;
+	}
 }
