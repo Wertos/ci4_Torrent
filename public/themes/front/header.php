@@ -20,6 +20,7 @@
 		window.CI4 = {};
 		CI4.urihash = window.location.hash;
 	</script>
+	<?php Arifrh\Themes\Themes::renderCSS(); ?>
   </head>
   <body>
 			<div class="ms-1 page-header bg-primary text-center" id="banner">

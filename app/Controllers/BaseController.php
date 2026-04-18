@@ -123,7 +123,8 @@ abstract class BaseController extends Controller
     // Do Not Edit This Line
     // Preload any models, libraries, etc, here.
     parent::initController($request, $response, $logger);
-//    $this->cachePage(38400);
+    $this->cachePage(38400);
+    helper('minify');
     $this->setting = service("settings");
 
     $this->TorrConfig = config("Torrent");
@@ -179,13 +180,11 @@ abstract class BaseController extends Controller
 
     if ( $this->TorrConfig->minifyJs === TRUE )
     {
-        helper('minify');
 		$aryJs = JSMinify();
 	}
 
     if ( $this->TorrConfig->minifyCss === TRUE )
     {
-        helper('minify');
 		$aryCSS = CSSMinify();
 	}
  

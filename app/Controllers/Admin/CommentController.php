@@ -38,14 +38,15 @@ class CommentController extends \App\Controllers\AdminController
 
 		$sort = $this->request->getGet('sort');
 		$location = $this->request->getGet('location') ?? '';
-		$poster = $this->request->getGet('poster') ?? '';
+		$poster = (int) $this->request->getGet('poster') ?? '';
 		$today = str_contains($_SERVER['QUERY_STRING'], 'today') ? true : false;
-
+		$nid = (int) $this->request->getGet('nid') ?? null;
+		$tid = (int) $this->request->getGet('tid') ?? null;
 		$poster = $poster <= 0 ? 0 : (int) $poster;
 		$location = in_array($location, $location_fields) ? $location : '';
 
 //										$location $owner $today $limit $offset
-		$comments = $this->CommentModel->asObject()->getComments($location, $poster, $today, $perPage, $offset)->getPagination($perPage);
+		$comments = $this->CommentModel->asObject()->getComments($location, $poster, $today, $perPage, $offset, $nid, $tid)->getPagination($perPage);
 
 		$no_comments = false;
 
@@ -70,6 +71,7 @@ class CommentController extends \App\Controllers\AdminController
 			'location' => $location,
 			'poster' => ($poster) ? auth()->getProvider()->findById($poster)->username : '',
 			'page_title' => $siteTitle,
+			'selDisabled' => ($nid || $tid) ? 'disabled' : '',
 		];
 	
 		$this->themes::render('comments_list', $data);

@@ -37,7 +37,6 @@
 			</div>
 	  	</div>
 	</div>
-    <?php Arifrh\Themes\Themes::renderJS(); ?>
-    <?php Arifrh\Themes\Themes::renderCSS(); ?>
+	<?php Arifrh\Themes\Themes::renderJS(); ?>
   </body>
 </html>

@@ -71,7 +71,9 @@ class CommentModel extends GlobalAdminModel
 								int $owner,
 								int $today,
 								int $limit = 20,
-								int $offset = 0
+								int $offset = 0,
+								int $nid,
+								int $tid
 					)
 	{
    			$this->select('comments.id as cid, comments.user_id as cuid, comments.tid as ctid, comments.category as ccid,
@@ -107,6 +109,13 @@ class CommentModel extends GlobalAdminModel
 
 			if ($today) {
 				$this->where('comments.created_at >= ' . $this->sDate);
+			}
+
+			if ($nid || ($nid && $location === 'news')) {
+				$this->where('news.id = ' . $nid);
+			}
+			else if ($tid || ($tid && $location === 'torrent')) {
+				$this->where('torrents.id = ' . $tid);
 			}
 
 			$this->orderBy('comments.created_at', 'DESC');

@@ -21,7 +21,7 @@
     <tr>
     	<td scope="col" class="col-2 pb-3">
 			<label for="filterByStatus"><?= lang('Comment.by_material') ?></label>
-			<select class="form-select form-select-sm" id="filterByMaterial" aria-label="">
+			<select <?= $selDisabled; ?> class="form-select form-select-sm" id="filterByMaterial" aria-label="">
 				<option <?= ($location == null) ? 'selected' : ''?> disabled value="-" class=""><?= lang('Comment.by_material') ?></option>
 				<?php foreach ($location_fields as $loc) : ?>
 					<option <?= ($loc == $location) ? 'selected' : ''?> value="<?= $loc; ?>"><?= lang('Comment.by_material.'.$loc); ?></option>
@@ -76,7 +76,7 @@
 				$id = ($comment->clocate == 'news') ? $comment->nid : $comment->tid;
 				$title = ($comment->clocate == 'news') ? $comment->ntitle : $comment->ttitle;
 				$url = ($comment->clocate == 'news') ? $comment->nurl : $comment->turl;
-				$fltr = ($comment->clocate == 'news') ? '?news='.$id : '?torrent='.$id;
+				$fltr = ($comment->clocate == 'news') ? '?location=news&nid='.$id : '?location=torrent&tid='.$id;
             ?>
   			<a class="me-2" data-bs-toggle="tooltip" data-bs-title="<?= lang('Comment.by_topic'); ?>" href="<?= base_url('admin/comments' . $fltr); ?>"><i class="text-secondary-emphasis fa-solid fa-magnifying-glass"></i></a>
   			<a target="_blank" data-bs-toggle="tooltip" data-bs-title="<?= $title; ?>" href="<?= base_url($comment->clocate . '/' . $id . '-' . $url); ?>">
