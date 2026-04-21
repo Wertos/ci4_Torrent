@@ -8,14 +8,15 @@
 	<div class="card-body">
 		<?= form_open_multipart('torrent/edit/' . $details->id); ?>
   	  <!-- Torrent File -->
-<!--
-	    <div class="mb-4">
-	    	<label for="floatingFileInput"><?= lang('Torrent.file') ?></label>
-			<input type="file" class="form-control form-control-lg" id="floatingFileInput" name="torrentfile" accept=".torrent" />
+		<div class="mb-4 alert alert-primary w-100">
+			<a onClick="$(this).parent('div').addClass('d-none'); $('#torrUpl').removeClass('d-none');" class="fs-6 fw-semibold" href="javascript:void(0);"><i class="bi bi-upload pe-2"></i><?= lang('Torrent.newTorrFile'); ?></a>
 		</div>
--->
+		<div class="mb-4 d-none" id="torrUpl">
+	    	<label for="torrInpUpl"><?= lang('Torrent.file') ?></label>
+			<input data-tid="<?= $details->id; ?>" type="file" class="form-control form-control-lg" id="torrInpUpl" name="torrentfile" accept=".torrent" />
+		</div>
 			<!-- torrent Name -->
-  	  <div class="form-floating mb-4">
+		<div class="form-floating mb-4">
 			<input value="<?= $details->name; ?>" type="text" class="form-control" id="floatingTitleInput" name="name" inputmode="text" placeholder="<?= lang('Torrent.title') ?>" required />
 			<label for="floatingTitleInput"><?= lang('Torrent.title') ?></label>
     		<small class="small ms-1 d-block"><?= lang('Torrent.titledesc', ['255']); ?></small>

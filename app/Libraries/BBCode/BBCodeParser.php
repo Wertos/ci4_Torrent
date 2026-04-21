@@ -50,7 +50,6 @@ class BBCodeParser {
             "pattern" => "/\[center\](.*?)\[\/center\]/siu", 
             "replace" => "<div style=\"width: 100%; text-align:center;\">$1</div>",
         ),
-
         'quote' => array(
             "pattern" => "/\[quote\](.*?)\[\/quote\]/siu", 
             "replace" => "<div class=\"blockquote\">$1</div>",

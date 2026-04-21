@@ -327,6 +327,44 @@ $('#uploadposter').click(function(e) {
 		return false;
 });
 
+$("input#torrInpUpl").on('change',function(){
+	url = '/ajax/torrupload';
+	action = 'torrupload';
+	tid = $(this).data('tid');
+    const fileInput = document.querySelector('input#torrInpUpl');
+	const file = fileInput.files[0];
+    const formData = new FormData();
+    const ext = file.name.substring(file.name.lastIndexOf('.') + 1);
+    if(!file || ext !== 'torrent') {
+    	alert('File not selected or not torrent file !');
+    	return false;
+    }
+    formData.append('torrentfile', file);
+    formData.append('action', action);
+    formData.append('tid', tid);
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: formData,
+		cache: false,
+		contentType: false,
+		processData: false,
+	})
+ 	.done(function( data ) {
+		if(data.error) {
+			alert(JSON.stringify(data.error));
+			return false;
+		}
+		$('#torrUpl').addClass('alert alert-success fw-semibold').html('<i class="bi bi-check-all pe-2"></i>'+data.inf);
+	})
+	.fail(function( response ) {
+		alert(JSON.stringify(response));
+	});
+	return false;
+});
+
+
+
 $('#captcha').click(function() {
 	url = '/ajax/updatecaptcha';
 	$.post( url, { 

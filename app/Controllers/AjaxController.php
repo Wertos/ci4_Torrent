@@ -75,6 +75,7 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->ReportModel = model(ReportModel::class);
       			break;
 				case 'posterupload':
+				case 'torrupload':
       				$this->TorrentModel = model(TorrentModel::class);
       			break;
 				case 'userdata':
@@ -380,6 +381,86 @@ class AjaxController extends \App\Controllers\BaseController
   		$data['action'] = (string) $this->request->getPost('action');
   		
   		return $this->_AjaxSend($data); die();
+	}
+
+	public function TorrUpload()
+	{
+	  	if(! $this->userData->logged_in)
+  					throw PageNotFoundException::forPageNotFound();
+
+		$validation = service("validation");
+		$rules = $this->TorrentModel->validationRules['torrentfile'];
+		unset($rules['label']);
+        $file = $this->request->getFile('torrentfile'); // 'userfile' is the name attribute of your input file field
+        $tId = (int) $this->request->getPost('tid');
+        $path = setting('Torrent.TorrentFilesPath');
+		if(! $file) {
+        	$data = ['error' => lang('Torrent.filenotfound')];
+            return $this->_AjaxSend($data); die();
+		}
+        if($tId > 0)
+	        $oldtName = $this->TorrentModel->getFileName($tId);
+        if(! $oldtName) {
+        	$data = ['error' => lang('Torrent.notfound')];
+            return $this->_AjaxSend($data); die();
+        }
+        if(! $this->userData->can_upload) {
+        	$data = ['error' => lang('Torrent.uploadforbidden')];
+            return $this->_AjaxSend($data); die();
+        }
+		if (!$this->validateData([$file], $rules))
+		{
+//			var_dump($this->validator->getErrors());
+        	$data = ['error' => lang('Torrent.nottorrent')];
+            return $this->_AjaxSend($data); die();
+		}
+		unset($data);
+		$torrName = $file->getRandomName();
+		$torrPath = $file->store(setting("Torrent.TorrentUploadPath"), $torrName);
+		if (file_exists(setting("Torrent.TorrentFilesPath").$torrName)) {
+			//unlink(setting("Torrent.TorrentFilesPath").$oldtName->file_name);
+		}
+		$torrent = $this->TorrentModel->torrLoad(setting("Torrent.TorrentFilesPath"), $torrName);
+		$torrHashes = $torrent->getInfoHashes(TRUE);
+		$torrVersion = $torrent->getVersion();
+		$data = [
+			"numfiles" => $torrent->getFilesCount(),
+			"size" => $torrent->getSize(),
+			"type" => $torrent->isPrivate() ? 1 : 0,
+			"magnet" => $torrent->getMagnet(),
+			"file" => setting("Torrent.allowUploadTorrent") === true && $torrPath ? 1 : 0,
+			"file_name" => $torrName,
+			"version" => $torrVersion,
+			"updated_at" => Time::now( setting("App.appTimezone"), )->toDateTimeString(),
+			"modded" => ($this->userData->is_superadmin || $this->userData->is_admin || $this->userData->is_moderator) ? 1 : 0,
+			"views" => 0,
+			"downloaded" => 0,
+			"seed" => 0,
+			"leech" => 0,
+			"completed" => 0,
+			"updated_peer" => NULL
+		];
+		if ($torrVersion == 1)
+		{
+			$data["infohash_v1"] = $torrHashes[1];
+			$data["infohash_v2"] = null;
+			$id = $this->TorrentModel->update($tId, $data);
+		}
+		elseif ($torrVersion == 2)
+		{
+			$data["infohash_v2"] = $torrHashes[2];
+			$data["infohash_v1"] = null;
+			$id = $this->TorrentModel->update($tId, $data);
+		}
+		elseif ($torrVersion == 3)
+		{
+			$data["infohash_v1"] = $torrHashes[1];
+			$data["infohash_v2"] = $torrHashes[2];
+			$id = $this->TorrentModel->update($tId, $data);
+		}
+		unset($data["infohash_v1"], $data["infohash_v2"]);
+		$data["inf"] = lang('Torrent.NewFileUpload');
+		return $this->_AjaxSend($data); die();
 	}
 
 	public function PosterUpload()

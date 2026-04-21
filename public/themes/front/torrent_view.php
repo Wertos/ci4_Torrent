@@ -163,6 +163,8 @@
     </table>
 	</div>
 </div>
+<!--<?= $torrComment; ?>
+<?= $torrCreatedBy; ?>-->
 <?php 
   if (setting('Torrent.commenEnable')) :
 	if($details->can_comment && $userdata->can_comment) :

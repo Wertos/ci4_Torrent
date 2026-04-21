@@ -18,7 +18,8 @@ class TorrentModel extends Model {
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
 //    protected $allowedFields    = ['owner','infohash_v1','infohash_v2','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name'];
-    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile','seed','leech','completed','updated_peer'];
+    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile','seed','leech','completed','updated_peer','downloaded','views'];
+//																																                                                               "views" "downloaded" "seed"	"leech"	"completed"	"updated_peer"
 
     // Dates
     protected $useTimestamps = true;
@@ -131,7 +132,7 @@ class TorrentModel extends Model {
 		public function getInfoHashes (bool $binary = false)
 		{
 				//return $this->torrent->v2()?->getInfoHash($binary) ?? $this->torrent->v1()?->getInfoHash($binary);
-				return $this->torrent->getInfoHashes();
+				return $this->torrent->getInfoHashes($binary);
 		}
 
 		public function getVersion(): int

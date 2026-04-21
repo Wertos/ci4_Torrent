@@ -90,6 +90,8 @@ class TorrentController extends BaseController
 		$data = [
 			"hash_v1" => $this->TorrentModel->hashToString( $torrentData->infohash_v1 ),
 			"hash_v2" => $this->TorrentModel->hashToString( $torrentData->infohash_v2 ),
+			"torrComment" => $this->TorrentModel->getComment(),
+			"torrCreatedBy" => $this->TorrentModel->getCreatedBy(),
 			"ogimage" => $torrentData->poster,
 			"bbcode" => new BBCodeParser(),
 			"icon" => $status["icon"],
@@ -239,7 +241,7 @@ class TorrentController extends BaseController
 		}
 		$torrFile = $this->request->getFile("torrentfile");
 		$torrName = $torrFile->getRandomName();
-		$torrPath = $torrFile->store( setting("Torrent.TorrentUploadPath"), $torrName, );
+		$torrPath = $torrFile->store(setting("Torrent.TorrentUploadPath"), $torrName);
 		$this->torrent = $this->TorrentModel->torrLoad( setting("Torrent.TorrentFilesPath"), $torrName, );
 		$torrHashes = $this->torrent->getInfoHashes();
 		$torrVersion = $this->torrent->getVersion();
@@ -262,7 +264,7 @@ class TorrentController extends BaseController
 			"created_at" => Time::now( setting("App.appTimezone") )->toDateTimeString(),
 			"updated_at" => Time::now( setting("App.appTimezone"), )->toDateTimeString()
 		];
-		$arr = $this->TorrentModel->torrCheck( $torrVersion, isset($torrHashes[1]) ? $torrHashes[1] : null, isset($torrHashes[2]) ? $torrHashes[2] : null, );
+		$arr = $this->TorrentModel->torrCheck( $torrVersion, isset($torrHashes[1]) ? $torrHashes[1] : null, isset($torrHashes[2]) ? $torrHashes[2] : null);
 		if ($torrVersion == 1)
 		{
 			$data["infohash_v1"] = $arr["hash1"];

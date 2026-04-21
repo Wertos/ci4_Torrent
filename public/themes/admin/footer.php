@@ -4,8 +4,7 @@
         <!-- main content end -->
         <!-- footer start -->
         <footer class="bg-light shadow text-secondary text-center d-flex flex-column flex-md-row justify-content-between p-3 p-md-4">
-          <div>Copyright &copy; 2022 <a href="https://dcodemania.com">DCodeMania</a></div>
-          <div>Made with ❤️ in India</div>
+          <div>Copyright &copy; 2022</div>
         </footer>
         <!-- footer end -->
       </div>

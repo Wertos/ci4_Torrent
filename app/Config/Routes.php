@@ -72,6 +72,7 @@ $routes->post('ajax/commentdelete/(:num)',		'AjaxController::CommentDelete/$1');
 $routes->post('ajax/ajaxpag',					'AjaxController::AjaxPag');
 $routes->post('ajax/addreport',					'AjaxController::AddReport');
 $routes->post('ajax/posterupload',				'AjaxController::PosterUpload');
+$routes->post('ajax/torrupload',				'AjaxController::TorrUpload');
 $routes->post('ajax/usertorrents',				'AjaxController::getUserTorrents');
 $routes->post('ajax/usercomments',				'AjaxController::getUserComments');
 $routes->post('ajax/userbookmarks',				'AjaxController::getUserBookMarks');
