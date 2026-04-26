@@ -203,22 +203,22 @@ CI4.GetProfileData = function(userid, event, direction = '') {
 }
 
 if ( CI4.urihash == '#torrents'
-	 ||  CI4.urihash == '#comments'
-	 || CI4.urihash == '#bookmarks' )
+	||  CI4.urihash == '#comments'
+	|| CI4.urihash == '#bookmarks' )
 {
 	const anchor = window.location.hash;
 	var el = document.querySelector(anchor+'-tab'); // theTabID of the tab you want to open
 	var tab = new bootstrap.Tab(el);
 	tab.show();
-  var event = $(el.getAttribute('data-bs-target')).attr('id').replace('#', '');
-  var userid = el.getAttribute('data-user-id');
-		if (event != 'profile') {
-			$('#'+event).attr('data-offset', 0);
-			CI4.GetProfileData(userid, event, '');
-		}
+	var event = $(el.getAttribute('data-bs-target')).attr('id').replace('#', '');
+	var userid = el.getAttribute('data-user-id');
+	if (event != 'profile') {
+		$('#'+event).attr('data-offset', 0);
+		CI4.GetProfileData(userid, event, '');
+	}
 }
 
-$('[data-bs-toggle="tab"]').bind('click', function() {
+$('.profile-tab [data-bs-toggle="tab"]').bind('click', function() {
   if($(this).hasClass('disabled')) return false;
   var event = $(this).attr('data-bs-target').replace('#', '');
   var userid = $(this).attr('data-user-id');
@@ -291,11 +291,47 @@ CI4.AddReport = function(id, type) {
 		});
 }
 
+$('#uploadurlposter').click(function(e) {
+	const url = '/ajax/posterurlupload';
+	const action = 'posterurlupload';
+	const posterUrl = $('#urlPosterInput').val();
+	const formData = new FormData();
+
+	if ( !isValidUrl(posterUrl) ) {
+		alert("Not valid URL");
+		return false;
+	}
+    formData.append('imgurl', posterUrl);
+    formData.append('action', action);
+
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: formData,
+		cache: false,
+		contentType: false,
+		processData: false,
+	})
+ 	.done(function( data ) {
+ 		if(data.error) {
+ 			alert(JSON.stringify(data.error));
+			return false;
+		}
+ 		$('#posterTabs, #posterTab').remove();
+ 		$('p#posterPrewiev').html(data.img);
+  		$('input#posterInput').val(data.filename);
+	})
+ 	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+	});
+	return false;
+});
+
 $('#uploadposter').click(function(e) {
-		url = '/ajax/posterupload';
-		action = 'posterupload';
-    const fileInput = document.querySelector('input#floatingPosterInput');
-		const file = fileInput.files[0];
+	url = '/ajax/posterupload';
+	action = 'posterupload';
+    const fileInput = document.querySelector('input#filePosterInput');
+	const file = fileInput.files[0];
     const formData = new FormData();
     if(!file) {
     	alert('File not selected !');
@@ -304,27 +340,27 @@ $('#uploadposter').click(function(e) {
     //return false;
     formData.append('poster', file);
     formData.append('action', action);
-		$.ajax({
-			 type: 'POST',
-			 url: url,
-       data: formData,
-       cache: false,
-       contentType: false,
-       processData: false,
-		})
- 		.done(function( data ) {
- 				if(data.error) {
- 					alert(JSON.stringify(data.error));
- 					return false;
- 				}
- 				$('#posterUpload input[type="file"], #posterUpload button').remove();
- 				$('#posterUpload p').html(data.img);
-  			$('#posterUpload input:hidden').val(data.filename);
- 		})
- 		.fail(function( response ) {
-    		alert(JSON.stringify(response));
-		});
-		return false;
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: formData,
+		cache: false,
+		contentType: false,
+		processData: false,
+	})
+ 	.done(function( data ) {
+ 		if(data.error) {
+ 			alert(JSON.stringify(data.error));
+			return false;
+		}
+ 		$('#posterTabs, #posterTab').remove();
+ 		$('p#posterPrewiev').html(data.img);
+  		$('input#posterInput').val(data.filename);
+	})
+ 	.fail(function( response ) {
+    	alert(JSON.stringify(response));
+	});
+	return false;
 });
 
 $("input#torrInpUpl").on('change',function(){
@@ -363,8 +399,6 @@ $("input#torrInpUpl").on('change',function(){
 	return false;
 });
 
-
-
 $('#captcha').click(function() {
 	url = '/ajax/updatecaptcha';
 	$.post( url, { 
@@ -385,7 +419,7 @@ $('#captcha').click(function() {
 
 $('#TorPreview').on('click', function() {
 	url = '/ajax/torrpreview';
-	poster = $('#floatingPosterInput').val();
+	poster = $('#posterInput').val();
 	text = $('#floatingDescInput').val();
 	if ( !isValidUrl(poster) || !text) {
 		return false;

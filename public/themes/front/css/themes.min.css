@@ -1,8 +1,7 @@
 body {
-    font-family: "Segoe UI Regular", "Segoe UI", "Segoe WP", "Helvetica Neue", sans-serif;
-/*	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", Sans-Serif, Georgia, Courier, "Times New Roman", Serif;*/
-	font-size: 13px;
-    line-height: 1.428571429;*/
+	font-family: "Inter", -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 14px;
+    line-height: 1.428571429;
 	-webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

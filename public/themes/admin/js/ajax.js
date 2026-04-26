@@ -202,6 +202,10 @@ CI4_Admin.Rebuild = function(type) {
 		url = '/admin/rebuild';
 		$.post( url, { type : type, action: "Rebuild" })
 			.done(function( data ) {
+				if(data.error) {
+  					alert(data.error);
+	  				return false;
+  				}
 				alert(data.text);
 			})
 			.fail(function( response ) {

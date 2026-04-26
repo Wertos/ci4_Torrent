@@ -183,12 +183,12 @@
             <div class="fw-bold text-secondary d-md-none d-block"><?= lang('Admin.AdminHome'); ?></div>
 
 <div class="text-center">
-  <button onClick="CI4_Admin.Rebuild('css'); return false;" type="button" class="btn btn-outline-danger btn-sm">
+  <button <?= $minifyCss ? '' : 'disabled'; ?> onClick="CI4_Admin.Rebuild('css'); return false;" type="button" class="btn btn-outline-danger btn-sm">
   	<i class="fa-solid fa-rotate me-1"></i>
   	<i class="fa-brands fa-css3 me-1"></i>
     <b><?= lang('Admin.RebuildCSS'); ?></b>
   </button>
-  <button onClick="CI4_Admin.Rebuild('js'); return false;" type="button" class="btn btn-outline-danger btn-sm">
+  <button <?= $minifyJs ? '' : 'disabled'; ?> onClick="CI4_Admin.Rebuild('js'); return false;" type="button" class="btn btn-outline-danger btn-sm">
   	<i class="fa-solid fa-rotate me-1"></i>
   	<i class="fa-brands fa-js me-1"></i>
     <b><?= lang('Admin.RebuildJS'); ?></b>

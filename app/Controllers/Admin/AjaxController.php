@@ -368,7 +368,7 @@ class AjaxController extends \App\Controllers\AdminController
     $type = $this->request->getPost('type');
     $config = config("Torrent");
 
-    if ( $type === 'js' )
+    if ( $type === 'js' && $config->minifyJs === true )
     {
 	    $minInlineJs = '';
         $jsPath = $config->fullThemePath . $config->js_path . DIRECTORY_SEPARATOR;
@@ -380,9 +380,10 @@ class AjaxController extends \App\Controllers\AdminController
 	    }
 		file_put_contents($minifyJsFileName, $minInlineJs);
 		return $this->_AjaxSend(['text' => lang('Admin.JSRebuildComplete')]); die();
+	} else if ( $type === 'js' ) {
+		return $this->_AjaxSend(['error' => lang('Admin.JSRebuildOFF')]); die();	
 	}
-    
-    if ( $type === 'css' )
+    if ( $type === 'css' && $config->minifyCss === true )
     {
 	    $minInlineCss = '';
         $cssPath = $config->fullThemePath . $config->css_path . DIRECTORY_SEPARATOR;
@@ -397,6 +398,8 @@ class AjaxController extends \App\Controllers\AdminController
 	    }
 		file_put_contents($minifyCssFileName, $minInlineCss);
 		return $this->_AjaxSend(['text' => lang('Admin.CSSRebuildComplete')]); die();
+	} else if ( $type === 'css' ) {
+		return $this->_AjaxSend(['error' => lang('Admin.CSSRebuildOFF')]); die();	
 	}
 	die();
   }

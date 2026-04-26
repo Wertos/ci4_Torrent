@@ -54,6 +54,7 @@ $routes->get('admin/comments/del/',				'Admin\CommentController::CommentsDelete'
 
 $routes->get('admin/torrents',					'Admin\TorrentController::TorrList');
 $routes->get('admin/torrents/del/(:num)',		'Admin\TorrentController::dellTorr/$1');
+$routes->get('admin/service',					'Admin\ServiceController::OrphanedTorrents');
 
 $routes->get('mod/torrents/',					'ModController::UncheckView');
 //$routes->get('admin/comments/del/(:num)',		'Admin\CommentController::CommentsDelete/$1');
@@ -72,6 +73,7 @@ $routes->post('ajax/commentdelete/(:num)',		'AjaxController::CommentDelete/$1');
 $routes->post('ajax/ajaxpag',					'AjaxController::AjaxPag');
 $routes->post('ajax/addreport',					'AjaxController::AddReport');
 $routes->post('ajax/posterupload',				'AjaxController::PosterUpload');
+$routes->post('ajax/posterurlupload',			'AjaxController::PosterUrlUpload');
 $routes->post('ajax/torrupload',				'AjaxController::TorrUpload');
 $routes->post('ajax/usertorrents',				'AjaxController::getUserTorrents');
 $routes->post('ajax/usercomments',				'AjaxController::getUserComments');

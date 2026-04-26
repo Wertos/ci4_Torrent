@@ -44,6 +44,8 @@
         <h6 class="card-title mb-3 d-inline">
             <?= $details->name ?>
         </h6>
+        <hr class="clearfix w-100">
+        <h5>KP:</h5> <?= $details->kp_rating; ?>
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">
         	<div id="torrstatus">
         		<?= $icon; ?>

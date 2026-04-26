@@ -46,7 +46,7 @@ class CommentController extends \App\Controllers\AdminController
 		$location = in_array($location, $location_fields) ? $location : '';
 
 //										$location $owner $today $limit $offset
-		$comments = $this->CommentModel->asObject()->getComments($location, $poster, $today, $perPage, $offset, $nid, $tid)->getPagination($perPage);
+		$comments = $this->CommentModel->asObject()->getComments($location, $poster, $today, $nid, $tid, $perPage, $offset)->getPagination($perPage);
 
 		$no_comments = false;
 

@@ -115,7 +115,8 @@ abstract class AdminController extends Controller
 				$this->themes = Themes::init($this->TorrConfig)->setTheme('admin')
 								->addCSS(['bootstrap.min.css', 'main.css', 'all.min.css'])
 								->addJS(['jquery-4.0.0.min.js', 'bootstrap.bundle.min.js', 'main.js', 'ajax.js'])
-								->setVar(['userdata' => $this->userData]);
+								->setVar(['userdata' => $this->userData])
+								->setVar(['minifyJs' => $this->TorrConfig->minifyJs, 'minifyCss' => $this->TorrConfig->minifyCss]);
 
         // E.g.: $this->session = service('session');
 

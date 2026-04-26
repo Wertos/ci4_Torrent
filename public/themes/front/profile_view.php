@@ -1,6 +1,6 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
 
-<ul class="nav nav-pills flex-column flex-sm-row border-bottom border-primary border-3" role="tablist" id="userTabs">
+<ul class="profile-tab nav nav-pills flex-column flex-sm-row border-bottom border-primary border-3" role="tablist" id="userTabs">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" data-user-id="<?= $user->id; ?>" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile"><?= lang('Profile.profile'); ?></button>
   </li>
@@ -24,7 +24,7 @@
 						<div id="delavatar" onClick="CI4.delAvatar();" title="<?= lang('Profile.avatarDelete'); ?>" class="clickable position-absolute" style="top:10px;left:10px;"><i class="bi bi-x-circle fs-2 fw-bold text-danger"></i></div>
 					<?php endif ; ?>
 				</div>
-      </div>
+			</div>
 			<div class="col-7">
  				<h6 class="d-inline"><?= lang('Profile.username'); ?></h6>
 				<h5 class="d-inline ms-4 float-end me-5"><?= $user->username; ?></h5>

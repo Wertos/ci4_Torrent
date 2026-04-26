@@ -65,9 +65,7 @@ class TorrentController extends \App\Controllers\AdminController
 			$message[] = '<div class="alert alert-danger d-flex align-items-center"><i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;'.lang('Torrent.bokdelete.error').'</div>';
 		}
 //		var_dump($message); die();	
-		return redirect()
-				->back()
-					->with('messages', $message);
+		return redirect()->back()->with('messages', $message);
 
 	}
 	public function TorrList(?int $catId = null, ?int $statusId = null, ?int $owner = null,)
@@ -94,7 +92,7 @@ class TorrentController extends \App\Controllers\AdminController
 		$catId = $catId <= 0 ? 0 : (int) $catId;
 		$owner = $owner <= 0 ? 0 : (int) $owner;
 
-		$torrents = $this->TorrModel->asObject()->getTorrents($catId, $statusId, $owner, $today, $perPage, $offset)->getPagination($perPage);
+		$torrents = $this->TorrModel->asObject()->getTorrents($catId, $owner, $today, $statusId, $perPage, $offset)->getPagination($perPage);
 
 		if(!$torrents['torrents'])
 		{

@@ -7,6 +7,15 @@
  	<h6 class="card-header py-3"><?= lang('Torrent.editTorrent'); ?></h6>
 	<div class="card-body">
 		<?= form_open_multipart('torrent/edit/' . $details->id); ?>
+  	  <!-- Torrent Category -->
+	    <div class="mb-4">
+				<select name="category" class="form-select" aria-label="<?= lang('Torrent.category'); ?>" required />
+				  <option disabled><?= lang('Torrent.category'); ?></option>
+				<?php foreach ($catlist as $cat) :?>
+					<option <?= ($details->category == $cat->id) ? 'selected' : '' ; ?> value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
+				<?php endforeach; ?>
+				</select>
+  	  </div>
   	  <!-- Torrent File -->
 		<div class="mb-4 alert alert-primary w-100">
 			<a onClick="$(this).parent('div').addClass('d-none'); $('#torrUpl').removeClass('d-none');" class="fs-6 fw-semibold" href="javascript:void(0);"><i class="bi bi-upload pe-2"></i><?= lang('Torrent.newTorrFile'); ?></a>
@@ -33,15 +42,6 @@
     	  	<label for="floatingDescInput"><?= lang('Torrent.description') ?></label>
 			<?php include "widget/bbcode.php"; ?>
 			<textarea data-editor name="descr" class="form-control" id="floatingDescInput" rows="3" style="height: 300px;" required /><?= $details->descr; ?></textarea>
-  	  </div>
-  	  <!-- Torrent Category -->
-	    <div class="mb-4">
-				<select name="category" class="form-select" aria-label="<?= lang('Torrent.category'); ?>" required />
-				  <option disabled><?= lang('Torrent.category'); ?></option>
-				<?php foreach ($catlist as $cat) :?>
-					<option <?= ($details->category == $cat->id) ? 'selected' : '' ; ?> value="<?= $cat->id; ?>"><?= $cat->name; ?></option>				
-				<?php endforeach; ?>
-				</select>
   	  </div>
 			<hr />
 			<div class="form-check form-switch">

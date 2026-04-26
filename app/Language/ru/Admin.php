@@ -15,6 +15,8 @@ return [
     // Exceptions
     'RebuildCSS' => 'Обновить стили',
     'RebuildJS' => 'Обновить яваскрипты',
+    'CSSRebuildOFF' => 'Сжатие CSS файлов отключено !',
+    'JSRebuildOFF' => 'Сжатие JS файлов отключено !',
     'JSRebuildComplete' => 'Кеш яваскрипт обновлён.',
     'CSSRebuildComplete' => 'Кеш CSS обновлён.',
 	'FullScreen'=>	'Полный экран',

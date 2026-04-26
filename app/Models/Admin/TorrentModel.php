@@ -91,9 +91,9 @@ class TorrentModel extends GlobalAdminModel
     }
 
     public function getTorrents(int $catId,
-								?int $statusId = null,
 								int $owner,
 								int $today,
+								?int $statusId = null,
 								int $limit = 20,
 								int $offset = 0
 					)

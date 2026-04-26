@@ -75,6 +75,7 @@ class AjaxController extends \App\Controllers\BaseController
       				$this->ReportModel = model(ReportModel::class);
       			break;
 				case 'posterupload':
+				case 'posterurlupload':
 				case 'torrupload':
       				$this->TorrentModel = model(TorrentModel::class);
       			break;
@@ -463,6 +464,93 @@ class AjaxController extends \App\Controllers\BaseController
 		return $this->_AjaxSend($data); die();
 	}
 
+	public function PosterUrlUpload()
+	{
+	  	if(! $this->userData->logged_in)
+  					throw PageNotFoundException::forPageNotFound();
+
+		$validation = service("validation");
+        $urlImg = $this->request->getPost('imgurl');
+        $path = setting('Torrent.posterUploadPath');
+        $image = service('image');
+		$options = [
+			'user_agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0',
+			'timeout' => 5,
+		];
+        
+        $client = service('curlrequest', $options);
+
+        if(! $this->userData->can_upload) {
+        	$data = ['error' => lang('Torrent.cannotuploadposter')];
+            return $this->_AjaxSend($data); die();
+        }
+
+		if (filter_var($urlImg, FILTER_VALIDATE_URL) === FALSE) {
+        	$data = ['error' => lang('Torrent.notValidPosterUrl')];
+            return $this->_AjaxSend($data); die();
+		}
+		
+		$response = $client->get($urlImg);
+       	
+       	if ( $response->getStatusCode() !== 200 ) {
+        	$data = ['error' => lang('Torrent.notConnect')];
+            return $this->_AjaxSend($data); die();
+       	}
+        
+		$imgSize = $response->getHeaderLine('Content-Length');
+		$imgType = $response->getHeaderLine('Content-Type');
+
+		$ext = mb_strtolower(pathinfo($urlImg, PATHINFO_EXTENSION));
+		$name = mb_strtolower(pathinfo($urlImg, PATHINFO_FILENAME));
+
+		if (mb_strpos($imgType, 'image/') !== 0) {
+        	$data = ['error' => lang('Torrent.falseExt')];
+            return $this->_AjaxSend($data); die();
+		}
+
+		if ( $imgSize > 512000 ) {
+        	$data = ['error' => lang('Torrent.imgTooBig')];
+            return $this->_AjaxSend($data); die();
+		}
+
+		$filedata = $response->getBody();
+
+		$imgfile = $path . $name . '.' . $ext;
+
+		if( $filedata != '' ) {
+			$wrResult = file_put_contents($imgfile, $filedata);
+			if ( $wrResult === false ) {
+				$data = ['error' => lang('Torrent.fileWriteError')];
+				return $this->_AjaxSend($data); die();
+			}
+		}
+		$file = new \CodeIgniter\Files\File($imgfile, true);
+		$fileMime = $file->getMimeType();
+
+		if (mb_strpos($fileMime, 'image/') !== 0) {
+        	$data = ['error' => lang('Torrent.imgInvalidMime')];
+            return $this->_AjaxSend($data); die();
+		}
+		$newName = $file->getRandomName(); 
+		$file->move($path, $newName);
+
+		if(setting('Torrent.convertPoster') && $ext !== 'webp') {
+			$newExt = 'webp';
+			$fname = str_ireplace($ext, $newExt, $newName);
+			$result = $image->withFile($path . $newName)->convert(IMAGETYPE_WEBP)->save($path . $fname);
+			if($result) {
+				unlink($path . $newName);
+				$data['error'] = '';
+			} else {
+				$data['error'] = 'error convert image';
+			}	
+		}
+  		$newpath = str_ireplace(FCPATH, BASE . DIRECTORY_SEPARATOR, $path);
+  		$data['filename'] = str_ireplace('\\', '/', $newpath . $fname);
+  		$data['img'] = img(['src' => $data['filename'], 'width' => '200px']);
+  		return $this->_AjaxSend($data); die();
+	}
+	
 	public function PosterUpload()
 	{
 	  	if(! $this->userData->logged_in)
@@ -476,30 +564,27 @@ class AjaxController extends \App\Controllers\BaseController
         	$data = ['error' => lang('Torrent.cannotuploadposter')];
             return $this->_AjaxSend($data); die();
         }
-        $rules = $this->TorrentModel->validationRules;
-        if (! $this->validateData([], $rules['poster'])) {
-            $data = ['error' => $this->validator->getErrors()];
+        $rules = $this->TorrentModel->validationFilePoster;
+        if (! $this->validateData([], $rules)) {
+            $data = ['error' => $this->validator->getError()];
             return $this->_AjaxSend($data); die();
         }
         if ($file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName(); 
             $file->move($path, $newName);
-				}
-				if(setting('Torrent.convertPoster')) {
-					$ext = pathinfo($newName, PATHINFO_EXTENSION);
-					$newExt = 'webp';
-					$fname = str_ireplace($ext, $newExt, $newName);
-					$result = $image
-					    ->withFile($path . $newName)
-						  ->convert(IMAGETYPE_WEBP)
-					    ->save($path . $fname);				
-					if($result) {
-						unlink($path . $newName);
-						$data['error'] = '';
-					} else {
-						$data['error'] = 'error convert image';
-					}	
-				}
+		}
+		if(setting('Torrent.convertPoster')) {
+			$ext = pathinfo($newName, PATHINFO_EXTENSION);
+			$newExt = 'webp';
+			$fname = str_ireplace($ext, $newExt, $newName);
+			$result = $image->withFile($path . $newName)->convert(IMAGETYPE_WEBP)->save($path . $fname);
+			if($result) {
+				unlink($path . $newName);
+				$data['error'] = '';
+			} else {
+				$data['error'] = 'error convert image';
+			}	
+		}
   		$newpath = str_ireplace(FCPATH, BASE . DIRECTORY_SEPARATOR, $path);
   		$data['filename'] = str_ireplace('\\', '/', $newpath . $fname);
   		$data['img'] = img(['src' => $data['filename'], 'width' => '200px']);

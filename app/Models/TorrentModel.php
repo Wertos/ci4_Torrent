@@ -46,10 +46,10 @@ class TorrentModel extends Model {
             'label' => 'Torrent.category',
             'rules' => ['required','numeric'],
         ],
-        'poster' => [
-            'label' => 'Torrent.poster',
-            'rules' => ['max_length[254]','valid_url'],
-        ],
+		'poster' => [
+			'label' => 'Torrent.poster',
+			'rules' => ['max_length[254]','valid_url'],
+       	],
 //		'magnet' => ['rules' => ['string']],
 //		'url' => ['rules' => ['string']],
 //		'file' => ['rules' => ['numeric']],
@@ -67,6 +67,17 @@ class TorrentModel extends Model {
 //		'infohash_v1' => ['rules' => ['string']],
 //		'infohash_v2' => ['rules' => ['string']],
     ];
+
+	protected $validationFilePoster = [
+//		'label' => 'Torrent.poster',
+		'rules' => [
+			'uploaded[poster]',
+			'is_image[poster]',
+			'mime_in[poster,image/jpg,image/jpeg,image/gif,image/png]',
+			'max_size[poster,512]',
+			'max_dims[poster,2000,2000]',
+		],
+	];
 
     protected $validationMessages   = [];
     protected $skipValidation       = false;
@@ -91,18 +102,6 @@ class TorrentModel extends Model {
         parent::initialize();
         $this->db = \Config\Database::connect();
         $config = new \Config\Torrent();
-    	if ($config->uploadPoster === TRUE) {
-	        $this->validationRules['poster'] = [
-				'label' => 'Torrent.poster',
-				'rules' => [
-					'uploaded[poster]',
-					'is_image[poster]',
-					'mime_in[poster,image/jpg,image/jpeg,image/gif,image/png]',
-					'max_size[poster,512]',
-					'max_dims[poster,2000,2000]',
-				],
-			];
-		}
 	}
 
 		public function insert($row = null, bool $returnID = true): int

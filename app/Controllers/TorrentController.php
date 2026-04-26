@@ -38,6 +38,10 @@ class TorrentController extends BaseController
 		helper("form");
 		helper("torrent");
 		helper("smiley");
+		helper("kinopoisk");
+		
+		//var_dump(get_rating(1178445)->imdb_votes);
+
 		$torrentData = $this->TorrentModel->getDetail($tId);
 		if (!$torrentData)
 		{
@@ -45,9 +49,33 @@ class TorrentController extends BaseController
 		}
 		if ($torrentData->deleted_at != null)
 		{
-			return redirect() ->back() ->with("error", lang("Torrent.deleted"));
+			return redirect()->back()->with("error", lang("Torrent.deleted"));
 		}
-		$owner = $this->userData->id == $torrentData->owner;
+		
+		$torrentData->kp_rating = NULL;
+		$torrentData->kp_votes = NULL;
+		$torrentData->imdb_rating = NULL;
+		$torrentData->imdb_votes = NULL;
+
+		if ( preg_match('~\[rating=(\d+)\]~siu', $torrentData->descr, $match) )
+		{
+			$torrentData->descr = preg_replace('~\s\s+\[rating=(\d+)\]\s\s+~siu', '', $torrentData->descr);
+			$filmId = (int) $match[1];
+			if ( !$filmData = cache('filmRating_' . $filmId) ) {
+				$filmData = get_rating($filmId);
+			    cache()->save('filmRating_' . $filmId, $filmData, 300);
+			}
+//			var_dump($filmData);
+			if ( $filmData->error === FALSE ) {
+				$torrentData->kp_rating = $filmData->kp_rating;
+				$torrentData->kp_votes = $filmData->kp_votes;
+				$torrentData->imdb_rating = $filmData->imdb_rating;
+				$torrentData->imdb_votes = $filmData->imdb_votes;
+			}
+		}
+
+//die();
+		$owner = ($this->userData->id == $torrentData->owner);
 		$can_edit = ($owner && $this->userData->can("tor.ownededit")) || ($owner && $this->userData->is_uploader) || $this->isMod || $this->isAdmin || $this->isSuperAdmin;
 		$this->TorrentModel->updateViews($tId);
 		if ($this->isMod)
@@ -245,6 +273,7 @@ class TorrentController extends BaseController
 		$this->torrent = $this->TorrentModel->torrLoad( setting("Torrent.TorrentFilesPath"), $torrName, );
 		$torrHashes = $this->torrent->getInfoHashes();
 		$torrVersion = $this->torrent->getVersion();
+		
 		$data = [
 			"owner" => $this->userData->id,
 			"numfiles" => $this->torrent->getFilesCount(),
@@ -292,10 +321,10 @@ class TorrentController extends BaseController
 			if (!isset($arr["tid"]))
 			{
 				$id = $this->TorrentModel->insert($data);
-				return redirect() ->to("torrent/" . $id) ->with( "message", lang("Torrent.uploadsuccess_v3"), );
+				return redirect()->to("torrent/" . $id)->with( "message", lang("Torrent.uploadsuccess_v3"));
 			}
 		}
-		return redirect() ->back() ->with( "error", lang("Torrent.uploaderror", [ "id => {$arr["tid"]["id"]}", ]), );
+		return redirect()->back()->with( "error", lang("Torrent.uploaderror", [ "id => {$arr["tid"]["id"]}", ]));
 	}
 
 	public function TorrentSend($tId)

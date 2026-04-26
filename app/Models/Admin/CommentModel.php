@@ -70,10 +70,10 @@ class CommentModel extends GlobalAdminModel
     public function getComments(string $location,
 								int $owner,
 								int $today,
-								int $limit = 20,
-								int $offset = 0,
 								int $nid,
-								int $tid
+								int $tid,
+								int $limit = 20,
+								int $offset = 0
 					)
 	{
    			$this->select('comments.id as cid, comments.user_id as cuid, comments.tid as ctid, comments.category as ccid,

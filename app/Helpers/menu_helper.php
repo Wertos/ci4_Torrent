@@ -12,10 +12,10 @@ function activate_menu($controller, $function = null)
     if($function)
     {
         $method = $router->methodName();
-        return ($method == $function && $class == $controller) ? 'active' : '';
+        return ($method == $function && $class == $controller) ? 'active fw-semibold' : '';
     }
     
-    return ($class == $controller) ? 'active' : '';
+    return ($class == $controller) ? 'active fw-semibold' : '';
 }
 
 function setActive($uriCheck)
@@ -28,7 +28,7 @@ function setActive($uriCheck)
 //   var_dump($uriSegment);die('fff');
    if ( $uriCheck == $uriSegment ) {
 
-        return "active";
+        return "active fw-semibold";
 
    }
 }
