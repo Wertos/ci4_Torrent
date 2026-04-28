@@ -41,20 +41,28 @@
                     <a class="me-1 text-danger" onclick="return confirmation();" href="<?= base_url('torrent/delete/'.$details->id); ?>" title="<?= lang('Torrent.deleteTorrent'); ?>"><i class="bi bi-trash"></i></a>
             <?php endif; ?>            
         </h5>
-        <h6 class="card-title mb-3 d-inline">
+        <h6 class="card-title mb-3 d-inline align-top">
             <?= $details->name ?>
         </h6>
-        <hr class="clearfix w-100">
-        <h5>KP:</h5> <?= $details->kp_rating; ?>
+        <?php if ($details->kp_rating !== NULL) : ?>
+        <hr class="clearfix w-100 p-0 mt-1 mb-1">
+        <div class="w-100">
+        	<div class="kp"></div>
+        	<div class="imdb"></div>
+        </div>
+        <?php endif; ?>
+        		<span style="font-size: 8px"><?= $details->kp_rating; ?></span><br />
+        		<span style="font-size: 8px"><?= $details->kp_votes; ?></span>
+
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">
         	<div id="torrstatus">
         		<?= $icon; ?>
         	</div>
         </div>
         </h5>
-        <hr />
+        <hr class="clearfix w-100 p-0 mt-1 mb-4">
         <div class="position-relative">
-        <div style="top:17px; left:-20px;" class="position-absolute translate-middle">
+        <div style="top:13px; left:-20px;" class="position-absolute translate-middle">
         	<a class="topic-author" title="<?= lang('Torrent.owner') . '<br />' . $details->username; ?>" href="<?= base_url('user/profile/' . $details->owner); ?>"><?= avatar($details->avatar, 70, 'img-rounded img-responsive border border-dark border-3'); ?></a>
         </div>
         </div>

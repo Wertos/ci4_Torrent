@@ -180,7 +180,7 @@ CI4_Admin.TorrManage = function(ids, event) {
 		url = '/admin/torrmanage';
 		$.post( url, { ids : ids, event : event, action: "TorrManage" })
 			.done(function( data ) {
-				if (data.event == 'delete') {
+				if (data.event == 'tdelete') {
 					var idArr = data.ids;
 					idArr.forEach(function(id) {
 						$('tr#rowid-'+id).remove();

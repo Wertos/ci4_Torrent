@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright 2017 Anton Smirnov
+ * @license MIT https://spdx.org/licenses/MIT.html
+ */
+
 declare(strict_types=1);
 
 namespace Arokettu\Bencode\Bencode;
@@ -15,14 +20,14 @@ enum Collection
     {
         return match ($this) {
             self::ARRAY
-                => fn (\Traversable $value) => iterator_to_array($value),
+                => static fn (\Traversable $value) => iterator_to_array($value),
             self::ARRAY_OBJECT
-                => fn (\Traversable $value) => new \ArrayObject(
+                => static fn (\Traversable $value) => new \ArrayObject(
                     iterator_to_array($value),
-                    \ArrayObject::ARRAY_AS_PROPS
+                    \ArrayObject::ARRAY_AS_PROPS,
                 ),
             self::STDCLASS
-                => fn (\Traversable $value) => (object)iterator_to_array($value),
+                => static fn (\Traversable $value) => (object)iterator_to_array($value),
         };
     }
 }

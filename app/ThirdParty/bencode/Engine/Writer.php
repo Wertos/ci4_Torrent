@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright 2017 Anton Smirnov
+ * @license MIT https://spdx.org/licenses/MIT.html
+ */
+
 declare(strict_types=1);
 
 namespace Arokettu\Bencode\Engine;
@@ -78,7 +83,7 @@ final class Writer
             // other types like resources
             default
                 => throw new ValueNotSerializableException(
-                    \sprintf("Bencode doesn't know how to serialize an instance of %s", get_debug_type($value))
+                    \sprintf("Bencode doesn't know how to serialize an instance of %s", get_debug_type($value)),
                 ),
         };
     }
@@ -106,7 +111,7 @@ final class Writer
             // other classes
             default =>
                 throw new ValueNotSerializableException(
-                    \sprintf("Bencode doesn't know how to serialize an instance of %s", get_debug_type($value))
+                    \sprintf("Bencode doesn't know how to serialize an instance of %s", get_debug_type($value)),
                 ),
         };
     }
@@ -122,7 +127,7 @@ final class Writer
     {
         if ($integer->scale > 0) {
             throw new ValueNotSerializableException(
-                \sprintf('BcMath\\Number does not represent an integer value: "%s"', $integer)
+                \sprintf('BcMath\\Number does not represent an integer value: "%s"', $integer),
             );
         }
 
@@ -171,9 +176,9 @@ final class Writer
         }
 
         // sort by keys - rfc requirement
-        usort($dictData, fn($a, $b): int => (
+        usort($dictData, static fn ($a, $b): int => (
             strcmp($a[0], $b[0]) ?: throw new ValueNotSerializableException(
-                "Dictionary contains repeated keys: '{$a[0]}'"
+                "Dictionary contains repeated keys: '{$a[0]}'",
             )
         ));
 

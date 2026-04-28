@@ -41,10 +41,11 @@ class Torrent extends BaseConfig
 		];
 		public int $maxTimeOnAnnouncer = 3; //second
 
-		public bool $uploadPoster = true;
+		public bool $uploadPoster = false;
 		public bool $posterRequired = true;
 		public bool $resizePoster = false;
 		public bool $convertPoster = true; //to webp
+		public bool $kpRating = true; // parse kinopoisk rating
 		public string $posterUploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterHtmlPath = 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $imageDir;

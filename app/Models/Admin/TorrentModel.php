@@ -67,7 +67,7 @@ class TorrentModel extends GlobalAdminModel
         $data = [];
 		
 		$fileName = $this->db->table($this->table)->select('file_name')->where('id', $tId)->limit(1)->get()->getRow()->file_name;
-
+//		var_dump($fileName);
         $torrentFile = setting("Torrent.TorrentFilesPath") . $fileName;
 
         if (file_exists($torrentFile)) {

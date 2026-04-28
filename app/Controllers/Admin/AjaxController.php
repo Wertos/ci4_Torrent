@@ -55,7 +55,7 @@ class AjaxController extends \App\Controllers\AdminController
       				$this->CatModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
 				case 'TorrManage':
-      				$this->TorrModel = model(CategoryModel::class);//new \App\Models\Admin\CategoryModel();	
+      				$this->TorrModel = model(TorrentModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
 				case 'Rebuild':
 				break;
@@ -340,17 +340,17 @@ class AjaxController extends \App\Controllers\AdminController
 
   public function TorrManage()
   {
-			$data = $this->request->getPost();
-			$ids = $data['ids'];
-			$moveTo = $data['cto'];
-			$event = $data['event'];
-			if ($event == 'delete') {
+			$ids = $this->request->getPost('ids');
+			$moveTo = $this->request->getPost('cto');
+			$event = $this->request->getPost('event');
+
+			if ( $event == 'tdelete' && is_array($ids) ) {
 				foreach ($ids as $id)
 				{
-//					$this->TorrModel->delTorrent(int $id);
+					$data[(int)$id] = $this->TorrModel->delTorrent((int) $id);
 				}
 			}
-			else if ($event == 'move') {
+			else if ($event == 'tmove') {
 				foreach ($ids as $id)
 				{
 //					$this->TorrModel->moveTorrent(int $id, int $moveTo);

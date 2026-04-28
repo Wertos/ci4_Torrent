@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright 2017 Anton Smirnov
+ * @license MIT https://spdx.org/licenses/MIT.html
+ */
+
 declare(strict_types=1);
 
 namespace Arokettu\Bencode\Engine;
@@ -113,12 +118,13 @@ final class Reader
             throw new ParseErrorException("Invalid integer format: '{$intStr}'");
         }
 
-        $int = \intval($intStr);
+        // silence the notice, we will check validity ourselves later
+        $int = @\intval($intStr);
 
         $this->finalizeScalar(
             \strval($int) === $intStr ?         // detect overflow
                 $int :                          // not overflown: native int
-                ($this->bigIntHandler)($intStr) // overflown: handle big int
+                ($this->bigIntHandler)($intStr), // overflown: handle big int
         );
     }
 

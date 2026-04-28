@@ -1,17 +1,22 @@
 <?php
 
+/**
+ * @copyright 2017 Anton Smirnov
+ * @license MIT https://spdx.org/licenses/MIT.html
+ */
+
 declare(strict_types=1);
 
 namespace Arokettu\Torrent\FileSystem;
 
 use Arokettu\Bencode\Bencode;
 use Arokettu\Torrent\Exception\DomainException;
-use Arokettu\Torrent\Exception\PathNotFoundException;
 use Arokettu\Torrent\Helpers\MathHelper;
 use Arokettu\Torrent\MetaVersion;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+use ValueError;
 
 /**
  * @internal
@@ -45,7 +50,7 @@ abstract class FileData
         $isDir  = is_dir($path);
 
         if (!$isFile && !$isDir) {
-            throw new PathNotFoundException("Path '{$path}' doesn't exist or is not a regular file or a directory");
+            throw new ValueError("Path '{$path}' doesn't exist or is not a regular file or a directory");
         }
 
         return match ($version) {
