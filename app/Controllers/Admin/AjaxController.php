@@ -343,11 +343,20 @@ class AjaxController extends \App\Controllers\AdminController
 			$ids = $this->request->getPost('ids');
 			$moveTo = $this->request->getPost('cto');
 			$event = $this->request->getPost('event');
+			$data['html'] = '<div class="alert alert-secondary alert-dismissible fade show overflow-auto" style="max-height:250px;" role="alert">';
+			$data['html'] .= '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+			$htmlOpenS = '<div class="mb-1 alert alert-success pt-0 pb-0 ps-1 pe-1" role="alert">';
+			$htmlOpenD = '<div class="mb-1 alert alert-danger pt-0 pb-0 ps-1 pe-1" role="alert">';
+			$htmlClose = '</div>';
 
 			if ( $event == 'tdelete' && is_array($ids) ) {
 				foreach ($ids as $id)
 				{
-					$data[(int)$id] = $this->TorrModel->delTorrent((int) $id);
+					$ret[$id]['delfile'] = true;//$this->TorrModel->delTorrent($id);
+					$ret[$id]['deltor'] = true;//$this->TorrModel->delTorrent($id);
+					$ret[$id]['delcom'] = true;//$this->TorrModel->delTorrent($id);
+					$ret[$id]['delrep'] = true;//$this->TorrModel->delTorrent($id);
+					$ret[$id]['delbok'] = true;//$this->TorrModel->delTorrent($id);
 				}
 			}
 			else if ($event == 'tmove') {
@@ -359,7 +368,41 @@ class AjaxController extends \App\Controllers\AdminController
 			else {
 				die();
 			}
+			$data['event'] = $event;
+			foreach ($ret as $id => $val)
+			{
+				$data['ids'][] = $id;
+				$data['html'] .= '<div class="alert alert-warning m-1 p-1" role="alert">';
+				$data['html'] .= '<span class="text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>ID: <b><i>'.$id .'</i></b></span>';
 
+				$data['html'] .= ( $val['delfile'] === TRUE ) ? 
+					$htmlOpenS . lang('Torrent.filedelete.success') . $htmlClose
+					:
+					$htmlOpenD . lang('Torrent.filedelete.error') . $htmlClose;
+
+				$data['html'] .= ( $val['deltor'] === TRUE ) ?
+					$htmlOpenS . lang('Torrent.tordelete.success') . $htmlClose
+					:
+					$htmlOpenD . lang('Torrent.tordelete.error') . $htmlClose;
+				
+				$data['html'] .= ( $val['delcom'] === TRUE ) ?
+					$htmlOpenS . lang('Torrent.comdelete.success') . $htmlClose
+					:
+					$htmlOpenD . lang('Torrent.comdelete.error') . $htmlClose;
+
+				$data['html'] .= ( $val['delrep'] === TRUE ) ? 
+					$htmlOpenS . lang('Torrent.repdelete.success') . $htmlClose
+					:
+					$htmlOpenD . lang('Torrent.repdelete.error') . $htmlClose;
+
+				$data['html'] .= ( $val['delbok'] === TRUE ) ?
+					$htmlOpenS . lang('Torrent.bokdelete.success') . $htmlClose
+					:
+					$htmlOpenD . lang('Torrent.bokdelete.error') . $htmlClose;
+				$data['html'] .= '</div>';
+			}
+			$data['html'] .= '</div>';
+//			var_dump($data); die();
 			return $this->_AjaxSend($data); die();
   }
 

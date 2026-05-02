@@ -44,16 +44,29 @@
         <h6 class="card-title mb-3 d-inline align-top">
             <?= $details->name ?>
         </h6>
-        <?php if ($details->kp_rating !== NULL) : ?>
+        <?php if ($details->kp_rating !== NULL && setting('Torrent.kpRating') === TRUE) : ?>
         <hr class="clearfix w-100 p-0 mt-1 mb-1">
-        <div class="w-100">
-        	<div class="kp"></div>
-        	<div class="imdb"></div>
+        <div class="w-50">
+        	<div class="kpblock float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3">
+        		<div class="d-block" style="width:100px;">
+        			<span class="kpname fs-7 d-block"><?= lang('Torrent.kp'); ?></span>
+        			<span class="kprating"><?= $details->kp_rating; ?></span>
+					<!-- -->/<!-- -->
+        			<span class="kpof">10</span>
+                    <span class="ms-1 kpvotes"><?= $details->kp_votes; ?></span>
+        		</div>
+        	</div>
+        	<div class="imdbblock float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3">
+        		<div class="d-block" style="width:100px;">
+        			<span class="imdbname fs-7 d-block"><?= lang('Torrent.imdb'); ?></span>
+        			<span class="imdbrating"><?= $details->imdb_rating; ?></span>
+        			<!-- -->/<!-- -->
+        			<span class="imdbof">10</span>
+                    <span class="ms-1 imdbvotes"><?= $details->imdb_votes; ?></span>
+        		</div>
+        	</div>
         </div>
         <?php endif; ?>
-        		<span style="font-size: 8px"><?= $details->kp_rating; ?></span><br />
-        		<span style="font-size: 8px"><?= $details->kp_votes; ?></span>
-
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">
         	<div id="torrstatus">
         		<?= $icon; ?>

@@ -61,7 +61,7 @@ class TorrentController extends BaseController
 
 			if ( preg_match('~\[rating=(\d+)\]~siu', $torrentData->descr, $match) )
 			{
-				$torrentData->descr = preg_replace('~\s\s+\[rating=(\d+)\]\s\s+~siu', '', $torrentData->descr);
+				$torrentData->descr = preg_replace('~(\s\s+)?\[rating=(\d+)\](\s\s+)?~siu', '', $torrentData->descr);
 				$filmId = (int) $match[1];
 				if ( !$filmData = cache('filmRating_' . $filmId) ) {
 					$filmData = get_rating($filmId);
@@ -69,7 +69,7 @@ class TorrentController extends BaseController
 				}
 
 				if ( $filmData->error === FALSE ) {
-					$torrentData->kp_rating = $filmData->kp_rating;
+					$torrentData->kp_rating = colorize_rating($filmData->kp_rating);
 					$torrentData->kp_votes = $filmData->kp_votes;
 					$torrentData->imdb_rating = $filmData->imdb_rating;
 					$torrentData->imdb_votes = $filmData->imdb_votes;
@@ -132,7 +132,7 @@ class TorrentController extends BaseController
 			'can_delete' => $this->isMod || $can_edit,
 			'can_edit' => $can_edit,
 			'moderate' => $this->isMod,
-			'download' => setting('Torrent.allowUploadTorrent') === true && in_array( (int) $torrentData->modded, setting('Torrent.statusAllowDownload'), ) && $torrentFile,
+			'download' => setting('Torrent.allowUploadTorrent') === true && in_array((int) $torrentData->modded, setting('Torrent.statusAllowDownload')) && $torrentFile,
 			'allowmagnet' => $torrentData->modded === '1' || $torrentData->modded === '0',
 			'allowreport' => setting('Torrent.allowreport') === true && $this->userData->logged_in,
 			'allowFileList' => setting('Torrent.allowFileList') === true,
@@ -143,8 +143,7 @@ class TorrentController extends BaseController
 			'canCommentDelete' => $this->userData->logged_in && $this->userData->can('comment.owneddelete'),
 			'smilies' => $table->generate($col_array),
 			'announceList' => count($annList) > 0 ? $annList : ['No tracker'],
-			'bookmark' => $this->BookmarkModel
-						->where(['user_id' => $this->userData->id,'tid' => $torrentData->id])->first(),
+			'bookmark' => $this->BookmarkModel->where(['user_id' => $this->userData->id,'tid' => $torrentData->id])->first(),
 			'location' => 'torrent'
 		];
 		$siteTitle = $this->TorrConfig->siteTitle . ' | ' . $torrentData->name;

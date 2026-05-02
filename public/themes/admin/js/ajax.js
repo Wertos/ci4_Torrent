@@ -185,6 +185,7 @@ CI4_Admin.TorrManage = function(ids, event) {
 					idArr.forEach(function(id) {
 						$('tr#rowid-'+id).remove();
 					});
+					$('#infodata').html(data.html).parent('tr').css('display','');
 				}
 				if (data.event == 'move') {
 					var idArr = data.ids;

@@ -206,26 +206,21 @@ option.post-font-mono1 { padding-top: 2px }
 	margin-right: 15px;
 	margin-top: -1px;
 }
-div.kp {
-/*	max-width: 32px;
-	max-height: 32px;
-	min-width: 32px;
-	min-height: 32px;*/
-	width: 32px;
-	height: 32px;
-	background: transparent url("../img/kinopoisk.webp") no-repeat;
-	background-size: 32px 32px;
-	margin: 2px;
+.kpblock {
+	border-color:#ff8c00 !important;
 }
-
-div.imdb {
-/*	max-width: 32px;
-	max-height: 32px;
-	min-width: 32px;
-	min-height: 32px;*/
-	width: 32px;
-	height: 32px;
-	background: transparent url("../img/imdb.webp") no-repeat;
-	background-size: 32px 32px;
-	margin: 2px;
+.imdbblock {
+	border-color:#F5C518 !important;
+}
+.kpname, .imdbname {
+	color:gray;
+}
+.kprating, .imdbrating {
+	font-weight:bolder; font-size: 16px; color:black;
+}
+.kpvotes, .imdbvotes {
+	font-size:8px;
+}
+.kpof, .imdbof {
+	font-size: 10px; color:gray;
 }

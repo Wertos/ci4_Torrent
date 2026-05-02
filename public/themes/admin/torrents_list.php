@@ -47,6 +47,9 @@
 			</ul>
         </td>
     </tr>
+    <tr style="display:none;">
+    	<td colspan="3" class="col-6 pb-3" id="infodata"></td>
+    <tr>
  </table>
  <?php if ($no_torrents) : ?>
    <?= lang('Torrent.no_torrents'); ?>

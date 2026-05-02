@@ -60,22 +60,21 @@ function get_rating(int $id): object
 	$out->error_text = '';
 
 	return $out;
+}
 
-	function colorize_rating(object $data): object
-	{
-		if ( $data->kp_rating < 5 ) {
-			$data->kp_rating = '<span class="text-danger">' . $data->kp_rating . '</span>';
-		}
-		else if ( $data->kp_rating > 5 && $data->kp_rating < 7 ) {
-			$data->kp_rating = '<span class="text-muted">' . $data->kp_rating . '</span>';
-		}
-		else if ( $data->kp_rating > 7 ) {
-			$data->kp_rating = '<span class="text-success">' . $data->kp_rating . '</span>';
-		}
-		else {
-			$data->kp_rating = $data->kp_rating;
-		}
-
-		return $data;	
+function colorize_rating($rating): string
+{
+	if ( $rating < 5 ) {
+		$col_rating = '<span style="color:red;">' . $rating . '</span>';
 	}
+	else if ( $rating > 5 && $rating < 7 ) {
+		$col_rating = '<span style="color:#777;">' . $rating . '</span>';
+	}
+	else if ( $rating > 7 ) {
+		$col_rating = '<span style="color:#3bb33b;">' . $rating . '</span>';
+	}
+	else {
+		$col_rating = $rating;
+	}
+	return $col_rating;
 }

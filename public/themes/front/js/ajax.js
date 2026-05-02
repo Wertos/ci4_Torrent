@@ -273,7 +273,7 @@ CI4.AddReport = function(id, type) {
 	$('#button-'+id).on('click', function() {
 		var comment = $('#textarea-'+id).val();
 		var catId = $('a#category').attr('data-catid');
-		$.post( url, { id : id, type : type, action: "addreport", comment : $.trim(comment), category : catId })
+		$.post( url, { id : id, type : type, action: "addreport", comment : comment.trim(), category : catId })
   		.done(function( data ) {
   			myModal.hide();
   			if(data.error) {

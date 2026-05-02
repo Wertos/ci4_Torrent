@@ -74,10 +74,10 @@ class TorrentModel extends GlobalAdminModel
               $data['delfile'] = unlink($torrentFile);
         }
 		
-		$data['deltor'] = $this->db->table($this->table)->where('id', $tId)->delete();
-		$data['delcom'] = $this->db->table('comments')->where('tid', $tId)->delete();
-		$data['delrep'] = $this->db->table('reports')->where('tid', $tId)->delete();
-		$data['delbok'] = $this->db->table('bookmarks')->where('tid', $tId)->delete();
+		$data[$tId]['deltor'] = $this->db->table($this->table)->where('id', $tId)->delete();
+		$data[$tId]['delcom'] = $this->db->table('comments')->where('tid', $tId)->delete();
+		$data[$tId]['delrep'] = $this->db->table('reports')->where('tid', $tId)->delete();
+		$data[$tId]['delbok'] = $this->db->table('bookmarks')->where('tid', $tId)->delete();
 		
 		return $data;
 	}
