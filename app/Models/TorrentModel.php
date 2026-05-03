@@ -7,6 +7,8 @@ namespace App\Models;
 use CodeIgniter\Model;
 use Arokettu\Torrent\TorrentFile;
 use Arokettu\Bencode\Bencode;
+use CodeIgniter\I18n\Time;
+use CodeIgniter\Database\RawSql;
 
 class TorrentModel extends Model {
     protected $DBGroup          = 'default';
@@ -18,7 +20,7 @@ class TorrentModel extends Model {
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
 //    protected $allowedFields    = ['owner','infohash_v1','infohash_v2','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name'];
-    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile','seed','leech','completed','updated_peer','downloaded','views'];
+    protected $allowedFields    = ['owner','numfiles','size','type','name','descr','category','poster','magnet','url','file','can_comment','modded','file_name','version','infohash_v1','infohash_v2','torrentfile','seed','leech','completed','updated_peer','downloaded','views','rating'];
 //																																                                                               "views" "downloaded" "seed"	"leech"	"completed"	"updated_peer"
 
     // Dates
@@ -101,7 +103,7 @@ class TorrentModel extends Model {
     {
         parent::initialize();
         $this->db = \Config\Database::connect();
-        $config = new \Config\Torrent();
+        $this->config = new \Config\Torrent();
 	}
 
 		public function insert($row = null, bool $returnID = true): int
@@ -342,5 +344,87 @@ class TorrentModel extends Model {
 		
 		return mb_strtoupper(bin2hex($hash));
 	}
+
+
+	public function setRating(int $filmId, int $tId)
+	{
+		$out = new \stdClass();
+		$out->kp_rating = (float) 0;
+		$out->kp_votes = (int) 0;
+		$out->imdb_rating = (float) 0;
+		$out->imdb_votes = (int) 0;
+		$out->error = (bool) FALSE;
+		$out->error_text = (string) '';
+		$timestamp = Time::now()->getTimestamp();
+		$prevUpdRating = $this->checkRatingUpdate($tId);
+
+		if ( !$filmId ) {
+			$out->error = TRUE;
+			$out->error_text = 'Invalid ID !';
+			return $out;
+		}
+		if ( $prevUpdRating < $timestamp - $this->config->ratingUpdate ) {
+			$options = [
+				'user_agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0',
+				'timeout' => 5,
+			];
+
+			$kpurl = 'https://rating.kinopoisk.ru/' . $filmId . '.xml';
+	        
+			$client = service('curlrequest', $options);
+			$response = $client->get($kpurl);
+
+			if ( $response->getStatusCode() !== 200 ) {
+				$out->error = TRUE;
+				$out->error_text = 'Error. Status code: ' . $response->getStatusCode();
+				return $out;
+			}
+
+			$type = $response->getHeaderLine('Content-Type');
+	
+			if ( !str_contains($type, 'xml') ) {
+				$out->error = TRUE;
+				$out->error_text = 'Not XML';
+				return $out;
+			}
+	
+			$data = $response->getBody();
+	
+			if ( !str_contains($data, 'xml') ) {
+				$out->error = TRUE;
+				$out->error_text = 'Not XML';
+				return $out;
+			}
+	
+			$xml = simplexml_load_string($data);
+	
+			$out->kp_rating = (float) $xml->kp_rating;
+			$out->kp_votes = (int) $xml->kp_rating->attributes()->num_vote;
+			$out->imdb_rating = (float) $xml->imdb_rating;
+			$out->imdb_votes = (int) $xml->imdb_rating->attributes()->num_vote;
+			$out->update = $timestamp;
+			$out->error = FALSE;
+			$out->error_text = '';
+		
+			$this->db->table($this->table)->set('rating', json_encode($out))
+				->where('id', $tId)->update();
+		}
+
+		return $out;
+	}
+	public function getRating (int $tId)
+	{
+		$rating = $this->db->table($this->table)
+			->select('rating', FALSE)->where('id', $tId)
+			->get()->getRow();
+		$ret = $rating ? json_decode($rating) : '';
+		return $ret;
+	}
+	private function checkRatingUpdate (int $tId)
+	{
+		$query = $this->db->table($this->table)->select('JSON_EXTRACT(rating, "$.update") as `update`', FALSE)->where('id', $tId);
+		return (int) $query->get()->getRow()->update ?? 0;
+	}
+
 
 }

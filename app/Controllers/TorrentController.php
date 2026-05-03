@@ -63,12 +63,9 @@ class TorrentController extends BaseController
 			{
 				$torrentData->descr = preg_replace('~(\s\s+)?\[rating=(\d+)\](\s\s+)?~siu', '', $torrentData->descr);
 				$filmId = (int) $match[1];
-				if ( !$filmData = cache('filmRating_' . $filmId) ) {
-					$filmData = get_rating($filmId);
-				    cache()->save('filmRating_' . $filmId, $filmData, 300);
-				}
-
-				if ( $filmData->error === FALSE ) {
+				$this->TorrentModel->setRating($filmId, $tId);
+				$filmData = json_decode($torrentData->rating, FALSE);
+				if ( $filmData && $filmData->error === FALSE ) {
 					$torrentData->kp_rating = colorize_rating($filmData->kp_rating);
 					$torrentData->kp_votes = $filmData->kp_votes;
 					$torrentData->imdb_rating = $filmData->imdb_rating;

@@ -59,17 +59,27 @@ class CommentModel extends Model {
         $this->db = \Config\Database::connect();
     }
     
-		public function withTorrents()
-		{
-//    		$this->builder()
-        		$this
-        		->select('torrents.url as turl, torrents.name as tname, torrents.id as tid, comments.*')
-        		->join('torrents', 'torrents.id = comments.tid', 'left');
-//    		    ->where('id', $user_id)
-//		        ->first();
-		    return $this;
-		} 
+	public function withTorrents()
+	{
+//		$this->builder()
+       		$this
+       		->select('torrents.url as turl, torrents.name as tname, torrents.id as tid, comments.*')
+       		->join('torrents', 'torrents.id = comments.tid', 'left');
+// 		    ->where('id', $user_id)
+//	        ->first();
+	    return $this;
+	} 
     
+    public function getFirstComment(int $id)
+    {
+    	
+    }
+
+    public function getLastComment(int $id)
+    {
+    
+    }
+
     public function getPagination(?int $perPage = null): array
     {
         $this->builder()

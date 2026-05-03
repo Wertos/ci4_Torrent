@@ -46,6 +46,7 @@ class Torrent extends BaseConfig
 		public bool $resizePoster = false;
 		public bool $convertPoster = true; //to webp
 		public bool $kpRating = true; // parse kinopoisk rating
+		public int $ratingUpdate = 259200; // Rating update interval in second !
 		public string $posterUploadPath = FCPATH . 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $posterHtmlPath = 'uploads' . DIRECTORY_SEPARATOR . 'posters' . DIRECTORY_SEPARATOR;
 		public string $imageDir;

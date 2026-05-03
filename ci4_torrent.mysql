@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 6.0.0-dev+20260417.26bcf2d71e
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Фев 23 2026 г., 16:04
--- Версия сервера: 8.4.7-7
--- Версия PHP: 8.5.3
+-- Время создания: Май 03 2026 г., 05:50
+-- Версия сервера: 8.4.8-8
+-- Версия PHP: 8.5.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -225,6 +225,23 @@ CREATE TABLE `news` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `page`
+--
+
+CREATE TABLE `page` (
+  `id` int NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `descr` text COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `reports`
 --
 
@@ -306,7 +323,8 @@ CREATE TABLE `torrents` (
   `seed` int NOT NULL,
   `leech` int NOT NULL,
   `completed` int NOT NULL,
-  `updated_peer` datetime DEFAULT NULL
+  `updated_peer` datetime DEFAULT NULL,
+  `rating` json NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -423,6 +441,13 @@ ALTER TABLE `news` ADD FULLTEXT KEY `title` (`title`);
 ALTER TABLE `news` ADD FULLTEXT KEY `text` (`text`);
 
 --
+-- Индексы таблицы `page`
+--
+ALTER TABLE `page`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQUE` (`id`);
+
+--
 -- Индексы таблицы `reports`
 --
 ALTER TABLE `reports`
@@ -534,6 +559,12 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `news`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `page`
+--
+ALTER TABLE `page`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `reports`
