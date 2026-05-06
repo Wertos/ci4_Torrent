@@ -205,7 +205,9 @@ class AjaxController extends \App\Controllers\BaseController
 			$useTorrentAnnouncer = setting('Torrent.useTorrentAnnouncer');
 			
 			$infoHash_V1 = isset($torrentData->infohash_v1) ? $this->TorrentModel->hashToString($torrentData->infohash_v1) : null;
-			$infoHash_V2 = isset($torrentData->infohash_v2) ? mb_substr($this->TorrentModel->hashToString($torrentData->infohash_v2), 0, 40) : null;
+//			$infoHash_V2 = isset($torrentData->infohash_v2) ? mb_substr($this->TorrentModel->hashToString($torrentData->infohash_v2), 0, 40) : null;
+			$infoHash_V2 = isset($torrentData->infohash_v2) ? $this->TorrentModel->hashToString($torrentData->infohash_v2) : null;
+			$infoHash_V2crop = isset($torrentData->infohash_v2) ? mb_substr($this->TorrentModel->hashToString($torrentData->infohash_v2), 0, 40) : null;
 
 			if($infoHash_V1 && !$infoHash_V2)
 			{
@@ -213,23 +215,28 @@ class AjaxController extends \App\Controllers\BaseController
 			}
 			if(!$infoHash_V1 && $infoHash_V2)
 			{
-				$hash = [$infoHash_V2];
+				$hash = [$infoHash_V2, $infoHash_V2crop];
 			}
 			if($infoHash_V1 && $infoHash_V2)
 			{
-				$hash = [$infoHash_V1, $infoHash_V2];
+				$hash = [$infoHash_V1, $infoHash_V2, $infoHash_V2crop];
 			}
-//			var_dump($infoHash_V1); die();			
+
 			$info[$infoHash_V1 ?? '']['seeders'] = 0;
 			$info[$infoHash_V2 ?? '']['seeders'] = 0;
+			$info[$infoHash_V2crop ?? '']['seeders'] = 0;
 			$info[$infoHash_V1 ?? '']['leechers'] = 0;
 			$info[$infoHash_V2 ?? '']['leechers'] = 0;
+			$info[$infoHash_V2crop ?? '']['leechers'] = 0;
 			$info[$infoHash_V1 ?? '']['completed'] = 0;
 			$info[$infoHash_V2 ?? '']['completed'] = 0;
+			$info[$infoHash_V2crop ?? '']['completed'] = 0;
 
+//			var_dump($info);
 			$iii = $this->scraper->scrape( $hash, $announcer, count($announcer), $maxTimeOnAnnouncer);
 
-			if($iii) $info = array_replace_recursive($info, $iii);
+			if( $iii )
+				$info = array_replace_recursive($info, $iii);
 
 			if ( $this->scraper->has_errors() ) {
 				 $errors = $this->scraper->get_errors() ;
@@ -248,15 +255,15 @@ class AjaxController extends \App\Controllers\BaseController
 			}
 			if(!$infoHash_V1 && $infoHash_V2)
 			{
-				$seed = $info[$infoHash_V2]['seeders'];
-				$leech = $info[$infoHash_V2]['leechers'];
-				$completed = $info[$infoHash_V2]['completed'];
+				$seed = $info[$infoHash_V2]['seeders'] + $info[$infoHash_V2crop]['seeders'];
+				$leech = $info[$infoHash_V2]['leechers'] + $info[$infoHash_V2crop]['leechers'];
+				$completed = $info[$infoHash_V2]['completed'] + $info[$infoHash_V2crop]['completed'];
 			}
 			if($infoHash_V1 && $infoHash_V2)
 			{
-				$seed = $info[$infoHash_V1]['seeders'] + $info[$infoHash_V2]['seeders'];
-				$leech = $info[$infoHash_V1]['leechers'] + $info[$infoHash_V2]['leechers'];
-				$completed = $info[$infoHash_V1]['completed'] + $info[$infoHash_V2]['completed'];
+				$seed = $info[$infoHash_V1]['seeders'] + $info[$infoHash_V2]['seeders'] + $info[$infoHash_V2crop]['seeders'];
+				$leech = $info[$infoHash_V1]['leechers'] + $info[$infoHash_V2]['leechers'] + $info[$infoHash_V2crop]['leechers'];
+				$completed = $info[$infoHash_V1]['completed'] + $info[$infoHash_V2]['completed'] + $info[$infoHash_V2crop]['completed'];
 			}
 //			var_dump($seed."  ".$leech."  ".$completed); die();
 			$updated_peer = Time::now(setting('App.appTimezone'))->toDateTimeString();
@@ -320,9 +327,9 @@ class AjaxController extends \App\Controllers\BaseController
 
   public function AjaxPag()
   {
-			helper('number');
-			helper('torrent');
-
+		helper('number');
+		helper('torrent');
+		helper('kinopoisk');
   		$catId = (int) $this->request->getPost('catid');
   		$event = (string) $this->request->getPost('event');
   		$action = (string) $this->request->getPost('action');
@@ -352,7 +359,7 @@ class AjaxController extends \App\Controllers\BaseController
       
       $html = $this->themes::render('ajax_templates/ajaxpag.php', $data);
 			
-			$data['html'] = $html;
+		$data['html'] = $html;
 
 			return $this->_AjaxSend($data); die();
   }

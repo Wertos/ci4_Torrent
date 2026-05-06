@@ -41,7 +41,7 @@ class GlobalModel extends Model
     }
 
     public function getTorrentByCat(int $cid, int $limit = 10, int $offset = 0) {
-        return $this->db->table('torrents t')->select('t.id, t.owner, t.size, t.type, t.name, t.category, t.created_at, t.poster, t.url, t.modded, t.seed, t.leech, t.views, t.downloaded, t.completed, t.version, u.username, c.name AS catname, c.url AS caturl')
+        return $this->db->table('torrents t')->select('t.id, t.owner, t.size, t.type, t.name, t.category, t.created_at, t.poster, t.url, t.modded, t.seed, t.leech, t.views, t.downloaded, t.completed, t.version, t.rating, u.username, c.name AS catname, c.url AS caturl')
                         ->join('users u', 'u.id = t.owner', 'left')
                         ->join('categories c', 'c.id = '.$cid , 'left')
                         ->where(['category' => $cid])

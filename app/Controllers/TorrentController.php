@@ -172,7 +172,8 @@ class TorrentController extends BaseController
 			'page_title' => $siteTitle,
 			'cats' => $this->catList,
 			'posterRequired' => setting('Torrent.posterRequired') ? ' required ' : '',
-			'smilies' => $table->generate($col_array)
+			'smilies' => $table->generate($col_array),
+			'addview' => true,
 		];
 		$this->themes::render('torrent_add', $data);
 	}
@@ -209,7 +210,8 @@ class TorrentController extends BaseController
 			'breadcrumb' => $this->breadcrumb->output(),
 			'page_title' => $siteTitle,
 			'posterRequired' => setting('Torrent.posterRequired') ? ' required ' : '',
-			'smilies' => $table->generate($col_array)
+			'smilies' => $table->generate($col_array),
+			'addview' => true,
 		];
 		$this->themes::render('torrent_edit', $data);
 	}

@@ -91,7 +91,7 @@ class Scraper
 
             return $final_result;
         }
-
+//		var_dump($this->infohashes);die();        
         $max_iterations = is_int($max_trackers) ? $max_trackers : count($trackers);
         foreach ($trackers as $index => $tracker) {
             if (!empty($this->infohashes) && $index < $max_iterations) {
@@ -154,14 +154,13 @@ class Scraper
         if (!is_array($infohashes)) {
             $infohashes = [$infohashes];
         }
-
         foreach ($infohashes as $index => $infohash) {
-            if (!preg_match('/^[a-f0-9]{40}$/i', $infohash)) {
+//            if (!preg_match('/^[a-f0-9]{40}$/i', $infohash)) {
+            if (!preg_match('~^(?=[a-f0-9]*$)(?:.{40}|.{64})$~i', $infohash)) {
                 $this->errors[] = 'Invalid infohash skipped (' . $infohash . ').';
                 unset($infohashes[$index]);
             }
         }
-
         $total_infohashes = count($infohashes);
         if ($total_infohashes > 64 || $total_infohashes < 1) {
             throw new RangeException('Invalid amount of valid infohashes (' . $total_infohashes . ').');

@@ -15,8 +15,9 @@ class Home extends BaseController
 	
 	public function index()
 	{
-		helper("number");
-		helper("torrent");
+		helper('number');
+		helper('torrent');
+		helper('kinopoisk');
 		$no_torrents = true;
 		$no_cats = $this->catHome ? true : false;
 		$torList = [];
@@ -25,23 +26,23 @@ class Home extends BaseController
 			$torList[$catList->id] = [];
 			if (intval($catList->count) > 0)
 			{
-				if ( !($torList[$catList->id] = cache( "TorrentByCatOnIndex_" . $catList->id, )) )
+				if ( !($torList[$catList->id] = cache( 'TorrentByCatOnIndex_' . $catList->id, )) )
 				{
-					$torList[$catList->id] = $this->GlobalModel->getTorrentByCat( (int)$catList->id, setting("Torrent.torrentsPerCatOnIndex"), );
-					cache()->save( "TorrentByCatOnIndex_" . $catList->id, $torList[$catList->id], );
+					$torList[$catList->id] = $this->GlobalModel->getTorrentByCat( (int)$catList->id, setting('Torrent.torrentsPerCatOnIndex') );
+					cache()->save( 'TorrentByCatOnIndex_' . $catList->id, $torList[$catList->id] );
 				}
 				$no_torrents = false;
 			}
 		}
-		$siteTitle = $this->TorrConfig->siteTitle . " | " . lang("Site.SiteHome");
-		$this->breadcrumb->append( $this->TorrConfig->siteName . " - " . $this->TorrConfig->siteDescr, );
+		$siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('Site.SiteHome');
+		$this->breadcrumb->append( $this->TorrConfig->siteName . ' - ' . $this->TorrConfig->siteDescr );
 		$data = [
-			"breadcrumb" => $this->breadcrumb->output(),
-			"page_title" => $siteTitle,
-			"torList" => $torList,
-			"cats" => $no_cats,
-			"torrents" => $no_torrents
+			'breadcrumb' => $this->breadcrumb->output(),
+			'page_title' => $siteTitle,
+			'torList' => $torList,
+			'cats' => $no_cats,
+			'torrents' => $no_torrents
 		];
-		$this->themes::render("home", $data);
+		$this->themes::render('home', $data);
 	}
 }
