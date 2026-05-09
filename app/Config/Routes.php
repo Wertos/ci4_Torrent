@@ -27,11 +27,12 @@ $routes->post('admin/users/delete/(:num)',     'Admin\AjaxController::UserDelete
 $routes->post('admin/users/harddelete/(:num)', 'Admin\AjaxController::UserHardDelete/$1');
 $routes->post('admin/users/restore/(:num)',    'Admin\AjaxController::UserRestore/$1');
 
-$routes->post('admin/users/act/(:num)',        'Admin\AjaxController::UserAct/$1');
-$routes->post('admin/users/ban/(:num)',        'Admin\AjaxController::UserBan/$1');
-$routes->post('admin/userbyname/(:any)',       'Admin\AjaxController::UserByName/$1');
+$routes->post('admin/users/act/(:num)',			'Admin\AjaxController::UserAct/$1');
+$routes->post('admin/users/ban/(:num)',			'Admin\AjaxController::UserBan/$1');
+$routes->post('admin/userbyname/(:any)',		'Admin\AjaxController::UserByName/$1');
 $routes->post('admin/torrmanage',        		'Admin\AjaxController::TorrManage');
 $routes->post('admin/rebuild',					'Admin\AjaxController::Rebuild');
+$routes->post('admin/attachnews',				'Admin\AjaxController::AttachNews');
 
 $routes->get('admin/reports',                   'Admin\ReportController::ReportList');
 $routes->get('admin/reports/del/(:num)',        'Admin\ReportController::ReportDelete/$1');

@@ -13,9 +13,9 @@
   <?php
   	foreach ($newsList as $news) :
   ?>
-    <tr>
+    <tr id="newsrow-<?= $news->id; ?>" class="<?= ($news->attached) ? 'attach' : ''; ?>">
       <td class="pt-2 pb-2">
-      	<a class="d-block clearfix fw-bold" href="<?= base_url('news/' . $news->id . '-' . $news->url); ?>" /><?= $news->title; ?></a>
+      	<?= ($news->attached) ? '<i class="bi bi-exclamation-diamond-fill me-2 ms-1 text-danger fs-6"></i>' : ''; ?><a class="d-inline clearfix fw-bold" href="<?= base_url('news/' . $news->id . '-' . $news->url); ?>" /><?= $news->title; ?></a>
       </td>
       <td class="pt-2 pb-2 text-center align-middle">
       	<span title="<?= lang('News.add'); ?>">

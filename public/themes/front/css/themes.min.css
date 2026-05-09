@@ -200,7 +200,7 @@ option.post-font-mono1 { padding-top: 2px }
     font-size: 0.8rem;
     border-radius: var(--bs-border-radius-sm);
 }
-.form-switch .form-check-input, .form-check-input {
+.form-switch .form-check-input {
 	width: 40px;
 	height: 20px;
 	margin-right: 15px;
@@ -223,4 +223,11 @@ option.post-font-mono1 { padding-top: 2px }
 }
 .kpof, .imdbof {
 	font-size: 10px; color:gray;
+}
+tr.attach {
+	border-bottom-color:#dc3545 !important;
+	border-bottom-width:3px !important;
+}
+tr.attach td {
+	background-color: rgb(248, 215, 218);
 }

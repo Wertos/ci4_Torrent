@@ -1,5 +1,5 @@
 <?php defined('APPPATH') OR exit('No direct script access allowed'); ?>
-        <div class="editor-buttons " data-parent="editor-` + i + `">
+	<div class="editor-buttons " data-parent="editor-` + i + `">
 		<div class="btn-group">
 			<select class="fontFace form-select form-select-esm">
 				<option value="-1" selected="selected">Шрифт:</option>
@@ -41,20 +41,25 @@
 				<option data-bbcode="size.22">&nbsp;size=22</option>
 				<option data-bbcode="size.24" class="fw-bold">Огромный</option>
 			</select>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.bold'); ?>" data-bbcode="b"><i class="bi bi-type-bold"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.italic'); ?>" data-bbcode="i"><i class="bi bi-type-italic"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.underline'); ?>" data-bbcode="u"><i class="bi bi-type-underline"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.strike'); ?>" data-bbcode="s"><i class="bi bi-type-strikethrough"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.left'); ?>" data-bbcode="left"><i class="bi bi-text-left"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.center'); ?>" data-bbcode="center"><i class="bi bi-text-center"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.right'); ?>" data-bbcode="right"><i class="bi bi-text-right"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.quote'); ?>" data-bbcode="quote"><i class="bi bi-chat-left-quote"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.img'); ?>" data-bbcode="img"><i class="bi bi-image"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.url'); ?>" data-bbcode="url"><i class="bi bi-link"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.spoiler'); ?>" data-bbcode="spoiler"><i class="bi bi-plus-square-dotted"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.code'); ?>" data-bbcode="code"><i class="bi bi-braces"></i></button>
-        		<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.pre'); ?>" data-bbcode="pre"><i class="bi bi-code-square"></i></button>
-       			<button type="button" class="btn btn-primary btn-esm dropdown-toggle" type="button" id="smilies" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-emoji-smile"></i></button>
-       			<div class="dropdown-menu bg-white" aria-labelledby="smilies" id="smilies_table"></div>
-       		</div>
-        </div>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.bold'); ?>" data-bbcode="b"><i class="bi bi-type-bold"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.italic'); ?>" data-bbcode="i"><i class="bi bi-type-italic"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.underline'); ?>" data-bbcode="u"><i class="bi bi-type-underline"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.strike'); ?>" data-bbcode="s"><i class="bi bi-type-strikethrough"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.left'); ?>" data-bbcode="left"><i class="bi bi-text-left"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.center'); ?>" data-bbcode="center"><i class="bi bi-text-center"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.right'); ?>" data-bbcode="right"><i class="bi bi-text-right"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.quote'); ?>" data-bbcode="quote"><i class="bi bi-chat-left-quote"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.img'); ?>" data-bbcode="img"><i class="bi bi-image"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.url'); ?>" data-bbcode="url"><i class="bi bi-link"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.spoiler'); ?>" data-bbcode="spoiler"><i class="bi bi-plus-square-dotted"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.code'); ?>" data-bbcode="code"><i class="bi bi-braces"></i></button>
+        	<button type="button" class="bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.pre'); ?>" data-bbcode="pre"><i class="bi bi-code-square"></i></button>
+       		<button type="button" class="btn btn-primary btn-esm dropdown-toggle" type="button" id="smilies" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-emoji-smile"></i></button>
+       		<div class="dropdown-menu bg-white" aria-labelledby="smilies" id="smilies_table"></div>
+       	</div>
+        <?php if (isset($addview)) : ?>
+		<div class="btn-group">
+			<button style="padding-top: 2.5px; padding-bottom: 2px;" type="button" class="opentag bbcode btn btn-primary btn-esm" title="<?= lang('BBcode.kp'); ?>" data-bbcode="rating.xxxxx"><i class="bi bi-graph-up-arrow"></i></button>
+		</div>
+        <?php endif; ?>
+	</div>

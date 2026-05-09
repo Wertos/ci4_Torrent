@@ -50,9 +50,13 @@ class NewsController extends \App\Controllers\AdminController
 	{
 		helper('torrent');
 		$pager = service('pager');
-		$news = $this->NewsModel ->asObject() ->withDeleted(true) ->orderBy('created_at', 'DESC') ->paginate(setting('Torrent.newsPerAdminList'));
+		$news = $this->NewsModel->asObject()->withDeleted(true)->orderBy('created_at', 'DESC')->paginate(setting('Torrent.newsPerAdminList'));
 		$this->siteTitle = $this->TorrConfig->siteTitle . ' | ' . lang('News.listnews');
-		$data = [ 'page_title' => $this->siteTitle, 'newsList' => $news ?? null, 'pager_links' => $this->NewsModel->pager->links(), ];
+		$data = [
+			'page_title' => $this->siteTitle,
+			'newsList' => $news ?? null,
+			'pager_links' => $this->NewsModel->pager->links()
+		];
 		$this->themes::render('news_list', $data);
 	}
 	

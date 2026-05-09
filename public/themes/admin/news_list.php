@@ -5,13 +5,9 @@
    </div>
 <hr />
 	<div class="col-lg-12">
-	   <?php 
-	   	if (!$newsList) :
-	   ?>
+	   <?php if (!$newsList) : ?>
 	   <?= lang('News.notfind'); ?>
-	   <?php
-	    else :
-	   ?>
+	   <?php else : ?>
 	<table class="table table-sm table-hover align-middle">
   <thead>
     <tr>
@@ -33,7 +29,7 @@
   			<div class="text-break news-text" style="overflow:auto; max-height:200px;"><?= $news->text; ?></div>
   		</td>
   		<td class="col-1" id="newscreated-<?= $news->id; ?>"><?= toDate($news->created_at); ?></td>
-  		<td class="col-1" id="newsupdated-<?= $news->id; ?>"><?= toDate($news->updated_at); ?></td>
+  		<td class="col-1" id="newsupdated-<?= $news->id; ?>"><?= $news->updated_at = ($news->updated_at == $news->created_at) ? NULL : toDate($news->updated_at); ?></td>
   		<td class="col-1" id="newsdeleted-<?= $news->id; ?>"><?= ($news->deleted_at != null) ? toDate($news->deleted_at) : ''; ?></td>
   		<td class="col-1">
       <?php if ($news->deleted_at == null) : ?>
@@ -42,18 +38,23 @@
       			<i class="fa-regular fa-trash cursor-pointer text-danger"></i>
       		</a>
       	</div>
-				<div id="newsedit-<?= $news->id; ?>" class="d-inline">
-					<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="<?= base_url('admin/news/edit/' . $news->id);?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.edit'); ?>">
-						<i class="fa-solid fa-pen-to-square text-primary cursor-pointer"></i>
-					</a>
-				</div>
+		<div id="newsedit-<?= $news->id; ?>" class="d-inline">
+			<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="<?= base_url('admin/news/edit/' . $news->id);?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.edit'); ?>">
+				<i class="fa-solid fa-pen-to-square text-primary cursor-pointer"></i>
+			</a>
+		</div>
+		<div id="attach-<?= $news->id; ?>" class="d-inline">
+			<a id="attachnews-<?= $news->id; ?>" class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="javascript:CI4_Admin.AttachNews(<?= $news->id; ?>, 'attach')" data-bs-toggle="tooltip" data-bs-title="<?= ($news->attached == 1) ? lang('News.unattach') : lang('News.attach'); ?>">
+				<i class="fa-solid fa-paperclip <?= ($news->attached == 1) ? 'text-success' : 'text-dark'; ?> cursor-pointer"></i>
+			</a>
+		</div>
       <?php else : ?>
        	<div id="newsdelete-<?= $news->id; ?>" class="d-inline">
       		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" onclick="return confirmation();" href="<?= base_url('admin/news/harddel/' . $news->id); ?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.harddelete'); ?>">
       			<i class="fa-solid fa-trash-xmark cursor-pointer text-danger"></i>
       		</a>
       	</div>
-       	<div id="newsdelete-<?= $news->id; ?>" class="d-inline">
+       	<div id="newsrestore-<?= $news->id; ?>" class="d-inline">
       		<a class="me-2 link-offset-2 link-underline link-underline-opacity-0" href="<?= base_url('admin/news/restore/' . $news->id); ?>" data-bs-toggle="tooltip" data-bs-title="<?= lang('News.restore'); ?>">
       			<i class="fa-solid fa-trash-can-arrow-up cursor-pointer text-success"></i>
       		</a>
@@ -65,7 +66,5 @@
   </tbody>
 	</table>
 	<div class="ms-2 me-2"><?= $pager_links; ?></div>
-	   <?php
-	   	endif;
-	   ?>
+	   <?php endif; ?>
 	</div>

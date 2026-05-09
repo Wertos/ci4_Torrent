@@ -17,19 +17,22 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#smilies_table').html(CI4.smilies);
     $('.editor-buttons button.bbcode').click(function() {
-        var button_id = attribs = $(this).attr("data-bbcode");
-        button_id = button_id.replace(/[.*]/, '');
+        var button_id = attribs = $(this).data('bbcode');
+        button_id = button_id.replace(/[.*](.*)/, '');
         if (/[.*]/.test(attribs)) {
-            attribs = attribs.replace(/.*[(.*)]/, ' $1');
+            attribs = attribs.replace(/.*[(.*)]/, '=');
         } else attribs = '';
         var start = '[' + button_id + attribs + ']';
         var end = '[/' + button_id + ']';
+        if($(this).hasClass('opentag')) {
+	        var end = '';
+        }
         insert(start, end);
         return false;
     });
 
     $('.editor-buttons select.fontFace, .editor-buttons select.codeColor, .editor-buttons select.codeSize').change(function() {
-        var option_id = attribs = $(this).find(':selected').attr("data-bbcode");
+        var option_id = attribs = $(this).find(':selected').data('bbcode');
         option_id = option_id.replace(/[.*](.*)/, '');
         if (/[.*]/.test(attribs)) {
             attribs = attribs.replace(/.*[(.*)]/, '=');
@@ -42,7 +45,22 @@ $(document).ready(function() {
         $(this).val("-1");
         return false;
     });
-
+/*
+    $('.editor-buttons .opentag').click(function() {
+        var option_id = attribs = $(this).data('bbcode');
+        option_id = option_id.replace(/[.*](.*)/, '');
+        if (/[.*]/.test(attribs)) {
+            attribs = attribs.replace(/.*[(.*)]/, '=');
+        } else {
+            attribs = '';
+        }
+        var start = '[' + option_id + attribs + ']';
+        var end = '';//'[/' + option_id + ']';
+        insert(start, end);
+        $(this).val("-1");
+        return false;
+    });
+*/
 });
 
 function insert(start, end) {

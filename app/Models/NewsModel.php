@@ -15,7 +15,7 @@ class NewsModel extends Model {
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title','text','url','can_comment','user_id'];
+    protected $allowedFields    = ['title','text','url','can_comment','user_id','attached'];
 
     // Dates
     protected $useTimestamps = true;
@@ -96,10 +96,10 @@ class NewsModel extends Model {
 					->join('users u', 'u.id = n.user_id', 'left')
 					->where('n.deleted_at', null)
 					->limit($limit, $offset)
+					->orderBy('n.attached', 'DESC')
 					->orderBy('n.id', 'DESC')
 					->get()->getResult();
 		return $query ?? NULL;
 
 	}
-
 }

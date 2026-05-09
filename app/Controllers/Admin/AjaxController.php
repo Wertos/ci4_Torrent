@@ -14,6 +14,7 @@ use \App\Models\Admin\AdminModel;
 use \App\Models\Admin\CategoryModel;
 use \App\Models\Admin\TorrentModel;
 use \App\Models\UserModel;
+use \App\Models\NewsModel;
 use \App\Libraries\JShrink\Minifier;
 
 class AjaxController extends \App\Controllers\AdminController
@@ -41,14 +42,10 @@ class AjaxController extends \App\Controllers\AdminController
 				case 'UserHardDelete':
 				case 'UserRestore':
 				case 'UserByName':
+				case 'UserAct':
+				case 'UserBan':
       				$this->db = \Config\Database::connect();
                 	$this->userModel = model(UserModel::class);
-      			break;
-				case 'UserAct':
-      					
-      			break;
-				case 'UserBan':
-
       			break;
 				case 'CatDelete':
 				case 'CatOnOff':
@@ -58,6 +55,9 @@ class AjaxController extends \App\Controllers\AdminController
       				$this->TorrModel = model(TorrentModel::class);//new \App\Models\Admin\CategoryModel();	
       			break;
 				case 'Rebuild':
+				break;
+				case 'AttachNews':
+					$this->NewsModel = model(NewsModel::class);
 				break;
       		default: 
       			throw PageNotFoundException::forPageNotFound();
@@ -441,9 +441,29 @@ class AjaxController extends \App\Controllers\AdminController
 	    }
 		file_put_contents($minifyCssFileName, $minInlineCss);
 		return $this->_AjaxSend(['text' => lang('Admin.CSSRebuildComplete')]); die();
-	} else if ( $type === 'css' ) {
-		return $this->_AjaxSend(['error' => lang('Admin.CSSRebuildOFF')]); die();	
+	}
+	else if ( $type === 'css' )
+	{
+		return $this->_AjaxSend(['error' => lang('Admin.CSSRebuildOFF')]); die();
 	}
 	die();
   }
+
+	public function AttachNews()
+	{
+		$id = (int) $this->request->getPost('id');
+		$attach = $this->NewsModel->asObject()->withDeleted()->find($id)->attached;
+
+		$ret = $this->NewsModel
+						->where('id', $id)
+						->set(['attached' => ($attach == 0) ? 1 : 0])
+						->update();
+		$icon = ($attach == 0 && $ret) ? '<i class="fa-solid fa-paperclip text-success cursor-pointer"></i>' : '<i class="fa-solid fa-paperclip text-dark cursor-pointer"></i>';
+		$data = [
+			'ret' => $ret,
+			'icon' => $icon,
+			'title' => ($attach == 0 && $ret) ? lang('News.unattach') : lang('News.attach'),
+		];
+		return $this->_AjaxSend($data); die();
+	}
 }

@@ -271,13 +271,13 @@ class TorrentModel extends Model {
 
 		function updateViews($id)
 		{
-			$query = $this->db->table($this->table)->set('views', 'views + 1', FALSE)->where('id', $id);
+			$query = $this->db->table($this->table)->set('views', 'views + 1', FALSE)->where('id', $id)->limit(1);
 			return $query->update();
 		}
 
 		function updateDownloaded($id)
 		{
-        	$query = $this->db->table($this->table)->set('downloaded', 'downloaded + 1', FALSE)->where('id', $id);
+        	$query = $this->db->table($this->table)->set('downloaded', 'downloaded + 1', FALSE)->where('id', $id)->limit(1);
 	        return $query->update();
     	}
     

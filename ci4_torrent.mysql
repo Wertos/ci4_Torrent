@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Май 03 2026 г., 05:50
+-- Время создания: Май 09 2026 г., 04:23
 -- Версия сервера: 8.4.8-8
--- Версия PHP: 8.5.5
+-- Версия PHP: 8.5.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -215,6 +215,7 @@ CREATE TABLE `news` (
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `can_comment` tinyint(1) NOT NULL DEFAULT '1',
+  `attached` tinyint(1) NOT NULL DEFAULT '0',
   `user_id` int NOT NULL,
   `category` int NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,

@@ -1,11 +1,12 @@
-var $loading = $('#loading').hide();
+var $loading = $('#loading');
+$loading.hide();
 $(document)
   .ajaxStart(function () {
     $loading.show();
   })
   .ajaxStop(function () {
     $loading.hide();
-  	initializeTooltips();
+    initializeTooltips();
   });
 
 CI4_Admin.UserDelete = function(id) {
@@ -208,6 +209,20 @@ CI4_Admin.Rebuild = function(type) {
 	  				return false;
   				}
 				alert(data.text);
+			})
+			.fail(function( response ) {
+				alert(JSON.stringify(response));
+			});
+}
+
+CI4_Admin.AttachNews = function(id) {
+		url = '/admin/attachnews';
+		$.post( url, { id: id, action: 'AttachNews' })
+			.done(function( data ) {
+				if(data.ret == true) {
+					$('#attachnews-'+id).html(data.icon).data('bs-title', data.title);
+	  				return false;
+  				}
 			})
 			.fail(function( response ) {
 				alert(JSON.stringify(response));

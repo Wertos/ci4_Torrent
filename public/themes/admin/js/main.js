@@ -21,14 +21,16 @@ showSidebarBtnPc.onclick = function () {
   wrapper.classList.toggle('show_pc');
 }
 function initializeTooltips() {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
-      html: true,
-      boundary: document.body,
-      container: 'body',
-      trigger: 'hover'
+	const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
+		html: true,
+		boundary: document.body,
+		container: 'body',
+		trigger: 'hover'
     }));
 }
+
+
 $(document).ready(function() {
     initializeTooltips();
 });
