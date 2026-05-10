@@ -46,9 +46,9 @@
         </h6>
         <?php if ($details->kp_rating !== NULL && setting('Torrent.kpRating') === TRUE) : ?>
         <hr class="clearfix w-100 p-0 mt-1 mb-1">
-        <div class="w-50">
+        <div class="w-100">
         	<div class="kpblock float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3">
-        		<div class="d-block" style="width:100px;">
+        		<div onClick="window.open('https://www.kinopoisk.ru/film/<?= $details->kp_id; ?>/', '_blank');" class="clickable d-block text-decoration-none" style="width:100px;">
         			<span class="kpname fs-7 d-block"><?= lang('Torrent.kp'); ?></span>
         			<span class="kprating"><?= $details->kp_rating; ?></span>
 					<!-- -->/<!-- -->
@@ -65,6 +65,11 @@
                     <span class="ms-1 imdbvotes"><?= $details->imdb_votes; ?></span>
         		</div>
         	</div>
+			<div class="float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3 border-dark">
+        		<div class="d-block" id="rating">
+					<?= $details->ratHtml; ?>
+				</div>
+			</div>
         </div>
         <?php endif; ?>
         <div id="status" class="p-2 border <?= $class; ?> border-5 position-absolute rounded-circle">

@@ -66,11 +66,11 @@ class GlobalModel extends Model
 
     public function getTorrentCountUser(?int $id = null)
     {
-        	$query = $this->db->table('torrents')->where('deleted_at =', null)->select('COUNT(id) AS count');
-        	if ($id)
-        				$query->where('owner', $id);
-          $data = $query->get()->getRow();
-          return (int) $data->count;
+		$query = $this->db->table('torrents')->where('deleted_at =', null)->select('COUNT(id) AS count');
+		if ($id)
+        	$query->where('owner', $id);
+		$data = $query->get()->getRow();
+		return (int) $data->count;
     }
 
     public function getAllTorrent(int $limit = 10, int $offset = 0) {

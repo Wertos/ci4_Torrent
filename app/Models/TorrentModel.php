@@ -98,6 +98,7 @@ class TorrentModel extends Model {
 
     public $torrent;
     public $decoded;
+	public $config;
 
     protected function initialize(): void
     {

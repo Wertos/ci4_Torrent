@@ -444,6 +444,39 @@ $('#TorPreview').on('click', function() {
 		});
 });
 
+CI4.rate = function(tid, value) {
+	var value = parseInt(value);
+	var tid = parseInt(tid);
+	url = '/ajax/setrating';
+	$.post( url, { 
+		action: "setrating",
+		tid: tid,
+		rating: value
+	})
+  	.done(function( data ) {
+   		$('#rating').html(data.html).css('width', '100%');
+  	})
+  	.fail(function( response ) {
+   		alert(JSON.stringify(response));
+	});
+};
+
+CI4.rateEdit = function(mode, tid) {
+	url = '/ajax/'+mode;
+	$.post( url, { 
+		action: mode,
+		tid : tid
+	})
+  	.done(function( data ) {
+		$('#rating').html(data.html);
+		$('.tooltip').removeClass('show');
+	})
+	.fail(function( response ) {
+   		alert(JSON.stringify(response));
+	});
+}
+
+
 // implement JSON.stringify serialization
 JSON.stringify = JSON.stringify || function (obj) {
     var t = typeof (obj);

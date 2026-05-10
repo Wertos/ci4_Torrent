@@ -12,6 +12,7 @@ use App\Models\CommentModel;
 use App\Models\GlobalModel;
 use App\Models\BookmarkModel;
 use App\Models\ReportModel;
+use App\Models\RatingModel;
 
 class TorrentController extends BaseController
 {
@@ -20,6 +21,7 @@ class TorrentController extends BaseController
 	public $CommentModel;
 	public $BookmarkModel;
 	public $ReportModel;
+	public $RatingModel;
 	public $siteTitle;
 
 	function __construct()
@@ -29,6 +31,7 @@ class TorrentController extends BaseController
 		$this->CommentModel = model(CommentModel::class);
 		$this->BookmarkModel = model(BookmarkModel::class);
 		$this->ReportModel = model(ReportModel::class);
+		$this->RatingModel = model(RatingModel::class);
 	}
 	
 	public function TorrentView(?int $tId = null)
@@ -58,11 +61,14 @@ class TorrentController extends BaseController
 			$torrentData->kp_votes = NULL;
 			$torrentData->imdb_rating = NULL;
 			$torrentData->imdb_votes = NULL;
+			$torrentData->kp_id = NULL;
+			$torrentData->tMyRating = NULL;
 
-			if ( preg_match('~\[rating=(\d+)\]~siu', $torrentData->descr, $match) )
+			if ( preg_match('~\[rating=(\d+)\]~siu', $torrentData->descr, $match) && $this->userData->logged_in)
 			{
 				$torrentData->descr = preg_replace('~(\s\s+)?\[rating=(\d+)\](\s\s+)?~siu', '', $torrentData->descr);
 				$filmId = (int) $match[1];
+				$torrentData->kp_id = $filmId;
 				$this->TorrentModel->setRating($filmId, $tId);
 				$filmData = json_decode($torrentData->rating, FALSE);
 				if ( $filmData && $filmData->error === FALSE ) {
@@ -70,6 +76,14 @@ class TorrentController extends BaseController
 					$torrentData->kp_votes = $filmData->kp_votes;
 					$torrentData->imdb_rating = $filmData->imdb_rating;
 					$torrentData->imdb_votes = $filmData->imdb_votes;
+				}
+				$torrentData->tMyRating = $this->RatingModel->checkTorrent($tId, $this->userData->id);
+				if ( $torrentData->tMyRating === true ) {
+					$ratArry = $this->RatingModel->getRating($tId, $this->userData->id);
+					$torrentData->ratHtml = $this->RatingModel->getHtmlRating($ratArry, (int) $torrentData->id);
+				} else {
+					$ratArry = $this->RatingModel->getRating($tId, $this->userData->id);
+					$torrentData->ratHtml = $this->themes->render('ajax_templates/setrating.php', ['tid' => $torrentData->id, 'clsRating' => my_col_bg($ratArry['avgRating']), 'avgRating' => $ratArry['avgRating']], TRUE);
 				}
 			}
 		}

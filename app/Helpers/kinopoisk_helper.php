@@ -35,17 +35,40 @@ function parseRating($jsn): array
 
 function colorize_rating($rating): string
 {
-	if ( $rating < 5 ) {
+	if ( $rating == 0 ) {
+		$col_rating = '<span style="color:gray;">-</span>';
+	}
+	else if ( $rating <= 5 ) {
 		$col_rating = '<span style="color:red;">' . $rating . '</span>';
 	}
 	else if ( $rating > 5 && $rating < 7 ) {
 		$col_rating = '<span style="color:#777;">' . $rating . '</span>';
 	}
-	else if ( $rating > 7 ) {
+	else if ( $rating >= 7 ) {
 		$col_rating = '<span style="color:#3bb33b;">' . $rating . '</span>';
 	}
 	else {
 		$col_rating = $rating;
 	}
 	return $col_rating;
+}
+
+function my_col_bg($rating): string
+{
+	if ( $rating == 0 ) {
+		$bg_class = 'bg_white';
+	}
+	else if ( $rating <= 5 ) {
+		$bg_class = 'bg_red';
+	}
+	else if ( $rating > 5 && $rating < 7 ) {
+		$bg_class = 'bg_gray';
+	}
+	else if ( $rating >= 7 ) {
+		$bg_class = 'bg_green';
+	}
+	else {
+		$bg_class = '';
+	}
+	return $bg_class;
 }

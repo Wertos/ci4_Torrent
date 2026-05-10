@@ -9,6 +9,7 @@ use App\Models\TorrentModel;
 use App\Models\CommentModel;
 use App\Models\ReportModel;
 use App\Models\BookmarkModel;
+use App\Models\RatingModel;
 use App\Models\Admin\CategoryModel;
 use CodeIgniter\BaseController;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -55,6 +56,11 @@ class AjaxController extends \App\Controllers\BaseController
 				case 'torstatus':
       				$this->adminModel = model(AdminModel::class);
       				$this->TorrentModel = model(TorrentModel::class);	
+      			break;
+				case 'setrating':
+				case 'delrating':
+				case 'editrating':
+      				$this->RatingModel = model(RatingModel::class);	
       			break;
 				case 'tormove':
       				$this->adminModel = model(AdminModel::class);
@@ -737,6 +743,11 @@ class AjaxController extends \App\Controllers\BaseController
 
 	function torrPreview()
 	{
+
+	  	if ($this->userData->is_guest === true) {
+				throw PageNotFoundException::forPageNotFound();
+	  	}
+
 		$bbcode = new BBCodeParser();
 		$poster = (string) $this->request->getPost('poster');
 		$text = (string) $this->request->getPost('text');
@@ -753,6 +764,56 @@ class AjaxController extends \App\Controllers\BaseController
 			'html' => $htmlPoster.$renderedText,
 		];
 		return $this->_AjaxSend($data); die();	
+	}
+	
+	function SetRating()
+	{
+		$rating = (int) $this->request->getPost('rating');
+		$torrentId = (int) $this->request->getPost('tid');
+		$userId = (int) $this->userData->id;
+
+	  	if ($this->userData->is_guest === true) {
+				throw PageNotFoundException::forPageNotFound();
+	  	}
+
+		$rating = $this->RatingModel->setRating($userId, $torrentId, $rating);
+		
+		$htmlRating = $this->RatingModel->getHtmlRating($rating, $torrentId);
+		
+		$data = [
+			'html' => $htmlRating
+		];
+		return $this->_AjaxSend($data); die();	
+	}
+	
+	function DelRating()
+	{
+		helper('kinopoisk');
+
+	  	if ($this->userData->is_guest === true) {
+				throw PageNotFoundException::forPageNotFound();
+	  	}
+
+		$data = [];
+		$torrentId = (int) $this->request->getPost('tid');
+		$userId = (int) $this->userData->id;
+		
+		$result = $this->RatingModel->delRating($torrentId, $userId);
+		
+		if ( $result == true ) {
+			$rat = $this->RatingModel->getRating($torrentId, $userId);
+			$data['html'] = $this->themes->render('ajax_templates/setrating.php', ['tid' => $torrentId, 'clsRating' => my_col_bg($rat['avgRating']), 'avgRating' => $rat['avgRating']], TRUE);
+		}
+
+		return $this->_AjaxSend($data); die();
+	}
+
+	function EditRating()
+	{
+	  	if ($this->userData->is_guest === true) {
+				throw PageNotFoundException::forPageNotFound();
+	  	}
+
 	}
 
 }

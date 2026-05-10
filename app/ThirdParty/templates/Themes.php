@@ -420,7 +420,7 @@ class Themes
 	 * @param string $viewPath
 	 * @param array  $data
 	 */
-	static function render($viewPath = null, $data = [])
+	static function render($viewPath = null, $data = [], $ret = false)
 	{
 		
 		if (is_null(self::$instance))
@@ -446,7 +446,7 @@ class Themes
 		$view = new \CodeIgniter\View\View($view_config, FCPATH . self::$config[THEME_PATH] . '/' . self::$config[THEME] . '/');
 
 		$view->setData($objTheme::getData());
-		if (request()->isAJAX())
+		if (request()->isAJAX() || $ret == TRUE)
 		{
 			return $view->render(self::$config[TEMPLATE]);
 		}

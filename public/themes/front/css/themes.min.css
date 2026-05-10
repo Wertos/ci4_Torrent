@@ -53,7 +53,7 @@ table .small {font-size:13px;}
 		cursor: default !important;
 }
 .clickable:hover {
-		text-decoration: underline !important;
+/*		text-decoration: underline !important; */
 }
 .unclickable:hover {
 		text-decoration: none !important;
@@ -231,3 +231,43 @@ tr.attach {
 tr.attach td {
 	background-color: rgb(248, 215, 218);
 }
+button.rating {
+	padding: 0px 2px 0 2px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+button.star {
+	padding: 0;
+    font-weight: 600;
+    cursor: default;
+    text-align: center;
+    color: gray;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+button.rating span {
+	display: block;
+	transition: .2s ease;
+	font-weight: bolder;
+	font-size: 16px;
+	color: gray;
+}
+button.rating span:hover {
+	transform: scale(1.2);
+}
+button.rating span.green:hover {
+	color: #3bb33b !important;
+}
+button.rating span.gray:hover {
+	color: #777 !important;
+}
+button.rating span.red:hover {
+	color: red !important;
+}
+.bg_white { background-color: white !important; }
+.bg_red { background-color: red !important; }
+.bg_gray { background-color: #777 !important; }
+.bg_green { background-color: #3bb33b !important; }

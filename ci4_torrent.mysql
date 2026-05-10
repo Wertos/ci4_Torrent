@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Май 09 2026 г., 04:23
+-- Время создания: Май 10 2026 г., 18:46
 -- Версия сервера: 8.4.8-8
 -- Версия PHP: 8.5.6
 
@@ -243,6 +243,22 @@ CREATE TABLE `page` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `rating`
+--
+
+CREATE TABLE `rating` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `torrent_id` int NOT NULL,
+  `rating` int NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `reports`
 --
 
@@ -255,7 +271,7 @@ CREATE TABLE `reports` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `modded_by` int UNSIGNED NOT NULL DEFAULT '0',
-  `location` enum('torrents','comments') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `location` enum('torrents','comments','news') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sender` int UNSIGNED NOT NULL DEFAULT '0',
   `ip` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -449,6 +465,12 @@ ALTER TABLE `page`
   ADD UNIQUE KEY `UNIQUE` (`id`);
 
 --
+-- Индексы таблицы `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `reports`
 --
 ALTER TABLE `reports`
@@ -565,6 +587,12 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `page`
 --
 ALTER TABLE `page`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `rating`
+--
+ALTER TABLE `rating`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --

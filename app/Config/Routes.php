@@ -82,6 +82,9 @@ $routes->post('ajax/userbookmarks',				'AjaxController::getUserBookMarks');
 $routes->post('ajax/updatecaptcha',				'AjaxController::updateCaptcha');
 $routes->post('ajax/delavatar',					'AjaxController::delAvatar');
 $routes->post('ajax/torrpreview',				'AjaxController::torrPreview');
+$routes->post('ajax/setrating',					'AjaxController::SetRating');
+$routes->post('ajax/delrating',					'AjaxController::DelRating');
+$routes->post('ajax/editrating',				'AjaxController::EditRating');
 
 $routes->get('torrent/add',            			'TorrentController::TorrentAddShow');
 $routes->post('torrent/add',           			'TorrentController::TorrentAddAction');
