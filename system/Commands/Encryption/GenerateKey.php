@@ -13,90 +13,122 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Commands\Encryption;
 
-use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\AbstractCommand;
+use CodeIgniter\CLI\Attributes\Command;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\CLI\Input\Option;
 use CodeIgniter\Config\DotEnv;
 use CodeIgniter\Encryption\Encryption;
 use Config\Paths;
 
 /**
- * Generates a new encryption key.
+ * Generates a new encryption key and writes it in an `.env` file.
  */
-class GenerateKey extends BaseCommand
+#[Command(name: 'key:generate', description: 'Generates a new encryption key and writes it in an `.env` file.', group: 'Encryption')]
+class GenerateKey extends AbstractCommand
 {
     /**
-     * The Command's group.
-     *
-     * @var string
+     * @var list<string>
      */
-    protected $group = 'Encryption';
+    private const VALID_PREFIXES = ['hex2bin', 'base64'];
 
-    /**
-     * The Command's name.
-     *
-     * @var string
-     */
-    protected $name = 'key:generate';
-
-    /**
-     * The Command's usage.
-     *
-     * @var string
-     */
-    protected $usage = 'key:generate [options]';
-
-    /**
-     * The Command's short description.
-     *
-     * @var string
-     */
-    protected $description = 'Generates a new encryption key and writes it in an `.env` file.';
-
-    /**
-     * The command's options
-     *
-     * @var array<string, string>
-     */
-    protected $options = [
-        '--force'  => 'Force overwrite existing key in `.env` file.',
-        '--length' => 'The length of the random string that should be returned in bytes. Defaults to 32.',
-        '--prefix' => 'Prefix to prepend to encoded key (either hex2bin or base64). Defaults to hex2bin.',
-        '--show'   => 'Shows the generated key in the terminal instead of storing in the `.env` file.',
-    ];
-
-    /**
-     * Actually execute the command.
-     */
-    public function run(array $params)
+    protected function configure(): void
     {
-        $prefix = $params['prefix'] ?? CLI::getOption('prefix');
+        $this
+            ->addOption(new Option(
+                name: 'force',
+                shortcut: 'f',
+                description: 'Force overwrite existing key in `.env` file.',
+            ))
+            ->addOption(new Option(
+                name: 'length',
+                description: 'The length of the random string that should be returned in bytes.',
+                requiresValue: true,
+                default: '32',
+            ))
+            ->addOption(new Option(
+                name: 'prefix',
+                description: 'Prefix to prepend to encoded key (either hex2bin or base64).',
+                requiresValue: true,
+                default: 'hex2bin',
+            ))
+            ->addOption(new Option(
+                name: 'show',
+                description: 'Shows the generated key in the terminal instead of storing in the `.env` file.',
+            ));
+    }
 
-        if (in_array($prefix, [null, true], true)) {
-            $prefix = 'hex2bin';
-        } elseif (! in_array($prefix, ['hex2bin', 'base64'], true)) {
-            $prefix = CLI::prompt('Please provide a valid prefix to use.', ['hex2bin', 'base64'], 'required'); // @codeCoverageIgnore
+    protected function interact(array &$arguments, array &$options): void
+    {
+        $prefix = $this->getUnboundOption('prefix', $options);
+
+        if (is_string($prefix) && ! in_array($prefix, self::VALID_PREFIXES, true)) {
+            $options['prefix'] = CLI::prompt('Please provide a valid prefix to use.', self::VALID_PREFIXES, 'required');
         }
 
-        $length = $params['length'] ?? CLI::getOption('length');
-
-        if (in_array($length, [null, true], true)) {
-            $length = 32;
+        if ($this->hasUnboundOption('show', $options)) {
+            return;
         }
 
-        $encodedKey = $this->generateRandomKey($prefix, $length);
+        if ($this->hasUnboundOption('force', $options)) {
+            return;
+        }
 
-        if (array_key_exists('show', $params) || (bool) CLI::getOption('show')) {
+        if (env('encryption.key', '') === '') {
+            return;
+        }
+
+        if (CLI::prompt('Overwrite existing key?', ['n', 'y']) === 'y') {
+            $options['force'] = null; // simulate the presence of the --force option
+        }
+    }
+
+    protected function execute(array $arguments, array $options): int
+    {
+        $prefix = $options['prefix'];
+
+        if (! in_array($prefix, self::VALID_PREFIXES, true)) {
+            CLI::error(sprintf('Invalid prefix "%s". Use either "hex2bin" or "base64".', $prefix));
+
+            return EXIT_ERROR;
+        }
+
+        $encodedKey = $this->generateRandomKey($prefix, (int) $options['length']);
+
+        if ($options['show'] === true) {
             CLI::write($encodedKey, 'yellow');
-            CLI::newLine();
 
-            return;
+            return EXIT_SUCCESS;
         }
 
-        if (! $this->setNewEncryptionKey($encodedKey, $params)) {
-            CLI::write('Error in setting new encryption key to .env file.', 'light_gray', 'red');
-            CLI::newLine();
+        $currentKey = env('encryption.key', '');
 
-            return;
+        if ($currentKey !== '' && $options['force'] === false) {
+            if ($this->isInteractive()) {
+                CLI::write('Setting new encryption key cancelled.', 'yellow');
+
+                return EXIT_SUCCESS;
+            }
+
+            CLI::error('Setting new encryption key aborted: pass --force to overwrite the existing key in non-interactive mode.');
+
+            return EXIT_ERROR;
+        }
+
+        $envFile = ((new Paths())->envDirectory ?? ROOTPATH) . '.env'; // @phpstan-ignore nullCoalesce.property
+        $baseEnv = ROOTPATH . 'env';
+
+        if (! is_file($envFile) && ! is_file($baseEnv)) {
+            CLI::write('Both default shipped `env` file and custom `.env` are missing.', 'yellow');
+            CLI::write(sprintf('Here\'s your new key instead: %s', CLI::color($encodedKey, 'yellow')));
+
+            return EXIT_ERROR;
+        }
+
+        if (! $this->writeNewEncryptionKeyToFile($encodedKey, $envFile, $baseEnv)) {
+            CLI::error(sprintf('Failed to write new encryption key to %s.', clean_path($envFile)));
+
+            return EXIT_ERROR;
         }
 
         // force DotEnv to reload the new env vars
@@ -105,14 +137,16 @@ class GenerateKey extends BaseCommand
         $dotenv = new DotEnv((new Paths())->envDirectory ?? ROOTPATH); // @phpstan-ignore nullCoalesce.property
         $dotenv->load();
 
-        CLI::write('Application\'s new encryption key was successfully set.', 'green');
+        CLI::write(sprintf('New encryption key written to %s.', clean_path($envFile)), 'green');
         CLI::newLine();
+
+        return EXIT_SUCCESS;
     }
 
     /**
      * Generates a key and encodes it.
      */
-    protected function generateRandomKey(string $prefix, int $length): string
+    private function generateRandomKey(string $prefix, int $length): string
     {
         $key = Encryption::createKey($length);
 
@@ -124,83 +158,41 @@ class GenerateKey extends BaseCommand
     }
 
     /**
-     * Sets the new encryption key in your .env file.
-     *
-     * @param array<int|string, string|null> $params
+     * Writes the new encryption key to .env file. The caller is responsible
+     * for ensuring at least one of `$envFile` or `$baseEnv` exists.
      */
-    protected function setNewEncryptionKey(string $key, array $params): bool
+    private function writeNewEncryptionKeyToFile(string $newKey, string $envFile, string $baseEnv): bool
     {
-        $currentKey = env('encryption.key', '');
-
-        if ($currentKey !== '' && ! $this->confirmOverwrite($params)) {
-            // Not yet testable since it requires keyboard input
-            return false; // @codeCoverageIgnore
-        }
-
-        return $this->writeNewEncryptionKeyToFile($currentKey, $key);
-    }
-
-    /**
-     * Checks whether to overwrite existing encryption key.
-     *
-     * @param array<int|string, string|null> $params
-     */
-    protected function confirmOverwrite(array $params): bool
-    {
-        return (array_key_exists('force', $params) || CLI::getOption('force')) || CLI::prompt('Overwrite existing key?', ['n', 'y']) === 'y';
-    }
-
-    /**
-     * Writes the new encryption key to .env file.
-     */
-    protected function writeNewEncryptionKeyToFile(string $oldKey, string $newKey): bool
-    {
-        $baseEnv = ROOTPATH . 'env';
-        $envFile = ((new Paths())->envDirectory ?? ROOTPATH) . '.env'; // @phpstan-ignore nullCoalesce.property
-
         if (! is_file($envFile)) {
-            if (! is_file($baseEnv)) {
-                CLI::write('Both default shipped `env` file and custom `.env` are missing.', 'yellow');
-                CLI::write('Here\'s your new key instead: ' . CLI::color($newKey, 'yellow'));
-                CLI::newLine();
-
-                return false;
-            }
-
             copy($baseEnv, $envFile);
         }
 
+        if (! is_writable($envFile)) {
+            return false;
+        }
+
         $oldFileContents = (string) file_get_contents($envFile);
-        $replacementKey  = "\nencryption.key = {$newKey}";
 
-        if (! str_contains($oldFileContents, 'encryption.key')) {
-            return file_put_contents($envFile, $replacementKey, FILE_APPEND) !== false;
+        // Match an active setting line, preserving any leading whitespace and `export` prefix.
+        $activePattern = '/^(\h*(?:export\h+)?encryption\.key\h*=\h*)[^\r\n]*$/m';
+
+        if (preg_match($activePattern, $oldFileContents) === 1) {
+            $newFileContents = (string) preg_replace($activePattern, '$1' . $newKey, $oldFileContents, 1);
+
+            return file_put_contents($envFile, $newFileContents) !== false;
         }
 
-        $newFileContents = preg_replace($this->keyPattern($oldKey), $replacementKey, $oldFileContents);
+        // Match a commented-out setting line (e.g., from the shipped `env` template) and
+        // uncomment it. The optional `export` prefix is dropped on uncomment for predictability.
+        $commentedPattern = '/^\h*#\h*(?:export\h+)?encryption\.key\h*=\h*[^\r\n]*$/m';
 
-        if ($newFileContents === $oldFileContents) {
-            $newFileContents = preg_replace(
-                '/^[#\s]*encryption.key[=\s]*(?:hex2bin\:[a-f0-9]{64}|base64\:(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?)$/m',
-                $replacementKey,
-                $oldFileContents,
-            );
+        if (preg_match($commentedPattern, $oldFileContents) === 1) {
+            $newFileContents = (string) preg_replace($commentedPattern, "encryption.key = {$newKey}", $oldFileContents, 1);
+
+            return file_put_contents($envFile, $newFileContents) !== false;
         }
 
-        return file_put_contents($envFile, $newFileContents) !== false;
-    }
-
-    /**
-     * Get the regex of the current encryption key.
-     */
-    protected function keyPattern(string $oldKey): string
-    {
-        $escaped = preg_quote($oldKey, '/');
-
-        if ($escaped !== '') {
-            $escaped = "[{$escaped}]*";
-        }
-
-        return "/^[#\\s]*encryption.key[=\\s]*{$escaped}$/m";
+        // No setting present (active or commented); append.
+        return file_put_contents($envFile, "\nencryption.key = {$newKey}", FILE_APPEND) !== false;
     }
 }

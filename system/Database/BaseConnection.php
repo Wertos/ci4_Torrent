@@ -15,6 +15,8 @@ namespace CodeIgniter\Database;
 
 use Closure;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use CodeIgniter\Database\Exceptions\RetryableTransactionException;
+use CodeIgniter\Database\Exceptions\UniqueConstraintViolationException;
 use CodeIgniter\Events\Events;
 use CodeIgniter\I18n\Time;
 use Exception;
@@ -357,6 +359,20 @@ abstract class BaseConnection implements ConnectionInterface
      * Whether to throw exceptions during transaction
      */
     protected bool $transException = false;
+
+    /**
+     * Callbacks to run after the outermost transaction commits.
+     *
+     * @var list<callable(): void>
+     */
+    protected array $transCommitCallbacks = [];
+
+    /**
+     * Callbacks to run after the outermost transaction rolls back.
+     *
+     * @var list<callable(): void>
+     */
+    protected array $transRollbackCallbacks = [];
 
     /**
      * Array of table aliases.
@@ -807,9 +823,7 @@ abstract class BaseConnection implements ConnectionInterface
             $this->initialize();
         }
 
-        /**
-         * @var Query $query
-         */
+        /** @var Query $query */
         $query = new $queryClass($this);
 
         $query->setQuery($sql, $binds, $setEscapeFlags);
@@ -987,13 +1001,15 @@ abstract class BaseConnection implements ConnectionInterface
 
         // The query() function will set this flag to FALSE in the event that a query failed
         if ($this->transStatus === false || $this->transFailure === true) {
-            $this->transRollback();
-
-            // If we are NOT running in strict mode, we will reset
-            // the _trans_status flag so that subsequent groups of
-            // transactions will be permitted.
-            if ($this->transStrict === false) {
-                $this->transStatus = true;
+            try {
+                $this->transRollback();
+            } finally {
+                // If we are NOT running in strict mode, we will reset
+                // the _trans_status flag so that subsequent groups of
+                // transactions will be permitted.
+                if ($this->transStrict === false) {
+                    $this->transStatus = true;
+                }
             }
 
             return false;
@@ -1008,6 +1024,102 @@ abstract class BaseConnection implements ConnectionInterface
     public function transStatus(): bool
     {
         return $this->transStatus;
+    }
+
+    /**
+     * Checks whether this connection is inside an active transaction.
+     */
+    public function inTransaction(): bool
+    {
+        return $this->transDepth > 0;
+    }
+
+    /**
+     * Register a callback to run after the outermost transaction commits.
+     *
+     * If no transaction is active, the callback runs immediately.
+     *
+     * @param callable(): void $callback
+     *
+     * @return $this
+     */
+    public function afterCommit(callable $callback): static
+    {
+        if ($this->transDepth === 0) {
+            $callback();
+
+            return $this;
+        }
+
+        $this->transCommitCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Register a callback to run after the outermost transaction rolls back.
+     *
+     * If no transaction is active, the callback is not run.
+     *
+     * @param callable(): void $callback
+     *
+     * @return $this
+     */
+    public function afterRollback(callable $callback): static
+    {
+        if ($this->transDepth === 0) {
+            return $this;
+        }
+
+        $this->transRollbackCallbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Run the callback inside a transaction.
+     *
+     * @template TReturn
+     *
+     * @param callable(self): TReturn $callback
+     *
+     * @return false|TReturn
+     */
+    public function transaction(callable $callback): mixed
+    {
+        if (! $this->transEnabled) {
+            return $callback($this);
+        }
+
+        if (! $this->transBegin()) {
+            return false;
+        }
+
+        try {
+            $result = $callback($this);
+        } catch (Throwable $e) {
+            try {
+                $this->transRollback();
+            } catch (Throwable $rollbackException) {
+                log_message('error', 'Database: Transaction callback threw an exception before rollback failed: ' . $e);
+
+                throw $rollbackException;
+            } finally {
+                if ($this->transDepth > 0) {
+                    $this->transStatus = false;
+                } elseif ($this->transStrict === false) {
+                    $this->transStatus = true;
+                }
+            }
+
+            throw $e;
+        }
+
+        if (! $this->transComplete()) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**
@@ -1057,6 +1169,11 @@ abstract class BaseConnection implements ConnectionInterface
         if ($this->transDepth > 1 || $this->_transCommit()) {
             $this->transDepth--;
 
+            if ($this->transDepth === 0) {
+                $this->transRollbackCallbacks = [];
+                $this->runTransCommitCallbacks();
+            }
+
             return true;
         }
 
@@ -1075,6 +1192,11 @@ abstract class BaseConnection implements ConnectionInterface
         // When transactions are nested we only begin/commit/rollback the outermost ones
         if ($this->transDepth > 1 || $this->_transRollback()) {
             $this->transDepth--;
+
+            if ($this->transDepth === 0) {
+                $this->transCommitCallbacks = [];
+                $this->runTransRollbackCallbacks();
+            }
 
             return true;
         }
@@ -1101,6 +1223,32 @@ abstract class BaseConnection implements ConnectionInterface
     {
         if ($this->transDepth !== 0) {
             $this->transStatus = false;
+        }
+    }
+
+    /**
+     * Run and clear callbacks registered for a successful transaction commit.
+     */
+    protected function runTransCommitCallbacks(): void
+    {
+        $callbacks                  = $this->transCommitCallbacks;
+        $this->transCommitCallbacks = [];
+
+        foreach ($callbacks as $callback) {
+            $callback();
+        }
+    }
+
+    /**
+     * Run and clear callbacks registered for a transaction rollback.
+     */
+    protected function runTransRollbackCallbacks(): void
+    {
+        $callbacks                    = $this->transRollbackCallbacks;
+        $this->transRollbackCallbacks = [];
+
+        foreach ($callbacks as $callback) {
+            $callback();
         }
     }
 
@@ -1695,9 +1843,11 @@ abstract class BaseConnection implements ConnectionInterface
     public function listTables(bool $constrainByPrefix = false)
     {
         if (isset($this->dataCache['table_names']) && $this->dataCache['table_names']) {
-            return $constrainByPrefix
+            $tables = $constrainByPrefix
                 ? preg_grep("/^{$this->DBPrefix}/", $this->dataCache['table_names'])
                 : $this->dataCache['table_names'];
+
+            return array_values($tables);
         }
 
         $sql = $this->_listTables($constrainByPrefix);
@@ -1990,6 +2140,41 @@ abstract class BaseConnection implements ConnectionInterface
     public function getLastException(): ?DatabaseException
     {
         return $this->lastException;
+    }
+
+    /**
+     * Checks whether the native database error represents a unique constraint violation.
+     */
+    protected function isUniqueConstraintViolation(int|string $code, string $message): bool
+    {
+        return false;
+    }
+
+    /**
+     * Checks whether the native database code represents a retryable transaction failure.
+     */
+    protected function isRetryableTransactionErrorCode(int|string $code): bool
+    {
+        return false;
+    }
+
+    /**
+     * Creates the appropriate database exception for a native database error.
+     */
+    protected function createDatabaseException(
+        string $message,
+        int|string $code = 0,
+        ?Throwable $previous = null,
+    ): DatabaseException {
+        if ($this->isUniqueConstraintViolation($code, $message)) {
+            return new UniqueConstraintViolationException($message, $code, $previous);
+        }
+
+        if ($this->isRetryableTransactionErrorCode($code)) {
+            return new RetryableTransactionException($message, $code, $previous);
+        }
+
+        return new DatabaseException($message, $code, $previous);
     }
 
     /**

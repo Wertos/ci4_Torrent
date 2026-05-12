@@ -87,7 +87,7 @@ class CreateDatabase extends BaseCommand
             $config = config(Database::class);
 
             // Set to an empty database to prevent connection errors.
-            $group = ENVIRONMENT === 'testing' ? 'tests' : $config->defaultGroup;
+            $group = service('environment')->isTesting() ? 'tests' : $config->defaultGroup;
 
             $config->{$group}['database'] = '';
 
@@ -115,7 +115,7 @@ class CreateDatabase extends BaseCommand
                         CLI::error("Database \"{$dbName}\" already exists.", 'light_gray', 'red');
                         CLI::newLine();
 
-                        return;
+                        return EXIT_ERROR;
                     }
 
                     unset($dbName);
@@ -130,7 +130,7 @@ class CreateDatabase extends BaseCommand
                     CLI::error('Database creation failed.', 'light_gray', 'red');
                     CLI::newLine();
 
-                    return;
+                    return EXIT_ERROR;
                     // @codeCoverageIgnoreEnd
                 }
             } elseif (! Database::forge()->createDatabase($name)) {
@@ -138,14 +138,18 @@ class CreateDatabase extends BaseCommand
                 CLI::error('Database creation failed.', 'light_gray', 'red');
                 CLI::newLine();
 
-                return;
+                return EXIT_ERROR;
                 // @codeCoverageIgnoreEnd
             }
 
             CLI::write("Database \"{$name}\" successfully created.", 'green');
             CLI::newLine();
+
+            return EXIT_SUCCESS;
         } catch (Throwable $e) {
             $this->showError($e);
+
+            return EXIT_ERROR;
         } finally {
             Factories::reset('config');
             Database::connect(null, false);

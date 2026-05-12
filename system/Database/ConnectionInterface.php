@@ -78,7 +78,7 @@ interface ConnectionInterface
      * Must return this format: ['code' => string|int, 'message' => string]
      * intval(code) === 0 means "no error".
      *
-     * @return array<string, int|string>
+     * @return array{code: int|string|null, message: string|null}
      */
     public function error(): array;
 
@@ -114,6 +114,40 @@ interface ConnectionInterface
      * @return false|TResult
      */
     public function simpleQuery(string $sql);
+
+    /**
+     * Checks whether this connection is inside an active CodeIgniter-managed transaction.
+     */
+    public function inTransaction(): bool;
+
+    /**
+     * Register a callback to run after the outermost transaction commits.
+     *
+     * @param callable(): void $callback
+     *
+     * @return $this
+     */
+    public function afterCommit(callable $callback): static;
+
+    /**
+     * Register a callback to run after the outermost transaction rolls back.
+     *
+     * @param callable(): void $callback
+     *
+     * @return $this
+     */
+    public function afterRollback(callable $callback): static;
+
+    /**
+     * Run the callback inside a transaction.
+     *
+     * @template TReturn
+     *
+     * @param callable(self): TReturn $callback
+     *
+     * @return false|TReturn
+     */
+    public function transaction(callable $callback): mixed;
 
     /**
      * Returns an instance of the query builder for this connection.

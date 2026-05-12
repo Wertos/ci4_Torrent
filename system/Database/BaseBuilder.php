@@ -19,6 +19,7 @@ use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Exceptions\InvalidArgumentException;
 use CodeIgniter\Traits\ConditionalTrait;
 use Config\Feature;
+use TypeError;
 
 /**
  * Class BaseBuilder
@@ -310,9 +311,7 @@ class BaseBuilder
             throw new DatabaseException('A table must be specified when creating a new Query Builder.');
         }
 
-        /**
-         * @var BaseConnection $db
-         */
+        /** @var BaseConnection $db */
         $this->db = $db;
 
         if ($tableName instanceof TableName) {
@@ -736,6 +735,97 @@ class BaseBuilder
     public function orWhere($key, $value = null, ?bool $escape = null)
     {
         return $this->whereHaving('QBWhere', $key, $value, 'OR ', $escape);
+    }
+
+    /**
+     * Generates a WHERE clause that compares two columns.
+     *
+     * @param non-empty-string $first  First column name, optionally with comparison operator
+     * @param non-empty-string $second Second column name
+     * @param bool|null        $escape Whether to protect identifiers
+     *
+     * @return $this
+     *
+     * @throws InvalidArgumentException
+     */
+    public function whereColumn(string $first, string $second, ?bool $escape = null): static
+    {
+        return $this->whereColumnHaving('QBWhere', $first, $second, 'AND ', $escape);
+    }
+
+    /**
+     * Generates an OR WHERE clause that compares two columns.
+     *
+     * @param non-empty-string $first  First column name, optionally with comparison operator
+     * @param non-empty-string $second Second column name
+     * @param bool|null        $escape Whether to protect identifiers
+     *
+     * @return $this
+     *
+     * @throws InvalidArgumentException
+     */
+    public function orWhereColumn(string $first, string $second, ?bool $escape = null): static
+    {
+        return $this->whereColumnHaving('QBWhere', $first, $second, 'OR ', $escape);
+    }
+
+    /**
+     * @used-by whereColumn()
+     * @used-by orWhereColumn()
+     *
+     * @param 'QBHaving'|'QBWhere' $qbKey
+     * @param non-empty-string     $first  First column name, optionally with comparison operator
+     * @param non-empty-string     $second Second column name
+     * @param non-empty-string     $type
+     * @param bool|null            $escape Whether to protect identifiers
+     *
+     * @return $this
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function whereColumnHaving(string $qbKey, string $first, string $second, string $type = 'AND ', ?bool $escape = null): static
+    {
+        [$first, $operator] = $this->parseWhereColumnFirst($first);
+        $second             = trim($second);
+
+        if ($first === '' || $second === '') {
+            $caller = debug_backtrace(0, 2)[1]['function'];
+
+            throw new InvalidArgumentException(sprintf('%s() expects $first and $second to be non-empty strings', $caller));
+        }
+
+        $escape ??= $this->db->protectIdentifiers;
+
+        $prefix = $this->{$qbKey} === [] ? $this->groupGetType('') : $this->groupGetType($type);
+
+        $this->{$qbKey}[] = [
+            'columnComparison' => true,
+            'condition'        => $prefix,
+            'escape'           => $escape,
+            'first'            => $first,
+            'operator'         => $operator,
+            'second'           => $second,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Extracts the operator from the first whereColumn() column.
+     *
+     * @param string $first The first column, optionally ending with a comparison operator
+     *
+     * @return array{string, string}
+     */
+    private function parseWhereColumnFirst(string $first): array
+    {
+        $first = trim($first);
+
+        if (preg_match('/\s*(!=|<>|<=|>=|=|<|>)\s*$/', $first, $match) === 1) {
+            return [rtrim(substr($first, 0, -strlen($match[0]))), trim($match[1])];
+        }
+
+        return [$first, '='];
     }
 
     /**
@@ -1385,6 +1475,7 @@ class BaseBuilder
      * @used-by _like()
      * @used-by whereHaving()
      * @used-by _whereIn()
+     * @used-by whereColumnHaving()
      * @used-by havingGroupStart()
      */
     protected function groupGetType(string $type): string
@@ -2931,9 +3022,41 @@ class BaseBuilder
      */
     public function increment(string $column, int $value = 1)
     {
-        $column = $this->db->protectIdentifiers($column);
+        return $this->incrementMany([$column], $value);
+    }
 
-        $sql = $this->_update($this->QBFrom[0], [$column => "{$column} + {$value}"]);
+    /**
+     * Increments multiple numeric columns by the specified value(s).
+     *
+     * @param array<string, int>|list<string> $columns A list of columns or array of column => value pairs to increment.
+     * @param int                             $value   The value to increment by if $columns is a list of column names.
+     */
+    public function incrementMany(array $columns, int $value = 1): bool
+    {
+        if ($columns === []) {
+            throw new InvalidArgumentException('Argument #1 ($columns) cannot be empty.');
+        }
+
+        if (array_is_list($columns)) {
+            $columns = array_fill_keys($columns, $value);
+        }
+
+        $fields = [];
+
+        foreach ($columns as $col => $val) {
+            if (! is_int($val)) {
+                throw new TypeError(sprintf(
+                    'Argument #1 ($columns) must contain only int values, %s given for "%s".',
+                    get_debug_type($val),
+                    $col,
+                ));
+            }
+
+            $col          = $this->db->protectIdentifiers($col);
+            $fields[$col] = "{$col} + {$val}";
+        }
+
+        $sql = $this->_update($this->QBFrom[0], $fields);
 
         if (! $this->testMode) {
             $this->resetWrite();
@@ -2951,9 +3074,41 @@ class BaseBuilder
      */
     public function decrement(string $column, int $value = 1)
     {
-        $column = $this->db->protectIdentifiers($column);
+        return $this->decrementMany([$column], $value);
+    }
 
-        $sql = $this->_update($this->QBFrom[0], [$column => "{$column}-{$value}"]);
+    /**
+     * Decrements multiple numeric columns by the specified value(s).
+     *
+     * @param array<string, int>|list<string> $columns A list of columns or array of column => value pairs to decrement.
+     * @param int                             $value   The value to decrement by if $columns is a list of column names.
+     */
+    public function decrementMany(array $columns, int $value = 1): bool
+    {
+        if ($columns === []) {
+            throw new InvalidArgumentException('Argument #1 ($columns) cannot be empty.');
+        }
+
+        if (array_is_list($columns)) {
+            $columns = array_fill_keys($columns, $value);
+        }
+
+        $fields = [];
+
+        foreach ($columns as $col => $val) {
+            if (! is_int($val)) {
+                throw new TypeError(sprintf(
+                    'Argument #1 ($columns) must contain only int values, %s given for "%s".',
+                    get_debug_type($val),
+                    $col,
+                ));
+            }
+
+            $col          = $this->db->protectIdentifiers($col);
+            $fields[$col] = "{$col} - {$val}";
+        }
+
+        $sql = $this->_update($this->QBFrom[0], $fields);
 
         if (! $this->testMode) {
             $this->resetWrite();
@@ -3116,6 +3271,12 @@ class BaseBuilder
                     continue;
                 }
 
+                if (($qbkey['columnComparison'] ?? false) === true) {
+                    $qbkey = $this->compileColumnComparison($qbkey);
+
+                    continue;
+                }
+
                 if ($qbkey['escape'] === false) {
                     $qbkey = $qbkey['condition'];
 
@@ -3177,6 +3338,21 @@ class BaseBuilder
         }
 
         return '';
+    }
+
+    /**
+     * @used-by compileWhereHaving()
+     *
+     * @param array{columnComparison: true, condition: string, escape: bool, first: string, operator: string, second: string} $condition
+     */
+    private function compileColumnComparison(array $condition): string
+    {
+        if ($condition['escape']) {
+            $condition['first']  = $this->db->protectIdentifiers($condition['first'], false, true);
+            $condition['second'] = $this->db->protectIdentifiers($condition['second'], false, true);
+        }
+
+        return $condition['condition'] . $condition['first'] . ' ' . $condition['operator'] . ' ' . $condition['second'];
     }
 
     /**

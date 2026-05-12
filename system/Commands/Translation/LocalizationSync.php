@@ -85,7 +85,7 @@ class LocalizationSync extends BaseCommand
             return EXIT_USER_INPUT;
         }
 
-        if (ENVIRONMENT === 'testing') {
+        if (service('environment')->isTesting()) {
             $this->languagePath = SUPPORTPATH . 'Language';
         }
 
@@ -131,9 +131,7 @@ class LocalizationSync extends BaseCommand
             ),
         );
 
-        /**
-         * @var array<non-empty-string, SplFileInfo> $files
-         */
+        /** @var array<non-empty-string, SplFileInfo> $files */
         $files = iterator_to_array($iterator, true);
         ksort($files);
 

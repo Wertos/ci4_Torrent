@@ -169,20 +169,21 @@ function humn_size (size) {
 }
 
 $('*[data-pass="viewpass"]').click(function(){
-		if ($(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').is('[type="password"]')) {
-			$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'text')
-			$(this).html('<i class="bi bi-lock"></i>');
-		} else {	
-			$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'password');
-			$(this).html('<i class="bi bi-unlock"></i>');
-		}
-		
+	if ($(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').is('[type="password"]')) {
+		$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'text')
+		$(this).html('<i class="bi bi-lock"></i>');
+	} else {	
+		$(this).prev().prev('#floatingPasswordInput, #floatingPasswordConfirmInput').attr('type', 'password');
+		$(this).html('<i class="bi bi-unlock"></i>');
+	}
 });
 
 function insertTemplate(template, id) {
 	if (! template || ! id)
 			return false;
-	$('#'+id).load('/torrent_templates/'+template+'.txt');
+	$.get('/torrent_templates/'+template+'.txt', function( templateText ) {
+    	$('textarea#'+id).val(templateText);
+	});
 }
 
 function confirmation() {

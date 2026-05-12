@@ -28,6 +28,7 @@ use CodeIgniter\Debug\Toolbar;
 use CodeIgniter\Email\Email;
 use CodeIgniter\Encryption\EncrypterInterface;
 use CodeIgniter\Encryption\Encryption;
+use CodeIgniter\EnvironmentDetector;
 use CodeIgniter\Filters\Filters;
 use CodeIgniter\Format\Format;
 use CodeIgniter\Honeypot\Honeypot;
@@ -45,7 +46,9 @@ use CodeIgniter\HTTP\SiteURIFactory;
 use CodeIgniter\HTTP\URI;
 use CodeIgniter\HTTP\UserAgent;
 use CodeIgniter\Images\Handlers\BaseHandler;
+use CodeIgniter\Input\InputDataFactory;
 use CodeIgniter\Language\Language;
+use CodeIgniter\Lock\LockManager;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\Pager\Pager;
 use CodeIgniter\Router\RouteCollection;
@@ -128,6 +131,20 @@ class Services extends BaseService
         $config ??= config(Cache::class);
 
         return CacheFactory::getHandler($config);
+    }
+
+    /**
+     * The locks service provides atomic locks backed by supported cache handlers.
+     */
+    public static function locks(?CacheInterface $cache = null, bool $getShared = true): LockManager
+    {
+        if ($getShared) {
+            return static::getSharedInstance('locks', $cache);
+        }
+
+        $cache ??= AppServices::get('cache');
+
+        return new LockManager($cache);
     }
 
     /**
@@ -260,6 +277,23 @@ class Services extends BaseService
     }
 
     /**
+     * Provides a simple way to determine the current environment
+     * of the application.
+     *
+     * Primarily intended for testing environment-specific branches by
+     * mocking this service. Mocking it does not modify the `ENVIRONMENT`
+     * constant. It only affects code paths that resolve and use this service.
+     */
+    public static function environment(?string $environment = null, bool $getShared = true): EnvironmentDetector
+    {
+        if ($getShared) {
+            return static::getSharedInstance('environment', $environment);
+        }
+
+        return new EnvironmentDetector($environment);
+    }
+
+    /**
      * The Exceptions class holds the methods that handle:
      *
      *  - set_exception_handler
@@ -352,6 +386,18 @@ class Services extends BaseService
         $class   = $config->handlers[$handler];
 
         return new $class($config);
+    }
+
+    /**
+     * Returns the typed input data factory.
+     */
+    public static function inputdatafactory(bool $getShared = true): InputDataFactory
+    {
+        if ($getShared) {
+            return static::getSharedInstance('inputdatafactory');
+        }
+
+        return new InputDataFactory();
     }
 
     /**
@@ -695,7 +741,6 @@ class Services extends BaseService
             ));
         }
 
-        /** @var SessionBaseHandler $driver */
         $driver = new $driverName($config, AppServices::get('request')->getIPAddress());
         $driver->setLogger($logger);
 

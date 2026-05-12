@@ -17,11 +17,17 @@
   	  <div class="form-floating mb-2">
 				<input type="password" class="form-control" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
 				<label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
+		  	    <div data-pass="viewpass" style="top:50%; left:95%;" class="clickable position-absolute translate-middle rounded">
+  	    			<i class="bi bi-unlock"></i>
+		  	    </div>
     	</div>
   	  <!-- Password (Again) -->
 	    <div class="form-floating mb-4">
 				<input type="password" class="form-control" id="floatingPasswordConfirmInput" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
     	  <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
+		  	    <div data-pass="viewpass" style="top:50%; left:95%;" class="clickable position-absolute translate-middle rounded">
+  	    			<i class="bi bi-unlock"></i>
+		  	    </div>
   	  </div>
   	  <!-- captcha -->
      	<div class="clearfix text-center mb-1">

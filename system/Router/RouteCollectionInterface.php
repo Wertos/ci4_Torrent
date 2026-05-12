@@ -28,9 +28,12 @@ interface RouteCollectionInterface
     /**
      * Adds a single route to the collection.
      *
-     * @param string                                                            $from    The route path (with placeholders or regex)
-     * @param array|(Closure(mixed...): (ResponseInterface|string|void))|string $to      The route handler
-     * @param array|null                                                        $options The route options
+     * Route handler closure parameters are resolved dynamically via reflection,
+     * so their callable signatures cannot be expressed precisely in PHPDoc.
+     *
+     * @param string               $from    The route path (with placeholders or regex)
+     * @param array|Closure|string $to      The route handler
+     * @param array|null           $options The route options
      *
      * @return RouteCollectionInterface
      */
@@ -117,7 +120,7 @@ interface RouteCollectionInterface
      *
      * This setting is passed to the Router class and handled there.
      *
-     * @param callable|null $callable
+     * @param (callable(string): (ResponseInterface|string|void))|string|null $callable
      *
      * @TODO This method is not related to the route collection. So this should
      *      be removed in the future.

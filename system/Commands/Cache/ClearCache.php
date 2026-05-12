@@ -13,78 +13,48 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Commands\Cache;
 
-use CodeIgniter\Cache\CacheFactory;
-use CodeIgniter\CLI\BaseCommand;
+use CodeIgniter\CLI\AbstractCommand;
+use CodeIgniter\CLI\Attributes\Command;
 use CodeIgniter\CLI\CLI;
+use CodeIgniter\CLI\Input\Argument;
 use Config\Cache;
 
 /**
- * Clears current cache.
+ * Clears the current system caches.
  */
-class ClearCache extends BaseCommand
+#[Command(name: 'cache:clear', description: 'Clears the current system caches.', group: 'Cache')]
+class ClearCache extends AbstractCommand
 {
-    /**
-     * Command grouping.
-     *
-     * @var string
-     */
-    protected $group = 'Cache';
-
-    /**
-     * The Command's name
-     *
-     * @var string
-     */
-    protected $name = 'cache:clear';
-
-    /**
-     * the Command's short description
-     *
-     * @var string
-     */
-    protected $description = 'Clears the current system caches.';
-
-    /**
-     * the Command's usage
-     *
-     * @var string
-     */
-    protected $usage = 'cache:clear [<driver>]';
-
-    /**
-     * the Command's Arguments
-     *
-     * @var array<string, string>
-     */
-    protected $arguments = [
-        'driver' => 'The cache driver to use',
-    ];
-
-    /**
-     * Clears the cache
-     */
-    public function run(array $params)
+    protected function configure(): void
     {
-        $config  = config(Cache::class);
-        $handler = $params[0] ?? $config->handler;
+        $this->addArgument(new Argument(
+            name: 'driver',
+            description: 'The cache driver to use.',
+            default: config(Cache::class)->handler,
+        ));
+    }
 
-        if (! array_key_exists($handler, $config->validHandlers)) {
-            CLI::error($handler . ' is not a valid cache handler.');
+    protected function execute(array $arguments, array $options): int
+    {
+        $driver = $arguments['driver'];
+        $config = config(Cache::class);
 
-            return;
+        if (! array_key_exists($driver, $config->validHandlers)) {
+            CLI::error(lang('Cache.invalidHandler', [$driver]));
+
+            return EXIT_ERROR;
         }
 
-        $config->handler = $handler;
-        $cache           = CacheFactory::getHandler($config);
+        $config->handler = $driver;
 
-        if (! $cache->clean()) {
-            // @codeCoverageIgnoreStart
-            CLI::error('Error while clearing the cache.');
+        if (! service('cache', $config)->clean()) {
+            CLI::error(sprintf('Error occurred while clearing the cache using the "%s" driver.', $driver));
 
-            return;
-            // @codeCoverageIgnoreEnd
+            return EXIT_ERROR;
         }
 
-        CLI::write(CLI::color('Cache cleared.', 'green'));
+        CLI::write(sprintf('Cache cleared using the "%s" driver.', $driver), 'green');
+
+        return EXIT_SUCCESS;
     }
 }

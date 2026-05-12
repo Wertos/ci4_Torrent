@@ -47,18 +47,19 @@ class RatingModel extends Model {
 
     protected function initialize(): void
     {
-        parent::initialize();
-        $this->db = \Config\Database::connect();
-        $this->torrentId = NULL;
-        $this->rating = NULL;
-//        $this-> = NULL;
+		parent::initialize();
+		$this->db = \Config\Database::connect();
+//		$this->torrentId = NULL;
+//		$this->rating = NULL;
     }
 
 	public function setRating(int $userId, int $torrentId, int $rating)
 	{
-		$result = $this->checkTorrent($userId, $torrentId);
-		if ( $result === true )
-						return false;
+		$result = $this->checkTorrent($torrentId, $userId);
+
+		if ( $result === true ) 
+					return $this->getRating($torrentId, $userId);
+
 		$ret = FALSE;
 		$insData = [
 			'user_id' => $userId,
@@ -70,23 +71,16 @@ class RatingModel extends Model {
 		if($ret === false) return $ret;
 
 		$rating = $this->getRating($torrentId, $userId);
-//		var_dump($avgRating); die();
 		return $rating;
 	}
 
 	public function checkTorrent(int $torrentId, int $userId): bool
 	{
+		$check = $this->builder()->select($this->primaryKey)
+						->where(['torrent_id' => $torrentId])
+						->where(['user_id' => $userId])
+				->get()->getRow();
 
-		$tid = $this->db->table('torrents')
-						->where('id', $torrentId)
-							->select('id')->get()->getRow();
-		if ( $tid === NULL )
-						return false;
-
-		$check = $this->db->table($this->table)
-						->where('torrent_id', $torrentId)
-						->where('user_id', $userId)
-							->select('id')->get()->getRow();
 		if ( $check === NULL )
 						return false;
 
@@ -114,7 +108,7 @@ class RatingModel extends Model {
 	public function getRating(int $torrentId, int $userId): array
 	{
 		$data = [
-			'avgRating' => NULL,
+			'avgRating' => ' - ',
 			'countVotes' => NULL,
 			'myRating' => NULL
 		];
@@ -125,12 +119,14 @@ class RatingModel extends Model {
 		
 		if($count > 0 && $rating > 0) {
 				$data = [
-					'avgRating' => round($rating / $count, 3),
+					'avgRating' => (float) round($rating / $count, 3),
 					'countVotes' => $count,
 					'myRating' => $myrating ? (int) $myrating->rating : NULL
 				];
+
 				return $data;
 		}		
+		
 		return $data;
 	}
 	

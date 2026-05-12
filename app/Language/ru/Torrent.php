@@ -127,5 +127,8 @@ return [
 			'torrselect' => 'Выбрать',
 			'kp' => 'Кинопоиск',
 			'imdb' => 'IMDb',
+			'delMyRating' => 'Удалить свою оценку',
+			'ratetorrent' => 'Оценить раздачу',
+			'myrate' => 'Моя оценка',
 ];
 ?>

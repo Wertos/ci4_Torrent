@@ -101,7 +101,7 @@ abstract class BaseCommand
      *
      * @param array<int|string, string|null> $params
      *
-     * @return int|void
+     * @return int|null
      */
     abstract public function run(array $params);
 
@@ -110,13 +110,13 @@ abstract class BaseCommand
      *
      * @param array<int|string, string|null> $params
      *
-     * @return int|void
+     * @return int|null
      *
      * @throws ReflectionException
      */
     protected function call(string $command, array $params = [])
     {
-        return $this->commands->run($command, $params);
+        return $this->commands->runLegacy($command, $params);
     }
 
     /**

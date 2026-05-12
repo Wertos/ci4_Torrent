@@ -29,6 +29,7 @@ use CodeIgniter\Debug\Timer;
 use CodeIgniter\Debug\Toolbar;
 use CodeIgniter\Email\Email;
 use CodeIgniter\Encryption\EncrypterInterface;
+use CodeIgniter\EnvironmentDetector;
 use CodeIgniter\Exceptions\InvalidArgumentException;
 use CodeIgniter\Filters\Filters;
 use CodeIgniter\Format\Format;
@@ -45,7 +46,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\HTTP\SiteURIFactory;
 use CodeIgniter\HTTP\URI;
 use CodeIgniter\Images\Handlers\BaseHandler;
+use CodeIgniter\Input\InputDataFactory;
 use CodeIgniter\Language\Language;
+use CodeIgniter\Lock\LockManager;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\Pager\Pager;
 use CodeIgniter\Router\RouteCollection;
@@ -111,14 +114,17 @@ use Config\WorkerMode;
  * @method static CURLRequest                curlrequest($options = [], ResponseInterface $response = null, App $config = null, $getShared = true)
  * @method static Email                      email($config = null, $getShared = true)
  * @method static EncrypterInterface         encrypter(Encryption $config = null, $getShared = false)
+ * @method static EnvironmentDetector        environment(?string $environment = null, bool $getShared = true)
  * @method static Exceptions                 exceptions(ConfigExceptions $config = null, $getShared = true)
  * @method static Filters                    filters(ConfigFilters $config = null, $getShared = true)
  * @method static Format                     format(ConfigFormat $config = null, $getShared = true)
  * @method static Honeypot                   honeypot(ConfigHoneyPot $config = null, $getShared = true)
  * @method static BaseHandler                image($handler = null, Images $config = null, $getShared = true)
  * @method static IncomingRequest            incomingrequest(?App $config = null, bool $getShared = true)
+ * @method static InputDataFactory           inputdatafactory(bool $getShared = true)
  * @method static Iterator                   iterator($getShared = true)
  * @method static Language                   language($locale = null, $getShared = true)
+ * @method static LockManager                locks(?CacheInterface $cache = null, bool $getShared = true)
  * @method static Logger                     logger($getShared = true)
  * @method static MigrationRunner            migrations(Migrations $config = null, ConnectionInterface $db = null, $getShared = true)
  * @method static Negotiate                  negotiator(RequestInterface $request = null, $getShared = true)

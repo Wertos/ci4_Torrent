@@ -73,8 +73,8 @@ class Routes extends BaseCommand
      * @var array<string, string>
      */
     protected $options = [
-        '-h'     => 'Sort by Handler.',
-        '--host' => 'Specify hostname in request URI.',
+        '--sort-by-handler' => 'Sort by handler.',
+        '--host'            => 'Specify hostname in request URI.',
     ];
 
     /**
@@ -82,8 +82,9 @@ class Routes extends BaseCommand
      */
     public function run(array $params)
     {
-        $sortByHandler = array_key_exists('h', $params);
-        $host          = $params['host'] ?? null;
+        $sortByHandler = array_key_exists('sort-by-handler', $params);
+
+        $host = $params['host'] ?? null;
 
         // Set HTTP_HOST
         if ($host !== null) {
@@ -193,10 +194,10 @@ class Routes extends BaseCommand
 
         CLI::table($tbody, $thead);
 
-        $this->showRequiredFilters();
+        return $this->showRequiredFilters();
     }
 
-    private function showRequiredFilters(): void
+    private function showRequiredFilters(): int
     {
         $filterCollector = new FilterCollector();
 
@@ -217,5 +218,7 @@ class Routes extends BaseCommand
         }
 
         CLI::write(' Required After Filters: ' . implode(', ', $filters));
+
+        return EXIT_SUCCESS;
     }
 }

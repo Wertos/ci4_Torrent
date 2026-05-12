@@ -85,11 +85,11 @@ final class Environment extends BaseCommand
      */
     public function run(array $params)
     {
-        if ($params === []) {
+        if (! isset($params[0])) {
             CLI::write(sprintf('Your environment is currently set as %s.', CLI::color(service('superglobals')->server('CI_ENVIRONMENT', ENVIRONMENT), 'green')));
             CLI::newLine();
 
-            return EXIT_ERROR;
+            return EXIT_SUCCESS;
         }
 
         $env = strtolower(array_shift($params));

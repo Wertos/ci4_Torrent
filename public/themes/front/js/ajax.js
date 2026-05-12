@@ -419,7 +419,7 @@ $('#captcha').click(function() {
 
 $('#TorPreview').on('click', function() {
 	url = '/ajax/torrpreview';
-	poster = $('#posterInput').val();
+	poster = $('#posterInput, #floatingPosterInput').val();
 	text = $('#floatingDescInput').val();
 	if ( !isValidUrl(poster) || !text) {
 		return false;
@@ -441,7 +441,7 @@ $('#TorPreview').on('click', function() {
   	})
   	.fail(function( response ) {
     	alert(JSON.stringify(response));
-		});
+	});
 });
 
 CI4.rate = function(tid, value) {

@@ -48,7 +48,7 @@
         <hr class="clearfix w-100 p-0 mt-1 mb-1">
         <div class="w-100">
         	<div class="kpblock float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3">
-        		<div onClick="window.open('https://www.kinopoisk.ru/film/<?= $details->kp_id; ?>/', '_blank');" class="clickable d-block text-decoration-none" style="width:100px;">
+        		<div onClick="window.open('https://www.kinopoisk.ru/film/<?= $details->kp_id; ?>/', '_blank');" class="clickable d-block text-decoration-none" style="width:100px; height:44px;">
         			<span class="kpname fs-7 d-block"><?= lang('Torrent.kp'); ?></span>
         			<span class="kprating"><?= $details->kp_rating; ?></span>
 					<!-- -->/<!-- -->
@@ -57,7 +57,7 @@
         		</div>
         	</div>
         	<div class="imdbblock float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3">
-        		<div class="d-block" style="width:100px;">
+        		<div class="d-block" style="width:100px; height:44px;">
         			<span class="imdbname fs-7 d-block"><?= lang('Torrent.imdb'); ?></span>
         			<span class="imdbrating"><?= $details->imdb_rating; ?></span>
         			<!-- -->/<!-- -->
@@ -66,7 +66,7 @@
         		</div>
         	</div>
 			<div class="float-start bg-light ms-0 mt-1 mb-2 me-2 p-1 border border-3 border-dark">
-        		<div class="d-block" id="rating">
+        		<div class="d-block" id="rating" style="height:44px;">
 					<?= $details->ratHtml; ?>
 				</div>
 			</div>

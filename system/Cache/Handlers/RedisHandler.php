@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Cache\Handlers;
 
+use CodeIgniter\Cache\LockStoreInterface;
+use CodeIgniter\Cache\LockStoreProviderInterface;
+use CodeIgniter\Cache\LockStores\RedisLockStore;
 use CodeIgniter\Exceptions\CriticalError;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
@@ -24,7 +27,7 @@ use RedisException;
  *
  * @see \CodeIgniter\Cache\Handlers\RedisHandlerTest
  */
-class RedisHandler extends BaseHandler
+class RedisHandler extends BaseHandler implements LockStoreProviderInterface
 {
     /**
      * Default config
@@ -54,6 +57,8 @@ class RedisHandler extends BaseHandler
      */
     protected $redis;
 
+    private ?LockStoreInterface $lockStore = null;
+
     /**
      * Note: Use `CacheFactory::getHandler()` to instantiate.
      */
@@ -68,7 +73,8 @@ class RedisHandler extends BaseHandler
     {
         $config = $this->config;
 
-        $this->redis = new Redis();
+        $this->redis     = new Redis();
+        $this->lockStore = null;
 
         try {
             $funcConnection = isset($config['persistent']) && $config['persistent'] ? 'pconnect' : 'connect';
@@ -108,10 +114,9 @@ class RedisHandler extends BaseHandler
         }
 
         return match ($data['__ci_type']) {
-            'array', 'object' => unserialize($data['__ci_value']),
-            // Yes, 'double' is returned and NOT 'float'
+            'array', 'object'                                => unserialize($data['__ci_value']),
             'boolean', 'integer', 'double', 'string', 'NULL' => settype($data['__ci_value'], $data['__ci_type']) ? $data['__ci_value'] : null,
-            default => null,
+            default                                          => null,
         };
     }
 
@@ -127,7 +132,7 @@ class RedisHandler extends BaseHandler
 
             case 'boolean':
             case 'integer':
-            case 'double': // Yes, 'double' is returned and NOT 'float'
+            case 'double':
             case 'string':
             case 'NULL':
                 break;
@@ -218,6 +223,13 @@ class RedisHandler extends BaseHandler
     public function isSupported(): bool
     {
         return extension_loaded('redis');
+    }
+
+    public function lockStore(): LockStoreInterface
+    {
+        assert($this->redis instanceof Redis);
+
+        return $this->lockStore ??= new RedisLockStore($this->redis, $this->prefix);
     }
 
     public function ping(): bool

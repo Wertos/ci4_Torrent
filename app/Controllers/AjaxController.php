@@ -777,7 +777,7 @@ class AjaxController extends \App\Controllers\BaseController
 	  	}
 
 		$rating = $this->RatingModel->setRating($userId, $torrentId, $rating);
-		
+//var_dump($rating); die();
 		$htmlRating = $this->RatingModel->getHtmlRating($rating, $torrentId);
 		
 		$data = [

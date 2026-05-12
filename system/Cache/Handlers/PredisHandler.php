@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Cache\Handlers;
 
+use CodeIgniter\Cache\LockStoreInterface;
+use CodeIgniter\Cache\LockStoreProviderInterface;
+use CodeIgniter\Cache\LockStores\PredisLockStore;
 use CodeIgniter\Exceptions\CriticalError;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
@@ -26,7 +29,7 @@ use Predis\Response\Status;
  *
  * @see \CodeIgniter\Cache\Handlers\PredisHandlerTest
  */
-class PredisHandler extends BaseHandler
+class PredisHandler extends BaseHandler implements LockStoreProviderInterface
 {
     /**
      * Default config
@@ -58,6 +61,8 @@ class PredisHandler extends BaseHandler
      */
     protected $redis;
 
+    private ?LockStoreInterface $lockStore = null;
+
     /**
      * Note: Use `CacheFactory::getHandler()` to instantiate.
      */
@@ -71,7 +76,8 @@ class PredisHandler extends BaseHandler
     public function initialize(): void
     {
         try {
-            $this->redis = new Client($this->config, ['prefix' => $this->prefix]);
+            $this->redis     = new Client($this->config, ['prefix' => $this->prefix]);
+            $this->lockStore = null;
             $this->redis->time();
         } catch (Exception $e) {
             throw new CriticalError('Cache: Predis connection refused (' . $e->getMessage() . ').', $e->getCode(), $e);
@@ -92,10 +98,9 @@ class PredisHandler extends BaseHandler
         }
 
         return match ($data['__ci_type']) {
-            'array', 'object' => unserialize($data['__ci_value']),
-            // Yes, 'double' is returned and NOT 'float'
+            'array', 'object'                                => unserialize($data['__ci_value']),
             'boolean', 'integer', 'double', 'string', 'NULL' => settype($data['__ci_value'], $data['__ci_type']) ? $data['__ci_value'] : null,
-            default => null,
+            default                                          => null,
         };
     }
 
@@ -111,7 +116,7 @@ class PredisHandler extends BaseHandler
 
             case 'boolean':
             case 'integer':
-            case 'double': // Yes, 'double' is returned and NOT 'float'
+            case 'double':
             case 'string':
             case 'NULL':
                 break;
@@ -201,6 +206,12 @@ class PredisHandler extends BaseHandler
     public function isSupported(): bool
     {
         return class_exists(Client::class);
+    }
+
+    public function lockStore(): LockStoreInterface
+    {
+        // Predis applies the configured prefix at the client level.
+        return $this->lockStore ??= new PredisLockStore($this->redis);
     }
 
     public function ping(): bool

@@ -347,7 +347,7 @@ class TorrentModel extends Model {
 	}
 
 
-	public function setRating(int $filmId, int $tId)
+	public function setKpRating(int $filmId, int $tId)
 	{
 		$out = new \stdClass();
 		$out->kp_rating = (float) 0;
@@ -357,7 +357,7 @@ class TorrentModel extends Model {
 		$out->error = (bool) FALSE;
 		$out->error_text = (string) '';
 		$timestamp = Time::now()->getTimestamp();
-		$prevUpdRating = $this->checkRatingUpdate($tId);
+		$prevUpdRating = $this->checkKpRatingUpdate($tId);
 
 		if ( !$filmId ) {
 			$out->error = TRUE;
@@ -413,7 +413,7 @@ class TorrentModel extends Model {
 
 		return $out;
 	}
-	public function getRating (int $tId)
+	public function getKpRating (int $tId)
 	{
 		$rating = $this->db->table($this->table)
 			->select('rating', FALSE)->where('id', $tId)
@@ -421,7 +421,7 @@ class TorrentModel extends Model {
 		$ret = $rating ? json_decode($rating) : '';
 		return $ret;
 	}
-	private function checkRatingUpdate (int $tId)
+	private function checkKpRatingUpdate (int $tId)
 	{
 		$query = $this->db->table($this->table)->select('JSON_EXTRACT(rating, "$.update") as `update`', FALSE)->where('id', $tId);
 		return (int) $query->get()->getRow()->update ?? 0;

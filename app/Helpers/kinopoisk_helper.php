@@ -38,10 +38,10 @@ function colorize_rating($rating): string
 	if ( $rating == 0 ) {
 		$col_rating = '<span style="color:gray;">-</span>';
 	}
-	else if ( $rating <= 5 ) {
+	else if ( $rating < 5 ) {
 		$col_rating = '<span style="color:red;">' . $rating . '</span>';
 	}
-	else if ( $rating > 5 && $rating < 7 ) {
+	else if ( $rating >= 5 && $rating < 7 ) {
 		$col_rating = '<span style="color:#777;">' . $rating . '</span>';
 	}
 	else if ( $rating >= 7 ) {
@@ -55,20 +55,21 @@ function colorize_rating($rating): string
 
 function my_col_bg($rating): string
 {
-	if ( $rating == 0 ) {
+	$bg_class = '';
+	if ( $rating === 0 && is_int($rating) ) {
 		$bg_class = 'bg_white';
 	}
-	else if ( $rating <= 5 ) {
+	else if ( $rating < 5 && is_int($rating) ) {
 		$bg_class = 'bg_red';
 	}
-	else if ( $rating > 5 && $rating < 7 ) {
+	else if ( ($rating >= 5 && $rating < 7) && is_int($rating) ) {
 		$bg_class = 'bg_gray';
 	}
-	else if ( $rating >= 7 ) {
+	else if ( $rating >= 7 && is_int($rating) ) {
 		$bg_class = 'bg_green';
 	}
 	else {
-		$bg_class = '';
+		$bg_class = 'bg_white';
 	}
 	return $bg_class;
 }

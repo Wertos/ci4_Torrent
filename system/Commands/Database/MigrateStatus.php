@@ -92,7 +92,7 @@ class MigrateStatus extends BaseCommand
         $status = [];
 
         foreach (array_keys($namespaces) as $namespace) {
-            if (ENVIRONMENT !== 'testing') {
+            if (! service('environment')->isTesting()) {
                 // Make Tests\\Support discoverable for testing
                 $this->ignoredNamespaces[] = 'Tests\Support'; // @codeCoverageIgnore
             }
@@ -150,7 +150,7 @@ class MigrateStatus extends BaseCommand
             CLI::error(lang('Migrations.noneFound'), 'light_gray', 'red');
             CLI::newLine();
 
-            return;
+            return EXIT_ERROR;
             // @codeCoverageIgnoreEnd
         }
 
@@ -164,5 +164,7 @@ class MigrateStatus extends BaseCommand
         ];
 
         CLI::table($status, $headers);
+
+        return EXIT_SUCCESS;
     }
 }
